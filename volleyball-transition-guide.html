@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coaching Volleyball Transition</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f9f7f3;
+  --ink: #18130e;
+  --ink2: #3a3028;
+  --muted: #8a7e72;
+  --rule: #e2ddd6;
+  --surface: #ffffff;
+  --surface2: #f3efe8;
+  --court: #2e5c1e;
+  --court-line: rgba(255,255,255,0.85);
+  --net-color: #c8b060;
+
+  /* accent palette */
+  --red: #d63a2a;
+  --red-pale: #fdf1ef;
+  --orange: #e06820;
+  --orange-pale: #fef4ec;
+  --teal: #0e7a6a;
+  --teal-pale: #eaf6f3;
+  --blue: #1a4fa0;
+  --blue-pale: #edf2fc;
+  --purple: #6b2d9c;
+  --purple-pale: #f4eefb;
+  --gold: #c09020;
+  --gold-pale: #fdf8ec;
+
+  --head: 'Playfair Display', serif;
+  --body: 'Montserrat', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); }
+
+/* ── MASTHEAD ── */
+.masthead {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 60px 40px 50px;
+  position: relative;
+  overflow: hidden;
+}
+.masthead::before {
+  content: 'TRANSITION';
+  position: absolute;
+  right: -20px; top: -10px;
+  font-family: var(--head);
+  font-size: 130px;
+  font-weight: 900;
+  color: rgba(255,255,255,0.04);
+  line-height: 1;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.masthead-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.masthead-title {
+  font-family: var(--head);
+  font-size: clamp(38px, 6vw, 76px);
+  line-height: 1;
+  font-weight: 900;
+  margin-bottom: 6px;
+}
+.masthead-title em { color: var(--gold); font-style: normal; }
+.masthead-subtitle {
+  font-family: var(--head);
+  font-size: clamp(18px, 3vw, 28px);
+  font-style: italic;
+  color: rgba(249,247,243,0.55);
+  margin-bottom: 24px;
+}
+.masthead-intro {
+  font-size: 14px;
+  color: rgba(249,247,243,0.7);
+  line-height: 1.75;
+  max-width: 600px;
+}
+.masthead-chips {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+.masthead-chip {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 6px 16px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(249,247,243,0.65);
+}
+
+/* ── NAV ── */
+.chapter-nav {
+  background: var(--surface);
+  border-bottom: 2px solid var(--rule);
+  padding: 0 32px;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.chapter-nav::-webkit-scrollbar { height: 0; }
+.cnav-btn {
+  font-family: var(--body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 0 20px;
+  height: 52px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  margin-bottom: -2px;
+}
+.cnav-btn:hover { color: var(--ink); }
+.cnav-btn.on { color: var(--red); border-bottom-color: var(--red); }
+
+/* ── PAGE SYSTEM ── */
+.pg { display: none; }
+.pg.on { display: block; }
+
+/* ── CONTENT WRAPPER ── */
+.content { max-width: 1060px; margin: 0 auto; padding: 48px 32px; }
+
+/* ── CHAPTER HEADERS ── */
+.ch-eyebrow {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 8px;
+}
+.ch-title {
+  font-family: var(--head);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 900;
+  line-height: 1.05;
+  margin-bottom: 10px;
+}
+.ch-title em { color: var(--red); font-style: normal; }
+.ch-desc {
+  font-size: 14px;
+  color: var(--ink2);
+  line-height: 1.8;
+  max-width: 680px;
+  margin-bottom: 36px;
+  border-left: 3px solid var(--red);
+  padding-left: 16px;
+}
+
+/* ── DIVIDERS ── */
+.sec-divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 40px 0 24px;
+}
+.sd-num {
+  font-family: var(--head);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  min-width: 28px;
+}
+.sd-title {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.sd-line { flex: 1; height: 1px; background: var(--rule); }
+
+/* ── CONCEPT CARDS ── */
+.concept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+  margin-bottom: 36px;
+}
+.concept-card {
+  background: var(--surface);
+  border: 1.5px solid var(--rule);
+  border-radius: 14px;
+  padding: 22px;
+  position: relative;
+  overflow: hidden;
+}
+.concept-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  border-radius: 14px 14px 0 0;
+}
+.cc-red::before { background: var(--red); }
+.cc-orange::before { background: var(--orange); }
+.cc-teal::before { background: var(--teal); }
+.cc-blue::before { background: var(--blue); }
+.cc-purple::before { background: var(--purple); }
+.cc-gold::before { background: var(--gold); }
+
+.cc-icon { font-size: 28px; margin-bottom: 10px; }
+.cc-title { font-family: var(--head); font-size: 18px; font-weight: 700; margin-bottom: 8px; line-height: 1.1; }
+.cc-text { font-size: 13px; color: var(--ink2); line-height: 1.65; }
+
+/* ── PHASE BLOCKS ── */
+.phase-block {
+  background: var(--surface);
+  border: 1.5px solid var(--rule);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.phase-header {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  cursor: pointer;
+  user-select: none;
+}
+.phase-num {
+  font-family: var(--head);
+  font-size: 32px;
+  font-weight: 900;
+  padding: 20px 22px;
+  color: white;
+  min-width: 70px;
+  text-align: center;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.ph-red { background: var(--red); }
+.ph-orange { background: var(--orange); }
+.ph-teal { background: var(--teal); }
+.ph-blue { background: var(--blue); }
+.ph-purple { background: var(--purple); }
+
+.phase-head-content { flex: 1; padding: 18px 20px; }
+.phase-label {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.ph-red ~ .phase-head-content .phase-label,
+.phase-num.ph-red + .phase-head-content .phase-label { color: var(--red); }
+.phase-name { font-family: var(--head); font-size: 22px; font-weight: 700; line-height: 1.1; }
+.phase-tagline { font-size: 12px; color: var(--muted); margin-top: 3px; }
+.phase-toggle { padding: 0 20px; font-size: 16px; color: var(--muted); transition: transform 0.25s; }
+.phase-block.open .phase-toggle { transform: rotate(180deg); }
+
+.phase-body { display: none; padding: 24px; border-top: 1.5px solid var(--rule); }
+.phase-block.open .phase-body { display: block; }
+
+/* ── TWO COL ── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media(max-width:680px){ .two-col { grid-template-columns: 1fr; } }
+
+/* ── STEP LISTS ── */
+.step-list { list-style: none; }
+.step-list li {
+  display: flex;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 13.5px;
+  color: var(--ink2);
+  line-height: 1.55;
+  align-items: flex-start;
+}
+.step-list li:last-child { border-bottom: none; }
+.sn {
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 800;
+  font-size: 10px;
+  border-radius: 50%;
+  width: 22px; height: 22px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.sn.red { background: var(--red); }
+.sn.orange { background: var(--orange); }
+.sn.teal { background: var(--teal); }
+.sn.blue { background: var(--blue); }
+
+/* ── CUE BOX ── */
+.cue-box {
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-top: 14px;
+}
+.cue-box.red { background: var(--red-pale); border-left: 4px solid var(--red); }
+.cue-box.orange { background: var(--orange-pale); border-left: 4px solid var(--orange); }
+.cue-box.teal { background: var(--teal-pale); border-left: 4px solid var(--teal); }
+.cue-box.blue { background: var(--blue-pale); border-left: 4px solid var(--blue); }
+.cue-box.purple { background: var(--purple-pale); border-left: 4px solid var(--purple); }
+.cue-box.gold { background: var(--gold-pale); border-left: 4px solid var(--gold); }
+.cue-title { font-size: 10px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.cue-list { list-style: none; }
+.cue-list li { font-size: 13px; color: var(--ink2); padding: 4px 0; padding-left: 16px; position: relative; line-height: 1.45; }
+.cue-list li::before { content: '"'; position: absolute; left: 0; color: var(--gold); font-size: 15px; line-height: 1; }
+
+/* ── COURT SVG DIAGRAMS ── */
+.court-diagram-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.diagram-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+  text-align: center;
+}
+.court-svg {
+  width: 100%;
+  max-width: 380px;
+  border-radius: 10px;
+  overflow: visible;
+}
+
+/* ── DRILL CARDS ── */
+.drill-cards { display: flex; flex-direction: column; gap: 16px; margin-bottom: 36px; }
+.drill-card {
+  background: var(--surface);
+  border: 1.5px solid var(--rule);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.drill-card-top {
+  display: flex;
+  gap: 0;
+  cursor: pointer;
+  user-select: none;
+}
+.drill-color-bar { width: 6px; flex-shrink: 0; }
+.drill-top-content { flex: 1; padding: 16px 18px; }
+.drill-cat {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.drill-name { font-family: var(--head); font-size: 19px; font-weight: 700; line-height: 1.1; }
+.drill-meta { display: flex; gap: 10px; margin-top: 5px; flex-wrap: wrap; }
+.drill-meta-pill {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 100px;
+  background: var(--surface2);
+  color: var(--muted);
+}
+.drill-toggle2 { padding: 0 18px; font-size: 14px; color: var(--muted); display: flex; align-items: center; transition: transform 0.25s; }
+.drill-card.open .drill-toggle2 { transform: rotate(180deg); }
+.drill-body { display: none; padding: 0 20px 20px 20px; border-top: 1px solid var(--rule); }
+.drill-card.open .drill-body { display: block; }
+.drill-goal {
+  font-size: 13px;
+  color: var(--ink2);
+  line-height: 1.6;
+  margin: 14px 0 12px;
+  font-style: italic;
+}
+
+/* ── COMMON MISTAKES ── */
+.mistake-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-bottom: 36px; }
+.mistake-card {
+  background: var(--surface);
+  border: 1.5px solid var(--rule);
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+.mistake-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.mistake-icon { font-size: 22px; }
+.mistake-title { font-size: 14px; font-weight: 800; }
+.mistake-wrong { font-size: 12px; color: var(--red); background: var(--red-pale); border-radius: 6px; padding: 8px 12px; margin-bottom: 6px; line-height: 1.5; }
+.mistake-fix { font-size: 12px; color: var(--teal); background: var(--teal-pale); border-radius: 6px; padding: 8px 12px; line-height: 1.5; }
+.mistake-badge { font-size: 9px; font-weight: 800; letter-spacing: 2px; display: inline-block; padding: 2px 7px; border-radius: 4px; margin-bottom: 4px; }
+.badge-wrong { background: var(--red-pale); color: var(--red); }
+.badge-fix { background: var(--teal-pale); color: var(--teal); }
+
+/* ── CALLOUT ── */
+.callout {
+  border-radius: 14px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.callout.red { background: var(--red-pale); border: 1.5px solid rgba(214,58,42,0.2); }
+.callout.gold { background: var(--gold-pale); border: 1.5px solid rgba(192,144,32,0.25); }
+.callout.teal { background: var(--teal-pale); border: 1.5px solid rgba(14,122,106,0.2); }
+.callout.blue { background: var(--blue-pale); border: 1.5px solid rgba(26,79,160,0.2); }
+.callout-title { font-family: var(--head); font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.callout.red .callout-title { color: var(--red); }
+.callout.gold .callout-title { color: var(--gold); }
+.callout.teal .callout-title { color: var(--teal); }
+.callout.blue .callout-title { color: var(--blue); }
+.callout-text { font-size: 13.5px; color: var(--ink2); line-height: 1.7; }
+
+/* ── WEEK PLAN TABLE ── */
+.week-table-wrap { background: var(--surface); border: 1.5px solid var(--rule); border-radius: 14px; overflow: hidden; margin-bottom: 28px; }
+.week-table { width: 100%; border-collapse: collapse; }
+.week-table th {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 12px 16px;
+  background: var(--surface2);
+  border-bottom: 1.5px solid var(--rule);
+  text-align: left;
+}
+.week-table td { padding: 13px 16px; font-size: 13px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.week-table tr:last-child td { border-bottom: none; }
+.week-table tr:hover td { background: var(--surface2); }
+.wk-num { font-family: var(--head); font-size: 22px; font-weight: 700; color: var(--red); }
+.tag-pill {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 100px;
+  margin: 2px 3px 2px 0;
+}
+.tp-red { background: var(--red-pale); color: var(--red); }
+.tp-teal { background: var(--teal-pale); color: var(--teal); }
+.tp-blue { background: var(--blue-pale); color: var(--blue); }
+.tp-orange { background: var(--orange-pale); color: var(--orange); }
+.tp-gold { background: var(--gold-pale); color: var(--gold); }
+
+/* ── CHECKLIST ── */
+.checklist-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-bottom: 28px; }
+.checklist-card {
+  background: var(--surface);
+  border: 1.5px solid var(--rule);
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+.cl-title { font-size: 12px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+.cl-item { display: flex; align-items: flex-start; gap: 8px; padding: 5px 0; font-size: 13px; color: var(--ink2); line-height: 1.4; }
+.cl-box { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid var(--rule); flex-shrink: 0; margin-top: 2px; cursor: pointer; transition: all 0.15s; }
+.cl-box:hover { border-color: var(--teal); }
+.cl-box.checked { background: var(--teal); border-color: var(--teal); display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: 900; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  .masthead { padding: 40px 20px 36px; }
+  .content { padding: 28px 16px; }
+  .chapter-nav { padding: 0 12px; }
+  .phase-num { font-size: 24px; padding: 16px; min-width: 52px; }
+}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="masthead-label">Complete Coaching Guide · 7th–9th Grade</div>
+  <div class="masthead-title">COACHING<br><em>VOLLEYBALL</em><br>TRANSITION</div>
+  <div class="masthead-subtitle">Turn every defense into a kill opportunity</div>
+  <p class="masthead-intro">Transition is the most undercoached skill in youth volleyball. A spectacular dig means nothing if your team can't convert it. This guide covers every phase — defense to offense, offense to defense, footwork, systems, drills, and coaching cues — so your players stop just surviving rallies and start winning them.</p>
+  <div class="masthead-chips">
+    <span class="masthead-chip">5 Transition Phases</span>
+    <span class="masthead-chip">8 Targeted Drills</span>
+    <span class="masthead-chip">Common Mistakes Fixed</span>
+    <span class="masthead-chip">4-Week Practice Plan</span>
+    <span class="masthead-chip">Coaching Cues Included</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="chapter-nav">
+  <button class="cnav-btn on" id="tab-fundamentals" onclick="go('fundamentals','tab-fundamentals')">What Is Transition?</button>
+  <button class="cnav-btn" id="tab-phases" onclick="go('phases','tab-phases')">The 5 Phases</button>
+  <button class="cnav-btn" id="tab-footwork" onclick="go('footwork','tab-footwork')">Footwork & Positioning</button>
+  <button class="cnav-btn" id="tab-drills" onclick="go('drills','tab-drills')">Transition Drills</button>
+  <button class="cnav-btn" id="tab-mistakes" onclick="go('mistakes','tab-mistakes')">Common Mistakes</button>
+  <button class="cnav-btn" id="tab-plan" onclick="go('plan','tab-plan')">4-Week Plan</button>
+</div>
+
+<!-- ══════ FUNDAMENTALS ══════ -->
+<div class="pg on" id="pg-fundamentals">
+  <div class="content">
+    <div class="ch-eyebrow">Chapter 1</div>
+    <div class="ch-title">What Is <em>Transition</em><br>and Why Does It Matter?</div>
+    <div class="ch-desc">Transition is everything that happens between the moment your team touches the ball defensively and the moment a hitter attacks offensively — and back again. It is the difference between a team that survives rallies and a team that wins them.</div>
+
+    <div class="callout gold">
+      <div class="callout-title">⚡ The Hard Truth</div>
+      <div class="callout-text">A great dig is worth zero points if your team cannot run an attack off it. <strong>Transition offense</strong> — converting a defensive play into a kill — is how you score "real" points while your team is serving. Without it, you rely entirely on the opponent making errors. Transition is where matches are actually won.</div>
+    </div>
+
+    <div class="sec-divider"><div class="sd-num">01</div><div class="sd-title">The Two Directions</div><div class="sd-line"></div></div>
+    <div class="concept-grid">
+      <div class="concept-card cc-red">
+        <div class="cc-icon">🛡️→⚡</div>
+        <div class="cc-title">Defense to Offense</div>
+        <div class="cc-text">Your team digs a ball and immediately converts it into an attack. Blockers peel off the net, setter runs to the ball, hitters approach and swing. This is <strong>transition offense</strong> — the most impactful and most undertrained skill in youth volleyball.</div>
+      </div>
+      <div class="concept-card cc-orange">
+        <div class="cc-icon">⚡→🛡️</div>
+        <div class="cc-title">Offense to Defense</div>
+        <div class="cc-text">Your hitter swings, and your team immediately reads whether the ball is coming back. Blockers land and reset to base defense. Back row reads the opponent and moves. This is <strong>transition defense</strong> — often neglected because everyone watches the attack, not the landing.</div>
+      </div>
+      <div class="concept-card cc-teal">
+        <div class="cc-icon">🔄</div>
+        <div class="cc-title">Continuous Transition</div>
+        <div class="cc-text">Elite teams live in a constant state of transition — never truly static. Every dig, every attack, every block attempt immediately triggers the next movement chain. Teaching transition means teaching your team to <strong>never stop moving</strong> until the ball is dead.</div>
+      </div>
+      <div class="concept-card cc-blue">
+        <div class="cc-icon">🧠</div>
+        <div class="cc-title">The Reading Component</div>
+        <div class="cc-text">Transition starts with reading — watching the setter to anticipate where the attack goes, watching the hitter's shoulder to predict the angle, reading the block to know where the ball might redirect. <strong>Physical transition follows mental transition.</strong> The body cannot get there first if the brain hasn't told it where to go.</div>
+      </div>
+      <div class="concept-card cc-purple">
+        <div class="cc-icon">📍</div>
+        <div class="cc-title">Base Position</div>
+        <div class="cc-text">Every player must know their base defensive position — the spot they return to between every rally. Transition <strong>starts and ends at base</strong>. Players who don't know base position cannot transition effectively because they have no reference point to move from or return to.</div>
+      </div>
+      <div class="concept-card cc-gold">
+        <div class="cc-icon">⏱️</div>
+        <div class="cc-title">The Speed Problem</div>
+        <div class="cc-text">At 7th–9th grade, transition failures are almost always <strong>timing problems</strong>, not skill problems. Players have the physical ability to get there — they're just starting too late. Teaching early movement triggers is the fastest way to improve transition at this age level.</div>
+      </div>
+    </div>
+
+    <div class="sec-divider"><div class="sd-num">02</div><div class="sd-title">Why Youth Teams Struggle</div><div class="sd-line"></div></div>
+    <div class="callout red">
+      <div class="callout-title">🚨 The #1 Youth Transition Problem</div>
+      <div class="callout-text">Players watch the ball instead of <strong>reading the play</strong>. They react to where the ball already is, rather than anticipating where it's going. This means they're always a step behind — good enough to dig, but not fast enough to set up the next attack. The fix is teaching trigger cues: what to read, when to move, and where to go — before the ball arrives.</div>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card cc-red">
+        <div class="cc-icon">😴</div>
+        <div class="cc-title">Watching, Not Moving</div>
+        <div class="cc-text">After a dig, players freeze and watch the setter instead of immediately moving to their attack approach. By the time they realize the set is coming to them, it's too late to run a full approach.</div>
+      </div>
+      <div class="concept-card cc-orange">
+        <div class="cc-icon">🧱</div>
+        <div class="cc-title">Stuck Under the Net</div>
+        <div class="cc-text">Blockers land from a block attempt and stand directly under the net — the worst possible position. They need to immediately take a drop step backward to create space for their approach. Standing still is invisible to them in the moment.</div>
+      </div>
+      <div class="concept-card cc-teal">
+        <div class="cc-icon">🤫</div>
+        <div class="cc-title">No Communication</div>
+        <div class="cc-text">Silent transitions are broken transitions. No one calls the dig, no one tells the setter where they're going, no one communicates the set. Every transition needs constant verbal traffic — "mine!", "setting 4!", "left side ready!"</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ PHASES ══════ -->
+<div class="pg" id="pg-phases">
+  <div class="content">
+    <div class="ch-eyebrow">Chapter 2</div>
+    <div class="ch-title">The 5 Phases of <em>Transition</em></div>
+    <div class="ch-desc">Every transition play goes through 5 distinct phases. Each phase has a specific job. When one phase breaks down, the whole chain fails. Teach all 5 — not just the dig and the attack.</div>
+
+    <!-- PHASE 1 -->
+    <div class="phase-block open" id="phase1">
+      <div class="phase-header" onclick="togglePhase('phase1')">
+        <div class="phase-num ph-red">1</div>
+        <div class="phase-head-content">
+          <div class="phase-label" style="color:var(--red)">Phase 1 — Defense</div>
+          <div class="phase-name">The Dig</div>
+          <div class="phase-tagline">Reading the attack and making a playable first contact</div>
+        </div>
+        <div class="phase-toggle">▼</div>
+      </div>
+      <div class="phase-body">
+        <div class="two-col">
+          <div>
+            <p style="font-size:14px;color:var(--ink2);line-height:1.7;margin-bottom:14px;">The dig is not just about arm position — it starts with <strong>reading the hitter's shoulder</strong> before they even contact the ball. Players who read early arrive in position before the ball does. Players who react late are always scrambling.</p>
+            <div style="font-size:11px;font-weight:800;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;">What to Read — In Order</div>
+            <ul class="step-list">
+              <li><span class="sn red">1</span>Setter hands — which direction are they releasing?</li>
+              <li><span class="sn red">2</span>Hitter's plant foot — which direction are they approaching?</li>
+              <li><span class="sn red">3</span>Hitter's shoulder — is it open (cross) or closed (line)?</li>
+              <li><span class="sn red">4</span>Hitter's elbow — high = hard hit, low = tip or roll incoming</li>
+              <li><span class="sn red">5</span>Block position — gaps in the block tell you where the ball will go</li>
+            </ul>
+            <div class="cue-box red">
+              <div class="cue-title">Coaching Cues — The Dig</div>
+              <ul class="cue-list">
+                <li>Read the setter, not the hitter first</li>
+                <li>Two steps toward the ball before it crosses the net</li>
+                <li>Platform faces your target — the setter spot</li>
+                <li>Absorb, don't swing on hard balls</li>
+                <li>Stay LOW through contact, don't stand up early</li>
+              </ul>
+            </div>
+          </div>
+          <div class="court-diagram-wrap">
+            <div class="diagram-label">Reading the Hitter — Defender Angles</div>
+            <svg class="court-svg" viewBox="0 0 300 360" xmlns="http://www.w3.org/2000/svg">
+              <!-- Court -->
+              <rect width="300" height="360" fill="#2e5c1e" rx="8"/>
+              <rect x="10" y="10" width="280" height="340" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" rx="4"/>
+              <!-- Net -->
+              <rect x="10" y="173" width="280" height="14" fill="#c8b060" opacity="0.9"/>
+              <text x="150" y="183" fill="rgba(255,255,255,0.5)" font-size="8" font-weight="700" text-anchor="middle" letter-spacing="2" font-family="Montserrat,sans-serif">NET</text>
+              <!-- 3m line both sides -->
+              <line x1="10" y1="100" x2="290" y2="100" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-dasharray="6,4"/>
+              <line x1="10" y1="260" x2="290" y2="260" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-dasharray="6,4"/>
+              <!-- Hitter (opponent side) -->
+              <circle cx="80" cy="50" r="18" fill="#d63a2a" stroke="white" stroke-width="2"/>
+              <text x="80" y="54" fill="white" font-size="10" font-weight="900" text-anchor="middle" font-family="Montserrat,sans-serif">ATK</text>
+              <!-- Arrow line to cross court -->
+              <line x1="80" y1="68" x2="220" y2="295" stroke="#ff8c00" stroke-width="2.5" stroke-dasharray="6,3"/>
+              <polygon points="220,295 212,278 228,280" fill="#ff8c00"/>
+              <text x="165" y="215" fill="#ff8c00" font-size="9" font-weight="800" font-family="Montserrat,sans-serif" transform="rotate(-45,165,215)">CROSS</text>
+              <!-- Arrow line to line -->
+              <line x1="80" y1="68" x2="60" y2="295" stroke="#00e5ff" stroke-width="2.5" stroke-dasharray="6,3"/>
+              <polygon points="60,295 52,278 68,280" fill="#00e5ff"/>
+              <text x="55" y="200" fill="#00e5ff" font-size="9" font-weight="800" font-family="Montserrat,sans-serif" transform="rotate(-5,55,200)">LINE</text>
+              <!-- Your defenders -->
+              <circle cx="60" cy="310" r="16" fill="#0e7a6a" stroke="white" stroke-width="2"/>
+              <text x="60" y="314" fill="white" font-size="9" font-weight="900" text-anchor="middle" font-family="Montserrat,sans-serif">D1</text>
+              <circle cx="220" cy="310" r="16" fill="#0e7a6a" stroke="white" stroke-width="2"/>
+              <text x="220" y="314" fill="white" font-size="9" font-weight="900" text-anchor="middle" font-family="Montserrat,sans-serif">D2</text>
+              <circle cx="150" cy="290" r="16" fill="#0e7a6a" stroke="white" stroke-width="2"/>
+              <text x="150" y="294" fill="white" font-size="9" font-weight="900" text-anchor="middle" font-family="Montserrat,sans-serif">D3</text>
+              <!-- Labels -->
+              <text x="150" y="22" fill="rgba(255,255,255,0.4)" font-size="9" text-anchor="middle" letter-spacing="2" font-family="Montserrat,sans-serif">OPPONENT</text>
+              <text x="150" y="350" fill="rgba(255,255,255,0.4)" font-size="9" text-anchor="middle" letter-spacing="2" font-family="Montserrat,sans-serif">YOUR SIDE</text>
+            </svg>
+            <div style="font-size:11px;color:var(--muted);text-align:center;max-width:280px;line-height:1.5;">D1 covers line. D2 covers cross-court. D3 covers tips at 3m line. Defenders adjust based on reading hitter shoulder.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="phase-block" id="phase2">
+      <div class="phase-header" onclick="togglePhase('phase2')">
+        <div class="phase-num ph-orange">2</div>
+        <div class="phase-head-content">
+          <div class="phase-label" style="color:var(--orange)">Phase 2 — First Contact</div>
+          <div class="phase-name">The Setter's First Step</div>
+          <div class="phase-tagline">The moment the dig is touched, the setter must already be moving</div>
+        </div>
+        <div class="phase-toggle">▼</div>
+      </div>
+      <div class="phase-body">
+        <div class="two-col">
+          <div>
+            <p style="font-size:14px;color:var(--ink2);line-height:1.7;margin-bottom:14px;">The setter's job in transition starts before the dig even happens. As soon as the opponent attacks, the setter reads the dig angle and begins moving to intercept the ball. <strong>A setter who waits to see the dig will always arrive late.</strong></p>
+            <ul class="step-list">
+              <li><span class="sn orange">1</span>Setter reads the attack direction as the hitter contacts</li>
+              <li><span class="sn orange">2</span>Setter identifies which defender will likely dig the ball</li>
+              <li><span class="sn orange">3</span>First step toward the expected dig location — before ball is dug</li>
+              <li><span class="sn orange">4</span>Setter runs to zone 2/3 area behind the 3m line</li>
+              <li><span class="sn orange">5</span>Setter calls "setter!" so defenders know where to send the ball</li>
+            </ul>
+            <div class="cue-box orange">
+              <div class="cue-title">Coaching Cues — The Setter</div>
+              <ul class="cue-list">
+                <li>Your first step is before the dig, not after it</li>
+                <li>Call out loud — your defenders need to hear you</li>
+                <li>Run to the ball, don't wait for it to come to you</li>
+                <li>Feet set before hands — arrive early, not at contact</li>
+                <li>Read the dig arc — get UNDER it, not behind it</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="callout teal">
+              <div class="callout-title">The Setter's Golden Rule</div>
+              <div class="callout-text">In transition, the setter is the engine of the play. If the setter is late, <em>every hitter is late</em>. A 0.5-second delay in the setter's first step costs your hitters 1–2 full steps in their approach. This is why setter transition footwork is trained separately and daily.</div>
+            </div>
+            <div style="background:var(--surface2);border-radius:10px;padding:16px;margin-top:14px;">
+              <div style="font-size:11px;font-weight:800;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:10px;">Setter's Transition Checklist</div>
+              <div style="font-size:13px;color:var(--ink2);line-height:1.8;">
+                ☐ Read attack direction as hitter loads<br>
+                ☐ Take first step while ball is in the air<br>
+                ☐ Call "setter!" verbally at least 2x<br>
+                ☐ Arrive at zone 3 before ball arrives<br>
+                ☐ Feet square to zone 4 before hands<br>
+                ☐ Quick look left — right — then set
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="phase-block" id="phase3">
+      <div class="phase-header" onclick="togglePhase('phase3')">
+        <div class="phase-num ph-teal">3</div>
+        <div class="phase-head-content">
+          <div class="phase-label" style="color:var(--teal)">Phase 3 — Net Exit</div>
+          <div class="phase-name">Blockers Getting Off the Net</div>
+          <div class="phase-tagline">The most physically challenging and most neglected transition skill</div>
+        </div>
+        <div class="phase-toggle">▼</div>
+      </div>
+      <div class="phase-body">
+        <div class="two-col">
+          <div>
+            <p style="font-size:14px;color:var(--ink2);line-height:1.7;margin-bottom:14px;">When a blocker jumps and comes back down, they are standing at the worst possible spot on the court — directly under the net. They must immediately execute a <strong>drop step</strong> to exit the net and create distance for an approach. This must be automatic — there's no time to think about it.</p>
+            <div style="font-size:11px;font-weight:800;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;">The Drop Step Sequence</div>
+            <ul class="step-list">
+              <li><span class="sn teal">1</span><strong>Land</strong> from the block attempt — absorb on two feet, bent knees</li>
+              <li><span class="sn teal">2</span><strong>Drop step</strong> — pivot the outside foot back and open hips to court</li>
+              <li><span class="sn teal">3</span><strong>Read</strong> — where is the dig going? Which set is likely?</li>
+              <li><span class="sn teal">4</span><strong>Load</strong> — begin the approach footwork based on the set read</li>
+              <li><span class="sn teal">5</span><strong>Attack</strong> — explosive 4-step approach and swing</li>
+            </ul>
+            <div class="cue-box teal">
+              <div class="cue-title">Coaching Cues — Net Exit</div>
+              <ul class="cue-list">
+                <li>Land and drop — two words, one motion</li>
+                <li>Outside foot pivots BACK, not sideways</li>
+                <li>Hips must open to the court on the drop step</li>
+                <li>Eyes to the setter the moment you land</li>
+                <li>You cannot approach from under the net — get distance first</li>
+              </ul>
+            </div>
+          </div>
+          <div class="court-diagram-wrap">
+            <div class="diagram-label">Drop Step — Blocker Net Exit Path</div>
+            <svg class="court-svg" viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
+              <rect width="300" height="280" fill="#2e5c1e" rx="8"/>
+              <rect x="10" y="10" width="280" height="260" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" rx="4"/>
+              <rect x="10" y="128" width="280" height="14" fill="#c8b060" opacity="0.9"/>
+              <text x="150" y="138" fill="rgba(255,255,255,0.5)" font-size="8" font-weight="700" text-anchor="middle" letter-spacing="2" font-family="Montserrat,sans-serif">NET</text>
+              <!-- 3m line -->
+              <line x1="10" y1="220" x2="290" y2="220" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-dasharray="6,4"/>
+              <!-- Blocker start position under net -->
+              <circle cx="80" cy="145" r="16" fill="#d63a2a" stroke="white" stroke-width="2" opacity="0.5"/>
+              <text x="80" y="149" fill="white" font-size="9" font-weight="900" text-anchor="middle" font-family="Montserrat,sans-serif">BLK</text>
+              <text x="80" y="168" fill="rgba(255,255,255,0.5)" font-size="8" text-anchor="middle" font-family="Montserrat,sans-serif">LANDS</text>
+              <!-- Drop step arrow -->
+              <path d="M 80 161 Q 80 190 60 210" fill="none" stroke="#0e7a6a" stroke-width="3" marker-end="url(#arrow-teal)"/>
+              <defs>
+                <marker id="arrow-teal" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                  <polygon points="0,0 8,4 0,8" fill="#0e7a6a"/>
+                </marker>
+              </defs>
+              <!-- Position after drop step -->
+              <circle cx="55" cy="215" r="16" fill="#0e7a6a" stroke="white" stroke-width="2"/>
+              <text x="55" y="219" fill="white" font-size="9" font-weight="900" text-anchor="middle" font-family="Montserrat,sans-serif">BLK</text>
+              <text x="55" y="234" fill="rgba(255,255,255,0.5)" font-size="8" text-anchor="middle" font-family="Montserrat,sans-serif">DROP</text>
+              <!-- Approach arrow -->
+              <path d="M 55 231 Q 40 250 60 265" fill="none" stroke="#ffd700" stroke-width="2.5" stroke-dasharray="5,3" marker-end="url(#arrow-gold)"/>
+              <defs>
+                <marker id="arrow-gold" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                  <polygon points="0,0 8,4 0,8" fill="#ffd700"/>
+                </marker>
+              </defs>
+              <text x="90" y="268" fill="#ffd700" font-size="9" font-weight="800" font-family="Montserrat,sans-serif">APPROACH →</text>
+              <!-- Labels -->
+              <text x="155" y="22" fill="rgba(255,255,255,0.4)" font-size="9" text-anchor="middle" letter-spacing="2" font-family="Montserrat,sans-serif">OPPONENT SIDE</text>
+              <!-- Step 1 label -->
+              <text x="105" y="148" fill="#ff6060" font-size="10" font-weight="800" font-family="Montserrat,sans-serif">① LAND</text>
+              <text x="105" y="215" fill="#4dd4c0" font-size="10" font-weight="800" font-family="Montserrat,sans-serif">② DROP</text>
+              <text x="100" y="265" fill="#ffd700" font-size="10" font-weight="800" font-family="Montserrat,sans-serif">③ APPROACH</text>
+            </svg>
+            <div style="font-size:11px;color:var(--muted);text-align:center;max-width:280px;line-height:1.5;">Land → Drop Step → Read setter → Begin approach. The drop step creates the space needed to run a full 4-step approach.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="phase-block" id="phase4">
+      <div class="phase-header" onclick="togglePhase('phase4')">
+        <div class="phase-num ph-blue">4</div>
+        <div class="phase-head-content">
+          <div class="phase-label" style="color:var(--blue)">Phase 4 — The Attack</div>
+          <div class="phase-name">Transition Offense — Converting the Dig</div>
+          <div class="phase-tagline">Running a real attack off an imperfect dig</div>
+        </div>
+        <div class="phase-toggle">▼</div>
+      </div>
+      <div class="phase-body">
+        <div class="two-col">
+          <div>
+            <p style="font-size:14px;color:var(--ink2);line-height:1.7;margin-bottom:14px;">Transition attacks are different from serve-receive attacks. The ball is not always in system. The set may be lower, faster, or off the net. Hitters must be trained to <strong>adjust to imperfect sets</strong> — not just swing at perfect ones.</p>
+            <ul class="step-list">
+              <li><span class="sn blue">1</span>Begin approach as the setter receives the dig — not after the set</li>
+              <li><span class="sn blue">2</span>Read the set height and angle mid-approach and adjust footwork</li>
+              <li><span class="sn blue">3</span>For off-the-net sets — open the approach angle, hit line or sharp cross</li>
+              <li><span class="sn blue">4</span>For low fast sets — shorten the approach, lead with your elbow</li>
+              <li><span class="sn blue">5</span>If the set is truly un-hittable — tip or roll it down instead of erroring</li>
+            </ul>
+            <div class="cue-box blue">
+              <div class="cue-title">Coaching Cues — Transition Attack</div>
+              <ul class="cue-list">
+                <li>Start your approach when the setter receives — not when the ball leaves their hands</li>
+                <li>Read the set while you're moving, not when you're stopped</li>
+                <li>An imperfect swing in-bounds beats a perfect error</li>
+                <li>Tip it down if you can not swing it — don't give them a free ball</li>
+                <li>Call your shot before the set — forces decision before the moment</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="callout blue">
+              <div class="callout-title">The Approach Timing Rule</div>
+              <div class="callout-text">Most hitters wait too long to start their approach in transition. By the time they see the set leave the setter's hands, there is not enough time for a full 4-step approach. The hitter must read the setter's body language and <strong>begin the approach at first contact</strong>, adjusting mid-run based on set location.</div>
+            </div>
+            <div style="background:var(--surface2);border-radius:10px;padding:16px;margin-top:14px;">
+              <div style="font-size:11px;font-weight:800;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:10px;">Adjusting to Off Sets</div>
+              <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--ink2);">
+                <div style="background:var(--blue-pale);border-radius:7px;padding:8px 12px;"><strong>Off the net:</strong> Open body angle, hit line or tight cross, avoid hitting into the block</div>
+                <div style="background:var(--orange-pale);border-radius:7px;padding:8px 12px;"><strong>Too low:</strong> Shorten approach, contact ball at forehead not above head</div>
+                <div style="background:var(--teal-pale);border-radius:7px;padding:8px 12px;"><strong>Un-hittable:</strong> Tip it sharp cross or roll to the seam — do NOT free ball</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 5 -->
+    <div class="phase-block" id="phase5">
+      <div class="phase-header" onclick="togglePhase('phase5')">
+        <div class="phase-num ph-purple">5</div>
+        <div class="phase-head-content">
+          <div class="phase-label" style="color:var(--purple)">Phase 5 — Reset</div>
+          <div class="phase-name">Resetting to Base After the Attack</div>
+          <div class="phase-tagline">The rally is not over — reset immediately and prepare for the counter</div>
+        </div>
+        <div class="phase-toggle">▼</div>
+      </div>
+      <div class="phase-body">
+        <p style="font-size:14px;color:var(--ink2);line-height:1.7;margin-bottom:16px;">Too many teams relax after the attack — watching to see if it lands in. Elite teams immediately reset to their defensive base positions, read the opponent's reaction, and prepare for the counter-attack. <strong>The rally is never over until the whistle blows.</strong></p>
+        <div class="two-col">
+          <div>
+            <ul class="step-list">
+              <li><span class="sn" style="background:var(--purple)">1</span>Hitter lands from attack and immediately reads: did it go over? Is it coming back?</li>
+              <li><span class="sn" style="background:var(--purple)">2</span>If blocked: hitter covers — stay low, cover the block</li>
+              <li><span class="sn" style="background:var(--purple)">3</span>If it goes over: all players transition back to defensive base</li>
+              <li><span class="sn" style="background:var(--purple)">4</span>Blockers move to their blocking base position at the net</li>
+              <li><span class="sn" style="background:var(--purple)">5</span>Back row returns to defensive zone coverage and reads opponent setter</li>
+            </ul>
+          </div>
+          <div>
+            <div class="cue-box purple">
+              <div class="cue-title">Coaching Cues — Reset</div>
+              <ul class="cue-list">
+                <li>Land and look — immediately read if it is coming back</li>
+                <li>Hitter covers the block — be the safety net for your own attack</li>
+                <li>Sprint back to base — not a jog, a sprint</li>
+                <li>No watching your own attack go over — move immediately</li>
+                <li>Reset like you expect the next ball to come to you</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ FOOTWORK ══════ -->
+<div class="pg" id="pg-footwork">
+  <div class="content">
+    <div class="ch-eyebrow">Chapter 3</div>
+    <div class="ch-title">Footwork &amp; <em>Positioning</em></div>
+    <div class="ch-desc">Transition is won or lost on footwork — specifically the first step. Players who move first and in the right direction get there in time. Players who react late never catch up.</div>
+
+    <div class="sec-divider"><div class="sd-num">01</div><div class="sd-title">Base Defensive Positions</div><div class="sd-line"></div></div>
+    <div class="callout teal">
+      <div class="callout-title">Why Base Position Matters</div>
+      <div class="callout-text">Base position is the starting point of every transition. Players cannot move efficiently to the right spot if they don't know where they're starting from. Every player must know their exact base position in every rotation and return there automatically between every rally. It is the foundation of all transition movement.</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:32px;">
+      <div>
+        <div style="font-size:12px;font-weight:800;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:12px;">Front Row Base (Off the Block)</div>
+        <ul class="step-list">
+          <li><span class="sn teal">4</span>Left-front (OH): 1 step off net, arm's reach from antenna</li>
+          <li><span class="sn teal">3</span>Middle (MB): 2 steps off net, center of court</li>
+          <li><span class="sn teal">2</span>Right-front (OPP): 1 step off net, arm's reach from right antenna</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:800;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:12px;">Back Row Base</div>
+        <ul class="step-list">
+          <li><span class="sn red">5</span>Left back: 1–2 steps inside antenna, mid-depth</li>
+          <li><span class="sn red">6</span>Middle back: Center of court, deep</li>
+          <li><span class="sn red">1</span>Right back: 1–2 steps inside right antenna, mid-depth</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sec-divider"><div class="sd-num">02</div><div class="sd-title">The Drop Step — Blocker Exit Footwork</div><div class="sd-line"></div></div>
+    <div class="concept-grid" style="margin-bottom:28px;">
+      <div class="concept-card cc-red">
+        <div class="cc-icon">🦶</div>
+        <div class="cc-title">The Drop Step</div>
+        <div class="cc-text">The blocker's outside foot steps backward and rotates — opening the hips to face the court. This is the single most important footwork pattern in transition. Practice it until it is automatic after every block jump.</div>
+      </div>
+      <div class="concept-card cc-orange">
+        <div class="cc-icon">🔄</div>
+        <div class="cc-title">Hip Opening</div>
+        <div class="cc-text">Hips must fully open to face the court interior after the drop step. A blocker with hips still facing the net cannot approach effectively. Think: "land, pivot, open" — three actions in one fluid motion.</div>
+      </div>
+      <div class="concept-card cc-teal">
+        <div class="cc-icon">👁️</div>
+        <div class="cc-title">Eyes on Setter</div>
+        <div class="cc-text">The instant the blocker's feet touch the floor, their eyes must find the setter. This is the read that triggers the approach direction — before the set happens, not after it.</div>
+      </div>
+    </div>
+
+    <div class="sec-divider"><div class="sd-num">03</div><div class="sd-title">Approach Timing in Transition</div><div class="sd-line"></div></div>
+    <div class="callout red">
+      <div class="callout-title">🚨 The Most Common Timing Error</div>
+      <div class="callout-text">Players begin their approach when the set leaves the setter's hands. This is <strong>2 full steps too late</strong> for a proper 4-step approach at full speed. The correct trigger is: <strong>begin your approach when the setter first contacts the dig.</strong> You adjust mid-approach based on where the set goes — but you must already be moving.</div>
+    </div>
+
+    <div style="background:var(--surface);border:1.5px solid var(--rule);border-radius:14px;overflow:hidden;margin-bottom:32px;">
+      <div style="padding:18px 22px;background:var(--surface2);border-bottom:1px solid var(--rule);font-size:12px;font-weight:800;letter-spacing:2px;color:var(--muted);text-transform:uppercase;">Approach Trigger Timeline</div>
+      <div style="padding:20px 22px;">
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;gap:14px;align-items:center;">
+            <div style="background:var(--red);color:white;font-family:var(--head);font-size:14px;padding:6px 14px;border-radius:7px;white-space:nowrap;min-width:90px;text-align:center;">WRONG</div>
+            <div style="font-size:13px;color:var(--ink2);line-height:1.5;">Wait until the setter's hands release the set → only 1–2 steps possible → late, weak swing or miss</div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:center;">
+            <div style="background:var(--orange);color:white;font-family:var(--head);font-size:14px;padding:6px 14px;border-radius:7px;white-space:nowrap;min-width:90px;text-align:center;">BETTER</div>
+            <div style="font-size:13px;color:var(--ink2);line-height:1.5;">Start approach when setter's hands contact the dig → 3 steps possible → decent swing, limited adjustment</div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:center;">
+            <div style="background:var(--teal);color:white;font-family:var(--head);font-size:14px;padding:6px 14px;border-radius:7px;white-space:nowrap;min-width:90px;text-align:center;">CORRECT</div>
+            <div style="font-size:13px;color:var(--ink2);line-height:1.5;">Begin approach as setter is running to the dig → full 4-step approach → explosive jump, full shot selection</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ DRILLS ══════ -->
+<div class="pg" id="pg-drills">
+  <div class="content">
+    <div class="ch-eyebrow">Chapter 4</div>
+    <div class="ch-title">8 <em>Transition</em> Drills</div>
+    <div class="ch-desc">These drills isolate each phase of transition and build the full chain. Start with Phase 1-2 drills in the first 2 weeks, then combine them in Weeks 3-4.</div>
+
+    <div class="drill-cards">
+
+      <!-- DRILL 1 -->
+      <div class="drill-card open" id="drill1">
+        <div class="drill-card-top" onclick="toggleDrill('drill1')">
+          <div class="drill-color-bar" style="background:var(--red)"></div>
+          <div class="drill-top-content">
+            <div class="drill-cat">Phase 1 — Reading</div>
+            <div class="drill-name">Shoulder Read Drill</div>
+            <div class="drill-meta">
+              <span class="drill-meta-pill">⏱ 6 min</span>
+              <span class="drill-meta-pill">👥 Pairs</span>
+              <span class="drill-meta-pill">No ball needed</span>
+            </div>
+          </div>
+          <div class="drill-toggle2">▼</div>
+        </div>
+        <div class="drill-body">
+          <div class="drill-goal">🎯 Trains defenders to read hitter shoulder before ball contact — the most important pre-contact cue.</div>
+          <div class="two-col">
+            <ul class="step-list">
+              <li><span class="sn red">1</span>Player A simulates a hitting motion at the net — no ball.</li>
+              <li><span class="sn red">2</span>Player B stands at zone 6 in base position.</li>
+              <li><span class="sn red">3</span>A loads the swing — B calls "LINE" or "CROSS" based on shoulder read.</li>
+              <li><span class="sn red">4</span>A reveals which shot they intended. Did B read correctly?</li>
+              <li><span class="sn red">5</span>Run 15 reps, then switch. Track accuracy percentage.</li>
+            </ul>
+            <div class="cue-box red">
+              <div class="cue-title">Key Coaching Points</div>
+              <ul class="cue-list">
+                <li>Call before A's hand contacts the imaginary ball</li>
+                <li>Closed shoulder = line. Open shoulder = cross.</li>
+                <li>Track: aim for 70%+ accuracy by Week 2</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DRILL 2 -->
+      <div class="drill-card" id="drill2">
+        <div class="drill-card-top" onclick="toggleDrill('drill2')">
+          <div class="drill-color-bar" style="background:var(--orange)"></div>
+          <div class="drill-top-content">
+            <div class="drill-cat">Phase 2 — Setter Transition</div>
+            <div class="drill-name">Setter First Step Drill</div>
+            <div class="drill-meta">
+              <span class="drill-meta-pill">⏱ 7 min</span>
+              <span class="drill-meta-pill">👥 3 players</span>
+              <span class="drill-meta-pill">1 ball</span>
+            </div>
+          </div>
+          <div class="drill-toggle2">▼</div>
+        </div>
+        <div class="drill-body">
+          <div class="drill-goal">🎯 Forces the setter to move before the dig arrives — training the early first step that drives the whole transition chain.</div>
+          <div class="two-col">
+            <ul class="step-list">
+              <li><span class="sn orange">1</span>Setter starts at zone 5 (back left). Coach is on the box.</li>
+              <li><span class="sn orange">2</span>Coach attacks to zone 6. Setter must move to zone 3 before ball is dug.</li>
+              <li><span class="sn orange">3</span>Digger passes to setter. Setter sets to zone 4.</li>
+              <li><span class="sn orange">4</span>If setter arrives late (after the dig lands), rep doesn't count.</li>
+              <li><span class="sn orange">5</span>10 reps, track how many the setter arrives on time.</li>
+            </ul>
+            <div class="cue-box orange">
+              <div class="cue-title">Key Coaching Points</div>
+              <ul class="cue-list">
+                <li>Setter must call out loud on every rep</li>
+                <li>Penalize late arrivals — rep doesn't count</li>
+                <li>Vary coach attack direction to force reading</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DRILL 3 -->
+      <div class="drill-card" id="drill3">
+        <div class="drill-card-top" onclick="toggleDrill('drill3')">
+          <div class="drill-color-bar" style="background:var(--teal)"></div>
+          <div class="drill-top-content">
+            <div class="drill-cat">Phase 3 — Net Exit</div>
+            <div class="drill-name">Drop Step + Approach Drill</div>
+            <div class="drill-meta">
+              <span class="drill-meta-pill">⏱ 8 min</span>
+              <span class="drill-meta-pill">👥 Individual</span>
+              <span class="drill-meta-pill">No ball — footwork only</span>
+            </div>
+          </div>
+          <div class="drill-toggle2">▼</div>
+        </div>
+        <div class="drill-body">
+          <div class="drill-goal">🎯 Automates the drop step footwork pattern so blockers exit the net without thinking — freeing mental bandwidth for court reading.</div>
+          <div class="two-col">
+            <ul class="step-list">
+              <li><span class="sn teal">1</span>Player stands at zone 3, hands above the net (simulating a block).</li>
+              <li><span class="sn teal">2</span>On whistle: jump, land, immediately drop step with outside foot.</li>
+              <li><span class="sn teal">3</span>Hips open to court. Eyes go to zone 3 (setter position).</li>
+              <li><span class="sn teal">4</span>Run full 4-step approach to zone 4 or 2 (coach calls direction).</li>
+              <li><span class="sn teal">5</span>8 reps each player. Coach calls left or right randomly.</li>
+            </ul>
+            <div class="cue-box teal">
+              <div class="cue-title">Key Coaching Points</div>
+              <ul class="cue-list">
+                <li>Drop step must happen before they look — muscle memory</li>
+                <li>Hips must fully open — if not, stop and redo</li>
+                <li>Time from landing to approach start — goal under 0.5 seconds</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DRILL 4 -->
+      <div class="drill-card" id="drill4">
+        <div class="drill-card-top" onclick="toggleDrill('drill4')">
+          <div class="drill-color-bar" style="background:var(--blue)"></div>
+          <div class="drill-top-content">
+            <div class="drill-cat">Phase 4 — Transition Attack</div>
+            <div class="drill-name">Dig–Set–Attack Chain</div>
+            <div class="drill-meta">
+              <span class="drill-meta-pill">⏱ 10 min</span>
+              <span class="drill-meta-pill">👥 6 players</span>
+              <span class="drill-meta-pill">Full chain</span>
+            </div>
+          </div>
+          <div class="drill-toggle2">▼</div>
+        </div>
+        <div class="drill-body">
+          <div class="drill-goal">🎯 Runs the complete transition chain — dig to set to attack — at game speed with accountability for each phase.</div>
+          <div class="two-col">
+            <ul class="step-list">
+              <li><span class="sn blue">1</span>Coach attacks a ball to the defensive team's back row.</li>
+              <li><span class="sn blue">2</span>Digger digs, setter (already moving) sets to a hitter.</li>
+              <li><span class="sn blue">3</span>Hitter (having begun approach at first contact) attacks.</li>
+              <li><span class="sn blue">4</span>Coach immediately attacks another ball — no dead time.</li>
+              <li><span class="sn blue">5</span>Run 10 consecutive attacks. Track: kills, errors, in-play.</li>
+            </ul>
+            <div class="cue-box blue">
+              <div class="cue-title">Key Coaching Points</div>
+              <ul class="cue-list">
+                <li>Stop and correct if setter arrives after the dig</li>
+                <li>Hitter must call which shot before each swing</li>
+                <li>No acceptable free balls — tip it if you cannot swing it</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DRILL 5 -->
+      <div class="drill-card" id="drill5">
+        <div class="drill-card-top" onclick="toggleDrill('drill5')">
+          <div class="drill-color-bar" style="background:var(--purple)"></div>
+          <div class="drill-top-content">
+            <div class="drill-cat">Full Chain — Competition</div>
+            <div class="drill-name">Wash Drill — Transition Focus</div>
+            <div class="drill-meta">
+              <span class="drill-meta-pill">⏱ 15 min</span>
+              <span class="drill-meta-pill">👥 12 players</span>
+              <span class="drill-meta-pill">6v6 competitive</span>
+            </div>
+          </div>
+          <div class="drill-toggle2">▼</div>
+        </div>
+        <div class="drill-body">
+          <div class="drill-goal">🎯 Creates game-speed transition pressure in a competitive format. Teams must execute the full transition chain to earn points — survival alone doesn't score.</div>
+          <div class="two-col">
+            <ul class="step-list">
+              <li><span class="sn" style="background:var(--purple)">1</span>Coach attacks Ball 1 to Team A. Team A must dig → set → attack to earn the rally.</li>
+              <li><span class="sn" style="background:var(--purple)">2</span>If Team A wins Rally 1 AND Rally 2 (serve), they earn a wash point.</li>
+              <li><span class="sn" style="background:var(--purple)">3</span>Splitting the two rallies earns nothing — replay. Losing both = point to Team B.</li>
+              <li><span class="sn" style="background:var(--purple)">4</span>Coach adds rule: transition kill = 2 points. Free ball kill = 0 points.</li>
+              <li><span class="sn" style="background:var(--purple)">5</span>First team to 7 wash points wins. Focus coaching on transition phase timing.</li>
+            </ul>
+            <div class="cue-box purple">
+              <div class="cue-title">Key Coaching Points</div>
+              <ul class="cue-list">
+                <li>Pause after failed transitions — identify which phase broke down</li>
+                <li>Reward transition kills loudly and publicly</li>
+                <li>No coaching during play — observe and debrief after</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DRILL 6 -->
+      <div class="drill-card" id="drill6">
+        <div class="drill-card-top" onclick="toggleDrill('drill6')">
+          <div class="drill-color-bar" style="background:var(--gold)"></div>
+          <div class="drill-top-content">
+            <div class="drill-cat">Communication</div>
+            <div class="drill-name">Silent Court — Then Loud Court</div>
+            <div class="drill-meta">
+              <span class="drill-meta-pill">⏱ 10 min</span>
+              <span class="drill-meta-pill">👥 6–12</span>
+              <span class="drill-meta-pill">Contrast drill</span>
+            </div>
+          </div>
+          <div class="drill-toggle2">▼</div>
+        </div>
+        <div class="drill-body">
+          <div class="drill-goal">🎯 Dramatically demonstrates how communication affects transition quality by contrasting two rounds: one silent, one required loud.</div>
+          <div class="two-col">
+            <ul class="step-list">
+              <li><span class="sn" style="background:var(--gold)">1</span>Round 1: Play 5 minutes of normal rally scoring — no talking allowed.</li>
+              <li><span class="sn" style="background:var(--gold)">2</span>Coach tracks transition breakdowns — digs with no setter, hitters who miss approach.</li>
+              <li><span class="sn" style="background:var(--gold)">3</span>Brief break: show players the breakdown count.</li>
+              <li><span class="sn" style="background:var(--gold)">4</span>Round 2: Required to call "mine!", "setter!", and attack direction on every touch.</li>
+              <li><span class="sn" style="background:var(--gold)">5</span>Silence = point deducted. Track breakdown count again and compare.</li>
+            </ul>
+            <div class="cue-box gold">
+              <div class="cue-title">Key Coaching Points</div>
+              <ul class="cue-list">
+                <li>The difference in breakdown count will be dramatic — use it</li>
+                <li>Communication is a trainable skill, not a personality trait</li>
+                <li>Run this drill once per week for 3 weeks in a row</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DRILL 7 -->
+      <div class="drill-card" id="drill7">
+        <div class="drill-card-top" onclick="toggleDrill('drill7')">
+          <div class="drill-color-bar" style="background:var(--red)"></div>
+          <div class="drill-top-content">
+            <div class="drill-cat">Defense to Offense Speed</div>
+            <div class="drill-name">5-Second Transition Game</div>
+            <div class="drill-meta">
+              <span class="drill-meta-pill">⏱ 8 min</span>
+              <span class="drill-meta-pill">👥 6 players</span>
+              <span class="drill-meta-pill">Time pressure drill</span>
+            </div>
+          </div>
+          <div class="drill-toggle2">▼</div>
+        </div>
+        <div class="drill-body">
+          <div class="drill-goal">🎯 Puts a time constraint on the transition chain — forcing players to start earlier because they know a clock is running.</div>
+          <div class="two-col">
+            <ul class="step-list">
+              <li><span class="sn red">1</span>Coach attacks a ball to the defense.</li>
+              <li><span class="sn red">2</span>Coach starts counting loudly: "One… two… three…"</li>
+              <li><span class="sn red">3</span>Team must complete dig → set → attack contact before coach says "five."</li>
+              <li><span class="sn red">4</span>If they hit on time: +1. Late = no point. Error = no point.</li>
+              <li><span class="sn red">5</span>Team goal: 10 on-time transition attacks in a row.</li>
+            </ul>
+            <div class="cue-box red">
+              <div class="cue-title">Key Coaching Points</div>
+              <ul class="cue-list">
+                <li>5 seconds sounds easy — it is not when movement is late</li>
+                <li>If they fail: identify which second they were late on</li>
+                <li>Reduce to 4 seconds as teams improve over weeks</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DRILL 8 -->
+      <div class="drill-card" id="drill8">
+        <div class="drill-card-top" onclick="toggleDrill('drill8')">
+          <div class="drill-color-bar" style="background:var(--teal)"></div>
+          <div class="drill-top-content">
+            <div class="drill-cat">Live Scrimmage Integration</div>
+            <div class="drill-name">Transition Kill Challenge</div>
+            <div class="drill-meta">
+              <span class="drill-meta-pill">⏱ 12 min</span>
+              <span class="drill-meta-pill">👥 12 players</span>
+              <span class="drill-meta-pill">Game speed</span>
+            </div>
+          </div>
+          <div class="drill-toggle2">▼</div>
+        </div>
+        <div class="drill-body">
+          <div class="drill-goal">🎯 Rewards transition kills specifically — retraining the culture of the practice from "just get it over" to "turn every dig into a kill."</div>
+          <div class="two-col">
+            <ul class="step-list">
+              <li><span class="sn teal">1</span>Full 6v6 scrimmage, rally scoring.</li>
+              <li><span class="sn teal">2</span>Normal rally win = 1 point. Transition kill (off a dig) = 3 points.</li>
+              <li><span class="sn teal">3</span>Free ball kill = 0 bonus (normal 1 point). Coach calls which balls count as transition.</li>
+              <li><span class="sn teal">4</span>After each transition kill — pause and recognize it loudly in front of the team.</li>
+              <li><span class="sn teal">5</span>Play to 15 points. Track transition kill count on a whiteboard.</li>
+            </ul>
+            <div class="cue-box teal">
+              <div class="cue-title">Key Coaching Points</div>
+              <ul class="cue-list">
+                <li>Culture shift: celebrate transition kills more than serve-receive kills</li>
+                <li>Track weekly — teams should improve their transition kill count each week</li>
+                <li>Make the team cheer every transition kill — it reinforces the behavior</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════ MISTAKES ══════ -->
+<div class="pg" id="pg-mistakes">
+  <div class="content">
+    <div class="ch-eyebrow">Chapter 5</div>
+    <div class="ch-title">7 <em>Common Mistakes</em><br>and How to Fix Them</div>
+    <div class="ch-desc">These are the most frequent transition breakdowns at the 7th–9th grade level. Recognize them, name them to your players, and use the fix.</div>
+
+    <div class="mistake-grid">
+      <div class="mistake-card">
+        <div class="mistake-head"><div class="mistake-icon">😴</div><div class="mistake-title">Watching the Attack Land</div></div>
+        <div class="mistake-wrong"><span class="mistake-badge badge-wrong">WRONG</span> After hitting, players watch to see if it goes in before moving back to base.</div>
+        <div class="mistake-fix"><span class="mistake-badge badge-fix">FIX</span> Cue: "Land and move — don't watch it." Institute a rule: if caught watching, that player runs a line. Takes 2 weeks to break.</div>
+      </div>
+      <div class="mistake-card">
+        <div class="mistake-head"><div class="mistake-icon">🧱</div><div class="mistake-title">Stuck Under the Net</div></div>
+        <div class="mistake-wrong"><span class="mistake-badge badge-wrong">WRONG</span> Blocker lands and stands still directly under the net — unable to approach.</div>
+        <div class="mistake-fix"><span class="mistake-badge badge-fix">FIX</span> Drill the drop step daily without a ball. Make it muscle memory before adding the ball. Check: are hips opening? If not, drill it again.</div>
+      </div>
+      <div class="mistake-card">
+        <div class="mistake-head"><div class="mistake-icon">🏃</div><div class="mistake-title">Late Setter Start</div></div>
+        <div class="mistake-wrong"><span class="mistake-badge badge-wrong">WRONG</span> Setter waits to see the dig before moving — always arrives after the ball.</div>
+        <div class="mistake-fix"><span class="mistake-badge badge-fix">FIX</span> Use the Setter First Step drill. Penalize late arrivals by not counting the rep. Setter must call out loud on every rep — silence = late.</div>
+      </div>
+      <div class="mistake-card">
+        <div class="mistake-head"><div class="mistake-icon">🤫</div><div class="mistake-title">Silent Transitions</div></div>
+        <div class="mistake-wrong"><span class="mistake-badge badge-wrong">WRONG</span> No one calls the ball. No one tells the setter where they're going. Setter doesn't call. Hitter doesn't call their shot.</div>
+        <div class="mistake-fix"><span class="mistake-badge badge-fix">FIX</span> Run the Silent Court drill. Make "mine" and "setter!" non-negotiable. Any silent touch = deducted point. It feels extreme — it works.</div>
+      </div>
+      <div class="mistake-card">
+        <div class="mistake-head"><div class="mistake-icon">⏰</div><div class="mistake-title">Late Approach Start</div></div>
+        <div class="mistake-wrong"><span class="mistake-badge badge-wrong">WRONG</span> Hitter starts approach when the set leaves setter's hands — only 1–2 steps possible, leading to a weak or missed attack.</div>
+        <div class="mistake-fix"><span class="mistake-badge badge-fix">FIX</span> Teach the trigger: "move when the setter touches the dig." Run the 5-Second Transition Game to build urgency around approach timing.</div>
+      </div>
+      <div class="mistake-card">
+        <div class="mistake-head"><div class="mistake-icon">🎁</div><div class="mistake-title">Free Balling It</div></div>
+        <div class="mistake-wrong"><span class="mistake-badge badge-wrong">WRONG</span> When the transition set is off or difficult, players pass the ball over safely — giving the opponent an easy ball back.</div>
+        <div class="mistake-fix"><span class="mistake-badge badge-fix">FIX</span> Cue: "A tip is better than a free ball. Always." Institute: free balls in practice = a consequence. Tip or roll it — never pass it over.</div>
+      </div>
+      <div class="mistake-card">
+        <div class="mistake-head"><div class="mistake-icon">🧍</div><div class="mistake-title">Not Covering the Hitter</div></div>
+        <div class="mistake-wrong"><span class="mistake-badge badge-wrong">WRONG</span> No one covers behind the hitter during the attack — if blocked, the ball drops for a free point to the opponent.</div>
+        <div class="mistake-fix"><span class="mistake-badge badge-fix">FIX</span> Assign coverage responsibilities per position. Run dig-set-attack-coverage sequences until coverage is as automatic as the attack itself.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 4-WEEK PLAN ══════ -->
+<div class="pg" id="pg-plan">
+  <div class="content">
+    <div class="ch-eyebrow">Chapter 6</div>
+    <div class="ch-title">4-Week <em>Transition</em><br>Practice Plan</div>
+    <div class="ch-desc">One focused chunk of each practice — 15–20 minutes — dedicated to transition. Layer each phase week over week so the full chain is automatic by Week 4.</div>
+
+    <div class="callout gold">
+      <div class="callout-title">📋 How to Use This Plan</div>
+      <div class="callout-text">Slot the listed drills into your existing 60-minute practice plan in the "skill work" window (minutes 18–38). You don't need to restructure everything — just replace one skill block per practice with the transition focus. By Week 4, your players will be running transition chains automatically in live play.</div>
+    </div>
+
+    <div class="week-table-wrap">
+      <table class="week-table">
+        <thead>
+          <tr>
+            <th>WEEK</th>
+            <th>FOCUS</th>
+            <th>DRILLS</th>
+            <th>COACHING EMPHASIS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="wk-num">1</td>
+            <td>
+              <strong>Reading & Individual Phase Work</strong><br>
+              <span style="font-size:12px;color:var(--muted);">Teach each phase in isolation before combining</span>
+            </td>
+            <td>
+              <span class="tag-pill tp-red">Shoulder Read Drill</span>
+              <span class="tag-pill tp-orange">Setter First Step</span>
+              <span class="tag-pill tp-teal">Drop Step Footwork (no ball)</span>
+            </td>
+            <td style="font-size:13px;color:var(--ink2);">Correct every late setter arrival. Stop practice to point out stuck-under-net blockers. No live scrimmage this week.</td>
+          </tr>
+          <tr>
+            <td class="wk-num">2</td>
+            <td>
+              <strong>Chain Building</strong><br>
+              <span style="font-size:12px;color:var(--muted);">Connect Phase 1+2+3 into one sequence</span>
+            </td>
+            <td>
+              <span class="tag-pill tp-blue">Dig-Set-Attack Chain</span>
+              <span class="tag-pill tp-gold">Silent Court Contrast Drill</span>
+              <span class="tag-pill tp-red">Setter First Step (add hitters)</span>
+            </td>
+            <td style="font-size:13px;color:var(--ink2);">Introduce the communication requirement. Point out free balls immediately — replace with a tip before moving on.</td>
+          </tr>
+          <tr>
+            <td class="wk-num">3</td>
+            <td>
+              <strong>Speed & Pressure</strong><br>
+              <span style="font-size:12px;color:var(--muted);">Add time pressure and competitive stakes</span>
+            </td>
+            <td>
+              <span class="tag-pill tp-red">5-Second Transition Game</span>
+              <span class="tag-pill tp-teal">Transition Wash Drill</span>
+              <span class="tag-pill tp-blue">Dig-Set-Attack (increased pace)</span>
+            </td>
+            <td style="font-size:13px;color:var(--ink2);">The 5-second countdown creates urgency. Track which second they miss it on — this tells you which phase needs more work.</td>
+          </tr>
+          <tr>
+            <td class="wk-num">4</td>
+            <td>
+              <strong>Full Integration & Competition</strong><br>
+              <span style="font-size:12px;color:var(--muted);">Live play with transition-specific scoring</span>
+            </td>
+            <td>
+              <span class="tag-pill tp-teal">Transition Kill Challenge</span>
+              <span class="tag-pill tp-orange">Wash Drill — Transition Focus</span>
+              <span class="tag-pill tp-gold">Full scrimmage (count transition kills)</span>
+            </td>
+            <td style="font-size:13px;color:var(--ink2);">Track and celebrate transition kills. Keep a running total on the whiteboard. Teams compete to have the highest transition kill count by end of week.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sec-divider"><div class="sd-num">—</div><div class="sd-title">Practice Transition Checklist</div><div class="sd-line"></div></div>
+    <div class="checklist-grid">
+      <div class="checklist-card">
+        <div class="cl-title">⚡ Every Practice</div>
+        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>Drop step footwork — 5 min, no ball</div>
+        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>Setter verbally calls every transition set</div>
+        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>No free balls allowed — tip or roll instead</div>
+        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>Every transition kill is celebrated out loud</div>
+      </div>
+      <div class="checklist-card">
+        <div class="cl-title">📅 Weekly Check</div>
+        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>Count transition kills in scrimmage</div>
+        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>Review which phase breaks down most</div>
+        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>Run the Silent Court drill once per week</div>
+        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>Track setter arrival time improvement</div>
+      </div>
+      <div class="checklist-card">
+        <div class="cl-title">🏆 Game Day</div>
+        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>Remind blockers: land → drop step → read</div>
+        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>Setter communication emphasized in warm-up</div>
+        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>Celebrate first transition kill of the match</div>
+        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>Timeout focus: identify transition breakdown</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// NAV
+function go(pageId, btnId) {
+  document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.cnav-btn').forEach(b => b.classList.remove('on'));
+  document.getElementById('pg-' + pageId).classList.add('on');
+  document.getElementById(btnId).classList.add('on');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// PHASE ACCORDION
+function togglePhase(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+// DRILL ACCORDION
+function toggleDrill(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+// CHECKLIST
+function toggleCheck(box) {
+  box.classList.toggle('checked');
+  box.textContent = box.classList.contains('checked') ? '✓' : '';
+}
+</script>
+</body>
+</html>

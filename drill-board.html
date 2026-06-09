@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coach's Drill Board — Quick Access</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f4ee;
+  --surface: #ffffff;
+  --surface2: #f0ece3;
+  --surface3: #e8e3d8;
+  --ink: #1a1612;
+  --ink2: #3d3830;
+  --muted: #8c8070;
+  --rule: #ddd8cc;
+  --orange: #e85d1a;
+  --orange-light: #fff2ec;
+  --orange-border: #f5c4a8;
+  --teal: #0d7a6e;
+  --teal-light: #e8f6f4;
+  --teal-border: #a8ddd8;
+  --blue: #1a4a8c;
+  --blue-light: #eaf0fb;
+  --blue-border: #b0c8f0;
+  --gold: #b88a00;
+  --gold-light: #fdf8e8;
+  --gold-border: #e8d48a;
+  --purple: #6b2d8c;
+  --purple-light: #f4eefb;
+  --purple-border: #d0b0e8;
+  --red: #c0302a;
+  --red-light: #fdf0ef;
+  --red-border: #f0b8b4;
+  --head: 'Bebas Neue', sans-serif;
+  --body: 'DM Sans', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.site-header {
+  background: var(--ink);
+  color: #f7f4ee;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  border-bottom: 4px solid var(--orange);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+.header-brand {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 16px 0;
+}
+.brand-main {
+  font-family: var(--head);
+  font-size: 28px;
+  letter-spacing: 2px;
+  color: #f7f4ee;
+  line-height: 1;
+}
+.brand-sub {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: var(--orange);
+  text-transform: uppercase;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.timer-display {
+  font-family: var(--head);
+  font-size: 28px;
+  letter-spacing: 3px;
+  color: var(--orange);
+  cursor: pointer;
+  transition: color 0.2s;
+  min-width: 80px;
+  text-align: center;
+}
+.timer-display:hover { color: #ff8050; }
+.timer-btn {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-family: var(--body);
+  transition: all 0.15s;
+}
+.tbtn-start { background: var(--orange); color: white; }
+.tbtn-start:hover { background: #ff6e30; }
+.tbtn-stop { background: var(--red); color: white; }
+.tbtn-stop:hover { background: #e04040; }
+.tbtn-reset { background: var(--surface3); color: var(--ink); }
+.tbtn-reset:hover { background: var(--rule); }
+.drill-count-badge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 6px;
+}
+
+/* ── CONTROL BAR ── */
+.control-bar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--rule);
+  padding: 14px 32px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 65px;
+  z-index: 150;
+}
+.search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+  max-width: 340px;
+}
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: 14px;
+  pointer-events: none;
+}
+.search-input {
+  width: 100%;
+  background: var(--surface2);
+  border: 1.5px solid var(--rule);
+  border-radius: 8px;
+  padding: 9px 12px 9px 36px;
+  font-family: var(--body);
+  font-size: 14px;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.search-input:focus { border-color: var(--orange); }
+.search-input::placeholder { color: var(--muted); }
+
+.filter-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.filter-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; white-space: nowrap; }
+
+.chip {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: 1.5px solid var(--rule);
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: var(--body);
+  white-space: nowrap;
+}
+.chip:hover { border-color: var(--ink); color: var(--ink); }
+.chip.on { background: var(--ink); color: #f7f4ee; border-color: var(--ink); }
+.chip.cat-warm.on { background: var(--orange); border-color: var(--orange); color: white; }
+.chip.cat-pass.on { background: var(--teal); border-color: var(--teal); color: white; }
+.chip.cat-attack.on { background: var(--red); border-color: var(--red); color: white; }
+.chip.cat-team.on { background: var(--blue); border-color: var(--blue); color: white; }
+.chip.cat-set.on { background: var(--gold); border-color: var(--gold); color: white; }
+.chip.cat-compete.on { background: var(--purple); border-color: var(--purple); color: white; }
+
+.sort-select {
+  background: var(--surface2);
+  border: 1.5px solid var(--rule);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-family: var(--body);
+  font-size: 13px;
+  color: var(--ink);
+  outline: none;
+  cursor: pointer;
+}
+
+/* ── MAIN LAYOUT ── */
+.main-wrap { max-width: 1200px; margin: 0 auto; padding: 28px 24px; }
+
+/* ── SECTION DIVIDERS ── */
+.cat-section { margin-bottom: 40px; }
+.cat-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--rule);
+}
+.cat-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+.cat-title { font-family: var(--head); font-size: 22px; letter-spacing: 2px; }
+.cat-count { font-size: 12px; color: var(--muted); font-weight: 600; margin-left: auto; }
+
+/* ── DRILL GRID ── */
+.drill-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; }
+
+/* ── DRILL CARD ── */
+.drill-card {
+  background: var(--surface);
+  border: 1.5px solid var(--rule);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+.drill-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  border-color: var(--ink2);
+}
+.drill-card.hidden { display: none; }
+
+.card-stripe { height: 4px; flex-shrink: 0; }
+.stripe-warm { background: var(--orange); }
+.stripe-pass { background: var(--teal); }
+.stripe-attack { background: var(--red); }
+.stripe-team { background: var(--blue); }
+.stripe-set { background: var(--gold); }
+.stripe-compete { background: var(--purple); }
+
+.card-body { padding: 16px 18px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+
+.card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.card-cat-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 100px;
+  flex-shrink: 0;
+}
+.badge-warm { background: var(--orange-light); color: var(--orange); border: 1px solid var(--orange-border); }
+.badge-pass { background: var(--teal-light); color: var(--teal); border: 1px solid var(--teal-border); }
+.badge-attack { background: var(--red-light); color: var(--red); border: 1px solid var(--red-border); }
+.badge-team { background: var(--blue-light); color: var(--blue); border: 1px solid var(--blue-border); }
+.badge-set { background: var(--gold-light); color: var(--gold); border: 1px solid var(--gold-border); }
+.badge-compete { background: var(--purple-light); color: var(--purple); border: 1px solid var(--purple-border); }
+
+.card-title { font-family: var(--head); font-size: 20px; letter-spacing: 0.5px; line-height: 1.05; margin-top: 4px; }
+
+.card-desc { font-size: 13px; color: var(--ink2); line-height: 1.6; flex: 1; }
+
+.card-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.meta-tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: var(--surface2);
+  color: var(--muted);
+}
+
+.card-footer {
+  padding: 12px 18px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: var(--surface2);
+}
+.btn-video {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 7px 14px;
+  border-radius: 7px;
+  background: var(--ink);
+  color: #f7f4ee;
+  text-decoration: none;
+  transition: background 0.15s;
+  border: none;
+  cursor: pointer;
+  font-family: var(--body);
+}
+.btn-video:hover { background: var(--orange); }
+.btn-video .play-icon { font-size: 10px; }
+
+.btn-fav {
+  font-size: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  transition: transform 0.15s;
+  line-height: 1;
+}
+.btn-fav:hover { transform: scale(1.3); }
+.btn-fav.faved { filter: none; }
+
+.btn-timer-set {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: var(--orange-light);
+  color: var(--orange);
+  border: 1px solid var(--orange-border);
+  cursor: pointer;
+  font-family: var(--body);
+  transition: all 0.15s;
+}
+.btn-timer-set:hover { background: var(--orange); color: white; }
+
+/* ── MODAL ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26,22,18,0.7);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+
+.modal {
+  background: var(--surface);
+  border-radius: 16px;
+  max-width: 680px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: translateY(20px);
+  transition: transform 0.25s;
+  border: 1.5px solid var(--rule);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+}
+.modal-overlay.open .modal { transform: translateY(0); }
+
+.modal-stripe { height: 6px; border-radius: 16px 16px 0 0; }
+.modal-header {
+  padding: 24px 28px 16px;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.modal-title-wrap { flex: 1; }
+.modal-cat { font-size: 10px; font-weight: 700; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; margin-bottom: 5px; }
+.modal-title { font-family: var(--head); font-size: 32px; letter-spacing: 1px; line-height: 1; }
+.modal-close {
+  font-size: 20px;
+  background: var(--surface2);
+  border: none;
+  border-radius: 8px;
+  width: 36px; height: 36px;
+  cursor: pointer;
+  color: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.modal-close:hover { background: var(--rule); }
+.modal-body { padding: 24px 28px; }
+
+.modal-section { margin-bottom: 20px; }
+.modal-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.modal-section-text { font-size: 14px; color: var(--ink2); line-height: 1.7; }
+
+.modal-steps { list-style: none; }
+.modal-steps li {
+  display: flex;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 14px;
+  color: var(--ink2);
+  line-height: 1.55;
+  align-items: flex-start;
+}
+.modal-steps li:last-child { border-bottom: none; }
+.step-n {
+  background: var(--ink);
+  color: #f7f4ee;
+  font-weight: 700;
+  font-size: 11px;
+  border-radius: 50%;
+  width: 22px; height: 22px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.modal-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.modal-tag {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 100px;
+  background: var(--surface2);
+  color: var(--muted);
+  border: 1px solid var(--rule);
+}
+
+.modal-scoring {
+  background: var(--surface2);
+  border-radius: 10px;
+  padding: 14px 18px;
+}
+.scoring-row { font-size: 13px; color: var(--ink2); padding: 5px 0; display: flex; gap: 8px; }
+.scoring-row::before { content: '🏆'; flex-shrink: 0; }
+
+.modal-footer {
+  padding: 16px 28px 24px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.btn-modal-video {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px 24px;
+  border-radius: 9px;
+  background: var(--ink);
+  color: #f7f4ee;
+  text-decoration: none;
+  transition: all 0.15s;
+  flex: 1;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  font-family: var(--body);
+}
+.btn-modal-video:hover { background: var(--orange); }
+.btn-modal-timer {
+  font-family: var(--body);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: 9px;
+  background: var(--orange-light);
+  color: var(--orange);
+  border: 1.5px solid var(--orange-border);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-modal-timer:hover { background: var(--orange); color: white; }
+
+/* ── EMPTY STATE ── */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted);
+  font-size: 15px;
+  grid-column: 1 / -1;
+}
+.empty-state .big { font-size: 40px; margin-bottom: 12px; }
+
+/* ── TIMER MODAL ── */
+.timer-modal {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--ink);
+  color: #f7f4ee;
+  border-radius: 14px;
+  padding: 20px 24px;
+  z-index: 400;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.35);
+  min-width: 220px;
+  transform: translateY(200px);
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.timer-modal.visible { transform: translateY(0); }
+.tm-label { font-size: 10px; font-weight: 700; letter-spacing: 3px; color: rgba(247,244,238,0.5); text-transform: uppercase; margin-bottom: 6px; }
+.tm-drill { font-size: 14px; font-weight: 600; color: var(--orange); margin-bottom: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tm-time { font-family: var(--head); font-size: 52px; letter-spacing: 4px; color: #f7f4ee; text-align: center; line-height: 1; margin-bottom: 14px; }
+.tm-time.running { color: var(--orange); }
+.tm-time.done { color: #4caf50; }
+.tm-btns { display: flex; gap: 8px; }
+.tm-btn {
+  flex: 1;
+  font-family: var(--body);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px;
+  border-radius: 7px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.tm-start { background: var(--orange); color: white; }
+.tm-start:hover { background: #ff6e30; }
+.tm-stop { background: var(--red); color: white; }
+.tm-stop:hover { background: #e04040; }
+.tm-reset { background: var(--surface3); color: var(--ink); }
+.tm-reset:hover { background: var(--rule); }
+.tm-close { background: rgba(255,255,255,0.1); color: #f7f4ee; }
+.tm-close:hover { background: rgba(255,255,255,0.2); }
+
+/* ── RESULTS BAR ── */
+.results-bar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 32px;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+  display: none;
+}
+.results-bar.show { display: block; }
+
+/* ── FAV SECTION ── */
+.fav-banner {
+  background: var(--gold-light);
+  border: 1.5px solid var(--gold-border);
+  border-radius: 12px;
+  padding: 14px 20px;
+  margin-bottom: 24px;
+  font-size: 13px;
+  color: var(--gold);
+  font-weight: 600;
+  display: none;
+}
+.fav-banner.show { display: block; }
+
+@media(max-width:600px){
+  .site-header { padding: 0 16px; }
+  .control-bar { padding: 12px 16px; }
+  .main-wrap { padding: 20px 14px; }
+  .modal-header, .modal-body, .modal-footer { padding-left: 18px; padding-right: 18px; }
+  .brand-main { font-size: 22px; }
+  .timer-display { font-size: 22px; }
+  .timer-modal { right: 12px; bottom: 12px; left: 12px; min-width: unset; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <div class="header-brand">
+    <div class="brand-main">DRILL BOARD</div>
+    <div class="brand-sub">Quick Access · 24 Drills</div>
+  </div>
+  <div class="header-right">
+    <div class="drill-count-badge" id="visible-count">24 drills</div>
+    <div class="timer-display" id="header-timer" title="Open timer">05:00</div>
+    <button class="timer-btn tbtn-start" onclick="timerStart()">▶ START</button>
+    <button class="timer-btn tbtn-stop" onclick="timerStop()">■ STOP</button>
+    <button class="timer-btn tbtn-reset" onclick="timerReset()">↺</button>
+  </div>
+</header>
+
+<!-- ── CONTROL BAR ── -->
+<div class="control-bar">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" id="search-input" type="text" placeholder="Search drills…" oninput="applyFilters()">
+  </div>
+  <div class="filter-row">
+    <span class="filter-label">Category:</span>
+    <button class="chip on" id="chip-all" onclick="setFilter('all',this)">All</button>
+    <button class="chip cat-warm" id="chip-warmup" onclick="setFilter('warmup',this)">🔥 Warm-Up</button>
+    <button class="chip cat-pass" id="chip-passing" onclick="setFilter('passing',this)">🤲 Passing</button>
+    <button class="chip cat-set" id="chip-setting" onclick="setFilter('setting',this)">🎯 Setting</button>
+    <button class="chip cat-attack" id="chip-attack" onclick="setFilter('attack',this)">⚡ Attacking</button>
+    <button class="chip cat-team" id="chip-team" onclick="setFilter('team',this)">👥 Team</button>
+    <button class="chip cat-compete" id="chip-compete" onclick="setFilter('compete',this)">🏆 Compete</button>
+    <button class="chip" id="chip-favs" onclick="setFilter('favs',this)">⭐ Favorites</button>
+  </div>
+  <select class="sort-select" id="sort-select" onchange="applyFilters()">
+    <option value="default">Sort: Default</option>
+    <option value="az">A → Z</option>
+    <option value="time">By Time</option>
+    <option value="players">By Players</option>
+  </select>
+</div>
+
+<div class="results-bar" id="results-bar"></div>
+
+<!-- ── MAIN ── -->
+<div class="main-wrap">
+  <div class="fav-banner" id="fav-banner">⭐ Showing your favorite drills only.</div>
+  <div class="drill-grid" id="drill-grid"></div>
+</div>
+
+<!-- ── DRILL MODAL ── -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-stripe" id="modal-stripe"></div>
+    <div class="modal-header">
+      <div class="modal-title-wrap">
+        <div class="modal-cat" id="modal-cat"></div>
+        <div class="modal-title" id="modal-title"></div>
+      </div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer" id="modal-footer"></div>
+  </div>
+</div>
+
+<!-- ── FLOATING TIMER ── -->
+<div class="timer-modal" id="timer-modal">
+  <div class="tm-label">Practice Timer</div>
+  <div class="tm-drill" id="tm-drill-name">—</div>
+  <div class="tm-time" id="tm-display">05:00</div>
+  <div class="tm-btns">
+    <button class="tm-btn tm-start" onclick="timerStart()">▶ GO</button>
+    <button class="tm-btn tm-stop" onclick="timerStop()">■ STOP</button>
+    <button class="tm-btn tm-reset" onclick="timerReset()">↺ RESET</button>
+    <button class="tm-btn tm-close" onclick="hideTimer()">✕</button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+//  DRILL DATA — All 24 from Gold Medal Squared
+// ══════════════════════════════════════════════
+const DRILLS = [
+  {
+    id: 'nevilles-pepper',
+    name: "Neville's Pepper",
+    cat: 'team', catLabel: 'Team / Defense',
+    time: '20–30 min', players: '9+', level: 'All Levels',
+    emoji: '🔥',
+    short: 'Teams compete on the "scoring side" earning points through digs, kills, and blocks. A coach-controlled small-group game with rotating teams.',
+    goal: 'Back-row defensive reps, in-system offense, transition practice.',
+    howto: [
+      'Create teams of 3 players with 2 all-time setters.',
+      'One team goes to the "Neville\'s side" (scoring side). Others rotate on the opposite side.',
+      'Coach tosses a free ball to the non-scoring side to start each rally.',
+      'Only the team on the scoring side earns points.',
+      'Scoring side earns: +1 rally win, +1 dig, +1 covered block, +2 stuff block.',
+      'After a set time (3 min) or rallies (20), rotate a new team to the scoring side.',
+      'Team with the most points after all teams rotate wins.',
+    ],
+    scoring: ['+1 Win the rally', '+1 Get a dig', '+1 Block a covered ball', '+2 Stuff block for a point'],
+    emphasis: ['Offense', 'Digging', 'Targets', 'Focus'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/nevilles-pepper',
+    timerMin: 25,
+  },
+  {
+    id: 'speedball-3v3',
+    name: 'Speedball 3 vs 3',
+    cat: 'compete', catLabel: 'Competitive',
+    time: '15–20 min', players: '6+', level: 'All Levels',
+    emoji: '⚡',
+    short: 'Fast-paced 3v3 game where the ball must be played quickly. Develops decision-making speed and contact efficiency.',
+    goal: 'Fast transitions, quick decision-making, high rep contact.',
+    howto: [
+      'Set up 3v3 on half court or full court.',
+      'Each team must play the ball with speed — no slow rallies.',
+      'Rally scoring to a set number (7 or 11).',
+      'Winners stay, losers rotate off and next team comes on.',
+      'Coach can add rules: must side-out to stay, or must make 3 touches.',
+    ],
+    scoring: ['Rally scoring to 7 or 11', 'Winners stay on court', 'First to X points overall wins'],
+    emphasis: ['Speed', 'Decision-making', 'Contact', 'Transition'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/speedball-3-vs-3',
+    timerMin: 15,
+  },
+  {
+    id: 'queen-court',
+    name: 'Queen of the Court 3v3',
+    cat: 'compete', catLabel: 'Competitive',
+    time: '15–25 min', players: '9+', level: 'All Levels',
+    emoji: '👑',
+    short: 'Classic King/Queen of the Court game in a 3v3 format. Winners stay and accumulate points. Excellent competitive energy drill.',
+    goal: 'Competition, serve receive, communication under pressure.',
+    howto: [
+      'Set up 3v3 on the queen side and challenger side.',
+      'Coach initiates each rally with a free ball or serve.',
+      'Team that wins the rally on the queen side earns a point and stays.',
+      'Challenging team rotates on after each rally loss.',
+      'First team to reach the winning point total becomes the Queen.',
+      'Vary: require calling "mine" on every ball, or all 3 touches to earn a point.',
+    ],
+    scoring: ['Queen side earns +1 per rally win', 'Challenger side must win to take the court', 'First to set point total wins'],
+    emphasis: ['Communication', 'Pressure', 'Serve Receive', 'Competition'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/queen-of-the-court',
+    timerMin: 20,
+  },
+  {
+    id: '400s',
+    name: '400s',
+    cat: 'team', catLabel: 'Team System',
+    time: '20–30 min', players: '12', level: 'Intermediate–Advanced',
+    emoji: '4️⃣',
+    short: 'A structured full-team drill targeting 400 total successful contacts across multiple skill areas. High-volume, systematic practice.',
+    goal: 'Volume contact, passing accuracy, team system consistency.',
+    howto: [
+      'Split team into groups and assign each group a skill station.',
+      'Each group must accumulate a set number of successful contacts (100 each = 400 total).',
+      'Stations can include: serve receive, setting, attacking, digging.',
+      'If a contact fails (passes net, bad set), the count resets or holds.',
+      'Continue until all groups hit their target number.',
+      'Celebrate when the team hits 400 total.',
+    ],
+    scoring: ['Count successful contacts across all stations', 'Team goal: 400 total', 'Errors restart station count'],
+    emphasis: ['Volume', 'Accuracy', 'Team Accountability', 'Consistency'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/400s',
+    timerMin: 25,
+  },
+  {
+    id: 'triples-tournament',
+    name: 'Triples Tournament',
+    cat: 'compete', catLabel: 'Competitive',
+    time: '25–40 min', players: '9+', level: 'All Levels',
+    emoji: '🏆',
+    short: 'A round-robin tournament format with teams of 3. Each team plays all others. Final standings determine practice consequences or rewards.',
+    goal: 'Full-team competitive experience, serve receive, communication.',
+    howto: [
+      'Divide players into teams of 3.',
+      'Create a bracket or round-robin schedule.',
+      'Each match is rally scoring to 7 or 11.',
+      'Play continues until all matchups are complete.',
+      'Optional: losing team runs a line, winning team gets a reward.',
+      'Coaches observe without interrupting — it\'s player-led.',
+    ],
+    scoring: ['Rally scoring per match', 'Win/loss record tracked', 'Final standing decides consequence or reward'],
+    emphasis: ['Competition', 'Team Chemistry', 'All Skills', 'Leadership'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/triples-tournament',
+    timerMin: 35,
+  },
+  {
+    id: 'passing-butterfly',
+    name: 'Passing Butterfly',
+    cat: 'passing', catLabel: 'Passing',
+    time: '8–12 min', players: '6–12', level: 'Beginner–Intermediate',
+    emoji: '🦋',
+    short: 'Classic butterfly drill pattern for high-volume passing reps. Players pass and follow their ball in a continuous flowing pattern.',
+    goal: 'Platform mechanics, footwork, passing accuracy, rhythm.',
+    howto: [
+      'Set up two lines on opposite sides of the court (zones 1 and 5).',
+      'A setter is positioned at zone 3.',
+      'Player from line 1 passes to the setter, then follows their pass to join the other line.',
+      'Setter sets to the other line, that player passes back to setter zone.',
+      'Continuous flow — players pass and rotate to the opposite line.',
+      'Add: call "mine" before every contact.',
+    ],
+    scoring: ['Count consecutive clean passes in a row', 'Team goal: 20 in a row without error', 'Reset on any ball to the floor'],
+    emphasis: ['Passing', 'Footwork', 'Platform', 'Communication'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/volleyball-butterfly-drill',
+    timerMin: 10,
+  },
+  {
+    id: 'short-court',
+    name: 'Short Court',
+    cat: 'passing', catLabel: 'Passing / Defense',
+    time: '10–15 min', players: '4–8', level: 'All Levels',
+    emoji: '📏',
+    short: 'Play on a shortened court to force lower, more controlled contacts. Excellent for serving, passing precision, and reading low trajectory balls.',
+    goal: 'Passing accuracy on short balls, reading low trajectory, serve placement.',
+    howto: [
+      'Mark a line 3 meters from the net on both sides — this is the short court boundary.',
+      'All serves must land between the net and the 3m line.',
+      'All contacts must be controlled within the short court.',
+      'Play rally scoring — any ball landing past the 3m line is out.',
+      'Forces players to stay forward, pass flat, and control pace.',
+      'Variations: allow one player to be back court while others play short.',
+    ],
+    scoring: ['Rally scoring to 11', 'Ball past 3m line = out', 'Track serve-in percentage'],
+    emphasis: ['Control', 'Precision', 'Flat Passing', 'Court Reading'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/short-court-half-court',
+    timerMin: 12,
+  },
+  {
+    id: 'ball-setter-ball-hitter',
+    name: 'Ball, Setter, Ball, Hitter',
+    cat: 'attack', catLabel: 'Attacking / Setting',
+    time: '10–15 min', players: '6–10', level: 'All Levels',
+    emoji: '🏐',
+    short: 'A dynamic drill that alternates balls between setters and hitters in rapid succession. Builds setter decision-making speed and hitter readiness.',
+    goal: 'Setter decision speed, hitter approach timing, transition from defense to offense.',
+    howto: [
+      'Coach feeds balls rapidly in sequence: Ball 1 to setter, Setter sets, Ball 2 to court, Hitter hits.',
+      'The pattern repeats: ball to setter, setter sets, ball to digger, hitter transitions to attack.',
+      'Players rotate through setter and hitter roles.',
+      'Focus on fast transitions — no dead time between contacts.',
+      'Setter calls direction just before releasing each set.',
+      'Run for 8–10 minutes at high pace.',
+    ],
+    scoring: ['Count kills vs errors', 'Goal: 5 kills in a row', 'Setter tracks in-system sets percentage'],
+    emphasis: ['Setting', 'Attacking', 'Speed', 'Transition'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/ball-setter-ball-hitter',
+    timerMin: 12,
+  },
+  {
+    id: 'scramble-to-7',
+    name: 'Scramble to 7',
+    cat: 'compete', catLabel: 'Competitive',
+    time: '15–20 min', players: '6+', level: 'All Levels',
+    emoji: '7️⃣',
+    short: 'Both teams start at 0 and race to 7 points in rally scoring. High intensity, short sets that keep energy high throughout practice.',
+    goal: 'Pressure performance, competitive spirit, sideout efficiency.',
+    howto: [
+      'Set up standard 6v6 (or adjust for your player count).',
+      'Play rally scoring — first team to 7 wins the mini-set.',
+      'Play multiple rounds (best of 5 mini-sets is common).',
+      'Coach can start rallies with a free ball or serve.',
+      'Focus: mental toughness and performance under pressure.',
+      'Variation: the losing team must run a sprint, winner earns a point in the season standings.',
+    ],
+    scoring: ['First to 7 points wins the mini-set', 'Best of 5 mini-sets wins the session', 'Track win/loss record'],
+    emphasis: ['Competition', 'Pressure', 'Mental Toughness', 'All Skills'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/scramble-to-7',
+    timerMin: 18,
+  },
+  {
+    id: 'gornys-gauntlet',
+    name: "Gorny's Gauntlet",
+    cat: 'attack', catLabel: 'Attacking / Defense',
+    time: '15–20 min', players: '8+', level: 'Intermediate–Advanced',
+    emoji: '⚔️',
+    short: 'An intense attacking and defending gauntlet drill where hitters face a sequence of challenges. High-intensity, high-rep attacking.',
+    goal: 'Attack efficiency, defense under fire, competitive endurance.',
+    howto: [
+      'One hitter enters the "gauntlet" and attacks against a full defensive team.',
+      'Coach feeds balls continuously — hitter attacks until they complete the challenge (e.g. 3 kills) or fail out.',
+      'Defenders must dig and score to advance in the gauntlet.',
+      'Rotation of hitters keeps everyone moving.',
+      'Tracking kills, errors, and digs gives immediate feedback.',
+      'High energy — coaches and teammates cheer throughout.',
+    ],
+    scoring: ['Hitter earns points for kills', 'Defenders earn points for digs that lead to transition points', 'Most points after all rotations wins'],
+    emphasis: ['Attacking', 'Defense', 'Pressure', 'Endurance'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/gornys-gauntlet',
+    timerMin: 18,
+  },
+  {
+    id: 'wash-table-owd',
+    name: 'Wash Table — OWD',
+    cat: 'team', catLabel: 'Team System',
+    time: '15–25 min', players: '12', level: 'Intermediate–Advanced',
+    emoji: '🌊',
+    short: 'A wash drill where teams must win two consecutive rallies (one serve, one receive) to earn a "wash" point. Mirrors real match pressure.',
+    goal: 'Sideout efficiency, serve effectiveness, consecutive performance.',
+    howto: [
+      'Teams of 6v6. Use full rotation.',
+      'Each "rally pair" consists of one serve rally then one receive rally.',
+      'Win both = earn a "wash" point. Split = no points, replay.',
+      'Loser of two straight = rotate off, new team enters.',
+      'Forces teams to perform consistently under sequential pressure.',
+      'Coach tracks wash points and adjusts difficulty (serve zones, rotation order).',
+    ],
+    scoring: ['Win both rallies = 1 wash point', 'Split rallies = no point, replay', 'First to 5 wash points wins'],
+    emphasis: ['Sideout', 'Serving', 'Pressure', 'Consistency'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/wash-table---owd',
+    timerMin: 20,
+  },
+  {
+    id: 'usa',
+    name: 'USA Drill',
+    cat: 'team', catLabel: 'Team System',
+    time: '15–25 min', players: '12', level: 'All Levels',
+    emoji: '🇺🇸',
+    short: 'A high-energy team drill that cycles through serving, receiving, and transition in a rapid sequence. Used by national programs.',
+    goal: 'Full team system, serve receive, transition offense, serving under pressure.',
+    howto: [
+      'Full 6v6 setup. One team serves, one team receives.',
+      'Rally plays out. Winner of the rally immediately faces the next ball from the coach.',
+      'Coach feeds quickly — no dead time between plays.',
+      'Continue for a set number of balls or time.',
+      'Rotation happens after each set number of serves.',
+      'High pace, high reps — simulates game speed throughout.',
+    ],
+    scoring: ['Count rally wins for each team', 'Team with most wins after full rotation wins the drill', 'Serve errors tracked separately'],
+    emphasis: ['System', 'Speed', 'Serve Receive', 'Transition'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/usa',
+    timerMin: 20,
+  },
+  // Page 2
+  {
+    id: 'setter-butterfly',
+    name: 'Setter Butterfly',
+    cat: 'setting', catLabel: 'Setting',
+    time: '8–12 min', players: '4–8', level: 'All Levels',
+    emoji: '🎯',
+    short: 'A butterfly pattern drill designed specifically for setters. High-volume setting reps in a continuous flow pattern from multiple court positions.',
+    goal: 'Setting accuracy, footwork to the ball, decision speed.',
+    howto: [
+      'Two lines of passers/hitters — one at zone 4, one at zone 2.',
+      'Setter at zone 3 receives passes and alternates sets — left, right, left, right.',
+      'After each set, the player hits or catches and joins the opposite line.',
+      'Setter stays in position and works continuously for 2–3 minute blocks.',
+      'Rotate setters every 2–3 minutes.',
+      'Track in-system sets (height, location) and call out missed targets immediately.',
+    ],
+    scoring: ['Count in-system sets out of 20', 'Goal: 17+ in-system per setter per round', 'Track zone 4 vs zone 2 accuracy separately'],
+    emphasis: ['Setting', 'Accuracy', 'Footwork', 'Rhythm'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/setter-butterfly',
+    timerMin: 10,
+  },
+  {
+    id: 'around-the-world',
+    name: 'Around the World',
+    cat: 'warmup', catLabel: 'Warm-Up',
+    time: '6–10 min', players: '6–12', level: 'All Levels',
+    emoji: '🌍',
+    short: 'A circuit warm-up drill where players move around the court hitting every position. Great energy starter that gets everyone moving.',
+    goal: 'Dynamic warm-up, ball control touch, movement patterns.',
+    howto: [
+      'Players form a line behind the endline.',
+      'Each player moves to a designated spot on the court and makes contact (pass, set, or hit).',
+      'After contact, sprint to the next station going "around the world" in order.',
+      'Continue until all players have gone through every station.',
+      'Can be done with or without competition (count dropped balls).',
+      'Increase pace each round to increase intensity.',
+    ],
+    scoring: ['Count drops or misses', 'Team goal: complete all stations with fewer than X errors', 'Fastest clean round wins'],
+    emphasis: ['Warm-Up', 'Movement', 'Ball Control', 'Energy'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/around-the-world',
+    timerMin: 8,
+  },
+  {
+    id: 'serve-receive-ladder',
+    name: 'Serve-Receive Ladder',
+    cat: 'passing', catLabel: 'Passing / Serve Receive',
+    time: '10–15 min', players: '6–12', level: 'All Levels',
+    emoji: '🪜',
+    short: 'A progressive serve receive drill where the difficulty increases as players succeed. Builds pressure-tested passing under escalating challenge.',
+    goal: 'Serve receive accuracy, footwork, performance under increasing pressure.',
+    howto: [
+      'Passers line up in receive formation (W or 3-person).',
+      'Server starts serving at a manageable pace and location.',
+      'Passers must hit a target zone (cone at setter position).',
+      'After X successful passes in a row, the server increases difficulty (speed, zone, or float).',
+      'If the team drops a pass, the ladder resets.',
+      'Goal: climb all rungs of the ladder without resetting.',
+    ],
+    scoring: ['Each rung = 3 consecutive target passes', 'Total of 5 rungs to complete the ladder', 'Errors reset the current rung count'],
+    emphasis: ['Serve Receive', 'Footwork', 'Pressure', 'Consistency'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/serve-receive-ladder',
+    timerMin: 12,
+  },
+  {
+    id: 'exchange',
+    name: 'Exchange',
+    cat: 'team', catLabel: 'Team System',
+    time: '15–20 min', players: '12', level: 'Intermediate',
+    emoji: '🔄',
+    short: 'Teams compete in a rapid exchange format — the ball is immediately live after each rally. No dead time between plays.',
+    goal: 'Fast transition, reset speed, team communication.',
+    howto: [
+      'Two teams of 6 in standard positions.',
+      'Coach initiates with a serve or free ball.',
+      'After each rally ends, the next ball is immediately put into play by the coach.',
+      'Teams must reset positions instantly — no walking between rallies.',
+      'Track score for each team across 20 total rallies.',
+      'Winning team at end of the 20 rallies wins the round.',
+    ],
+    scoring: ['+1 per rally win', '20-rally round, most wins wins', 'Can play multiple rounds with rotation'],
+    emphasis: ['Transition', 'Speed', 'Communication', 'Reset'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/exchange',
+    timerMin: 18,
+  },
+  {
+    id: 'doghouse',
+    name: 'Doghouse',
+    cat: 'compete', catLabel: 'Competitive / Consequence',
+    time: '15–20 min', players: '7+', level: 'All Levels',
+    emoji: '🐶',
+    short: 'One player is in the "doghouse" and must earn their way out by successfully completing a skill sequence. High accountability drill.',
+    goal: 'Individual accountability, pressure performance, skill execution.',
+    howto: [
+      'One player starts in the "doghouse" — typically the player who made the last error.',
+      'They must complete a defined skill successfully (3 clean passes, 2 kills, etc.) to escape.',
+      'While in the doghouse, they work against the rest of the team.',
+      'The player who errors next goes to the doghouse.',
+      'Keep energy high — the team roots for or against the person in the doghouse (coach decides).',
+      'End the drill when every player has been in the doghouse at least once.',
+    ],
+    scoring: ['Doghouse player must complete their escape task', 'Player who made last error enters doghouse', 'Track how many rallies each player spends in the doghouse'],
+    emphasis: ['Accountability', 'Pressure', 'Skill', 'Mental Toughness'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/doghouse',
+    timerMin: 18,
+  },
+  {
+    id: 'outside-hitters-tournament',
+    name: 'Outside Hitters Tournament',
+    cat: 'attack', catLabel: 'Attacking',
+    time: '15–20 min', players: '4–8', level: 'Intermediate–Advanced',
+    emoji: '🏅',
+    short: 'A competitive drill focused on outside hitters attacking against a full defensive block and back row. Tracks kills, errors, and efficiency.',
+    goal: 'Attack efficiency, shot selection, pressure hitting.',
+    howto: [
+      'One outside hitter is "on trial" and must attack a set sequence of balls.',
+      'Full block (1 or 2 blockers) and full back row defense is in place.',
+      'Setter sets 10 consecutive balls to the OH.',
+      'Hitter is scored on kills, errors, and in-play balls.',
+      'Rotate to next OH after 10 balls.',
+      'Leaderboard tracks efficiency: (Kills − Errors) / Total Swings.',
+    ],
+    scoring: ['Kill = +1', 'Error = −1', 'In Play = 0', 'Highest efficiency wins the tournament'],
+    emphasis: ['Attacking', 'Efficiency', 'Shot Selection', 'Competition'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/outside-hitters-tournament',
+    timerMin: 18,
+  },
+  {
+    id: 'transition-wash',
+    name: 'Transition Wash',
+    cat: 'team', catLabel: 'Team / Transition',
+    time: '15–20 min', players: '12', level: 'Intermediate–Advanced',
+    emoji: '🌀',
+    short: 'A wash drill that focuses specifically on transition — dig to set to attack. Teams must complete a full transition to earn a wash point.',
+    goal: 'Dig-set-attack transition, system execution, defensive coverage.',
+    howto: [
+      'Coach attacks a ball to the defensive team.',
+      'Defensive team must dig → set → attack for the wash attempt.',
+      'If the offensive team scores on the coach-initiated ball AND the transition ball, they earn a wash point.',
+      'Each "wash" consists of two consecutive rallies: offense then defense.',
+      'First team to 5 wash points wins.',
+      'Focus coaching on the quality of the dig and the speed of the setter transition.',
+    ],
+    scoring: ['Win both rallies = 1 wash point', 'Split = no point, replay', 'First to 5 wash points wins'],
+    emphasis: ['Transition', 'Digging', 'Setting', 'Attack Coverage'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/transition-wash',
+    timerMin: 18,
+  },
+  {
+    id: 'opposite-volleyball',
+    name: 'Opposite Volleyball',
+    cat: 'compete', catLabel: 'Competitive',
+    time: '15–20 min', players: '6–12', level: 'All Levels',
+    emoji: '🔃',
+    short: 'Volleyball played with inverted rules — scoring happens when you make a mistake on purpose. Builds humor, loosens pressure, sharpens awareness.',
+    goal: 'Loosening tight teams, fun competition, awareness of errors.',
+    howto: [
+      'Play standard volleyball but reverse the scoring: errors earn points for YOUR team.',
+      'Hit the ball out? Your team gets the point.',
+      'Let the serve drop? Your team scores.',
+      'Makes players hyper-aware of their own tendencies to miss.',
+      'Play to 11 or 15 — it goes faster than you expect!',
+      'Great for end-of-practice energy or after a tough loss.',
+    ],
+    scoring: ['Your errors = your points', 'First to 11 (or 15) loses! (or wins — you decide)', 'Great for morale and loosening up'],
+    emphasis: ['Fun', 'Awareness', 'Morale', 'Error Recognition'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/opposite-volleyball',
+    timerMin: 15,
+  },
+  {
+    id: 'bagherone',
+    name: 'Bagherone',
+    cat: 'passing', catLabel: 'Passing / Defense',
+    time: '10–15 min', players: '6–10', level: 'All Levels',
+    emoji: '🐆',
+    short: 'A dynamic defensive drill where one player works against a continuous stream of attacks from multiple angles. High-rep defensive training.',
+    goal: 'Defensive range, reading, platform control, conditioning.',
+    howto: [
+      'One player positions in the back row — this is the "Bagherone" defender.',
+      'Coach or hitters attack/tip to various zones rapidly.',
+      'The defender must dig every ball up playably.',
+      'Balls come from left, right, deep, short — no pattern.',
+      'Run for 60 seconds per player, then rotate.',
+      'Count playable digs vs total attacks. Goal: 70%+ dig rate.',
+    ],
+    scoring: ['Count playable digs out of total attacks', 'Goal: 70%+ dig rate per round', 'Track improvement over weeks'],
+    emphasis: ['Defense', 'Range', 'Platform', 'Conditioning'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/bagherone',
+    timerMin: 12,
+  },
+  {
+    id: 'setter-star',
+    name: 'Setter Star',
+    cat: 'setting', catLabel: 'Setting',
+    time: '8–12 min', players: '4–8', level: 'All Levels',
+    emoji: '⭐',
+    short: 'Setters work through a star-shaped movement pattern, receiving passes and setting from 5 court positions. Builds footwork and consistency.',
+    goal: 'Setting from varied positions, footwork, consistency under movement.',
+    howto: [
+      'Mark 5 positions on the court in a star pattern around zone 3.',
+      'Setter starts at zone 3, receives a pass, sets to zone 4 or 2.',
+      'Then shuffles to the next star point and receives the next pass.',
+      'Passers keep balls coming continuously.',
+      'Setter must set from each of the 5 positions without stopping.',
+      'Time each setter through the full star — fastest with fewest errors wins.',
+    ],
+    scoring: ['Track in-system sets per position', 'Fastest setter through all 5 positions wins', 'Errors add +2 seconds to time'],
+    emphasis: ['Setting', 'Movement', 'Footwork', 'Position Accuracy'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/setter-star',
+    timerMin: 10,
+  },
+  {
+    id: 'hurricane',
+    name: 'Hurricane',
+    cat: 'warmup', catLabel: 'Warm-Up / Conditioning',
+    time: '8–12 min', players: '6–12', level: 'All Levels',
+    emoji: '🌀',
+    short: 'A high-energy warm-up drill with continuous ball movement around the court in a rotating pattern. Creates a "hurricane" of action.',
+    goal: 'Dynamic warm-up, ball control, movement, energy-building.',
+    howto: [
+      'Players form a large circle around the full court.',
+      'One ball starts moving around the circle — each player controls the ball and passes to the next.',
+      'Gradually increase pace each lap.',
+      'Add a second ball after 2 minutes.',
+      'Players must stay low and move feet to face the incoming ball.',
+      'Run for 6–8 minutes — high energy, no standing still.',
+    ],
+    scoring: ['Count drops per lap', 'Most laps without a drop wins', 'Add balls to increase difficulty'],
+    emphasis: ['Warm-Up', 'Ball Control', 'Energy', 'Movement'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/hurricane',
+    timerMin: 10,
+  },
+  {
+    id: 'red-zone',
+    name: 'Red Zone',
+    cat: 'compete', catLabel: 'Competitive / Pressure',
+    time: '10–15 min', players: '12', level: 'All Levels',
+    emoji: '🔴',
+    short: 'Teams start at game point (24-24 or similar) and must perform under maximum pressure. Every rally is a game-winning moment.',
+    goal: 'Pressure performance, clutch serving, mental toughness.',
+    howto: [
+      'Start the score at 24-24 (or 23-23 for more reps).',
+      'Play standard volleyball — first team to 26 or to win by 2 wins.',
+      'Every single point is maximum pressure.',
+      'Rotate serving order to ensure all players serve in the red zone.',
+      'Coach tracks errors vs kills under pressure.',
+      'Run 5–8 red zone scenarios per session.',
+    ],
+    scoring: ['Standard rally scoring from 24-24', 'Win by 2 to take the set', 'Track who scores the final point most often'],
+    emphasis: ['Pressure', 'Mental Toughness', 'Clutch Performance', 'Serving'],
+    url: 'https://www.goldmedalsquared.com/volleyball-drills/red-zone',
+    timerMin: 12,
+  },
+];
+
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
+let activeFilter = 'all';
+let favorites = JSON.parse(localStorage.getItem('drill_favs') || '[]');
+let currentDrill = null;
+let timerInterval = null;
+let timerSeconds = 300;
+let timerRunning = false;
+let timerDrillName = '';
+
+const CAT_COLORS = {
+  warmup:  { stripe: 'stripe-warm',    badge: 'badge-warm',    dot: 'background:var(--orange)' },
+  passing: { stripe: 'stripe-pass',    badge: 'badge-pass',    dot: 'background:var(--teal)' },
+  setting: { stripe: 'stripe-set',     badge: 'badge-set',     dot: 'background:var(--gold)' },
+  attack:  { stripe: 'stripe-attack',  badge: 'badge-attack',  dot: 'background:var(--red)' },
+  team:    { stripe: 'stripe-team',    badge: 'badge-team',    dot: 'background:var(--blue)' },
+  compete: { stripe: 'stripe-compete', badge: 'badge-compete', dot: 'background:var(--purple)' },
+};
+
+// ══════════════════════════════════════════════
+//  RENDER
+// ══════════════════════════════════════════════
+function renderDrills(list) {
+  const grid = document.getElementById('drill-grid');
+  if (!list.length) {
+    grid.innerHTML = '<div class="empty-state"><div class="big">🏐</div>No drills match your filter. Try a different category or clear the search.</div>';
+    return;
+  }
+  grid.innerHTML = list.map(d => {
+    const cc = CAT_COLORS[d.cat];
+    const isFav = favorites.includes(d.id);
+    return `<div class="drill-card" id="card-${d.id}" onclick="openModal('${d.id}')">
+      <div class="card-stripe ${cc.stripe}"></div>
+      <div class="card-body">
+        <div class="card-top">
+          <div>
+            <span class="card-cat-badge ${cc.badge}">${d.catLabel}</span>
+            <div class="card-title">${d.emoji} ${d.name}</div>
+          </div>
+        </div>
+        <div class="card-desc">${d.short}</div>
+        <div class="card-meta">
+          <span class="meta-tag">⏱ ${d.time}</span>
+          <span class="meta-tag">👥 ${d.players}</span>
+          <span class="meta-tag">${d.level}</span>
+        </div>
+      </div>
+      <div class="card-footer" onclick="event.stopPropagation()">
+        <button class="btn-video" onclick="openVideo('${d.url}')">
+          <span class="play-icon">▶</span> Watch Video
+        </button>
+        <button class="btn-timer-set" onclick="setTimer(${d.timerMin},'${d.name.replace(/'/g,"\\'")}')">⏱ ${d.timerMin}m</button>
+        <button class="btn-fav ${isFav ? 'faved' : ''}" onclick="toggleFav('${d.id}')" title="${isFav ? 'Remove favorite' : 'Add to favorites'}">${isFav ? '⭐' : '☆'}</button>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('visible-count').textContent = list.length + ' drill' + (list.length !== 1 ? 's' : '');
+}
+
+function applyFilters() {
+  const q = document.getElementById('search-input').value.toLowerCase().trim();
+  const sort = document.getElementById('sort-select').value;
+
+  let list = [...DRILLS];
+
+  // Category filter
+  if (activeFilter === 'favs') {
+    list = list.filter(d => favorites.includes(d.id));
+  } else if (activeFilter !== 'all') {
+    list = list.filter(d => d.cat === activeFilter);
+  }
+
+  // Search
+  if (q) {
+    list = list.filter(d =>
+      d.name.toLowerCase().includes(q) ||
+      d.short.toLowerCase().includes(q) ||
+      d.catLabel.toLowerCase().includes(q) ||
+      d.emphasis.some(e => e.toLowerCase().includes(q))
+    );
+  }
+
+  // Sort
+  if (sort === 'az') list.sort((a,b) => a.name.localeCompare(b.name));
+  if (sort === 'time') list.sort((a,b) => a.timerMin - b.timerMin);
+  if (sort === 'players') list.sort((a,b) => parseInt(a.players) - parseInt(b.players));
+
+  // Results bar
+  const rb = document.getElementById('results-bar');
+  if (q || activeFilter !== 'all') {
+    rb.textContent = `Showing ${list.length} drill${list.length!==1?'s':''} ${q ? `matching "${q}"` : ''} ${activeFilter !== 'all' ? `in ${activeFilter}` : ''}`;
+    rb.classList.add('show');
+  } else {
+    rb.classList.remove('show');
+  }
+
+  // Fav banner
+  const fb = document.getElementById('fav-banner');
+  fb.classList.toggle('show', activeFilter === 'favs');
+
+  renderDrills(list);
+}
+
+function setFilter(cat, btnEl) {
+  activeFilter = cat;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+  btnEl.classList.add('on');
+  applyFilters();
+}
+
+// ══════════════════════════════════════════════
+//  FAVORITES
+// ══════════════════════════════════════════════
+function toggleFav(id) {
+  if (favorites.includes(id)) {
+    favorites = favorites.filter(f => f !== id);
+  } else {
+    favorites.push(id);
+  }
+  localStorage.setItem('drill_favs', JSON.stringify(favorites));
+  applyFilters();
+}
+
+// ══════════════════════════════════════════════
+//  MODAL
+// ══════════════════════════════════════════════
+function openModal(id) {
+  const d = DRILLS.find(x => x.id === id);
+  if (!d) return;
+  currentDrill = d;
+  const cc = CAT_COLORS[d.cat];
+  const isFav = favorites.includes(d.id);
+
+  // Stripe color
+  const stripeColors = { warmup:'var(--orange)', passing:'var(--teal)', setting:'var(--gold)', attack:'var(--red)', team:'var(--blue)', compete:'var(--purple)' };
+  document.getElementById('modal-stripe').style.background = stripeColors[d.cat];
+  document.getElementById('modal-cat').textContent = d.catLabel + ' · ' + d.level;
+  document.getElementById('modal-title').textContent = d.emoji + ' ' + d.name;
+
+  document.getElementById('modal-body').innerHTML = `
+    <div class="modal-section">
+      <div class="modal-section-label">Goal</div>
+      <div class="modal-section-text">${d.goal}</div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Overview</div>
+      <div class="modal-section-text">${d.short}</div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">How to Run It</div>
+      <ul class="modal-steps">
+        ${d.howto.map((s,i) => `<li><span class="step-n">${i+1}</span>${s}</li>`).join('')}
+      </ul>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Scoring</div>
+      <div class="modal-scoring">
+        ${d.scoring.map(s => `<div class="scoring-row">${s}</div>`).join('')}
+      </div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Emphasis</div>
+      <div class="modal-tags">
+        ${d.emphasis.map(e => `<span class="modal-tag">${e}</span>`).join('')}
+      </div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Drill Info</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <span class="modal-tag">⏱ ${d.time}</span>
+        <span class="modal-tag">👥 ${d.players} players</span>
+        <span class="modal-tag">📊 ${d.level}</span>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('modal-footer').innerHTML = `
+    <button class="btn-modal-video" onclick="openVideo('${d.url}')">▶ Watch Full Video on GMS</button>
+    <button class="btn-modal-timer" onclick="setTimer(${d.timerMin},'${d.name.replace(/'/g,"\\'")}');closeModalDirect()">⏱ Set ${d.timerMin}min Timer</button>
+  `;
+
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ══════════════════════════════════════════════
+//  TIMER
+// ══════════════════════════════════════════════
+function setTimer(minutes, drillName) {
+  timerSeconds = minutes * 60;
+  timerDrillName = drillName || '';
+  timerRunning = false;
+  clearInterval(timerInterval);
+  updateTimerDisplay();
+  document.getElementById('timer-modal').classList.add('visible');
+  document.getElementById('tm-drill-name').textContent = drillName || 'Practice Timer';
+  document.getElementById('tm-display').className = 'tm-time';
+}
+
+function timerStart() {
+  if (timerRunning) return;
+  timerRunning = true;
+  document.getElementById('tm-display').className = 'tm-time running';
+  timerInterval = setInterval(() => {
+    if (timerSeconds <= 0) {
+      timerStop();
+      document.getElementById('tm-display').textContent = 'DONE!';
+      document.getElementById('tm-display').className = 'tm-time done';
+      document.getElementById('header-timer').textContent = 'DONE';
+      // Buzz notification if available
+      if (navigator.vibrate) navigator.vibrate([200,100,200]);
+      return;
+    }
+    timerSeconds--;
+    updateTimerDisplay();
+  }, 1000);
+}
+
+function timerStop() {
+  timerRunning = false;
+  clearInterval(timerInterval);
+  if (document.getElementById('tm-display').className !== 'tm-time done') {
+    document.getElementById('tm-display').className = 'tm-time';
+  }
+}
+
+function timerReset() {
+  timerStop();
+  timerSeconds = 300;
+  document.getElementById('tm-display').className = 'tm-time';
+  updateTimerDisplay();
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(timerSeconds / 60).toString().padStart(2,'0');
+  const s = (timerSeconds % 60).toString().padStart(2,'0');
+  const txt = m + ':' + s;
+  document.getElementById('tm-display').textContent = txt;
+  document.getElementById('header-timer').textContent = txt;
+}
+
+function hideTimer() {
+  document.getElementById('timer-modal').classList.remove('visible');
+}
+
+// ══════════════════════════════════════════════
+//  OPEN VIDEO
+// ══════════════════════════════════════════════
+function openVideo(url) {
+  const w = window.open(url, '_blank');
+  if (!w || w.closed || typeof w.closed === 'undefined') {
+    // Fallback: navigate current tab if popup was blocked
+    window.location.href = url;
+  }
+}
+
+// ══════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  renderDrills(DRILLS);
+  updateTimerDisplay();
+  // Keyboard close modal
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+});
+</script>
+</body>
+</html>

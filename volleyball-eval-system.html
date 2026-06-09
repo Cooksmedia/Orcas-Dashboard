@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volleyball Player Evaluation System</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Mulish:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0d0d;
+  --surface: #161616;
+  --surface2: #1f1f1f;
+  --border: #2a2a2a;
+  --gold: #f0b429;
+  --gold-dim: rgba(240,180,41,0.15);
+  --green: #3ecf8e;
+  --green-dim: rgba(62,207,142,0.12);
+  --red: #f06060;
+  --red-dim: rgba(240,96,96,0.12);
+  --blue: #60a5fa;
+  --blue-dim: rgba(96,165,250,0.12);
+  --text: #e8e8e8;
+  --muted: #666;
+  --font-head: 'Oswald', sans-serif;
+  --font-body: 'Mulish', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; }
+
+/* NAV TABS */
+.app-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.app-logo {
+  font-family: var(--font-head);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 2px;
+  padding: 16px 24px 16px 0;
+  border-right: 1px solid var(--border);
+  margin-right: 16px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nav-tab {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  padding: 0 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+.nav-tab:hover { color: var(--text); }
+.nav-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* PAGES */
+.page { display: none; padding: 28px 24px; max-width: 1100px; margin: 0 auto; }
+.page.active { display: block; }
+
+/* PAGE HEADERS */
+.page-title {
+  font-family: var(--font-head);
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+.page-title span { color: var(--gold); }
+.page-sub { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+
+/* ROSTER PAGE */
+.add-player-form {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+.form-group input, .form-group select {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 14px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+  min-width: 140px;
+}
+.form-group input:focus, .form-group select:focus { border-color: var(--gold); }
+.form-group select option { background: var(--surface2); }
+.btn {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+.btn-gold { background: var(--gold); color: #000; }
+.btn-gold:hover { background: #ffc843; }
+.btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+.btn-danger { background: transparent; color: var(--red); border: 1px solid transparent; font-size: 12px; padding: 6px 10px; }
+.btn-danger:hover { background: var(--red-dim); }
+.btn-sm { padding: 7px 14px; font-size: 12px; }
+
+.roster-table {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.roster-table table { width: 100%; border-collapse: collapse; }
+.roster-table th {
+  font-family: var(--font-head);
+  font-size: 11px;
+  letter-spacing: 2px;
+  font-weight: 500;
+  color: var(--muted);
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface2);
+}
+.roster-table td { padding: 13px 16px; font-size: 14px; border-bottom: 1px solid #1c1c1c; vertical-align: middle; }
+.roster-table tr:last-child td { border-bottom: none; }
+.roster-table tr:hover td { background: rgba(255,255,255,0.02); }
+.player-name { font-weight: 700; }
+.grade-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 100px;
+  background: var(--gold-dim);
+  color: var(--gold);
+}
+.position-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 100px;
+}
+.pos-OH { background: var(--blue-dim); color: var(--blue); }
+.pos-S { background: var(--gold-dim); color: var(--gold); }
+.pos-MB { background: var(--green-dim); color: var(--green); }
+.pos-L { background: rgba(180,100,255,0.12); color: #c084fc; }
+.pos-DS { background: rgba(255,160,60,0.12); color: #fb923c; }
+.pos-RS { background: rgba(240,96,96,0.12); color: var(--red); }
+.eval-status { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+.eval-dot { width: 8px; height: 8px; border-radius: 50%; }
+.eval-dot.done { background: var(--green); }
+.eval-dot.pending { background: var(--muted); }
+.score-pill {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gold);
+}
+.empty-state {
+  padding: 48px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* EVAL PAGE */
+.player-select-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.player-select-bar select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 16px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  min-width: 220px;
+  cursor: pointer;
+}
+.player-select-bar select:focus { border-color: var(--gold); }
+
+.eval-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.eval-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+.eval-card-title {
+  font-family: var(--font-head);
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  margin-bottom: 14px;
+  font-weight: 500;
+}
+.skill-row { margin-bottom: 14px; }
+.skill-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.skill-score-display {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gold);
+  min-width: 24px;
+  text-align: right;
+}
+.skill-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+  outline: none;
+  cursor: pointer;
+}
+.skill-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--gold);
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.skill-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+.skill-desc { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+
+.eval-notes-area {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+}
+.eval-notes-area label { display: block; font-family: var(--font-head); font-size: 12px; letter-spacing: 2px; color: var(--gold); margin-bottom: 10px; }
+.eval-notes-area textarea {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 13px;
+  outline: none;
+  resize: vertical;
+  min-height: 80px;
+}
+.eval-notes-area textarea:focus { border-color: var(--gold); }
+
+.save-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.save-msg { font-size: 13px; color: var(--green); opacity: 0; transition: opacity 0.3s; }
+.save-msg.show { opacity: 1; }
+
+/* RADAR CHART */
+.radar-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+canvas#radarChart { max-width: 260px; }
+.radar-legend { display: flex; flex-direction: column; gap: 10px; }
+.radar-leg-item { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+.radar-leg-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+/* ROSTER OVERVIEW TABLE */
+.overview-table {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow-x: auto;
+  margin-bottom: 28px;
+}
+.overview-table table { width: 100%; border-collapse: collapse; min-width: 600px; }
+.overview-table th {
+  font-family: var(--font-head);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  padding: 12px 14px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface2);
+}
+.overview-table th:first-child { text-align: left; }
+.overview-table td { padding: 11px 14px; font-size: 13px; text-align: center; border-bottom: 1px solid #1c1c1c; }
+.overview-table td:first-child { text-align: left; font-weight: 700; }
+.overview-table tr:last-child td { border-bottom: none; }
+.score-cell {
+  font-family: var(--font-head);
+  font-size: 15px;
+  font-weight: 600;
+}
+.score-cell.hi { color: var(--green); }
+.score-cell.mid { color: var(--gold); }
+.score-cell.lo { color: var(--red); }
+.total-cell {
+  font-family: var(--font-head);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+/* ROTATION PAGE */
+.rotation-system-pick {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+.system-card {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 22px;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 180px;
+  flex: 1;
+  max-width: 260px;
+}
+.system-card:hover { border-color: var(--gold); }
+.system-card.selected { border-color: var(--gold); background: var(--gold-dim); }
+.system-name { font-family: var(--font-head); font-size: 22px; letter-spacing: 1px; margin-bottom: 4px; }
+.system-card.selected .system-name { color: var(--gold); }
+.system-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.system-card.selected .system-desc { color: rgba(240,180,41,0.7); }
+
+.rotation-builder {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.rotation-builder h3 {
+  font-family: var(--font-head);
+  font-size: 16px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  margin-bottom: 18px;
+}
+
+.court-and-assign {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: start;
+}
+@media (max-width: 680px) { .court-and-assign { grid-template-columns: 1fr; } }
+
+/* VOLLEYBALL COURT */
+.court-wrap { position: relative; }
+.court-label { font-size: 11px; letter-spacing: 2px; color: var(--muted); text-align: center; margin-bottom: 10px; }
+.court-svg-wrap {
+  background: #1a2e1a;
+  border: 2px solid #3a5a3a;
+  border-radius: 8px;
+  padding: 12px;
+  position: relative;
+}
+.court-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.net-line {
+  height: 3px;
+  background: #fff;
+  border-radius: 2px;
+  margin: 4px 0 8px;
+  opacity: 0.7;
+  position: relative;
+}
+.net-line::after { content: 'NET'; position: absolute; right: 0; top: -8px; font-size: 9px; color: rgba(255,255,255,0.4); letter-spacing: 2px; }
+.court-pos {
+  background: rgba(255,255,255,0.07);
+  border: 1px dashed rgba(255,255,255,0.15);
+  border-radius: 8px;
+  padding: 10px 6px;
+  text-align: center;
+  min-height: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.court-pos.filled {
+  background: rgba(240,180,41,0.1);
+  border-color: rgba(240,180,41,0.4);
+}
+.court-pos-num { font-size: 10px; color: rgba(255,255,255,0.25); margin-bottom: 3px; letter-spacing: 1px; }
+.court-pos-name {
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold);
+  line-height: 1.2;
+}
+.court-pos-role { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+/* ASSIGNMENT PANEL */
+.assign-panel h4 { font-size: 12px; letter-spacing: 2px; color: var(--muted); margin-bottom: 14px; font-weight: 700; }
+.assign-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.assign-pos-label {
+  font-family: var(--font-head);
+  font-size: 14px;
+  letter-spacing: 1px;
+  min-width: 90px;
+  color: var(--text);
+}
+.assign-row select {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 13px;
+  outline: none;
+  cursor: pointer;
+}
+.assign-row select:focus { border-color: var(--gold); }
+.player-score-tag { font-family: var(--font-head); font-size: 13px; color: var(--gold); min-width: 28px; }
+
+/* ROTATION TABS */
+.rotation-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+.rot-tab {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 7px 14px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.rot-tab.active { background: var(--gold); color: #000; border-color: var(--gold); }
+.rot-tab:hover:not(.active) { border-color: var(--gold); color: var(--gold); }
+
+/* SUGGESTION BOX */
+.suggestion-box {
+  background: var(--green-dim);
+  border: 1px solid rgba(62,207,142,0.3);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-top: 18px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(232,232,232,0.85);
+}
+.suggestion-box strong { color: var(--green); }
+
+.save-rotation-bar { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: 18px; }
+.rotation-summary {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+.rotation-summary h3 { font-family: var(--font-head); font-size: 16px; letter-spacing: 2px; color: var(--gold); margin-bottom: 16px; }
+.rotation-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.rotation-row:last-child { border-bottom: none; }
+.rot-num {
+  font-family: var(--font-head);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gold);
+  min-width: 32px;
+}
+.rot-positions { display: flex; gap: 8px; flex-wrap: wrap; flex: 1; }
+.rot-pos-chip {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 11px;
+  border-radius: 100px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+}
+.rot-pos-chip .role { color: var(--muted); margin-left: 4px; font-size: 11px; font-weight: 400; }
+.rot-server { font-size: 12px; color: var(--muted); }
+.rot-server span { color: var(--gold); font-weight: 700; }
+
+/* RESPONSIVE */
+@media (max-width: 500px) {
+  .app-header { padding: 0 12px; overflow-x: auto; }
+  .page { padding: 20px 14px; }
+  .add-player-form { flex-direction: column; }
+  .form-group input, .form-group select { min-width: unset; width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div class="app-logo">🏐 EVALVB</div>
+  <button class="nav-tab active" onclick="showPage('roster')">Roster</button>
+  <button class="nav-tab" onclick="showPage('evaluate')">Evaluate</button>
+  <button class="nav-tab" onclick="showPage('overview')">Scores</button>
+  <button class="nav-tab" onclick="showPage('rotation')">Rotation Builder</button>
+</div>
+
+<!-- ===================== ROSTER PAGE ===================== -->
+<div class="page active" id="page-roster">
+  <div class="page-title">Team <span>Roster</span></div>
+  <div class="page-sub">Add all your players before running evaluations.</div>
+
+  <div class="add-player-form">
+    <div class="form-group">
+      <label>Player Name</label>
+      <input type="text" id="inp-name" placeholder="First Last" />
+    </div>
+    <div class="form-group">
+      <label>Grade</label>
+      <select id="inp-grade">
+        <option value="7th">7th</option>
+        <option value="8th">8th</option>
+        <option value="9th">9th</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Primary Position</label>
+      <select id="inp-pos">
+        <option value="OH">Outside Hitter (OH)</option>
+        <option value="RS">Right Side (RS)</option>
+        <option value="MB">Middle Blocker (MB)</option>
+        <option value="S">Setter (S)</option>
+        <option value="L">Libero (L)</option>
+        <option value="DS">Defensive Specialist (DS)</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Jersey #</label>
+      <input type="number" id="inp-jersey" placeholder="#" style="max-width:80px" />
+    </div>
+    <button class="btn btn-gold" onclick="addPlayer()">+ Add Player</button>
+  </div>
+
+  <div class="roster-table">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>PLAYER</th>
+          <th>GRADE</th>
+          <th>POSITION</th>
+          <th>EVAL STATUS</th>
+          <th>OVERALL</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="roster-tbody">
+        <tr><td colspan="7"><div class="empty-state">No players yet. Add your first player above ☝️</div></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===================== EVALUATE PAGE ===================== -->
+<div class="page" id="page-evaluate">
+  <div class="page-title">Player <span>Evaluation</span></div>
+  <div class="page-sub">Score each skill 1–5. Scores auto-save to the player profile.</div>
+
+  <div class="player-select-bar">
+    <select id="eval-player-select" onchange="loadEvalPlayer()">
+      <option value="">— Select a player —</option>
+    </select>
+    <button class="btn btn-outline btn-sm" onclick="prevPlayer()">← Prev</button>
+    <button class="btn btn-outline btn-sm" onclick="nextPlayer()">Next →</button>
+  </div>
+
+  <div id="eval-form-wrap" style="display:none">
+
+    <div class="radar-wrap">
+      <canvas id="radarChart" width="260" height="260"></canvas>
+      <div class="radar-legend" id="radar-legend"></div>
+    </div>
+
+    <div class="eval-grid" id="eval-grid"></div>
+
+    <div class="eval-notes-area">
+      <label>COACH NOTES</label>
+      <textarea id="eval-notes" placeholder="Observations, strengths, areas to develop..."></textarea>
+    </div>
+
+    <div class="save-row">
+      <button class="btn btn-gold" onclick="saveEval()">💾 Save Evaluation</button>
+      <span class="save-msg" id="save-msg">✓ Saved!</span>
+    </div>
+  </div>
+  <div id="eval-empty" style="color:var(--muted); font-size:14px; padding:40px 0;">Select a player from your roster to begin evaluation.</div>
+</div>
+
+<!-- ===================== OVERVIEW PAGE ===================== -->
+<div class="page" id="page-overview">
+  <div class="page-title">Team <span>Scores</span></div>
+  <div class="page-sub">Full skill breakdown across your roster. Sorted by overall score.</div>
+  <div class="overview-table" id="overview-wrap">
+    <div class="empty-state">No evaluations completed yet.</div>
+  </div>
+</div>
+
+<!-- ===================== ROTATION PAGE ===================== -->
+<div class="page" id="page-rotation">
+  <div class="page-title">Rotation <span>Builder</span></div>
+  <div class="page-sub">Pick a system, assign players to positions, and build all 6 rotations.</div>
+
+  <div class="rotation-system-pick">
+    <div class="system-card selected" id="sys-62" onclick="selectSystem('6-2')">
+      <div class="system-name">6-2</div>
+      <div class="system-desc">Two setters — always in back row. Three front-row attackers every rotation. Best offensive firepower. Recommended for your group.</div>
+    </div>
+    <div class="system-card" id="sys-63" onclick="selectSystem('6-3')">
+      <div class="system-name">6-3</div>
+      <div class="system-desc">Three setters — one always front row. Easier to learn. Good stepping stone before moving to 6-2.</div>
+    </div>
+    <div class="system-card" id="sys-51" onclick="selectSystem('5-1')">
+      <div class="system-name">5-1</div>
+      <div class="system-desc">One dedicated setter throughout. Most consistent — requires one standout setter and strong all-around hitters.</div>
+    </div>
+  </div>
+
+  <div class="rotation-builder">
+    <h3>ROTATION <span id="current-rot-label">1</span> — <span id="system-label">6-2 SYSTEM</span></h3>
+    <div class="rotation-tabs" id="rot-tabs"></div>
+    <div class="court-and-assign">
+      <div class="court-wrap">
+        <div class="court-label">OPPONENT SIDE ↑</div>
+        <div class="court-svg-wrap">
+          <div class="court-grid" id="front-row-display">
+            <div class="court-pos" id="cpos-4"><div class="court-pos-num">POS 4</div><div class="court-pos-name" id="cname-4">—</div><div class="court-pos-role" id="crole-4"></div></div>
+            <div class="court-pos" id="cpos-3"><div class="court-pos-num">POS 3</div><div class="court-pos-name" id="cname-3">—</div><div class="court-pos-role" id="crole-3"></div></div>
+            <div class="court-pos" id="cpos-2"><div class="court-pos-num">POS 2</div><div class="court-pos-name" id="cname-2">—</div><div class="court-pos-role" id="crole-2"></div></div>
+          </div>
+          <div class="net-line"></div>
+          <div class="court-grid">
+            <div class="court-pos" id="cpos-5"><div class="court-pos-num">POS 5</div><div class="court-pos-name" id="cname-5">—</div><div class="court-pos-role" id="crole-5"></div></div>
+            <div class="court-pos" id="cpos-6"><div class="court-pos-num">POS 6</div><div class="court-pos-name" id="cname-6">—</div><div class="court-pos-role" id="crole-6"></div></div>
+            <div class="court-pos" id="cpos-1"><div class="court-pos-num">POS 1</div><div class="court-pos-name" id="cname-1">—</div><div class="court-pos-role" id="crole-1"></div></div>
+          </div>
+        </div>
+        <div class="court-label" style="margin-top:10px">YOUR SIDE ↓ &nbsp;|&nbsp; POS 1 = SERVES</div>
+        <div id="rotation-suggestion" class="suggestion-box" style="display:none"></div>
+      </div>
+
+      <div class="assign-panel">
+        <h4>ASSIGN PLAYERS TO POSITIONS</h4>
+        <div id="assign-rows"></div>
+        <div class="save-rotation-bar">
+          <button class="btn btn-gold btn-sm" onclick="saveRotation()">Save Rotation</button>
+          <button class="btn btn-outline btn-sm" onclick="autoAssign()">⚡ Auto-Assign by Score</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rotation-summary" id="rotation-summary" style="display:none">
+    <h3>📋 FULL ROTATION SUMMARY</h3>
+    <div id="summary-rows"></div>
+  </div>
+</div>
+
+<script>
+// ============ STATE ============
+let players = JSON.parse(localStorage.getItem('vb_players') || '[]');
+let evals = JSON.parse(localStorage.getItem('vb_evals') || '{}');
+let rotations = JSON.parse(localStorage.getItem('vb_rotations') || '{}');
+let currentSystem = '6-2';
+let currentRot = 1;
+
+// ============ SKILL CONFIG ============
+const SKILL_CATEGORIES = [
+  {
+    title: 'PASSING & RECEPTION',
+    skills: [
+      { key: 'pass_platform', label: 'Platform Passing', desc: '1=inconsistent, 5=clean passes to target every time' },
+      { key: 'pass_footwork', label: 'Passing Footwork', desc: '1=flat-footed, 5=reads ball early, moves efficiently' },
+      { key: 'pass_serve_receive', label: 'Serve Receive', desc: '1=struggles under pressure, 5=solid in W-formation' },
+    ]
+  },
+  {
+    title: 'SETTING',
+    skills: [
+      { key: 'set_accuracy', label: 'Set Accuracy', desc: '1=inconsistent height/location, 5=perfect every time' },
+      { key: 'set_decision', label: 'Set Decision Speed', desc: '1=slow or predictable, 5=reads fast, releases quickly' },
+    ]
+  },
+  {
+    title: 'ATTACKING',
+    skills: [
+      { key: 'atk_approach', label: 'Approach & Timing', desc: '1=poor approach, 5=explosive 4-step with great timing' },
+      { key: 'atk_armswing', label: 'Arm Swing', desc: '1=weak/slapping, 5=full hip-to-extension swing' },
+      { key: 'atk_placement', label: 'Ball Placement', desc: '1=always straight, 5=can hit line, cross, tip on command' },
+    ]
+  },
+  {
+    title: 'DEFENSE & BLOCKING',
+    skills: [
+      { key: 'def_posture', label: 'Defensive Posture', desc: '1=stands up, 5=stays low, moves before ball arrives' },
+      { key: 'def_read', label: 'Court Reading', desc: '1=reacts late, 5=reads hitter shoulders & adjusts early' },
+      { key: 'blk_footwork', label: 'Block Footwork', desc: '1=no block attempt, 5=solid step-close, good penetration' },
+    ]
+  },
+  {
+    title: 'SERVING',
+    skills: [
+      { key: 'srv_consistency', label: 'Serve Consistency', desc: '1=frequent errors, 5=almost always in, controlled' },
+      { key: 'srv_placement', label: 'Serve Placement', desc: '1=no intent, 5=can target zones consistently' },
+    ]
+  },
+  {
+    title: 'ATHLETICISM & IQ',
+    skills: [
+      { key: 'ath_speed', label: 'Court Speed', desc: '1=slow to ball, 5=excellent range and first step' },
+      { key: 'iq_communication', label: 'Communication', desc: '1=silent, 5=calls every ball, talks constantly' },
+      { key: 'iq_coachable', label: 'Coachability', desc: '1=resists feedback, 5=applies corrections immediately' },
+    ]
+  }
+];
+
+const ALL_SKILLS = SKILL_CATEGORIES.flatMap(c => c.skills);
+const SKILL_COLORS = ['#f0b429','#3ecf8e','#60a5fa','#f06060','#c084fc','#fb923c'];
+
+// ============ SYSTEM POSITION ROLES ============
+const SYSTEM_ROLES = {
+  '6-2': {
+    1: ['OH', 'MB', 'OH', 'S', 'MB', 'S'],
+    labels: ['Outside Hitter', 'Middle Blocker', 'Outside Hitter', 'Setter (back)', 'Middle Blocker', 'Setter (back)'],
+    posOrder: [4,3,2,5,6,1]
+  },
+  '6-3': {
+    labels: ['Outside Hitter', 'Middle Blocker', 'Setter', 'Outside Hitter', 'Middle Blocker', 'Setter'],
+    posOrder: [4,3,2,5,6,1]
+  },
+  '5-1': {
+    labels: ['Outside Hitter', 'Middle Blocker', 'Outside Hitter', 'Right Side', 'Middle Blocker', 'Setter'],
+    posOrder: [4,3,2,5,6,1]
+  }
+};
+
+// ============ ROSTER ============
+function addPlayer() {
+  const name = document.getElementById('inp-name').value.trim();
+  if (!name) { alert('Enter a player name'); return; }
+  const p = {
+    id: Date.now().toString(),
+    name,
+    grade: document.getElementById('inp-grade').value,
+    position: document.getElementById('inp-pos').value,
+    jersey: document.getElementById('inp-jersey').value || '—'
+  };
+  players.push(p);
+  save();
+  document.getElementById('inp-name').value = '';
+  document.getElementById('inp-jersey').value = '';
+  renderRoster();
+  updateAllSelects();
+}
+
+function removePlayer(id) {
+  if (!confirm('Remove this player?')) return;
+  players = players.filter(p => p.id !== id);
+  delete evals[id];
+  save();
+  renderRoster();
+  updateAllSelects();
+}
+
+function getOverall(id) {
+  const e = evals[id];
+  if (!e) return null;
+  const scores = ALL_SKILLS.map(s => e[s.key] || 0).filter(v => v > 0);
+  if (!scores.length) return null;
+  return (scores.reduce((a,b)=>a+b,0)/scores.length).toFixed(1);
+}
+
+function renderRoster() {
+  const tbody = document.getElementById('roster-tbody');
+  if (!players.length) {
+    tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state">No players yet. Add your first player above ☝️</div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = players.map(p => {
+    const overall = getOverall(p.id);
+    const evaled = !!evals[p.id];
+    return `<tr>
+      <td style="color:var(--muted);font-size:13px">${p.jersey}</td>
+      <td><span class="player-name">${p.name}</span></td>
+      <td><span class="grade-badge">${p.grade}</span></td>
+      <td><span class="position-badge pos-${p.position}">${p.position}</span></td>
+      <td><div class="eval-status"><div class="eval-dot ${evaled?'done':'pending'}"></div><span style="font-size:13px;color:var(--muted)">${evaled?'Evaluated':'Pending'}</span></div></td>
+      <td><span class="score-pill">${overall !== null ? overall : '—'}</span></td>
+      <td><button class="btn btn-danger" onclick="removePlayer('${p.id}')">✕ Remove</button></td>
+    </tr>`;
+  }).join('');
+}
+
+// ============ EVAL ============
+function updateAllSelects() {
+  const opts = ['<option value="">— Select a player —</option>',
+    ...players.map(p => `<option value="${p.id}">${p.name} (${p.position})</option>`)
+  ].join('');
+  document.getElementById('eval-player-select').innerHTML = opts;
+  updateRotationSelects();
+}
+
+function loadEvalPlayer() {
+  const id = document.getElementById('eval-player-select').value;
+  if (!id) {
+    document.getElementById('eval-form-wrap').style.display = 'none';
+    document.getElementById('eval-empty').style.display = 'block';
+    return;
+  }
+  document.getElementById('eval-form-wrap').style.display = 'block';
+  document.getElementById('eval-empty').style.display = 'none';
+  const e = evals[id] || {};
+  renderEvalForm(id, e);
+  renderRadar(id);
+}
+
+function renderEvalForm(id, e) {
+  const grid = document.getElementById('eval-grid');
+  grid.innerHTML = SKILL_CATEGORIES.map(cat => `
+    <div class="eval-card">
+      <div class="eval-card-title">${cat.title}</div>
+      ${cat.skills.map(s => `
+        <div class="skill-row">
+          <div class="skill-label">
+            <span>${s.label}</span>
+            <span class="skill-score-display" id="disp-${s.key}">${e[s.key] || 1}</span>
+          </div>
+          <input type="range" class="skill-slider" min="1" max="5" step="0.5"
+            value="${e[s.key] || 1}"
+            oninput="document.getElementById('disp-${s.key}').textContent=this.value; updateRadar('${id}')"
+            id="sl-${s.key}" />
+          <div class="skill-desc">${s.desc}</div>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+  document.getElementById('eval-notes').value = e._notes || '';
+}
+
+function saveEval() {
+  const id = document.getElementById('eval-player-select').value;
+  if (!id) return;
+  const data = { _notes: document.getElementById('eval-notes').value };
+  ALL_SKILLS.forEach(s => {
+    data[s.key] = parseFloat(document.getElementById('sl-' + s.key).value);
+  });
+  evals[id] = data;
+  save();
+  renderRoster();
+  const msg = document.getElementById('save-msg');
+  msg.classList.add('show');
+  setTimeout(() => msg.classList.remove('show'), 2000);
+  renderRadar(id);
+}
+
+// ============ RADAR ============
+function renderRadar(id) {
+  const e = evals[id] || {};
+  const cats = SKILL_CATEGORIES.map((cat, i) => {
+    const scores = cat.skills.map(s => parseFloat(document.getElementById('sl-'+s.key)?.value || e[s.key] || 1));
+    const avg = scores.reduce((a,b)=>a+b,0)/scores.length;
+    return { label: cat.title.split(' ')[0], avg, color: SKILL_COLORS[i] };
+  });
+  const legend = document.getElementById('radar-legend');
+  legend.innerHTML = cats.map(c => `
+    <div class="radar-leg-item">
+      <div class="radar-leg-dot" style="background:${c.color}"></div>
+      <span style="font-size:13px">${c.label}: <strong style="color:${c.color}">${c.avg.toFixed(1)}</strong></span>
+    </div>`).join('');
+  drawRadar(cats);
+}
+
+function updateRadar(id) {
+  const e = evals[id] || {};
+  const cats = SKILL_CATEGORIES.map((cat, i) => {
+    const scores = cat.skills.map(s => parseFloat(document.getElementById('sl-'+s.key)?.value || e[s.key] || 1));
+    const avg = scores.reduce((a,b)=>a+b,0)/scores.length;
+    return { label: cat.title.split(' ')[0], avg, color: SKILL_COLORS[i] };
+  });
+  const legend = document.getElementById('radar-legend');
+  legend.innerHTML = cats.map(c => `
+    <div class="radar-leg-item">
+      <div class="radar-leg-dot" style="background:${c.color}"></div>
+      <span style="font-size:13px">${c.label}: <strong style="color:${c.color}">${c.avg.toFixed(1)}</strong></span>
+    </div>`).join('');
+  drawRadar(cats);
+}
+
+function drawRadar(cats) {
+  const canvas = document.getElementById('radarChart');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const cx = W/2, cy = H/2, R = 100;
+  const n = cats.length;
+  ctx.clearRect(0,0,W,H);
+  // grid
+  for(let r=1;r<=5;r++){
+    ctx.beginPath();
+    for(let i=0;i<n;i++){
+      const angle = (Math.PI*2*i/n) - Math.PI/2;
+      const x = cx + (R*r/5)*Math.cos(angle);
+      const y = cy + (R*r/5)*Math.sin(angle);
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle='rgba(255,255,255,0.07)';
+    ctx.lineWidth=1;
+    ctx.stroke();
+  }
+  // spokes & labels
+  cats.forEach((c,i)=>{
+    const angle=(Math.PI*2*i/n)-Math.PI/2;
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+R*Math.cos(angle), cy+R*Math.sin(angle));
+    ctx.strokeStyle='rgba(255,255,255,0.1)';
+    ctx.lineWidth=1;
+    ctx.stroke();
+    const lx=cx+(R+18)*Math.cos(angle), ly=cy+(R+18)*Math.sin(angle);
+    ctx.fillStyle='rgba(255,255,255,0.45)';
+    ctx.font='bold 10px Mulish';
+    ctx.textAlign='center';
+    ctx.textBaseline='middle';
+    ctx.fillText(c.label,lx,ly);
+  });
+  // data polygon
+  ctx.beginPath();
+  cats.forEach((c,i)=>{
+    const angle=(Math.PI*2*i/n)-Math.PI/2;
+    const r=(c.avg/5)*R;
+    const x=cx+r*Math.cos(angle), y=cy+r*Math.sin(angle);
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.closePath();
+  ctx.fillStyle='rgba(240,180,41,0.18)';
+  ctx.fill();
+  ctx.strokeStyle='rgba(240,180,41,0.8)';
+  ctx.lineWidth=2;
+  ctx.stroke();
+  // dots
+  cats.forEach((c,i)=>{
+    const angle=(Math.PI*2*i/n)-Math.PI/2;
+    const r=(c.avg/5)*R;
+    ctx.beginPath();
+    ctx.arc(cx+r*Math.cos(angle), cy+r*Math.sin(angle), 4,0,Math.PI*2);
+    ctx.fillStyle=c.color;
+    ctx.fill();
+  });
+}
+
+function prevPlayer() {
+  const sel = document.getElementById('eval-player-select');
+  if (sel.selectedIndex > 1) { sel.selectedIndex--; loadEvalPlayer(); }
+}
+function nextPlayer() {
+  const sel = document.getElementById('eval-player-select');
+  if (sel.selectedIndex < sel.options.length-1) { sel.selectedIndex++; loadEvalPlayer(); }
+}
+
+// ============ OVERVIEW ============
+function renderOverview() {
+  const evaled = players.filter(p => evals[p.id]);
+  if (!evaled.length) {
+    document.getElementById('overview-wrap').innerHTML = '<div class="empty-state">No evaluations completed yet. Go to the Evaluate tab to score players.</div>';
+    return;
+  }
+  const sorted = [...evaled].sort((a,b)=>getOverall(b.id)-getOverall(a.id));
+  const catHeaders = SKILL_CATEGORIES.map(c=>`<th>${c.title.split(' ')[0]}</th>`).join('');
+  const rows = sorted.map(p => {
+    const e = evals[p.id];
+    const catAvgs = SKILL_CATEGORIES.map(cat => {
+      const scores = cat.skills.map(s => e[s.key]||0).filter(v=>v>0);
+      return scores.length ? (scores.reduce((a,b)=>a+b,0)/scores.length).toFixed(1) : '—';
+    });
+    const overall = getOverall(p.id);
+    return `<tr>
+      <td><strong>${p.name}</strong> <span style="font-size:11px;color:var(--muted)">(${p.position})</span></td>
+      ${catAvgs.map(avg=>{
+        const v=parseFloat(avg);
+        const cls=isNaN(v)?'':v>=4?'hi':v>=2.5?'mid':'lo';
+        return `<td><span class="score-cell ${cls}">${avg}</span></td>`;
+      }).join('')}
+      <td><span class="total-cell">${overall}</span></td>
+    </tr>`;
+  }).join('');
+  document.getElementById('overview-wrap').innerHTML = `<table>
+    <thead><tr><th>PLAYER</th>${catHeaders}<th>OVERALL</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+// ============ ROTATION BUILDER ============
+function selectSystem(s) {
+  currentSystem = s;
+  ['6-2','6-3','5-1'].forEach(sys=>{
+    document.getElementById('sys-'+sys.replace('-','')).classList.toggle('selected', sys===s);
+  });
+  document.getElementById('system-label').textContent = s + ' SYSTEM';
+  renderRotTabs();
+  loadRotation(currentRot);
+}
+
+function renderRotTabs() {
+  const wrap = document.getElementById('rot-tabs');
+  wrap.innerHTML = [1,2,3,4,5,6].map(r=>`
+    <button class="rot-tab ${r===currentRot?'active':''}" onclick="switchRot(${r})">Rotation ${r}</button>
+  `).join('');
+}
+
+function switchRot(r) {
+  currentRot = r;
+  document.querySelectorAll('.rot-tab').forEach((t,i)=>t.classList.toggle('active',i+1===r));
+  document.getElementById('current-rot-label').textContent = r;
+  loadRotation(r);
+}
+
+function getSystemLabels() {
+  const roles62 = ['Outside Hitter','Middle Blocker','Outside Hitter','Setter (back)','Middle Blocker','Setter (back)'];
+  const roles63 = ['Outside Hitter','Middle Blocker','Setter','Outside Hitter','Middle Blocker','Setter'];
+  const roles51 = ['Outside Hitter','Middle Blocker','Outside Hitter','Right Side','Middle Blocker','Setter'];
+  const labels = { '6-2': roles62, '6-3': roles63, '5-1': roles51 };
+  const posNums = [4,3,2,5,6,1]; // pos order
+  return posNums.map((pos,i)=>({ pos, role: labels[currentSystem][i] }));
+}
+
+function renderAssignRows() {
+  const rotKey = currentSystem+'-'+currentRot;
+  const saved = rotations[rotKey] || {};
+  const layout = getSystemLabels();
+  const wrap = document.getElementById('assign-rows');
+  wrap.innerHTML = layout.map(({pos, role}) => {
+    const playerOpts = ['<option value="">— unassigned —</option>',
+      ...players.map(p=>`<option value="${p.id}" ${saved[pos]===p.id?'selected':''}>${p.name} (${p.position})</option>`)
+    ].join('');
+    const selId = `rot-sel-${pos}`;
+    return `<div class="assign-row">
+      <div class="assign-pos-label">Pos ${pos} <span style="font-size:10px;color:var(--muted)">${role}</span></div>
+      <select id="${selId}" onchange="updateCourt()">${playerOpts}</select>
+      <span class="player-score-tag" id="score-tag-${pos}"></span>
+    </div>`;
+  }).join('');
+  updateCourt();
+}
+
+function updateCourt() {
+  const layout = getSystemLabels();
+  layout.forEach(({pos, role}) => {
+    const sel = document.getElementById(`rot-sel-${pos}`);
+    if (!sel) return;
+    const id = sel.value;
+    const p = players.find(x=>x.id===id);
+    const overall = id ? getOverall(id) : null;
+    document.getElementById(`cname-${pos}`).textContent = p ? p.name.split(' ')[0] : '—';
+    document.getElementById(`crole-${pos}`).textContent = p ? p.position : '';
+    document.getElementById(`cpos-${pos}`).classList.toggle('filled', !!p);
+    const tag = document.getElementById(`score-tag-${pos}`);
+    if(tag) tag.textContent = overall ? overall : '';
+  });
+  updateSuggestion();
+}
+
+function updateSuggestion() {
+  const box = document.getElementById('rotation-suggestion');
+  const layout = getSystemLabels();
+  const unassigned = layout.filter(({pos}) => !document.getElementById(`rot-sel-${pos}`)?.value);
+  if (unassigned.length === 0) {
+    box.style.display = 'block';
+    box.innerHTML = `<strong>✓ Rotation ${currentRot} fully assigned!</strong> Hit "Save Rotation" to lock it in.`;
+  } else {
+    box.style.display = 'block';
+    const tips = {
+      '6-2': `In <strong>6-2</strong>: your two setters (Pos 1 & 4 or wherever they rotate) must always be in the back row when serving. Your three front-row hitters should be your best attackers.`,
+      '6-3': `In <strong>6-3</strong>: one setter is always in the front row. Make sure each setter can also attack when needed.`,
+      '5-1': `In <strong>5-1</strong>: your single setter moves to front row when she rotates forward. When setter is front row, run a quicker offense through the middle.`
+    };
+    box.innerHTML = tips[currentSystem] + ` <br><span style="color:var(--muted)">Unassigned: ${unassigned.map(u=>'Pos '+u.pos).join(', ')}</span>`;
+  }
+}
+
+function updateRotationSelects() {
+  renderAssignRows();
+}
+
+function loadRotation(r) {
+  renderAssignRows();
+}
+
+function saveRotation() {
+  const rotKey = currentSystem+'-'+currentRot;
+  const layout = getSystemLabels();
+  const data = {};
+  layout.forEach(({pos})=>{
+    const sel = document.getElementById(`rot-sel-${pos}`);
+    if(sel && sel.value) data[pos] = sel.value;
+  });
+  rotations[rotKey] = data;
+  save();
+  renderRotationSummary();
+  alert(`Rotation ${currentRot} saved!`);
+}
+
+function autoAssign() {
+  const rotKey = currentSystem+'-'+currentRot;
+  const layout = getSystemLabels();
+  const usedIds = new Set();
+  const assignments = {};
+  const setterRoles = ['Setter (back)', 'Setter', 'Setter'];
+  const setterPositions = layout.filter(l=>setterRoles.some(r=>l.role.includes('Setter')));
+  const nonSetterPositions = layout.filter(l=>!setterRoles.some(r=>l.role.includes('Setter')));
+  // assign setters first
+  const setterPlayers = [...players].filter(p=>p.position==='S').sort((a,b)=>(getOverall(b.id)||0)-(getOverall(a.id)||0));
+  setterPositions.forEach((pos,i)=>{
+    const s = setterPlayers.find(p=>!usedIds.has(p.id));
+    if(s){ assignments[pos.pos]=s.id; usedIds.add(s.id); }
+  });
+  // assign others by score
+  const rest = [...players].filter(p=>!usedIds.has(p.id)).sort((a,b)=>(getOverall(b.id)||0)-(getOverall(a.id)||0));
+  nonSetterPositions.forEach((pos,i)=>{
+    const p = rest.find(p=>!usedIds.has(p.id));
+    if(p){ assignments[pos.pos]=p.id; usedIds.add(p.id); }
+  });
+  rotations[rotKey] = assignments;
+  save();
+  renderAssignRows();
+  // re-populate selects
+  layout.forEach(({pos})=>{
+    const sel = document.getElementById(`rot-sel-${pos}`);
+    if(sel && assignments[pos]) sel.value = assignments[pos];
+  });
+  updateCourt();
+}
+
+function renderRotationSummary() {
+  const summary = document.getElementById('rotation-summary');
+  const rows = document.getElementById('summary-rows');
+  const allSaved = [1,2,3,4,5,6].filter(r=>rotations[currentSystem+'-'+r]);
+  if(!allSaved.length){ summary.style.display='none'; return; }
+  summary.style.display='block';
+  const layout = getSystemLabels();
+  rows.innerHTML = allSaved.map(r=>{
+    const saved = rotations[currentSystem+'-'+r]||{};
+    const chips = layout.map(({pos,role})=>{
+      const p = players.find(x=>x.id===saved[pos]);
+      return p ? `<span class="rot-pos-chip">${p.name.split(' ')[0]}<span class="role">${p.position}</span></span>` : '';
+    }).filter(Boolean).join('');
+    const server = players.find(x=>x.id===saved[1]);
+    return `<div class="rotation-row">
+      <div class="rot-num">${r}</div>
+      <div class="rot-positions">${chips}</div>
+      <div class="rot-server">Serves: <span>${server?server.name.split(' ')[0]:'—'}</span></div>
+    </div>`;
+  }).join('');
+}
+
+// ============ UTILS ============
+function save() {
+  localStorage.setItem('vb_players', JSON.stringify(players));
+  localStorage.setItem('vb_evals', JSON.stringify(evals));
+  localStorage.setItem('vb_rotations', JSON.stringify(rotations));
+}
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  event.target.classList.add('active');
+  if(name==='overview') renderOverview();
+  if(name==='evaluate') updateAllSelects();
+  if(name==='rotation'){ renderRotTabs(); loadRotation(currentRot); renderRotationSummary(); }
+}
+
+// ============ INIT ============
+renderRoster();
+updateAllSelects();
+renderRotTabs();
+</script>
+</body>
+</html>

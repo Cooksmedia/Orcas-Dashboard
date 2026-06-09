@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volleyball Season Practice Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1628;
+    --gold: #f5c842;
+    --gold-light: #fde88a;
+    --white: #f9f7f2;
+    --gray: #8a8f9e;
+    --accent: #e84545;
+    --card-bg: #111d35;
+    --border: rgba(245,200,66,0.2);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    position: relative;
+    padding: 60px 40px 40px;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 380px; height: 380px;
+    background: radial-gradient(circle, rgba(245,200,66,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 8vw, 88px);
+    line-height: 0.92;
+    color: var(--white);
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+  }
+  h1 span { color: var(--gold); }
+  .header-meta {
+    display: flex; gap: 24px; flex-wrap: wrap; margin-top: 24px;
+  }
+  .pill {
+    background: rgba(245,200,66,0.1);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 13px;
+    color: var(--gold-light);
+    font-weight: 500;
+  }
+
+  /* PHILOSOPHY */
+  .philosophy {
+    padding: 40px;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .philosophy h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .philosophy p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba(249,247,242,0.8);
+    max-width: 760px;
+  }
+
+  /* SEASON OVERVIEW BAR */
+  .overview-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-bottom: 1px solid var(--border);
+  }
+  .overview-stat {
+    padding: 28px 32px;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+  .overview-stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 44px;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  /* MAIN CONTENT */
+  main { padding: 40px; }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 3px;
+    color: var(--white);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-title span { color: var(--gold); }
+
+  /* PHASE CARDS */
+  .phases { display: flex; flex-direction: column; gap: 32px; margin-bottom: 56px; }
+
+  .phase-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+  }
+  .phase-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .phase-card.p1::before { background: linear-gradient(90deg, #f5c842, #fde88a); }
+  .phase-card.p2::before { background: linear-gradient(90deg, #e84545, #ff7a7a); }
+  .phase-card.p3::before { background: linear-gradient(90deg, #4adb8a, #a8f5c8); }
+  .phase-card.p4::before { background: linear-gradient(90deg, #7b61ff, #c4b8ff); }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 28px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .phase-badge {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    padding: 6px 14px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+  .p1 .phase-badge { background: rgba(245,200,66,0.15); color: var(--gold); border: 1px solid rgba(245,200,66,0.3); }
+  .p2 .phase-badge { background: rgba(232,69,69,0.15); color: #ff9090; border: 1px solid rgba(232,69,69,0.3); }
+  .p3 .phase-badge { background: rgba(74,219,138,0.15); color: #4adb8a; border: 1px solid rgba(74,219,138,0.3); }
+  .p4 .phase-badge { background: rgba(123,97,255,0.15); color: #c4b8ff; border: 1px solid rgba(123,97,255,0.3); }
+
+  .phase-title-group { flex: 1; }
+  .phase-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 2px;
+    line-height: 1;
+  }
+  .phase-weeks {
+    font-size: 12px;
+    color: var(--gray);
+    margin-top: 4px;
+  }
+  .phase-toggle {
+    font-size: 20px;
+    color: var(--gray);
+    transition: transform 0.3s;
+  }
+  .phase-card.open .phase-toggle { transform: rotate(180deg); }
+
+  .phase-body { display: none; padding: 0 28px 28px; }
+  .phase-card.open .phase-body { display: block; }
+
+  .phase-focus {
+    font-size: 14px;
+    color: rgba(249,247,242,0.7);
+    margin-bottom: 20px;
+    line-height: 1.6;
+    padding: 14px 16px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 8px;
+    border-left: 3px solid var(--gold);
+  }
+
+  .practice-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .practice-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .practice-week {
+    background: rgba(245,200,66,0.08);
+    padding: 10px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .practice-theme {
+    padding: 12px 16px 4px;
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .practice-segments { padding: 0 16px 14px; }
+  .segment {
+    display: flex;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    align-items: flex-start;
+  }
+  .segment:last-child { border-bottom: none; }
+  .seg-time {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gold);
+    white-space: nowrap;
+    padding-top: 2px;
+    min-width: 36px;
+  }
+  .seg-content { flex: 1; }
+  .seg-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+  .seg-desc {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.5;
+  }
+
+  /* DRILLS REFERENCE */
+  .drills-section { margin-bottom: 56px; }
+  .drills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .drill-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .drill-cat {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .drill-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .drill-desc {
+    font-size: 13px;
+    color: rgba(249,247,242,0.65);
+    line-height: 1.6;
+  }
+  .drill-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .drill-tag {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.06);
+    color: var(--gray);
+  }
+
+  /* GAME DAY CHECKLIST */
+  .checklist-section { margin-bottom: 56px; }
+  .checklist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+  }
+  .checklist-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .checklist-title {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 12px;
+    color: var(--gold-light);
+  }
+  .checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 5px 0;
+    font-size: 13px;
+    color: rgba(249,247,242,0.75);
+    line-height: 1.4;
+  }
+  .check-box {
+    width: 16px; height: 16px;
+    border-radius: 4px;
+    border: 1.5px solid var(--gold);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* COACHING TIPS */
+  .tips-section { margin-bottom: 56px; }
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .tip-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px;
+    position: relative;
+  }
+  .tip-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    color: rgba(245,200,66,0.08);
+    position: absolute;
+    top: 8px; right: 16px;
+    line-height: 1;
+  }
+  .tip-title {
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 10px;
+    color: var(--white);
+  }
+  .tip-body {
+    font-size: 13px;
+    color: rgba(249,247,242,0.7);
+    line-height: 1.65;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 32px 40px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-size: 12px;
+    color: var(--gray);
+  }
+
+  @media (max-width: 600px) {
+    header, main { padding: 28px 20px; }
+    .overview-bar { grid-template-columns: repeat(2, 1fr); }
+    .overview-stat { padding: 20px; }
+    .philosophy { padding: 28px 20px; }
+    footer { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">🏐 Season Practice Plan</div>
+  <h1>NEXT LEVEL<br><span>VOLLEYBALL</span></h1>
+  <p style="color:rgba(249,247,242,0.65); font-size:15px; max-width:560px; line-height:1.6;">
+    A full-season blueprint for 7th, 8th & 9th grade athletes — built around once-a-week 60-minute sessions with a balanced, game-ready approach.
+  </p>
+  <div class="header-meta">
+    <span class="pill">🎓 Grades 7–9</span>
+    <span class="pill">⏱ 60 Min / Session</span>
+    <span class="pill">📅 Once–Twice Weekly</span>
+    <span class="pill">⚖️ All-Around Focus</span>
+  </div>
+</header>
+
+<div class="overview-bar">
+  <div class="overview-stat">
+    <div class="stat-num">4</div>
+    <div class="stat-label">Training Phases</div>
+  </div>
+  <div class="overview-stat">
+    <div class="stat-num">12</div>
+    <div class="stat-label">Weekly Plans</div>
+  </div>
+  <div class="overview-stat">
+    <div class="stat-num">60</div>
+    <div class="stat-label">Min per Practice</div>
+  </div>
+  <div class="overview-stat">
+    <div class="stat-num">5</div>
+    <div class="stat-label">Skill Pillars</div>
+  </div>
+</div>
+
+<div class="philosophy">
+  <h2>🧠 Season Philosophy</h2>
+  <p>At 7th–9th grade, players are ready to move beyond basic fundamentals into <strong>game-intelligence</strong> — reading the court, making faster decisions, and building team systems. With limited practice time, every session must be intentional: warm up fast, train hard, compete often. The 5 pillars of this season are <strong>Passing · Setting · Attacking · Defense · Serving</strong> — rotating through all of them every single week so no skill is neglected.</p>
+</div>
+
+<main>
+
+  <!-- PHASES -->
+  <div class="section-title">Season <span>Phases</span></div>
+  <div class="phases">
+
+    <!-- PHASE 1 -->
+    <div class="phase-card p1 open">
+      <div class="phase-header" onclick="toggle(this)">
+        <div class="phase-badge">Phase 1</div>
+        <div class="phase-title-group">
+          <div class="phase-name">Foundation Refresh</div>
+          <div class="phase-weeks">Weeks 1–3 · Build the base</div>
+        </div>
+        <div class="phase-toggle">▼</div>
+      </div>
+      <div class="phase-body">
+        <div class="phase-focus">
+          🎯 <strong>Goal:</strong> Rebuild muscle memory from the off-season. Reinforce proper platform, footwork, and serve mechanics. Set team expectations and communication culture from day one.
+        </div>
+        <div class="practice-grid">
+
+          <div class="practice-card">
+            <div class="practice-week">Week 1</div>
+            <div class="practice-theme">Who Are We?</div>
+            <div class="practice-segments">
+              <div class="segment">
+                <div class="seg-time">0–8</div>
+                <div class="seg-content">
+                  <div class="seg-name">Dynamic Warm-Up</div>
+                  <div class="seg-desc">High knees, arm circles, lateral shuffles, ankle rolls — no static stretching first</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">8–18</div>
+                <div class="seg-content">
+                  <div class="seg-name">Passing Diagnostic</div>
+                  <div class="seg-desc">Coach tosses — players pass to setter target. Evaluate platform and footwork without pressure</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">18–30</div>
+                <div class="seg-content">
+                  <div class="seg-name">Partner Pepper</div>
+                  <div class="seg-desc">Pass–set–hit sequence in pairs. Focus on controlled contact and communication ("mine!")</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">30–45</div>
+                <div class="seg-content">
+                  <div class="seg-name">Serving + Serve Receive</div>
+                  <div class="seg-desc">Half team serves, half receive. Switch every 5 serves. Focus: consistent float serve over net</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">45–60</div>
+                <div class="seg-content">
+                  <div class="seg-name">Queen/King of the Court</div>
+                  <div class="seg-desc">3v3 or 4v4. Winners stay. Focus on calling the ball and playing to 5 points</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="practice-card">
+            <div class="practice-week">Week 2</div>
+            <div class="practice-theme">Passing Systems</div>
+            <div class="practice-segments">
+              <div class="segment">
+                <div class="seg-time">0–8</div>
+                <div class="seg-content">
+                  <div class="seg-name">Dynamic Warm-Up</div>
+                  <div class="seg-desc">Add volleyball-specific: box jumps, quick feet ladder pattern, butterfly stretches</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">8–22</div>
+                <div class="seg-content">
+                  <div class="seg-name">Platform Precision Drill</div>
+                  <div class="seg-desc">Wall passing (solo) for 60 seconds each. Then triangle passing in groups of 3 — must call ball every time</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">22–38</div>
+                <div class="seg-content">
+                  <div class="seg-name">Serve Receive Lanes</div>
+                  <div class="seg-desc">Introduce 3-player receive pattern (W-formation). Coach serves, players call and pass to zone 3</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">38–52</div>
+                <div class="seg-content">
+                  <div class="seg-name">Setting Introduction</div>
+                  <div class="seg-desc">Overhand setting mechanics. Players set from knees, then standing. Target: consistent set height</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">52–60</div>
+                <div class="seg-content">
+                  <div class="seg-name">Scrimmage Segment</div>
+                  <div class="seg-desc">6v6, rally scoring to 10. Coaching point: call every ball, no silence on the court</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="practice-card">
+            <div class="practice-week">Week 3</div>
+            <div class="practice-theme">Attack Mechanics</div>
+            <div class="practice-segments">
+              <div class="segment">
+                <div class="seg-time">0–8</div>
+                <div class="seg-content">
+                  <div class="seg-name">Warm-Up + Approach Review</div>
+                  <div class="seg-desc">Practice 4-step approach without ball: left-right-left-right (or right-left). Focus on arm swing prep</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">8–22</div>
+                <div class="seg-content">
+                  <div class="seg-name">Hitting Lines</div>
+                  <div class="seg-desc">Coach sets, players hit from left side (4) and right side (2). Emphasize jump timing, not just power</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">22–36</div>
+                <div class="seg-content">
+                  <div class="seg-name">Pass–Set–Hit Sequence</div>
+                  <div class="seg-desc">3-player groups: toss → pass → set → attack over net. Rotate positions each round</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">36–50</div>
+                <div class="seg-content">
+                  <div class="seg-name">Serve Sharpening</div>
+                  <div class="seg-desc">Target zones on opposite side (cones). 3 zones. Float serve emphasis. Track makes per player</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">50–60</div>
+                <div class="seg-content">
+                  <div class="seg-name">Competitive Wash Drill</div>
+                  <div class="seg-desc">Side A serves, Side B receives. If B wins rally = 1 pt. If A wins = wash. First to 5 points</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="phase-card p2">
+      <div class="phase-header" onclick="toggle(this)">
+        <div class="phase-badge">Phase 2</div>
+        <div class="phase-title-group">
+          <div class="phase-name">System Building</div>
+          <div class="phase-weeks">Weeks 4–6 · Install the offense & defense</div>
+        </div>
+        <div class="phase-toggle">▼</div>
+      </div>
+      <div class="phase-body">
+        <div class="phase-focus">
+          🎯 <strong>Goal:</strong> Introduce your offensive and defensive systems — rotations, coverage patterns, and transition play. Players learn their "position identity" and what's expected in each rotation.
+        </div>
+        <div class="practice-grid">
+
+          <div class="practice-card">
+            <div class="practice-week">Week 4</div>
+            <div class="practice-theme">Rotation Awareness</div>
+            <div class="practice-segments">
+              <div class="segment">
+                <div class="seg-time">0–8</div>
+                <div class="seg-content">
+                  <div class="seg-name">Warm-Up</div>
+                  <div class="seg-desc">Shuffle to ball, forearm pass to self, overhead set to self. 5 each, alternating</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">8–25</div>
+                <div class="seg-content">
+                  <div class="seg-name">Walk-Through Rotations</div>
+                  <div class="seg-desc">6 players on court, walk through all 6 rotations with no ball. Teach serving order and base positions</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">25–40</div>
+                <div class="seg-content">
+                  <div class="seg-name">Live Rotation Scrimmage</div>
+                  <div class="seg-desc">Play live but pause after each point to confirm everyone is in the right spot before next serve</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">40–52</div>
+                <div class="seg-content">
+                  <div class="seg-name">2–4–6 Hitting Drill</div>
+                  <div class="seg-desc">Set from middle, hit to positions 2, 4, and 6 alternating. Defense works reading angles</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">52–60</div>
+                <div class="seg-content">
+                  <div class="seg-name">Serving for Zones</div>
+                  <div class="seg-desc">Zones 1, 5, and 6 (short middle). 3 serves to each zone. Pressure serving practice</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="practice-card">
+            <div class="practice-week">Week 5</div>
+            <div class="practice-theme">Defense & Transition</div>
+            <div class="practice-segments">
+              <div class="segment">
+                <div class="seg-time">0–8</div>
+                <div class="seg-content">
+                  <div class="seg-name">Defensive Footwork Warm-Up</div>
+                  <div class="seg-desc">Sprawl rolls, dive recovery, reading shoulder drill. Emphasize low posture before ball drops</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">8–22</div>
+                <div class="seg-content">
+                  <div class="seg-name">Read & React Drill</div>
+                  <div class="seg-desc">Coach at net, tips or attacks to corners randomly. Players read and move. 5 reps each, 3 rounds</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">22–38</div>
+                <div class="seg-content">
+                  <div class="seg-name">Transition Play</div>
+                  <div class="seg-desc">Dig → setter → attack → reset. Run 10 reps as a team. Focus: fast transition, no dead time</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">38–50</div>
+                <div class="seg-content">
+                  <div class="seg-name">Blocking Introduction</div>
+                  <div class="seg-desc">Footwork for block (step-close), penetration over net, no swing. Pairs at net — jump & reach, not swing</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">50–60</div>
+                <div class="seg-content">
+                  <div class="seg-name">Competitive Scrimmage</div>
+                  <div class="seg-desc">6v6, rally scoring. Coaching point: every dig must be called, setter runs to every ball</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="practice-card">
+            <div class="practice-week">Week 6</div>
+            <div class="practice-theme">Serve & Pressure</div>
+            <div class="practice-segments">
+              <div class="segment">
+                <div class="seg-time">0–8</div>
+                <div class="seg-content">
+                  <div class="seg-name">Warm-Up + Mental Reset</div>
+                  <div class="seg-desc">Brief team huddle: 3 goals for today. Dynamic movement warmup, 2 min ball control</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">8–20</div>
+                <div class="seg-content">
+                  <div class="seg-name">Serve Clinic</div>
+                  <div class="seg-desc">Float serve mechanics revisited. Introduce jump serve concept (for advanced). 10 serves each, track in/out</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">20–38</div>
+                <div class="seg-content">
+                  <div class="seg-name">Pressure Serve Receive</div>
+                  <div class="seg-desc">"Pressure round": must make 3 perfect passes in a row to finish drill. Team counts together</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">38–52</div>
+                <div class="seg-content">
+                  <div class="seg-name">Attack Combinations</div>
+                  <div class="seg-desc">Setter calls "go" — hitter hits line or cross. Setter and hitter must communicate on every ball</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">52–60</div>
+                <div class="seg-content">
+                  <div class="seg-name">Ghost Scoring Scrimmage</div>
+                  <div class="seg-desc">Score only counts if team communicates out loud (call + "got it"). Silent play = no point even if won</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="phase-card p3">
+      <div class="phase-header" onclick="toggle(this)">
+        <div class="phase-badge">Phase 3</div>
+        <div class="phase-title-group">
+          <div class="phase-name">Game Intensity</div>
+          <div class="phase-weeks">Weeks 7–9 · Sharpen under pressure</div>
+        </div>
+        <div class="phase-toggle">▼</div>
+      </div>
+      <div class="phase-body">
+        <div class="phase-focus">
+          🎯 <strong>Goal:</strong> Replicate real match pressure in every drill. Less stopping, more competing. Introduce game-like scenarios — serving when down, siding out under pressure, comebacks.
+        </div>
+        <div class="practice-grid">
+
+          <div class="practice-card">
+            <div class="practice-week">Week 7</div>
+            <div class="practice-theme">Sideout System</div>
+            <div class="practice-segments">
+              <div class="segment">
+                <div class="seg-time">0–8</div>
+                <div class="seg-content">
+                  <div class="seg-name">High-Energy Warm-Up</div>
+                  <div class="seg-desc">Team jog + ball toss sequences. Everyone moving, no standing around. Energy sets tone</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">8–24</div>
+                <div class="seg-content">
+                  <div class="seg-name">Sideout Drill</div>
+                  <div class="seg-desc">Team B serves to Team A. A must side out (pass → set → attack) to earn a point. If B wins rally, they get to keep serving. First to 7 sideouts wins</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">24–40</div>
+                <div class="seg-content">
+                  <div class="seg-name">Setter Decision Drill</div>
+                  <div class="seg-desc">Coach calls "quick" or "back" before set. Setter must release to the right option in under 1 second</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">40–52</div>
+                <div class="seg-content">
+                  <div class="seg-name">Defensive Coverage</div>
+                  <div class="seg-desc">After attack, team covers in case of block. Run 8 reps with live block. Practice chase and recover</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">52–60</div>
+                <div class="seg-content">
+                  <div class="seg-name">Full Match Scrimmage</div>
+                  <div class="seg-desc">Score to 15, rally scoring. Sub in every 5 points so everyone plays. Coach only coaches between points</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="practice-card">
+            <div class="practice-week">Week 8</div>
+            <div class="practice-theme">Mental Toughness</div>
+            <div class="practice-segments">
+              <div class="segment">
+                <div class="seg-time">0–8</div>
+                <div class="seg-content">
+                  <div class="seg-name">Resilience Warm-Up</div>
+                  <div class="seg-desc">Intentionally start with a mistake drill — miss 2, make 3 in a row to finish. Reset mindset early</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">8–24</div>
+                <div class="seg-content">
+                  <div class="seg-name">Comeback Drill</div>
+                  <div class="seg-desc">Team A starts at 0, Team B starts at 7. Play to 15. A must come back. Switch roles after</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">24–40</div>
+                <div class="seg-content">
+                  <div class="seg-name">High-Pressure Serving</div>
+                  <div class="seg-desc">Team loses a point for every serve error. Team earns 2 points for an ace. Creates real serving tension</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">40–54</div>
+                <div class="seg-content">
+                  <div class="seg-name">6-Rotation Speed Round</div>
+                  <div class="seg-desc">Play one 3-point rally per rotation, all 6 rotations. Fast, focused. No long breaks</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">54–60</div>
+                <div class="seg-content">
+                  <div class="seg-name">Team Talk</div>
+                  <div class="seg-desc">Players lead: what worked today, one thing to fix, word of the week (athlete chosen)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="practice-card">
+            <div class="practice-week">Week 9</div>
+            <div class="practice-theme">All Skills Combined</div>
+            <div class="practice-segments">
+              <div class="segment">
+                <div class="seg-time">0–8</div>
+                <div class="seg-content">
+                  <div class="seg-name">Full Team Pepper</div>
+                  <div class="seg-desc">6 players, 2 balls simultaneously. Setter manages both sides. High chaos warm-up, great fun</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">8–24</div>
+                <div class="seg-content">
+                  <div class="seg-name">Skill Circuit (4 stations)</div>
+                  <div class="seg-desc">3 min each: ① Serve target ② Pass platform wall ③ Set accuracy ④ Attack angle. Rotate on whistle</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">24–44</div>
+                <div class="seg-content">
+                  <div class="seg-name">Coach vs. Team</div>
+                  <div class="seg-desc">Coach feeds balls repeatedly to different spots. Team must run full system. Score 10 = team wins, else they run 2 lines</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">44–60</div>
+                <div class="seg-content">
+                  <div class="seg-name">Championship Match</div>
+                  <div class="seg-desc">Teams chosen by players (no coach involvement). Play to 21, rally scoring. Trophy (any object) for winners</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="phase-card p4">
+      <div class="phase-header" onclick="toggle(this)">
+        <div class="phase-badge">Phase 4</div>
+        <div class="phase-title-group">
+          <div class="phase-name">Peak & Compete</div>
+          <div class="phase-weeks">Weeks 10–12 · Match simulation</div>
+        </div>
+        <div class="phase-toggle">▼</div>
+      </div>
+      <div class="phase-body">
+        <div class="phase-focus">
+          🎯 <strong>Goal:</strong> Minimal new teaching. Maximum competition. Simulate game days, sharpen mental focus, and lock in team identity heading into matches or end-of-season tournament.
+        </div>
+        <div class="practice-grid">
+
+          <div class="practice-card">
+            <div class="practice-week">Week 10</div>
+            <div class="practice-theme">Game Day Simulation</div>
+            <div class="practice-segments">
+              <div class="segment">
+                <div class="seg-time">0–10</div>
+                <div class="seg-content">
+                  <div class="seg-name">Pre-Game Warm-Up Protocol</div>
+                  <div class="seg-desc">Treat this exactly like a real game: dynamic warm, serve warm-up, team cheer. Same routine every game</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">10–28</div>
+                <div class="seg-content">
+                  <div class="seg-name">Set 1: Full Match</div>
+                  <div class="seg-desc">Rally scoring to 25. Full rotations. Coach observes and takes notes — no coaching during play</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">28–34</div>
+                <div class="seg-content">
+                  <div class="seg-name">Halftime Adjustments</div>
+                  <div class="seg-desc">Coach shares 2 observations. Team picks 1 thing to improve in Set 2. Players lead the discussion</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">34–55</div>
+                <div class="seg-content">
+                  <div class="seg-name">Set 2: Adjusted Match</div>
+                  <div class="seg-desc">Play with the adjustment in mind. Different starting lineup. Score to 25</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">55–60</div>
+                <div class="seg-content">
+                  <div class="seg-name">Post-Match Debrief</div>
+                  <div class="seg-desc">3 positives, 1 focus area. End with team ritual</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="practice-card">
+            <div class="practice-week">Week 11</div>
+            <div class="practice-theme">Sharpen Weaknesses</div>
+            <div class="practice-segments">
+              <div class="segment">
+                <div class="seg-time">0–8</div>
+                <div class="seg-content">
+                  <div class="seg-name">Warm-Up: Player Led</div>
+                  <div class="seg-desc">A player (rotating captaincy) leads the warm-up. Builds leadership and ownership</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">8–28</div>
+                <div class="seg-content">
+                  <div class="seg-name">Weakness Stations</div>
+                  <div class="seg-desc">Based on last week's debrief — target 2–3 specific weak areas with focused drill time. 8 min per station</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">28–44</div>
+                <div class="seg-content">
+                  <div class="seg-name">Setters vs. Passers Challenge</div>
+                  <div class="seg-desc">Passers score points for hitting target zone. Setters score for perfect set placement. Friendly competition</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">44–58</div>
+                <div class="seg-content">
+                  <div class="seg-name">Full Scrimmage</div>
+                  <div class="seg-desc">No coaching during play — this week it's player-led. Athletes must solve their own problems in-game</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">58–60</div>
+                <div class="seg-content">
+                  <div class="seg-name">Quick Team Huddle</div>
+                  <div class="seg-desc">Each player names 1 teammate who showed up big today. Quick, positive, powerful</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="practice-card">
+            <div class="practice-week">Week 12</div>
+            <div class="practice-theme">Season Finale</div>
+            <div class="practice-segments">
+              <div class="segment">
+                <div class="seg-time">0–8</div>
+                <div class="seg-content">
+                  <div class="seg-name">Celebration Warm-Up</div>
+                  <div class="seg-desc">Play music! High energy. Player-led. Remind them how far they've come since Week 1</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">8–22</div>
+                <div class="seg-content">
+                  <div class="seg-name">Best-Of Drill Medley</div>
+                  <div class="seg-desc">Vote on the team's 3 favorite drills from the season. Run them back-to-back, 4 min each</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">22–50</div>
+                <div class="seg-content">
+                  <div class="seg-name">Season Championship Match</div>
+                  <div class="seg-desc">Full match, player-selected teams. Coach cheers from sideline. Celebrate every great play</div>
+                </div>
+              </div>
+              <div class="segment">
+                <div class="seg-time">50–60</div>
+                <div class="seg-content">
+                  <div class="seg-name">Season Awards + Reflection</div>
+                  <div class="seg-desc">Most improved, best communicator, clutch player. Talk about what carries into next season</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- KEY DRILLS -->
+  <div class="drills-section">
+    <div class="section-title">Key <span>Drills</span> Reference</div>
+    <div class="drills-grid">
+
+      <div class="drill-card">
+        <div class="drill-cat">Passing</div>
+        <div class="drill-name">TRIANGLE PASSING</div>
+        <div class="drill-desc">3 players in triangle formation, 1 ball. Pass around the triangle — must call "mine" before touching. Add movement to increase difficulty.</div>
+        <div class="drill-tags"><span class="drill-tag">Communication</span><span class="drill-tag">Platform</span><span class="drill-tag">Footwork</span></div>
+      </div>
+
+      <div class="drill-card">
+        <div class="drill-cat">Serving</div>
+        <div class="drill-name">ZONE TARGET SERVES</div>
+        <div class="drill-desc">Place cones in 3 zones (deep corner, short middle, seam). Players try to hit each zone 3 times. Track percentage over the season to show improvement.</div>
+        <div class="drill-tags"><span class="drill-tag">Accuracy</span><span class="drill-tag">Float Serve</span><span class="drill-tag">Pressure</span></div>
+      </div>
+
+      <div class="drill-card">
+        <div class="drill-cat">Setting</div>
+        <div class="drill-name">SET DECISION DRILL</div>
+        <div class="drill-desc">Coach calls "left" or "right" just before pass arrives. Setter must redirect quickly. Trains fast decision-making, not muscle memory autopilot.</div>
+        <div class="drill-tags"><span class="drill-tag">IQ</span><span class="drill-tag">Quick Release</span><span class="drill-tag">Vision</span></div>
+      </div>
+
+      <div class="drill-card">
+        <div class="drill-cat">Attacking</div>
+        <div class="drill-name">APPROACH + SWING</div>
+        <div class="drill-desc">4-step approach: slow-slow-fast. Jump off two feet, arm swing from hip to full extension. Hitters call their shot (line or cross) before swinging.</div>
+        <div class="drill-tags"><span class="drill-tag">Arm Swing</span><span class="drill-tag">Footwork</span><span class="drill-tag">Timing</span></div>
+      </div>
+
+      <div class="drill-card">
+        <div class="drill-cat">Defense</div>
+        <div class="drill-name">READ & REACT</div>
+        <div class="drill-desc">Coach at net tips or attacks to random spots. Players in defensive base. The goal is reading shoulders and hips — not reacting after contact.</div>
+        <div class="drill-tags"><span class="drill-tag">Anticipation</span><span class="drill-tag">Low Posture</span><span class="drill-tag">Recovery</span></div>
+      </div>
+
+      <div class="drill-card">
+        <div class="drill-cat">Competition</div>
+        <div class="drill-name">KING / QUEEN OF COURT</div>
+        <div class="drill-desc">3v3 on half court. Winners stay, losers rotate out and new team comes in. Play to 5 points. High reps, high competition, perfect energy booster.</div>
+        <div class="drill-tags"><span class="drill-tag">Competitive</span><span class="drill-tag">Fun</span><span class="drill-tag">All Skills</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- COACHING TIPS -->
+  <div class="tips-section">
+    <div class="section-title">Next-Level <span>Coaching Tips</span></div>
+    <div class="tips-grid">
+
+      <div class="tip-card">
+        <div class="tip-num">01</div>
+        <div class="tip-title">Always End with Competition</div>
+        <div class="tip-body">With only 60 minutes, scrimmage time can feel squeezed — but ending every practice with even 8–10 minutes of competitive play locks in what was trained and keeps players hungry to come back.</div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-num">02</div>
+        <div class="tip-title">Build Communication as a Skill</div>
+        <div class="tip-body">Calling "mine!" isn't optional — it's a trainable habit. Run drills where a play doesn't count unless the ball was called out loud. Silent passing = automatic redo.</div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-num">03</div>
+        <div class="tip-title">Rotate Leadership Weekly</div>
+        <div class="tip-body">A different player leads warm-up each week. This builds confidence, ownership, and team trust — especially critical at the 7th–9th grade stage where leadership identity forms.</div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-num">04</div>
+        <div class="tip-title">Focus on 1 Coaching Point Per Drill</div>
+        <div class="tip-body">Resist correcting everything. Pick ONE thing per drill — footwork, or calling, or platform — and drill that. Multi-point corrections overwhelm young players and slow improvement.</div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-num">05</div>
+        <div class="tip-title">Track Progress Visibly</div>
+        <div class="tip-body">Keep a simple whiteboard stat for serving (makes vs. errors) and passing (3-point scale). Players improve faster when they can see their own growth across the season.</div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-num">06</div>
+        <div class="tip-title">Use VolleyPath for Homework</div>
+        <div class="tip-body">Since you only practice once a week, assign short VolleyPath videos as take-home review. Players watch a skill lesson, then come in ready to execute — doubling your effective training time.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CHECKLIST -->
+  <div class="checklist-section">
+    <div class="section-title">Game Day <span>Checklist</span></div>
+    <div class="checklist-grid">
+
+      <div class="checklist-card">
+        <div class="checklist-title">⚡ Pre-Game Warm-Up</div>
+        <div class="checklist-item"><div class="check-box"></div>Dynamic movement (no static)</div>
+        <div class="checklist-item"><div class="check-box"></div>Partner ball control (2 min)</div>
+        <div class="checklist-item"><div class="check-box"></div>Serving warm-up (5 each)</div>
+        <div class="checklist-item"><div class="check-box"></div>Team pass drill at net</div>
+        <div class="checklist-item"><div class="check-box"></div>Team cheer / ritual</div>
+      </div>
+
+      <div class="checklist-card">
+        <div class="checklist-title">🧠 During Match</div>
+        <div class="checklist-item"><div class="check-box"></div>Call every ball out loud</div>
+        <div class="checklist-item"><div class="check-box"></div>Reset after errors (1 breath)</div>
+        <div class="checklist-item"><div class="check-box"></div>Setter runs to every ball</div>
+        <div class="checklist-item"><div class="check-box"></div>Stay in rotation position</div>
+        <div class="checklist-item"><div class="check-box"></div>Talk to each other between points</div>
+      </div>
+
+      <div class="checklist-card">
+        <div class="checklist-title">📋 Coach In-Game</div>
+        <div class="checklist-item"><div class="check-box"></div>Sub fresh players regularly</div>
+        <div class="checklist-item"><div class="check-box"></div>Note 1 pattern to fix in timeout</div>
+        <div class="checklist-item"><div class="check-box"></div>Positive body language always</div>
+        <div class="checklist-item"><div class="check-box"></div>Timeout: 1 adjustment only</div>
+        <div class="checklist-item"><div class="check-box"></div>End of set: 3 positives first</div>
+      </div>
+
+      <div class="checklist-card">
+        <div class="checklist-title">🏁 Post-Game</div>
+        <div class="checklist-item"><div class="check-box"></div>Handshake line (respect always)</div>
+        <div class="checklist-item"><div class="check-box"></div>3 positives as a team</div>
+        <div class="checklist-item"><div class="check-box"></div>1 thing to work on next practice</div>
+        <div class="checklist-item"><div class="check-box"></div>Shoutout a teammate</div>
+        <div class="checklist-item"><div class="check-box"></div>Team cheer to close</div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  🏐 Season Practice Plan · Grades 7–9 · Built for next-level play · Use VolleyPath CourtIQ for video skill breakdowns between sessions
+</footer>
+
+<script>
+  function toggle(header) {
+    const card = header.parentElement;
+    card.classList.toggle('open');
+  }
+</script>
+</body>
+</html>

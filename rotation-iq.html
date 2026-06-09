@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Starting Rotation Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #08090c;
+  --s1: #101218;
+  --s2: #181c24;
+  --s3: #1e2330;
+  --border: #252a38;
+  --gold: #f5c518;
+  --gold2: #ffd84d;
+  --gold-dim: rgba(245,197,24,0.1);
+  --green: #22c55e;
+  --green-dim: rgba(34,197,94,0.1);
+  --red: #ef4444;
+  --red-dim: rgba(239,68,68,0.1);
+  --blue: #60a5fa;
+  --blue-dim: rgba(96,165,250,0.1);
+  --purple: #a78bfa;
+  --purple-dim: rgba(167,139,250,0.1);
+  --orange: #fb923c;
+  --orange-dim: rgba(251,146,60,0.1);
+  --text: #e8eaf0;
+  --muted: #5a6070;
+  --head: 'Syne', sans-serif;
+  --body: 'Space Grotesk', sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--body);min-height:100vh;overflow-x:hidden;}
+
+/* HEADER */
+.app-top{
+  background:var(--s1);
+  border-bottom:1px solid var(--border);
+  padding:20px 28px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;
+  position:sticky;top:0;z-index:200;
+}
+.app-brand{font-family:var(--head);font-size:20px;font-weight:800;color:var(--gold);letter-spacing:1px;}
+.app-brand span{color:var(--text);font-weight:400;}
+.tab-row{display:flex;gap:4px;flex-wrap:wrap;}
+.tab{
+  font-family:var(--body);font-size:13px;font-weight:600;
+  padding:8px 18px;border-radius:8px;border:1px solid var(--border);
+  background:none;color:var(--muted);cursor:pointer;transition:all .2s;
+}
+.tab:hover{color:var(--text);border-color:var(--border);}
+.tab.on{background:var(--gold);color:#000;border-color:var(--gold);}
+
+/* PAGES */
+.pg{display:none;padding:28px;max-width:1120px;margin:0 auto;}
+.pg.on{display:block;}
+
+/* TYPOGRAPHY */
+.pg-title{font-family:var(--head);font-size:30px;font-weight:800;letter-spacing:1px;margin-bottom:4px;}
+.pg-title em{color:var(--gold);font-style:normal;}
+.pg-sub{font-size:13px;color:var(--muted);margin-bottom:28px;line-height:1.5;}
+
+/* CARDS */
+.card{background:var(--s1);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.card-head{
+  padding:16px 22px;background:var(--s2);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+}
+.card-head-title{font-family:var(--head);font-size:14px;font-weight:700;letter-spacing:1px;}
+.card-body{padding:22px;}
+
+/* BUTTONS */
+.btn{
+  font-family:var(--body);font-size:13px;font-weight:700;
+  padding:10px 20px;border-radius:9px;border:none;cursor:pointer;transition:all .18s;
+}
+.btn-gold{background:var(--gold);color:#000;}
+.btn-gold:hover{background:var(--gold2);}
+.btn-outline{background:none;color:var(--text);border:1px solid var(--border);}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);}
+.btn-ghost{background:none;color:var(--muted);border:1px solid transparent;font-size:12px;padding:6px 12px;}
+.btn-ghost:hover{color:var(--red);}
+.btn-sm{padding:7px 14px;font-size:12px;}
+.btn-green{background:var(--green);color:#000;}
+.btn-green:hover{filter:brightness(1.1);}
+
+/* FORM ELEMENTS */
+input,select,textarea{
+  background:var(--s2);border:1px solid var(--border);border-radius:8px;
+  padding:9px 14px;color:var(--text);font-family:var(--body);font-size:13px;
+  outline:none;transition:border-color .2s;width:100%;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--gold);}
+select option{background:var(--s2);}
+label{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--muted);display:block;margin-bottom:5px;text-transform:uppercase;}
+
+/* GRID UTILS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+@media(max-width:700px){.g2,.g3,.g4{grid-template-columns:1fr;}}
+@media(max-width:900px){.g4{grid-template-columns:1fr 1fr;}}
+.flex{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;}
+.flex1{flex:1;min-width:140px;}
+
+/* POSITION BADGES */
+.pos-badge{
+  font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px;
+  display:inline-block;white-space:nowrap;
+}
+.pos-S{background:rgba(245,197,24,.15);color:var(--gold);border:1px solid rgba(245,197,24,.3);}
+.pos-MB{background:rgba(34,197,94,.15);color:var(--green);border:1px solid rgba(34,197,94,.3);}
+.pos-OH{background:rgba(96,165,250,.15);color:var(--blue);border:1px solid rgba(96,165,250,.3);}
+.pos-OPP{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3);}
+.pos-L{background:rgba(167,139,250,.15);color:var(--purple);border:1px solid rgba(167,139,250,.3);}
+
+/* PILLAR SLIDERS */
+.pillar-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:600px){.pillar-grid{grid-template-columns:1fr;}}
+.pillar-item{margin-bottom:10px;}
+.pillar-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
+.pillar-label{font-size:13px;font-weight:600;}
+.pillar-val{
+  font-family:var(--head);font-size:18px;font-weight:800;color:var(--gold);
+  min-width:30px;text-align:right;
+}
+.slider{
+  -webkit-appearance:none;width:100%;height:4px;border-radius:2px;
+  background:var(--border);outline:none;cursor:pointer;
+}
+.slider::-webkit-slider-thumb{
+  -webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+  background:var(--gold);cursor:pointer;transition:transform .15s;
+}
+.slider::-webkit-slider-thumb:hover{transform:scale(1.25);}
+.pillar-desc{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.4;}
+
+/* PLAYER CARDS */
+.player-roster{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
+.player-row{
+  background:var(--s2);border:1px solid var(--border);border-radius:11px;
+  padding:14px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  transition:border-color .2s;
+}
+.player-row:hover{border-color:rgba(245,197,24,.3);}
+.player-row.starter{border-color:var(--gold);background:rgba(245,197,24,.04);}
+.pr-name{font-weight:700;font-size:15px;flex:1;min-width:100px;}
+.pr-scores{display:flex;gap:10px;flex-wrap:wrap;}
+.pr-pill{
+  font-size:12px;font-weight:600;padding:4px 11px;border-radius:100px;
+  background:var(--s3);color:var(--muted);white-space:nowrap;
+}
+.pr-overall{
+  font-family:var(--head);font-size:22px;font-weight:800;color:var(--gold);
+  min-width:44px;text-align:center;
+}
+.starter-star{color:var(--gold);font-size:16px;}
+
+/* COURT VISUAL */
+.court-outer{
+  background:#0d1f0d;border:2px solid #2a4a2a;border-radius:12px;
+  padding:16px;max-width:500px;margin:0 auto;
+}
+.court-half{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+}
+.net{height:4px;background:rgba(255,255,255,.6);border-radius:2px;margin:8px 0;position:relative;}
+.net::after{content:'NET';position:absolute;right:0;top:-8px;font-size:9px;color:rgba(255,255,255,.3);letter-spacing:2px;}
+.cpos{
+  background:rgba(255,255,255,.05);border:1px dashed rgba(255,255,255,.1);
+  border-radius:10px;padding:12px 8px;text-align:center;min-height:72px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:all .2s;position:relative;
+}
+.cpos.filled{background:rgba(245,197,24,.08);border-color:rgba(245,197,24,.4);}
+.cpos.server{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.4);}
+.cpos-num{font-size:9px;color:rgba(255,255,255,.2);letter-spacing:1px;margin-bottom:2px;}
+.cpos-name{font-family:var(--head);font-size:12px;font-weight:700;color:var(--gold);line-height:1.2;}
+.cpos-pos{font-size:10px;color:var(--muted);margin-top:2px;}
+.cpos-score{font-size:10px;color:rgba(245,197,24,.6);margin-top:2px;}
+.serve-badge{
+  position:absolute;top:-8px;left:50%;transform:translateX(-50%);
+  background:var(--green);color:#000;font-size:9px;font-weight:800;
+  padding:2px 8px;border-radius:100px;letter-spacing:1px;white-space:nowrap;
+}
+
+/* ROTATION TABS */
+.rot-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;}
+.rt{
+  font-size:12px;font-weight:700;padding:7px 16px;border-radius:100px;
+  border:1px solid var(--border);background:none;color:var(--muted);cursor:pointer;transition:all .2s;
+}
+.rt.on{background:var(--gold);color:#000;border-color:var(--gold);}
+.rt:hover:not(.on){border-color:var(--gold);color:var(--gold);}
+
+/* ANALYSIS BOXES */
+.analysis-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;}
+@media(max-width:640px){.analysis-grid{grid-template-columns:1fr;}}
+.a-box{background:var(--s2);border:1px solid var(--border);border-radius:11px;padding:16px 18px;}
+.a-box-title{font-size:10px;font-weight:700;letter-spacing:3px;color:var(--muted);margin-bottom:10px;text-transform:uppercase;}
+.a-item{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:13px;}
+.a-item:last-child{border-bottom:none;}
+.a-val{font-family:var(--head);font-size:16px;font-weight:700;}
+.a-val.gold{color:var(--gold);}
+.a-val.green{color:var(--green);}
+.a-val.red{color:var(--red);}
+
+/* RECOMMENDATION BOX */
+.rec-box{
+  background:linear-gradient(135deg,rgba(245,197,24,.08),rgba(245,197,24,.03));
+  border:1px solid rgba(245,197,24,.25);border-radius:12px;padding:20px 22px;
+  margin-bottom:18px;
+}
+.rec-box-title{
+  font-family:var(--head);font-size:13px;font-weight:700;letter-spacing:2px;
+  color:var(--gold);margin-bottom:10px;
+}
+.rec-item{font-size:13px;color:rgba(232,234,240,.8);line-height:1.6;margin-bottom:6px;padding-left:16px;position:relative;}
+.rec-item::before{content:'→';position:absolute;left:0;color:var(--gold);}
+
+/* STATS TRACK */
+.stat-track-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:24px;}
+.stat-card{background:var(--s2);border:1px solid var(--border);border-radius:11px;padding:16px 18px;}
+.stat-card-label{font-size:10px;letter-spacing:3px;color:var(--muted);margin-bottom:4px;text-transform:uppercase;}
+.stat-card-val{font-family:var(--head);font-size:28px;font-weight:800;color:var(--gold);}
+.stat-card-ctx{font-size:12px;color:var(--muted);margin-top:3px;}
+
+/* PILLAR COLORS */
+.pil-pass{color:#60a5fa;}
+.pil-hit{color:#22c55e;}
+.pil-press{color:#f97316;}
+.pil-chem{color:#a78bfa;}
+
+/* ALERT BANNER */
+.alert{
+  padding:13px 18px;border-radius:10px;font-size:13px;line-height:1.55;
+  margin-bottom:16px;
+}
+.alert-warn{background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.25);color:#fb923c;}
+.alert-info{background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.25);color:#93c5fd;}
+.alert-green{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#86efac;}
+
+/* SECTION DIVIDER */
+.sec-div{display:flex;align-items:center;gap:12px;margin:28px 0 20px;}
+.sec-div-title{font-family:var(--head);font-size:13px;font-weight:700;letter-spacing:3px;color:var(--muted);white-space:nowrap;}
+.sec-div-line{flex:1;height:1px;background:var(--border);}
+
+/* HELP TEXT */
+.help{font-size:12px;color:var(--muted);line-height:1.55;margin-top:4px;}
+
+/* EMPTY */
+.empty{padding:40px;text-align:center;color:var(--muted);font-size:14px;}
+
+@media(max-width:500px){
+  .app-top{padding:14px 16px;}
+  .pg{padding:18px 14px;}
+  .pillar-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="app-top">
+  <div class="app-brand">ROTATION<span>IQ</span></div>
+  <div class="tab-row">
+    <button class="tab on" onclick="go('roster',this)">① Roster</button>
+    <button class="tab" onclick="go('eval',this)">② Evaluate</button>
+    <button class="tab" onclick="go('builder',this)">③ Starting 6</button>
+    <button class="tab" onclick="go('rotations',this)">④ Rotations</button>
+    <button class="tab" onclick="go('analysis',this)">⑤ Analysis</button>
+  </div>
+</div>
+
+<!-- ══════════════════ ROSTER ══════════════════ -->
+<div class="pg on" id="pg-roster">
+  <div class="pg-title">Build Your <em>Roster</em></div>
+  <div class="pg-sub">Add every player with their primary position. You'll score each player in Step 2.</div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-head"><div class="card-head-title">➕ ADD PLAYER</div></div>
+    <div class="card-body">
+      <div class="flex" style="gap:12px;">
+        <div class="flex1"><label>Full Name</label><input id="r-name" placeholder="e.g. Jasmine Torres" /></div>
+        <div style="min-width:60px"><label>Jersey #</label><input id="r-num" type="number" placeholder="#" /></div>
+        <div style="min-width:160px">
+          <label>Grade</label>
+          <select id="r-grade">
+            <option value="7th">7th Grade</option>
+            <option value="8th">8th Grade</option>
+            <option value="9th">9th Grade</option>
+          </select>
+        </div>
+        <div style="min-width:200px">
+          <label>Primary Position</label>
+          <select id="r-pos">
+            <option value="S">Setter (S)</option>
+            <option value="OH">Outside Hitter (OH)</option>
+            <option value="MB">Middle Blocker (MB)</option>
+            <option value="OPP">Opposite / Right Side</option>
+            <option value="L">Libero (L)</option>
+          </select>
+        </div>
+        <div style="padding-top:4px"><label>&nbsp;</label><button class="btn btn-gold" onclick="addPlayer()">+ Add</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="card-head-title">👥 ROSTER</div>
+      <div style="margin-left:auto;font-size:12px;color:var(--muted)" id="roster-count">0 players</div>
+    </div>
+    <div id="roster-list"><div class="empty">No players yet — add your first player above.</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════ EVALUATE ══════════════════ -->
+<div class="pg" id="pg-eval">
+  <div class="pg-title">Score the <em>4 Pillars</em></div>
+  <div class="pg-sub">Rate each player 1–10 across the four pillars. Use your eye test + any match data you have.</div>
+
+  <div class="flex" style="margin-bottom:20px;gap:12px;">
+    <div style="flex:1">
+      <label>Select Player</label>
+      <select id="ev-player" onchange="loadEval()">
+        <option value="">— pick a player —</option>
+      </select>
+    </div>
+    <div style="padding-top:4px"><label>&nbsp;</label>
+      <button class="btn btn-outline btn-sm" onclick="prevEval()">← Prev</button>
+    </div>
+    <div style="padding-top:4px"><label>&nbsp;</label>
+      <button class="btn btn-outline btn-sm" onclick="nextEval()">Next →</button>
+    </div>
+  </div>
+
+  <div id="eval-body" style="display:none">
+    <div class="g2" style="margin-bottom:16px;">
+
+      <!-- PILLAR 1: PASSING -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-head-title" style="color:#60a5fa">📋 PILLAR 1 — SERVE RECEIVE & PASSING</div>
+        </div>
+        <div class="card-body">
+          <div class="pillar-item">
+            <div class="pillar-row"><span class="pillar-label">In-System Pass Rate</span><span class="pillar-val pil-pass" id="v-pass1">5</span></div>
+            <input type="range" class="slider" min="1" max="10" value="5" oninput="sv('pass1',this.value)" id="sl-pass1">
+            <div class="pillar-desc">How often does their pass reach the setter in a usable position? (1=rarely, 10=almost always)</div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-row"><span class="pillar-label">Footwork & Positioning</span><span class="pillar-val pil-pass" id="v-pass2">5</span></div>
+            <input type="range" class="slider" min="1" max="10" value="5" oninput="sv('pass2',this.value)" id="sl-pass2">
+            <div class="pillar-desc">Do they move early and arrive in position? (1=flat-footed waiter, 10=reads and moves before contact)</div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-row"><span class="pillar-label">Platform Consistency</span><span class="pillar-val pil-pass" id="v-pass3">5</span></div>
+            <input type="range" class="slider" min="1" max="10" value="5" oninput="sv('pass3',this.value)" id="sl-pass3">
+            <div class="pillar-desc">Clean platform contact on various serve types — float, topspin, short, deep (1=inconsistent, 10=steady every time)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PILLAR 2: HITTING -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-head-title" style="color:#22c55e">⚡ PILLAR 2 — HITTING EFFICIENCY</div>
+        </div>
+        <div class="card-body">
+          <div class="pillar-item">
+            <div class="pillar-row"><span class="pillar-label">Attack Success Rate</span><span class="pillar-val pil-hit" id="v-hit1">5</span></div>
+            <input type="range" class="slider" min="1" max="10" value="5" oninput="sv('hit1',this.value)" id="sl-hit1">
+            <div class="pillar-desc">Kills vs. errors ratio — are they scoring or giving away points? (1=more errors than kills, 10=dominant scorer)</div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-row"><span class="pillar-label">Shot Selection</span><span class="pillar-val pil-hit" id="v-hit2">5</span></div>
+            <input type="range" class="slider" min="1" max="10" value="5" oninput="sv('hit2',this.value)" id="sl-hit2">
+            <div class="pillar-desc">Can they read the block and adjust — line, cross, tip? (1=always same shot, 10=smart and variable)</div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-row"><span class="pillar-label">Approach & Arm Swing</span><span class="pillar-val pil-hit" id="v-hit3">5</span></div>
+            <input type="range" class="slider" min="1" max="10" value="5" oninput="sv('hit3',this.value)" id="sl-hit3">
+            <div class="pillar-desc">Technical execution — timing, jump, full swing (1=weak/late, 10=explosive and precise)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PILLAR 3: PRESSURE -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-head-title" style="color:#f97316">🔥 PILLAR 3 — COMPETITIVE SPIRIT & PRESSURE</div>
+        </div>
+        <div class="card-body">
+          <div class="pillar-item">
+            <div class="pillar-row"><span class="pillar-label">Clutch Performance</span><span class="pillar-val pil-press" id="v-pr1">5</span></div>
+            <input type="range" class="slider" min="1" max="10" value="5" oninput="sv('pr1',this.value)" id="sl-pr1">
+            <div class="pillar-desc">Does their play improve or decline in tight scores (20-20, deuce)? (1=shrinks, 10=elevates every time)</div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-row"><span class="pillar-label">Error Rate Under Pressure</span><span class="pillar-val pil-press" id="v-pr2">5</span></div>
+            <input type="range" class="slider" min="1" max="10" value="5" oninput="sv('pr2',this.value)" id="sl-pr2">
+            <div class="pillar-desc">Unforced errors in key moments — serve errors, attack errors when it matters (1=many errors, 10=very clean)</div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-row"><span class="pillar-label">Competitive Drive & Energy</span><span class="pillar-val pil-press" id="v-pr3">5</span></div>
+            <input type="range" class="slider" min="1" max="10" value="5" oninput="sv('pr3',this.value)" id="sl-pr3">
+            <div class="pillar-desc">Hustle, attitude, want-to-win intensity regardless of score (1=flat, 10=brings it every point)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PILLAR 4: CHEMISTRY -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-head-title" style="color:#a78bfa">🤝 PILLAR 4 — ON-COURT CHEMISTRY</div>
+        </div>
+        <div class="card-body">
+          <div class="pillar-item">
+            <div class="pillar-row"><span class="pillar-label">Communication</span><span class="pillar-val pil-chem" id="v-ch1">5</span></div>
+            <input type="range" class="slider" min="1" max="10" value="5" oninput="sv('ch1',this.value)" id="sl-ch1">
+            <div class="pillar-desc">Calls balls, talks on defense, directs teammates — actively communicates (1=silent, 10=vocal leader)</div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-row"><span class="pillar-label">Team Coverage & Transition</span><span class="pillar-val pil-chem" id="v-ch2">5</span></div>
+            <input type="range" class="slider" min="1" max="10" value="5" oninput="sv('ch2',this.value)" id="sl-ch2">
+            <div class="pillar-desc">Do they cover hitters, fill gaps, and transition fast after a dig? (1=doesn't move off their spot, 10=always in the right place)</div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-row"><span class="pillar-label">Coachability & Adaptability</span><span class="pillar-val pil-chem" id="v-ch3">5</span></div>
+            <input type="range" class="slider" min="1" max="10" value="5" oninput="sv('ch3',this.value)" id="sl-ch3">
+            <div class="pillar-desc">Applies adjustments quickly — mid-game and mid-set (1=resists or slow to adjust, 10=instant adaptation)</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /g2 -->
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-head"><div class="card-head-title">📊 POSITIONAL BONUS — ROLE-SPECIFIC RATING</div></div>
+      <div class="card-body">
+        <div id="bonus-area"></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-head"><div class="card-head-title">📝 COACH NOTES</div></div>
+      <div class="card-body">
+        <textarea id="ev-notes" rows="3" placeholder="What do you see in this player that scores can't capture?"></textarea>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+      <button class="btn btn-gold" onclick="saveEval()">💾 Save Player</button>
+      <span id="ev-saved" style="color:var(--green);font-size:13px;opacity:0;transition:opacity .3s;">✓ Saved!</span>
+    </div>
+  </div>
+
+  <div id="eval-empty" style="color:var(--muted);padding:40px 0;font-size:14px;">Add players to your roster first, then come back here to score them.</div>
+</div>
+
+<!-- ══════════════════ BUILDER ══════════════════ -->
+<div class="pg" id="pg-builder">
+  <div class="pg-title">Build Your <em>Starting 6</em></div>
+  <div class="pg-sub">The system automatically ranks eligible players per position. Review and confirm your starters.</div>
+
+  <div class="g2" style="margin-bottom:24px;">
+    <div>
+      <div class="sec-div"><div class="sec-div-title">POSITION SLOTS</div><div class="sec-div-line"></div></div>
+      <div id="pos-slots" style="display:flex;flex-direction:column;gap:10px;"></div>
+    </div>
+    <div>
+      <div class="sec-div"><div class="sec-div-title">CONFIRMED STARTING 6</div><div class="sec-div-line"></div></div>
+      <div id="starting6-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+      <div id="s6-confirm-area" style="margin-top:16px;"></div>
+    </div>
+  </div>
+
+  <div class="alert alert-info">
+    <strong>5-1 System:</strong> 1 Setter · 2 Outside Hitters · 2 Middle Blockers · 1 Opposite/Right Side · 1 Libero (back row only, subs for MBs). Lock in your starting 6 then go to Rotations →
+  </div>
+</div>
+
+<!-- ══════════════════ ROTATIONS ══════════════════ -->
+<div class="pg" id="pg-rotations">
+  <div class="pg-title">Set the <em>Rotation Order</em></div>
+  <div class="pg-sub">Arrange your starting 6 across all 6 rotations. Position 1 serves first. Drag-free — just use the selects.</div>
+
+  <div class="rot-tabs" id="rot-tabs"></div>
+
+  <div class="g2" style="margin-bottom:20px;">
+    <div>
+      <div class="court-outer">
+        <div class="court-label" style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,.3);text-align:center;margin-bottom:8px;">OPPONENT →</div>
+        <div class="court-half" id="court-front"></div>
+        <div class="net"></div>
+        <div class="court-half" id="court-back"></div>
+        <div class="court-label" style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,.3);text-align:center;margin-top:8px;">← YOUR SIDE</div>
+      </div>
+    </div>
+    <div>
+      <div style="margin-bottom:12px;font-size:12px;font-weight:700;letter-spacing:2px;color:var(--muted);">ASSIGN POSITIONS</div>
+      <div id="rot-assigns" style="display:flex;flex-direction:column;gap:8px;"></div>
+      <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn btn-gold btn-sm" onclick="saveRot()">Save Rotation</button>
+        <button class="btn btn-outline btn-sm" onclick="autoFillRot()">⚡ Auto-Fill</button>
+      </div>
+      <div id="rot-tip" class="alert alert-info" style="margin-top:14px;display:none;"></div>
+    </div>
+  </div>
+
+  <div id="full-rotation-summary" style="display:none;">
+    <div class="sec-div"><div class="sec-div-title">FULL ROTATION SUMMARY</div><div class="sec-div-line"></div></div>
+    <div id="rot-summary-rows" style="display:flex;flex-direction:column;gap:8px;margin-bottom:24px;"></div>
+  </div>
+</div>
+
+<!-- ══════════════════ ANALYSIS ══════════════════ -->
+<div class="pg" id="pg-analysis">
+  <div class="pg-title">Lineup <em>Analysis</em></div>
+  <div class="pg-sub">Data-backed insights on your starting lineup, serve order strategy, and matchup recommendations.</div>
+
+  <div id="analysis-body"><div class="empty">Complete Steps 1–4 first to generate your lineup analysis.</div></div>
+</div>
+
+<script>
+// ══ STATE ══
+let players = JSON.parse(localStorage.getItem('riq_players')||'[]');
+let scores  = JSON.parse(localStorage.getItem('riq_scores')||'{}');
+let rotData = JSON.parse(localStorage.getItem('riq_rots')||'{}');
+let starters= JSON.parse(localStorage.getItem('riq_starters')||'{}');
+let curRot  = 1;
+
+const POS_LABELS = {S:'Setter',OH:'Outside Hitter',MB:'Middle Blocker',OPP:'Opposite/Right Side',L:'Libero'};
+const ROSTER_SLOTS = [
+  {pos:'S',   count:1, label:'Setter'},
+  {pos:'OH',  count:2, label:'Outside Hitter'},
+  {pos:'MB',  count:2, label:'Middle Blocker'},
+  {pos:'OPP', count:1, label:'Opposite / Right Side'},
+  {pos:'L',   count:1, label:'Libero'},
+];
+const BONUS_METRICS = {
+  S:  [{key:'b_vision',label:'Court Vision / Reads',desc:'Does the setter see all options before setting? (1=one-option, 10=elite IQ)'},
+       {key:'b_consistency',label:'Set Consistency',desc:'Identical release point and height every time (1=varied, 10=machinelike)'}],
+  OH: [{key:'b_serve_rx',label:'Serve Receive Reliability',desc:'OH are primary passers — how reliable under pressure? (1=liability, 10=anchor)'},
+       {key:'b_blocking',label:'Left-Side Block',desc:'Ability to close the block from position 4 (1=poor footwork, 10=reads and closes perfectly)'}],
+  MB: [{key:'b_vertical',label:'Vertical / Jump',desc:'Raw jumping ability for block and quick attack (1=flat, 10=exceptional)'},
+       {key:'b_block_read',label:'Block Timing & Commit',desc:'Does she read and commit to the block or guess? (1=always guesses, 10=reads every time)'}],
+  OPP:[{key:'b_rightside',label:'Right-Side Attack',desc:'Attacking from position 2 against left-side blockers (1=inconsistent, 10=dominant)'},
+       {key:'b_serve_tough',label:'Serving Toughness',desc:'Creates serve pressure — float, zones (1=soft serve, 10=ace threat)'}],
+  L:  [{key:'b_digging',label:'Digging / Floor Defense',desc:'Ability to get to balls in transition (1=limited range, 10=gets everything)'},
+       {key:'b_libero_pass',label:'Passing Under Serve Pressure',desc:'Libero must deliver under tough serves — every time (1=inconsistent, 10=automatic)'}],
+};
+
+// ══ NAV ══
+function go(id,btn){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('pg-'+id).classList.add('on');
+  btn.classList.add('on');
+  if(id==='eval')   refreshEvalSelects();
+  if(id==='builder')renderBuilder();
+  if(id==='rotations'){renderRotTabs();renderRotAssigns();renderCourtView();renderRotSummary();}
+  if(id==='analysis')renderAnalysis();
+}
+
+// ══ ROSTER ══
+function addPlayer(){
+  const name=document.getElementById('r-name').value.trim();
+  if(!name){alert('Enter a name.');return;}
+  const p={id:Date.now()+'',name,num:document.getElementById('r-num').value||'—',
+    grade:document.getElementById('r-grade').value,pos:document.getElementById('r-pos').value};
+  players.push(p);save();
+  document.getElementById('r-name').value='';
+  document.getElementById('r-num').value='';
+  renderRoster();
+}
+function removePlayer(id){
+  if(!confirm('Remove player?'))return;
+  players=players.filter(p=>p.id!==id);
+  delete scores[id];save();renderRoster();
+}
+function renderRoster(){
+  const el=document.getElementById('roster-list');
+  document.getElementById('roster-count').textContent=players.length+' player'+(players.length!==1?'s':'');
+  if(!players.length){el.innerHTML='<div class="empty">No players yet — add your first player above.</div>';return;}
+  el.innerHTML=players.map(p=>{
+    const sc=scores[p.id];
+    const ov=sc?overallScore(p.id).toFixed(1):'—';
+    const isStarter=Object.values(starters).includes(p.id);
+    return`<div class="player-row${isStarter?' starter':''}">
+      <div class="pr-name">${isStarter?'<span class="starter-star">★</span> ':''}${p.name}</div>
+      <span class="pos-badge pos-${p.pos}">${p.pos}</span>
+      <span style="font-size:12px;color:var(--muted)">${p.grade} · #${p.num}</span>
+      <div class="pr-scores">${sc?pillarSummary(p.id):'<span style="font-size:12px;color:var(--muted)">Not yet evaluated</span>'}</div>
+      <div class="pr-overall">${ov}</div>
+      <button class="btn btn-ghost" onclick="removePlayer('${p.id}')">✕</button>
+    </div>`;
+  }).join('');
+}
+function pillarSummary(id){
+  const sc=scores[id]||{};
+  const p=pillarAvgs(id);
+  return`<span class="pr-pill" style="color:#60a5fa">Pass ${p.pass}</span>
+         <span class="pr-pill" style="color:#22c55e">Hit ${p.hit}</span>
+         <span class="pr-pill" style="color:#f97316">Press ${p.press}</span>
+         <span class="pr-pill" style="color:#a78bfa">Chem ${p.chem}</span>`;
+}
+
+// ══ EVAL ══
+function refreshEvalSelects(){
+  const sel=document.getElementById('ev-player');
+  const cur=sel.value;
+  sel.innerHTML='<option value="">— pick a player —</option>'+
+    players.map(p=>`<option value="${p.id}">${p.name} (${p.pos})</option>`).join('');
+  if(cur)sel.value=cur;
+  if(players.length&&!sel.value)sel.value=players[0].id;
+  loadEval();
+}
+function loadEval(){
+  const id=document.getElementById('ev-player').value;
+  document.getElementById('eval-body').style.display=id?'block':'none';
+  document.getElementById('eval-empty').style.display=id?'none':'block';
+  if(!id)return;
+  const sc=scores[id]||{};
+  const keys=['pass1','pass2','pass3','hit1','hit2','hit3','pr1','pr2','pr3','ch1','ch2','ch3'];
+  keys.forEach(k=>{
+    const v=sc[k]||5;
+    document.getElementById('sl-'+k).value=v;
+    document.getElementById('v-'+k).textContent=v;
+  });
+  document.getElementById('ev-notes').value=sc._notes||'';
+  const p=players.find(x=>x.id===id);
+  renderBonus(p,sc);
+}
+function renderBonus(p,sc){
+  const area=document.getElementById('bonus-area');
+  const metrics=BONUS_METRICS[p.pos]||[];
+  if(!metrics.length){area.innerHTML='<p class="help">No positional bonus metrics for this position.</p>';return;}
+  area.innerHTML=metrics.map(m=>`
+    <div class="pillar-item">
+      <div class="pillar-row">
+        <span class="pillar-label">${m.label}</span>
+        <span class="pillar-val" id="v-${m.key}">${sc[m.key]||5}</span>
+      </div>
+      <input type="range" class="slider" min="1" max="10" value="${sc[m.key]||5}"
+        oninput="sv('${m.key}',this.value)" id="sl-${m.key}">
+      <div class="pillar-desc">${m.desc}</div>
+    </div>`).join('');
+}
+function sv(key,val){
+  document.getElementById('v-'+key).textContent=val;
+}
+function saveEval(){
+  const id=document.getElementById('ev-player').value;
+  if(!id)return;
+  const keys=['pass1','pass2','pass3','hit1','hit2','hit3','pr1','pr2','pr3','ch1','ch2','ch3'];
+  const p=players.find(x=>x.id===id);
+  const metrics=BONUS_METRICS[p.pos]||[];
+  const allKeys=[...keys,...metrics.map(m=>m.key)];
+  const data={_notes:document.getElementById('ev-notes').value};
+  allKeys.forEach(k=>{const el=document.getElementById('sl-'+k);if(el)data[k]=parseFloat(el.value);});
+  scores[id]=data;save();renderRoster();
+  const msg=document.getElementById('ev-saved');
+  msg.style.opacity=1;setTimeout(()=>msg.style.opacity=0,2200);
+}
+function prevEval(){
+  const sel=document.getElementById('ev-player');
+  if(sel.selectedIndex>1){sel.selectedIndex--;loadEval();}
+}
+function nextEval(){
+  const sel=document.getElementById('ev-player');
+  if(sel.selectedIndex<sel.options.length-1){sel.selectedIndex++;loadEval();}
+}
+
+// ══ SCORING ══
+function pillarAvgs(id){
+  const sc=scores[id]||{};
+  const avg=keys=>{ const vals=keys.map(k=>sc[k]||0).filter(v=>v>0); return vals.length?(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1):'—';};
+  return{
+    pass:avg(['pass1','pass2','pass3']),
+    hit: avg(['hit1','hit2','hit3']),
+    press:avg(['pr1','pr2','pr3']),
+    chem:avg(['ch1','ch2','ch3']),
+  };
+}
+function overallScore(id){
+  const sc=scores[id];
+  if(!sc)return 0;
+  const p=players.find(x=>x.id===id);
+  const keys=['pass1','pass2','pass3','hit1','hit2','hit3','pr1','pr2','pr3','ch1','ch2','ch3'];
+  const bonusKeys=(BONUS_METRICS[p.pos]||[]).map(m=>m.key);
+  const all=[...keys,...bonusKeys];
+  const vals=all.map(k=>sc[k]||0).filter(v=>v>0);
+  return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0;
+}
+
+// ══ BUILDER ══
+function renderBuilder(){
+  const slots=document.getElementById('pos-slots');
+  const list=document.getElementById('starting6-list');
+  const confirmedIds=new Set(Object.values(starters));
+  slots.innerHTML=ROSTER_SLOTS.map(slot=>{
+    const eligible=players.filter(p=>p.pos===slot.pos||
+      (slot.pos==='OH'&&p.pos==='OPP')||
+      (slot.pos==='OPP'&&p.pos==='OH'))
+      .sort((a,b)=>overallScore(b.id)-overallScore(a.id));
+    const opts=eligible.map(p=>{
+      const ov=scores[p.id]?overallScore(p.id).toFixed(1):'N/E';
+      return`<option value="${p.id}" ${starters[slot.pos+'0']===p.id||starters[slot.pos+'1']===p.id?'selected':''}>${p.name} — ${ov} overall</option>`;
+    });
+    const selectsHTML=Array.from({length:slot.count},(_,i)=>`
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+        <span style="font-size:11px;color:var(--muted);min-width:20px;">${slot.count>1?String.fromCharCode(65+i)+':':''}</span>
+        <select style="flex:1" onchange="assignStarter('${slot.pos}',${i},this.value)">
+          <option value="">— unassigned —</option>${opts.join('')}
+        </select>
+        <span style="font-family:var(--head);font-size:14px;color:var(--gold);min-width:36px" id="bld-score-${slot.pos}-${i}">
+          ${starters[slot.pos+i]?overallScore(starters[slot.pos+i]).toFixed(1):''}
+        </span>
+      </div>`).join('');
+    return`<div class="card" style="overflow:visible;">
+      <div class="card-head">
+        <span class="pos-badge pos-${slot.pos}">${slot.pos}</span>
+        <div class="card-head-title" style="margin-left:6px;">${slot.label.toUpperCase()}</div>
+        <span style="font-size:11px;color:var(--muted);margin-left:auto;">${slot.count} spot${slot.count>1?'s':''}</span>
+      </div>
+      <div class="card-body">${selectsHTML}</div>
+    </div>`;
+  }).join('');
+
+  // Pre-populate selects from starters
+  ROSTER_SLOTS.forEach(slot=>{
+    Array.from({length:slot.count},(_,i)=>{
+      const sel=slots.querySelectorAll(`[onchange="assignStarter('${slot.pos}',${i},this.value)"]`)[0];
+      if(sel&&starters[slot.pos+i])sel.value=starters[slot.pos+i];
+    });
+  });
+
+  renderStarting6List();
+}
+function assignStarter(pos,idx,playerId){
+  starters[pos+idx]=playerId;
+  save();
+  renderStarting6List();
+  const scoreEl=document.getElementById('bld-score-'+pos+'-'+idx);
+  if(scoreEl)scoreEl.textContent=playerId&&scores[playerId]?overallScore(playerId).toFixed(1):'';
+}
+function renderStarting6List(){
+  const list=document.getElementById('starting6-list');
+  const ca=document.getElementById('s6-confirm-area');
+  const entries=[];
+  ROSTER_SLOTS.forEach(slot=>{
+    Array.from({length:slot.count},(_,i)=>{
+      const id=starters[slot.pos+i];
+      const p=id?players.find(x=>x.id===id):null;
+      entries.push({slot,idx:i,p});
+    });
+  });
+  const filled=entries.filter(e=>e.p);
+  list.innerHTML=entries.map(e=>`
+    <div style="background:var(--s2);border:1px solid ${e.p?'rgba(245,197,24,.3)':'var(--border)'};border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:10px;">
+      <span class="pos-badge pos-${e.slot.pos}">${e.slot.pos}${e.slot.count>1?String.fromCharCode(65+e.idx):''}</span>
+      <span style="flex:1;font-weight:${e.p?700:400};color:${e.p?'var(--text)':'var(--muted)'};">${e.p?e.p.name:'Not assigned'}</span>
+      ${e.p&&scores[e.p.id]?`<span style="font-family:var(--head);font-size:18px;font-weight:800;color:var(--gold);">${overallScore(e.p.id).toFixed(1)}</span>`:''}
+    </div>`).join('');
+
+  const ready=filled.length>=6;
+  ca.innerHTML=ready
+    ?`<div class="alert alert-green">✓ Starting 6 locked! Proceed to Rotations → to set the serve order.</div>`
+    :`<div class="alert alert-warn">Fill all ${6-filled.length} remaining slot${6-filled.length!==1?'s':''} to complete your starting lineup.</div>`;
+}
+
+// ══ ROTATIONS ══
+function renderRotTabs(){
+  document.getElementById('rot-tabs').innerHTML=[1,2,3,4,5,6].map(r=>
+    `<button class="rt${r===curRot?' on':''}" onclick="switchRot(${r})">Rotation ${r}</button>`
+  ).join('');
+}
+function switchRot(r){
+  curRot=r;
+  document.querySelectorAll('.rt').forEach((t,i)=>t.classList.toggle('on',i+1===r));
+  renderRotAssigns();renderCourtView();
+  showRotTip();
+}
+function getStarterList(){
+  const list=[];
+  ROSTER_SLOTS.forEach(slot=>{
+    Array.from({length:slot.count},(_,i)=>{
+      const id=starters[slot.pos+i];
+      if(id){const p=players.find(x=>x.id===id);if(p)list.push(p);}
+    });
+  });
+  return list;
+}
+function renderRotAssigns(){
+  const wrap=document.getElementById('rot-assigns');
+  const key='r'+curRot;
+  const saved=rotData[key]||{};
+  const starterList=getStarterList();
+  if(!starterList.length){wrap.innerHTML='<div class="empty" style="padding:20px 0;">Complete the Starting 6 first.</div>';return;}
+  const opts=['<option value="">— unassigned —</option>',...starterList.map(p=>`<option value="${p.id}">${p.name} (${p.pos})</option>`)].join('');
+  wrap.innerHTML=[1,2,3,4,5,6].map(pos=>`
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="font-family:var(--head);font-size:14px;font-weight:700;min-width:68px;color:${pos===1?'var(--green)':'var(--text)'};">
+        Pos ${pos}${pos===1?' 🏐':''}
+      </div>
+      <select id="rsel-${pos}" onchange="rotChanged()" style="flex:1;">
+        ${opts.replace(`value="${saved[pos]||''}"`,`value="${saved[pos]||''}" selected`)}
+      </select>
+    </div>`).join('');
+  [1,2,3,4,5,6].forEach(pos=>{
+    const sel=document.getElementById('rsel-'+pos);
+    if(sel&&saved[pos])sel.value=saved[pos];
+  });
+}
+function rotChanged(){renderCourtView();}
+function getRotAssignment(){
+  const out={};
+  [1,2,3,4,5,6].forEach(pos=>{
+    const sel=document.getElementById('rsel-'+pos);
+    if(sel&&sel.value)out[pos]=sel.value;
+  });
+  return out;
+}
+function renderCourtView(){
+  const assign=getRotAssignment();
+  // Front row: 4,3,2 | Back row: 5,6,1
+  const front=[4,3,2], back=[5,6,1];
+  const render=(positions,el)=>{
+    document.getElementById(el).innerHTML=positions.map(pos=>{
+      const id=assign[pos];
+      const p=id?players.find(x=>x.id===id):null;
+      const isServer=pos===1;
+      return`<div class="cpos${p?' filled':''}${isServer&&p?' server':''}">
+        ${isServer&&p?'<div class="serve-badge">SERVES</div>':''}
+        <div class="cpos-num">POS ${pos}</div>
+        <div class="cpos-name">${p?p.name.split(' ')[0]:'—'}</div>
+        ${p?`<div class="cpos-pos">${p.pos}</div>`:''}
+        ${p&&scores[p.id]?`<div class="cpos-score">${overallScore(p.id).toFixed(1)}</div>`:''}
+      </div>`;
+    }).join('');
+  };
+  render(front,'court-front');
+  render(back,'court-back');
+  showRotTip();
+}
+function showRotTip(){
+  const tipEl=document.getElementById('rot-tip');
+  const assign=getRotAssignment();
+  const server=assign[1]?players.find(p=>p.id===assign[1]):null;
+  const tips={
+    1:`<strong>Rotation 1:</strong> Your opening serve. Put your most consistent server in Position 1 to grab an early run.`,
+    2:`<strong>Rotation 2:</strong> Side-out rotation — make sure your best OH is in a hitting position when you rotate into attack.`,
+    3:`<strong>Rotation 3:</strong> Setter should be transitioning toward the net. Middle Blocker executes quick attack here.`,
+    4:`<strong>Rotation 4:</strong> Strong blocking rotation — ensure your best blocker is at the net in position 3 or 4.`,
+    5:`<strong>Rotation 5:</strong> Libero is active in back row. Check that serve receive is covered with best passers in 6 and 5.`,
+    6:`<strong>Rotation 6:</strong> Final rotation before returning to Rotation 1. Lock in to score the final point of your run.`,
+  };
+  tipEl.style.display='block';
+  tipEl.innerHTML=tips[curRot]+(server?` <br><strong style="color:var(--green)">Server: ${server.name}</strong>`:'');
+}
+function saveRot(){
+  rotData['r'+curRot]=getRotAssignment();
+  save();renderRotSummary();
+  alert('Rotation '+curRot+' saved!');
+}
+function autoFillRot(){
+  const starterList=getStarterList().sort((a,b)=>overallScore(b.id)-overallScore(a.id));
+  const libero=starterList.find(p=>p.pos==='L');
+  const setter=starterList.find(p=>p.pos==='S');
+  const others=starterList.filter(p=>p.pos!=='L'&&p.pos!=='S');
+  const pos51=[setter,...others.slice(0,4),libero||others[4]].filter(Boolean);
+  // offset by rotation
+  const shifted=[];
+  for(let i=0;i<6;i++)shifted.push(pos51[(i+curRot-1)%pos51.length]);
+  // assign to positions 1-6
+  rotData['r'+curRot]={};
+  [1,2,3,4,5,6].forEach((pos,i)=>{if(shifted[i])rotData['r'+curRot][pos]=shifted[i].id;});
+  save();renderRotAssigns();renderCourtView();renderRotSummary();
+}
+function renderRotSummary(){
+  const saved=Object.keys(rotData).filter(k=>k.startsWith('r'));
+  const el=document.getElementById('full-rotation-summary');
+  const rows=document.getElementById('rot-summary-rows');
+  if(!saved.length){el.style.display='none';return;}
+  el.style.display='block';
+  rows.innerHTML=saved.sort().map(key=>{
+    const r=parseInt(key.replace('r',''));
+    const d=rotData[key];
+    const server=d[1]?players.find(p=>p.id===d[1]):null;
+    const chips=[1,2,3,4,5,6].map(pos=>{
+      const p=d[pos]?players.find(x=>x.id===d[pos]):null;
+      return p?`<span class="pos-badge pos-${p.pos}" style="font-size:11px;">${p.name.split(' ')[0]}</span>`:'';
+    }).join('');
+    return`<div style="background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+      <div style="font-family:var(--head);font-size:22px;font-weight:800;color:var(--gold);min-width:30px;">${r}</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;flex:1;">${chips}</div>
+      <div style="font-size:12px;color:var(--muted);">Serves: <strong style="color:var(--green)">${server?server.name.split(' ')[0]:'—'}</strong></div>
+    </div>`;
+  }).join('');
+}
+
+// ══ ANALYSIS ══
+function renderAnalysis(){
+  const body=document.getElementById('analysis-body');
+  const s6=getStarterList();
+  if(s6.length<6){body.innerHTML='<div class="empty">Complete Steps 1–4 first to generate your lineup analysis.</div>';return;}
+
+  // Pillar averages for starting 6
+  const avgPillar=(key,s6)=>{
+    const keys={pass:['pass1','pass2','pass3'],hit:['hit1','hit2','hit3'],press:['pr1','pr2','pr3'],chem:['ch1','ch2','ch3']};
+    const vals=s6.map(p=>{const sc=scores[p.id];if(!sc)return null;const ks=keys[key];const v=ks.map(k=>sc[k]||0).filter(x=>x>0);return v.length?v.reduce((a,b)=>a+b,0)/v.length:null;}).filter(x=>x!==null);
+    return vals.length?(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1):'N/A';
+  };
+  const teamPass=avgPillar('pass',s6);
+  const teamHit=avgPillar('hit',s6);
+  const teamPress=avgPillar('press',s6);
+  const teamChem=avgPillar('chem',s6);
+
+  // Best server
+  const scoredS6=s6.filter(p=>scores[p.id]).sort((a,b)=>{
+    const sa=(scores[a.id]||{});const sb=(scores[b.id]||{});
+    const pra=((sa.pr1||0)+(sa.pr2||0))/2, prb=((sb.pr1||0)+(sb.pr2||0))/2;
+    const bta=((sa.b_serve_tough||0)), btb=((sb.b_serve_tough||0));
+    return(prb+btb)-(pra+bta);
+  });
+  const bestServer=scoredS6[0];
+
+  // Serve receive anchor
+  const passAnchor=s6.filter(p=>scores[p.id]).sort((a,b)=>{
+    const pa=pillarAvgs(a.id).pass,pb=pillarAvgs(b.id).pass;
+    return parseFloat(pb)-parseFloat(pa);
+  })[0];
+
+  // Weakest link
+  const weakest=s6.filter(p=>scores[p.id]).sort((a,b)=>overallScore(a.id)-overallScore(b.id))[0];
+
+  // Recs
+  const recs=[];
+  if(parseFloat(teamPass)<6)recs.push('Serve receive average is below 6.0 — prioritize serve-receive drills in practice and consider adjusting your W-formation to better protect your weaker passers.');
+  if(parseFloat(teamPress)<6)recs.push('Pressure performance is below 6.0 — run more comeback and clutch-pressure drills. Your team may struggle in tight sets.');
+  if(bestServer)recs.push(`Put <strong>${bestServer.name}</strong> in Position 1 — she has the best combination of pressure performance and serving toughness to start a run immediately.`);
+  if(passAnchor)recs.push(`<strong>${passAnchor.name}</strong> is your most reliable serve-receive anchor. Build your W-formation around her positioning — she should receive the most balls.`);
+  if(weakest&&overallScore(weakest.id)<5)recs.push(`<strong>${weakest.name}</strong> is your lowest-rated starter (${overallScore(weakest.id).toFixed(1)}). Consider if a bench player outscores her — or build specific practice time to close the gap.`);
+
+  body.innerHTML=`
+    <div class="stat-track-grid">
+      <div class="stat-card"><div class="stat-card-label">Team Passing</div><div class="stat-card-val" style="color:#60a5fa">${teamPass}</div><div class="stat-card-ctx">Avg serve receive rating of starting 6</div></div>
+      <div class="stat-card"><div class="stat-card-label">Team Hitting</div><div class="stat-card-val" style="color:#22c55e">${teamHit}</div><div class="stat-card-ctx">Avg attack efficiency of starting 6</div></div>
+      <div class="stat-card"><div class="stat-card-label">Pressure Score</div><div class="stat-card-val" style="color:#f97316">${teamPress}</div><div class="stat-card-ctx">Avg clutch/pressure rating</div></div>
+      <div class="stat-card"><div class="stat-card-label">Chemistry Score</div><div class="stat-card-val" style="color:#a78bfa">${teamChem}</div><div class="stat-card-ctx">Avg communication & coverage rating</div></div>
+    </div>
+
+    <div class="rec-box">
+      <div class="rec-box-title">⚡ LINEUP RECOMMENDATIONS</div>
+      ${recs.map(r=>`<div class="rec-item">${r}</div>`).join('')}
+    </div>
+
+    <div class="analysis-grid">
+      <div class="a-box">
+        <div class="a-box-title">Starting 6 — Individual Ratings</div>
+        ${s6.map(p=>`<div class="a-item">
+          <span>${p.name} <span class="pos-badge pos-${p.pos}" style="font-size:10px">${p.pos}</span></span>
+          <span class="a-val ${overallScore(p.id)>=7?'green':overallScore(p.id)>=5?'gold':'red'}">${scores[p.id]?overallScore(p.id).toFixed(1):'N/E'}</span>
+        </div>`).join('')}
+      </div>
+
+      <div class="a-box">
+        <div class="a-box-title">Pillar Breakdown by Player</div>
+        ${s6.filter(p=>scores[p.id]).map(p=>{
+          const av=pillarAvgs(p.id);
+          return`<div class="a-item" style="flex-wrap:wrap;gap:6px;">
+            <span style="min-width:100px;font-weight:600">${p.name.split(' ')[0]}</span>
+            <span style="font-size:11px;color:#60a5fa">P:${av.pass}</span>
+            <span style="font-size:11px;color:#22c55e">H:${av.hit}</span>
+            <span style="font-size:11px;color:#f97316">Pr:${av.press}</span>
+            <span style="font-size:11px;color:#a78bfa">C:${av.chem}</span>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+
+    <div class="a-box" style="margin-bottom:20px;">
+      <div class="a-box-title">Serve Order Strategy</div>
+      ${s6.filter(p=>scores[p.id]).sort((a,b)=>{
+        const sa=scores[a.id],sb=scores[b.id];
+        const va=((sa.pr1||0)+(sa.pr2||0)+(sa.b_serve_tough||0))/3;
+        const vb=((sb.pr1||0)+(sb.pr2||0)+(sb.b_serve_tough||0))/3;
+        return vb-va;
+      }).map((p,i)=>`<div class="a-item">
+        <span><strong>${i+1}.</strong> ${p.name} <span class="pos-badge pos-${p.pos}" style="font-size:10px">${p.pos}</span></span>
+        <span class="a-val gold">${((parseFloat(pillarAvgs(p.id).press)||0)).toFixed(1)} press</span>
+      </div>`).join('')}
+      <div class="help" style="margin-top:8px;">Players sorted by competitive pressure rating — best candidate to lead off the serve order is at the top.</div>
+    </div>
+  `;
+}
+
+// ══ PERSISTENCE ══
+function save(){
+  localStorage.setItem('riq_players',JSON.stringify(players));
+  localStorage.setItem('riq_scores',JSON.stringify(scores));
+  localStorage.setItem('riq_rots',JSON.stringify(rotData));
+  localStorage.setItem('riq_starters',JSON.stringify(starters));
+}
+
+// ══ INIT ══
+renderRoster();
+</script>
+</body>
+</html>

@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teaching Volleyball Blocking</title>
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void: #09090b;
+  --panel: #111115;
+  --panel2: #18181d;
+  --panel3: #1e1e25;
+  --rim: #28282f;
+  --rim2: #323240;
+
+  --white: #f0eee8;
+  --off: #b8b4a8;
+  --muted: #606070;
+
+  --lime: #b8e840;
+  --lime2: #cef560;
+  --lime-dim: rgba(184,232,64,0.08);
+  --lime-glow: rgba(184,232,64,0.18);
+
+  --red: #f04060;
+  --red-dim: rgba(240,64,96,0.1);
+  --orange: #f08820;
+  --orange-dim: rgba(240,136,32,0.1);
+  --sky: #40b0f0;
+  --sky-dim: rgba(64,176,240,0.1);
+  --violet: #a060f0;
+  --violet-dim: rgba(160,96,240,0.1);
+  --mint: #40d0a0;
+  --mint-dim: rgba(64,208,160,0.1);
+  --gold: #e0b030;
+  --gold-dim: rgba(224,176,48,0.1);
+
+  --head: 'Teko', sans-serif;
+  --body: 'Inter', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--void); color: var(--white); font-family: var(--body); min-height: 100vh; overflow-x: hidden; }
+
+/* ── HERO ── */
+.hero {
+  background: var(--void);
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--rim);
+}
+.hero-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 64px 36px 52px;
+  position: relative;
+  z-index: 2;
+}
+.hero-bg-text {
+  position: absolute;
+  right: -40px; bottom: -30px;
+  font-family: var(--head);
+  font-size: 220px;
+  font-weight: 700;
+  color: rgba(184,232,64,0.04);
+  line-height: 1;
+  pointer-events: none;
+  z-index: 1;
+  white-space: nowrap;
+}
+.hero-bg-glow {
+  position: absolute;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(184,232,64,0.06) 0%, transparent 70%);
+  top: -100px; right: -100px;
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--head);
+  font-size: 13px;
+  letter-spacing: 5px;
+  color: var(--lime);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+.hero-h1 {
+  font-family: var(--head);
+  font-size: clamp(60px, 10vw, 120px);
+  font-weight: 700;
+  line-height: 0.88;
+  letter-spacing: 1px;
+  margin-bottom: 18px;
+}
+.hero-h1 .line1 { display: block; color: var(--white); }
+.hero-h1 .line2 { display: block; color: var(--lime); }
+.hero-h1 .line3 { display: block; color: rgba(240,238,232,0.25); font-size: 0.55em; letter-spacing: 3px; margin-top: 8px; }
+.hero-desc {
+  font-size: 15px;
+  color: var(--off);
+  line-height: 1.75;
+  max-width: 560px;
+  margin-bottom: 28px;
+}
+.hero-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+.hero-pill {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 6px 16px;
+  border-radius: 100px;
+  border: 1px solid var(--rim2);
+  color: var(--muted);
+}
+.hero-pill.hi { border-color: rgba(184,232,64,0.3); color: var(--lime); background: var(--lime-dim); }
+
+/* ── STICKY NAV ── */
+.snav {
+  background: rgba(9,9,11,0.95);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--rim);
+  position: sticky; top: 0; z-index: 200;
+  display: flex; gap: 0; overflow-x: auto;
+  padding: 0 24px;
+}
+.snav::-webkit-scrollbar { height: 0; }
+.sn-btn {
+  font-family: var(--head);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 0 18px;
+  height: 50px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  margin-bottom: -1px;
+}
+.sn-btn:hover { color: var(--white); }
+.sn-btn.on { color: var(--lime); border-bottom-color: var(--lime); }
+
+/* ── PAGES ── */
+.pg { display: none; max-width: 1100px; margin: 0 auto; padding: 48px 28px; }
+.pg.on { display: block; }
+
+/* ── SECTION HEADS ── */
+.s-eyebrow {
+  font-family: var(--head);
+  font-size: 11px;
+  letter-spacing: 5px;
+  color: var(--lime);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.s-title {
+  font-family: var(--head);
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 700;
+  line-height: 0.95;
+  margin-bottom: 12px;
+}
+.s-title em { color: var(--lime); font-style: normal; }
+.s-desc {
+  font-size: 14px;
+  color: var(--off);
+  line-height: 1.75;
+  max-width: 640px;
+  margin-bottom: 40px;
+  padding-left: 14px;
+  border-left: 2px solid var(--lime);
+}
+
+/* ── DIVIDER ── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 40px 0 22px;
+}
+.div-label {
+  font-family: var(--head);
+  font-size: 12px;
+  letter-spacing: 4px;
+  color: var(--muted);
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-weight: 600;
+}
+.div-line { flex: 1; height: 1px; background: var(--rim); }
+
+/* ── CARD BASE ── */
+.card {
+  background: var(--panel);
+  border: 1px solid var(--rim);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* ── GRIDS ── */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.g4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+@media(max-width:800px){ .g2,.g3,.g4 { grid-template-columns: 1fr 1fr; } }
+@media(max-width:560px){ .g2,.g3,.g4 { grid-template-columns: 1fr; } }
+
+/* ── CONCEPT BOXES ── */
+.con-box {
+  background: var(--panel);
+  border: 1px solid var(--rim);
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+}
+.con-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 12px 12px 0 0;
+}
+.cb-lime::before { background: var(--lime); }
+.cb-red::before { background: var(--red); }
+.cb-sky::before { background: var(--sky); }
+.cb-orange::before { background: var(--orange); }
+.cb-violet::before { background: var(--violet); }
+.cb-mint::before { background: var(--mint); }
+.cb-gold::before { background: var(--gold); }
+
+.con-icon { font-size: 28px; margin-bottom: 10px; }
+.con-title { font-family: var(--head); font-size: 20px; letter-spacing: 0.5px; margin-bottom: 7px; font-weight: 600; }
+.con-text { font-size: 13px; color: var(--off); line-height: 1.65; }
+
+/* ── PHASE ACCORDIONS ── */
+.phase-acc { display: flex; flex-direction: column; gap: 10px; margin-bottom: 36px; }
+.phase-item {
+  background: var(--panel);
+  border: 1px solid var(--rim);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.phase-hd {
+  display: flex;
+  align-items: stretch;
+  cursor: pointer;
+  user-select: none;
+}
+.phase-num-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 64px;
+  padding: 16px;
+  font-family: var(--head);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--void);
+  flex-shrink: 0;
+}
+.pn-lime { background: var(--lime); }
+.pn-red { background: var(--red); }
+.pn-sky { background: var(--sky); }
+.pn-orange { background: var(--orange); }
+.pn-violet { background: var(--violet); }
+.pn-mint { background: var(--mint); }
+.pn-gold { background: var(--gold); }
+
+.phase-hd-content { flex: 1; padding: 16px 18px; }
+.phase-cat { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+.phase-name { font-family: var(--head); font-size: 22px; font-weight: 600; letter-spacing: 0.5px; line-height: 1.1; }
+.phase-tag { font-size: 12px; color: var(--muted); margin-top: 3px; }
+.phase-chev { display: flex; align-items: center; padding: 0 18px; font-size: 14px; color: var(--muted); transition: transform 0.25s; }
+.phase-item.open .phase-chev { transform: rotate(180deg); }
+.phase-bd { display: none; padding: 22px; border-top: 1px solid var(--rim); }
+.phase-item.open .phase-bd { display: block; }
+
+/* ── STEP LIST ── */
+.steps { list-style: none; }
+.steps li {
+  display: flex;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--rim);
+  font-size: 13.5px;
+  color: var(--off);
+  line-height: 1.55;
+  align-items: flex-start;
+}
+.steps li:last-child { border-bottom: none; }
+.snum {
+  display: flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 10px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--void);
+}
+
+/* ── CUE BOX ── */
+.cuebox {
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-top: 14px;
+}
+.cu-lime { background: var(--lime-dim); border-left: 3px solid var(--lime); }
+.cu-red { background: var(--red-dim); border-left: 3px solid var(--red); }
+.cu-sky { background: var(--sky-dim); border-left: 3px solid var(--sky); }
+.cu-orange { background: var(--orange-dim); border-left: 3px solid var(--orange); }
+.cu-violet { background: var(--violet-dim); border-left: 3px solid var(--violet); }
+.cu-mint { background: var(--mint-dim); border-left: 3px solid var(--mint); }
+.cu-gold { background: var(--gold-dim); border-left: 3px solid var(--gold); }
+.cu-title { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.cu-list { list-style: none; }
+.cu-list li { font-size: 13px; color: var(--off); padding: 4px 0 4px 16px; position: relative; line-height: 1.45; }
+.cu-list li::before { content: '→'; position: absolute; left: 0; color: var(--lime); font-size: 12px; }
+
+/* ── ALERT BOXES ── */
+.alert {
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin-bottom: 22px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.al-lime { background: var(--lime-dim); border: 1px solid rgba(184,232,64,0.25); color: var(--lime); }
+.al-red { background: var(--red-dim); border: 1px solid rgba(240,64,96,0.25); color: var(--white); }
+.al-gold { background: var(--gold-dim); border: 1px solid rgba(224,176,48,0.25); color: var(--white); }
+.al-sky { background: var(--sky-dim); border: 1px solid rgba(64,176,240,0.25); color: var(--white); }
+.alert strong { color: inherit; }
+.alert-title { font-family: var(--head); font-size: 16px; font-weight: 600; margin-bottom: 6px; letter-spacing: 0.5px; }
+
+/* ── COURT SVG ── */
+.svg-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.svg-lbl { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; text-align: center; }
+.court-svg { width: 100%; max-width: 340px; }
+
+/* ── FOOTWORK STEPS VISUAL ── */
+.fw-steps {
+  display: flex;
+  gap: 0;
+  background: var(--panel2);
+  border: 1px solid var(--rim);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.fw-step {
+  flex: 1;
+  padding: 16px 10px;
+  text-align: center;
+  border-right: 1px solid var(--rim);
+  position: relative;
+}
+.fw-step:last-child { border-right: none; }
+.fw-step-num { font-family: var(--head); font-size: 28px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+.fw-step-name { font-size: 11px; font-weight: 700; color: var(--off); letter-spacing: 0.5px; }
+.fw-step-foot { font-size: 10px; color: var(--muted); margin-top: 3px; }
+.fw-arrow { display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--rim2); padding: 0 2px; }
+
+/* ── MISTAKE GRID ── */
+.mistake-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin-bottom: 36px; }
+.mistake-card {
+  background: var(--panel);
+  border: 1px solid var(--rim);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.mc-head { display: flex; align-items: center; gap: 12px; padding: 14px 18px; background: var(--panel2); border-bottom: 1px solid var(--rim); }
+.mc-icon { font-size: 22px; }
+.mc-title { font-family: var(--head); font-size: 17px; font-weight: 600; letter-spacing: 0.5px; }
+.mc-body { padding: 14px 18px; }
+.mc-wrong {
+  font-size: 12px;
+  background: var(--red-dim);
+  border: 1px solid rgba(240,64,96,0.2);
+  border-radius: 7px;
+  padding: 8px 12px;
+  color: #f8a0b0;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+.mc-fix {
+  font-size: 12px;
+  background: var(--mint-dim);
+  border: 1px solid rgba(64,208,160,0.2);
+  border-radius: 7px;
+  padding: 8px 12px;
+  color: #80e8c0;
+  line-height: 1.5;
+}
+.mc-badge { font-size: 9px; font-weight: 800; letter-spacing: 2px; padding: 2px 7px; border-radius: 4px; display: inline-block; margin-bottom: 4px; }
+.mb-wrong { background: var(--red-dim); color: var(--red); }
+.mb-fix { background: var(--mint-dim); color: var(--mint); }
+
+/* ── DRILL CARDS ── */
+.drill-stack { display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; }
+.dc {
+  background: var(--panel);
+  border: 1px solid var(--rim);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.dc-hd {
+  display: flex;
+  align-items: stretch;
+  cursor: pointer;
+  user-select: none;
+}
+.dc-bar { width: 5px; flex-shrink: 0; }
+.dc-hd-content { flex: 1; padding: 15px 18px; }
+.dc-cat { font-size: 9px; font-weight: 700; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; margin-bottom: 3px; }
+.dc-name { font-family: var(--head); font-size: 21px; font-weight: 600; letter-spacing: 0.5px; line-height: 1.1; }
+.dc-pills { display: flex; gap: 7px; margin-top: 5px; flex-wrap: wrap; }
+.dc-pill { font-size: 10px; font-weight: 600; padding: 2px 9px; border-radius: 100px; background: var(--panel3); color: var(--muted); }
+.dc-chev { display: flex; align-items: center; padding: 0 16px; font-size: 13px; color: var(--muted); transition: transform 0.25s; }
+.dc.open .dc-chev { transform: rotate(180deg); }
+.dc-bd { display: none; padding: 18px 20px; border-top: 1px solid var(--rim); }
+.dc.open .dc-bd { display: block; }
+.dc-goal { font-size: 13px; color: var(--off); line-height: 1.6; margin-bottom: 14px; font-style: italic; }
+
+/* ── WEEK TABLE ── */
+.week-wrap {
+  background: var(--panel);
+  border: 1px solid var(--rim);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+.week-table { width: 100%; border-collapse: collapse; }
+.week-table th {
+  font-family: var(--head);
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--rim);
+  background: var(--panel2);
+  white-space: nowrap;
+  font-weight: 600;
+}
+.week-table td { padding: 14px 16px; font-size: 13px; color: var(--off); border-bottom: 1px solid var(--rim); vertical-align: top; }
+.week-table tr:last-child td { border-bottom: none; }
+.week-table tr:hover td { background: var(--panel2); }
+.wk { font-family: var(--head); font-size: 24px; color: var(--lime); font-weight: 700; }
+.tag { font-size: 10px; font-weight: 700; padding: 2px 9px; border-radius: 100px; display: inline-block; margin: 2px 3px 2px 0; }
+.t-lime { background: var(--lime-dim); color: var(--lime); }
+.t-red { background: var(--red-dim); color: var(--red); }
+.t-sky { background: var(--sky-dim); color: var(--sky); }
+.t-orange { background: var(--orange-dim); color: var(--orange); }
+.t-violet { background: var(--violet-dim); color: var(--violet); }
+.t-gold { background: var(--gold-dim); color: var(--gold); }
+
+/* ── CHECKLIST ── */
+.cl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.cl-card { background: var(--panel); border: 1px solid var(--rim); border-radius: 12px; padding: 18px 20px; }
+.cl-head { font-family: var(--head); font-size: 15px; font-weight: 600; letter-spacing: 1px; margin-bottom: 14px; color: var(--lime); }
+.cl-item { display: flex; align-items: flex-start; gap: 10px; padding: 5px 0; font-size: 13px; color: var(--off); line-height: 1.4; }
+.cl-chk { width: 17px; height: 17px; border-radius: 4px; border: 1.5px solid var(--rim2); flex-shrink: 0; margin-top: 1px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; transition: all 0.15s; }
+.cl-chk:hover { border-color: var(--lime); }
+.cl-chk.on { background: var(--lime); border-color: var(--lime); color: var(--void); }
+
+/* ── SCORE RUBRIC ── */
+.rubric-row { display: flex; align-items: flex-start; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--rim); font-size: 13px; color: var(--off); line-height: 1.5; }
+.rubric-row:last-child { border-bottom: none; }
+.rb-score { font-family: var(--head); font-size: 20px; font-weight: 700; min-width: 32px; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  .hero-inner { padding: 40px 18px 36px; }
+  .pg { padding: 28px 16px; }
+  .snav { padding: 0 12px; }
+  .fw-steps { flex-wrap: wrap; }
+  .fw-step { min-width: 80px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-label">Complete Coaching Guide · 7th–9th Grade</div>
+    <div class="hero-h1">
+      <span class="line1">TEACHING</span>
+      <span class="line2">BLOCKING</span>
+      <span class="line3">FROM ZERO TO GAME-READY</span>
+    </div>
+    <p class="hero-desc">Blocking is the most technically complex skill in volleyball — and the most undertaught at the middle school level. This guide builds your players from the ground up: hand position, footwork patterns, reading cues, team blocking, and progressive drills that actually work in a 60-minute practice.</p>
+    <div class="hero-pills">
+      <span class="hero-pill hi">⚡ 6 Technique Pillars</span>
+      <span class="hero-pill hi">🦶 3 Footwork Patterns</span>
+      <span class="hero-pill hi">👁️ Reading the Hitter</span>
+      <span class="hero-pill">8 Progressive Drills</span>
+      <span class="hero-pill">Common Mistakes Fixed</span>
+      <span class="hero-pill">4-Week Plan</span>
+    </div>
+  </div>
+  <div class="hero-bg-text">BLOCK</div>
+</div>
+
+<!-- NAV -->
+<div class="snav">
+  <button class="sn-btn on" id="t-why" onclick="go('pg-why','t-why')">Why Blocking</button>
+  <button class="sn-btn" id="t-tech" onclick="go('pg-tech','t-tech')">Technique</button>
+  <button class="sn-btn" id="t-foot" onclick="go('pg-foot','t-foot')">Footwork</button>
+  <button class="sn-btn" id="t-read" onclick="go('pg-read','t-read')">Reading the Hitter</button>
+  <button class="sn-btn" id="t-team" onclick="go('pg-team','t-team')">Team Blocking</button>
+  <button class="sn-btn" id="t-drills" onclick="go('pg-drills','t-drills')">Drills</button>
+  <button class="sn-btn" id="t-mistakes" onclick="go('pg-mistakes','t-mistakes')">Mistakes</button>
+  <button class="sn-btn" id="t-plan" onclick="go('pg-plan','t-plan')">4-Week Plan</button>
+</div>
+
+<!-- ══════ WHY BLOCKING ══════ -->
+<div class="pg on" id="pg-why">
+  <div class="s-eyebrow">Chapter 1</div>
+  <div class="s-title">Why <em>Blocking</em><br>Changes Everything</div>
+  <div class="s-desc">A well-timed block doesn't just stop a kill — it controls the entire opponent's offense, forces hitters into uncomfortable shots, and energizes your bench. At 7th–9th grade, even basic blocking fundamentals create a measurable competitive advantage.</div>
+
+  <div class="alert al-gold">
+    <div class="alert-title">⚡ The Real Value of Blocking</div>
+    A stuff block scores a point directly. But even a <strong>touch block</strong> — redirecting the ball slightly — dramatically boosts your defense. A deflected ball is 3x easier to dig than a full-speed hit. Teach your players: <strong>every block attempt that influences the ball is a win.</strong> Stuffs are the bonus, not the goal.
+  </div>
+
+  <div class="divider"><div class="div-label">The 3 Blocking Outcomes</div><div class="div-line"></div></div>
+  <div class="g3" style="margin-bottom:36px;">
+    <div class="con-box cb-lime">
+      <div class="con-icon">✋</div>
+      <div class="con-title">Stuff Block</div>
+      <div class="con-text">Ball is stopped completely and lands on the opponent's side. Direct point. Creates massive momentum shift and intimidates hitters for the rest of the set.</div>
+    </div>
+    <div class="con-box cb-sky">
+      <div class="con-icon">↗️</div>
+      <div class="con-title">Touch Block</div>
+      <div class="con-text">Hands contact the ball and redirect it — slowing it down, changing direction, or popping it up. Makes the ball dramatically easier for your back row to dig. Just as valuable as a stuff over time.</div>
+    </div>
+    <div class="con-box cb-orange">
+      <div class="con-icon">📐</div>
+      <div class="con-title">Channeling Block</div>
+      <div class="con-text">Blocker deliberately seals one angle — forcing the hitter to hit a specific direction where your defense is positioned. Takes away the cross and leaves the line, or vice versa. Advanced, but teachable at 8th–9th grade.</div>
+    </div>
+  </div>
+
+  <div class="divider"><div class="div-label">The 6 Pillars of a Great Block</div><div class="div-line"></div></div>
+  <div class="g2" style="margin-bottom:36px;">
+    <div class="con-box cb-lime">
+      <div class="con-icon">🙌</div>
+      <div class="con-title">Hand Position &amp; Penetration</div>
+      <div class="con-text">Hands must cross the plane of the net — fingers spread wide, wrists firm, thumbs pointing up. A block that doesn't penetrate gives the hitter a free angle to swing through. <strong>Over the net, not into it.</strong></div>
+    </div>
+    <div class="con-box cb-red">
+      <div class="con-icon">⏰</div>
+      <div class="con-title">Timing the Jump</div>
+      <div class="con-text">Jump <em>after</em> the hitter leaves the ground — not at the same time. A blocker who jumps with the hitter will be coming down when the ball arrives. <strong>Watch the hitter's hip, not the ball.</strong></div>
+    </div>
+    <div class="con-box cb-sky">
+      <div class="con-icon">🦶</div>
+      <div class="con-title">Footwork to the Ball</div>
+      <div class="con-text">Getting to the right position before the ball arrives. Three footwork patterns based on distance: step-close (short), crossover (medium), and run-step (long). Each has a specific technique.</div>
+    </div>
+    <div class="con-box cb-orange">
+      <div class="con-icon">👁️</div>
+      <div class="con-title">Reading the Hitter</div>
+      <div class="con-text">Shoulder angle, approach direction, arm swing path — all give away the shot before it happens. <strong>Reading is the difference between getting to the ball and guessing.</strong></div>
+    </div>
+    <div class="con-box cb-violet">
+      <div class="con-icon">🤝</div>
+      <div class="con-title">Team Blocking</div>
+      <div class="con-text">Outside and middle blocker closing the gap between them — sealing out any space a hitter could thread. Communication and timing between two blockers must be practiced deliberately.</div>
+    </div>
+    <div class="con-box cb-mint">
+      <div class="con-icon">💬</div>
+      <div class="con-title">Communication</div>
+      <div class="con-text">"Line!" "Cross!" "Mine!" — blockers must call out loud where they think the set is going and who is taking the ball. <strong>Silent blocking is slow blocking.</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ TECHNIQUE ══════ -->
+<div class="pg" id="pg-tech">
+  <div class="s-eyebrow">Chapter 2</div>
+  <div class="s-title">Blocking <em>Technique</em><br>Step by Step</div>
+  <div class="s-desc">Before a player can block in a real play, they must own the mechanics in isolation. Build these 6 elements before adding movement, teammates, or live hitters.</div>
+
+  <div class="phase-acc">
+
+    <!-- READY POSITION -->
+    <div class="phase-item open" id="ph-ready">
+      <div class="phase-hd" onclick="togglePhase('ph-ready')">
+        <div class="phase-num-col pn-lime">1</div>
+        <div class="phase-hd-content">
+          <div class="phase-cat" style="color:var(--lime)">Foundation</div>
+          <div class="phase-name">Ready Position at the Net</div>
+          <div class="phase-tag">The starting point of every block attempt</div>
+        </div>
+        <div class="phase-chev">▼</div>
+      </div>
+      <div class="phase-bd">
+        <div class="g2">
+          <div>
+            <p style="font-size:14px;color:var(--off);line-height:1.7;margin-bottom:14px;">Before any movement happens, players need a consistent ready position. This is the platform from which all blocking begins. A bad ready position means slow first steps and compromised jumps.</p>
+            <ul class="steps">
+              <li><span class="snum" style="background:var(--lime)">1</span>Stand approximately one arm's length from the net — close enough to penetrate, far enough to not touch it</li>
+              <li><span class="snum" style="background:var(--lime)">2</span>Feet shoulder-width apart, toes pointed forward (not out)</li>
+              <li><span class="snum" style="background:var(--lime)">3</span>Knees slightly bent — loaded and ready to explode. Not standing straight.</li>
+              <li><span class="snum" style="background:var(--lime)">4</span>Hands up at shoulder height, in front of the body — never at sides</li>
+              <li><span class="snum" style="background:var(--lime)">5</span>Eyes on the setter, not the ball — tracking the offense, not the serve</li>
+            </ul>
+            <div class="cuebox cu-lime">
+              <div class="cu-title">Coaching Cues</div>
+              <ul class="cu-list">
+                <li>Hands up before the set — always loaded</li>
+                <li>Bend your knees — if I can see your thighs you are too low, if you're standing straight you're too high</li>
+                <li>Eyes on the setter the whole time</li>
+              </ul>
+            </div>
+          </div>
+          <div class="svg-wrap">
+            <div class="svg-lbl">Ready Position — Front View</div>
+            <svg class="court-svg" viewBox="0 0 260 320" xmlns="http://www.w3.org/2000/svg">
+              <rect width="260" height="320" fill="#13131a" rx="10"/>
+              <!-- Net -->
+              <rect x="20" y="120" width="220" height="8" fill="#c8b060" rx="2"/>
+              <text x="130" y="116" fill="rgba(200,176,96,0.6)" font-size="9" text-anchor="middle" letter-spacing="2" font-family="Inter,sans-serif" font-weight="700">NET</text>
+              <!-- Player body -->
+              <!-- Head -->
+              <circle cx="130" cy="165" r="18" fill="none" stroke="var(--lime)" stroke-width="2"/>
+              <!-- Eyes looking direction arrow -->
+              <text x="130" y="170" fill="var(--lime)" font-size="11" text-anchor="middle" font-family="Inter,sans-serif">👁</text>
+              <!-- Torso -->
+              <line x1="130" y1="183" x2="130" y2="230" stroke="var(--lime)" stroke-width="3"/>
+              <!-- Arms UP -->
+              <line x1="130" y1="195" x2="100" y2="168" stroke="var(--sky)" stroke-width="2.5"/>
+              <line x1="130" y1="195" x2="160" y2="168" stroke="var(--sky)" stroke-width="2.5"/>
+              <!-- Hands (over net plane) -->
+              <rect x="88" y="155" width="16" height="12" fill="var(--sky)" rx="3"/>
+              <rect x="156" y="155" width="16" height="12" fill="var(--sky)" rx="3"/>
+              <!-- Legs bent -->
+              <line x1="130" y1="230" x2="108" y2="265" stroke="var(--lime)" stroke-width="2.5"/>
+              <line x1="130" y1="230" x2="152" y2="265" stroke="var(--lime)" stroke-width="2.5"/>
+              <!-- Feet -->
+              <ellipse cx="105" cy="272" rx="12" ry="6" fill="var(--lime)" opacity="0.7"/>
+              <ellipse cx="155" cy="272" rx="12" ry="6" fill="var(--lime)" opacity="0.7"/>
+              <!-- Annotations -->
+              <text x="72" y="162" fill="var(--sky)" font-size="9" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">HANDS</text>
+              <text x="72" y="172" fill="var(--sky)" font-size="9" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">UP</text>
+              <line x1="84" y1="163" x2="90" y2="162" stroke="var(--sky)" stroke-width="1"/>
+              <text x="200" y="248" fill="var(--lime)" font-size="9" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">KNEES</text>
+              <text x="200" y="258" fill="var(--lime)" font-size="9" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">BENT</text>
+              <line x1="183" y1="252" x2="160" y2="252" stroke="var(--lime)" stroke-width="1"/>
+              <text x="130" y="300" fill="rgba(255,255,255,0.3)" font-size="9" text-anchor="middle" letter-spacing="2" font-family="Inter,sans-serif">SHOULDER WIDTH STANCE</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HAND POSITION -->
+    <div class="phase-item" id="ph-hands">
+      <div class="phase-hd" onclick="togglePhase('ph-hands')">
+        <div class="phase-num-col pn-sky">2</div>
+        <div class="phase-hd-content">
+          <div class="phase-cat" style="color:var(--sky)">Critical Skill</div>
+          <div class="phase-name">Hand Position &amp; Penetration</div>
+          <div class="phase-tag">The most impactful technical detail in blocking</div>
+        </div>
+        <div class="phase-chev">▼</div>
+      </div>
+      <div class="phase-bd">
+        <div class="g2">
+          <div>
+            <p style="font-size:14px;color:var(--off);line-height:1.7;margin-bottom:14px;">Bad hand position is the single biggest reason blocks don't work. Hands that stay on your own side of the net cannot stop anything. Every technical detail here is non-negotiable.</p>
+            <ul class="steps">
+              <li><span class="snum" style="background:var(--sky)">1</span><strong style="color:var(--white)">Spread fingers wide</strong> — as wide as physically possible. More surface area = more chances to touch the ball</li>
+              <li><span class="snum" style="background:var(--sky)">2</span><strong style="color:var(--white)">Firm wrists, rigid arms</strong> — wrists that bend on contact deflect the ball back to your own side</li>
+              <li><span class="snum" style="background:var(--sky)">3</span><strong style="color:var(--white)">Thumbs pointing UP</strong> — not together, not down. Up. This angles the hands forward over the net</li>
+              <li><span class="snum" style="background:var(--sky)">4</span><strong style="color:var(--white)">Push hands OVER the net</strong> — penetrate into the opponent's side. Don't stop at the net tape</li>
+              <li><span class="snum" style="background:var(--sky)">5</span><strong style="color:var(--white)">Angle hands DOWN</strong> toward the opponent's court — not straight up, not back toward your own side</li>
+              <li><span class="snum" style="background:var(--sky)">6</span><strong style="color:var(--white)">Keep hands shoulder-width apart</strong> — a gap between your hands is a hole the hitter will find</li>
+            </ul>
+            <div class="cuebox cu-sky">
+              <div class="cu-title">Coaching Cues</div>
+              <ul class="cu-list">
+                <li>Spread your fingers like you're catching a watermelon</li>
+                <li>Thumbs pointing to the ceiling before you jump</li>
+                <li>Push through the net — pretend there is a ball on the other side and you are trying to reach it</li>
+                <li>Lock your wrists — they do not move on contact</li>
+                <li>No gap between your hands — seal the window</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="alert al-red">
+              <div class="alert-title">🚨 Most Common Hand Error</div>
+              Players put their hands at the net but don't penetrate. They're effectively making a wall on their own side — the ball hits their hands and deflects <em>backward</em> onto their own court. <strong>Penetration is not optional. It's the entire point of the block.</strong>
+            </div>
+            <div style="background:var(--panel2);border:1px solid var(--rim);border-radius:10px;padding:16px;margin-top:14px;">
+              <div class="cu-title">The Hand Check Drill</div>
+              <div style="font-size:13px;color:var(--off);line-height:1.7;">Player stands at the net, raises hands into block position, and freezes. Coach checks: fingers spread? Wrists firm? Thumbs up? Hands penetrating over net? Run this 30-second check at the start of every blocking session — takes 2 minutes for the whole team and fixes mechanical issues before they become habits.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JUMP TIMING -->
+    <div class="phase-item" id="ph-timing">
+      <div class="phase-hd" onclick="togglePhase('ph-timing')">
+        <div class="phase-num-col pn-red">3</div>
+        <div class="phase-hd-content">
+          <div class="phase-cat" style="color:var(--red)">Most Misunderstood</div>
+          <div class="phase-name">Jump Timing</div>
+          <div class="phase-tag">Jump after the hitter — not with them</div>
+        </div>
+        <div class="phase-chev">▼</div>
+      </div>
+      <div class="phase-bd">
+        <div class="g2">
+          <div>
+            <p style="font-size:14px;color:var(--off);line-height:1.7;margin-bottom:14px;">The instinct is to jump when the hitter jumps. This is wrong. A blocker who jumps with the hitter will be at the peak of their jump — and coming down — when the ball is contacted. By the time the ball arrives at the net, the blocker's hands are below the net. <strong>Wait for the hitter's hip to rise above the net before leaving the ground.</strong></p>
+            <div style="margin-bottom:16px;">
+              <div style="font-size:11px;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:12px;">The Timing Sequence</div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="display:flex;gap:12px;align-items:center;">
+                  <div style="background:var(--red);color:var(--void);font-family:var(--head);font-size:13px;padding:5px 12px;border-radius:6px;white-space:nowrap;min-width:80px;text-align:center;">WRONG</div>
+                  <div style="font-size:13px;color:var(--off);">Jump when hitter jumps → blocker already descending when ball is hit → hands below net on contact</div>
+                </div>
+                <div style="display:flex;gap:12px;align-items:center;">
+                  <div style="background:var(--orange);color:var(--void);font-family:var(--head);font-size:13px;padding:5px 12px;border-radius:6px;white-space:nowrap;min-width:80px;text-align:center;">BETTER</div>
+                  <div style="font-size:13px;color:var(--off);">Jump when hitter's arm swings → slightly late, but at least at peak when ball is hit</div>
+                </div>
+                <div style="display:flex;gap:12px;align-items:center;">
+                  <div style="background:var(--lime);color:var(--void);font-family:var(--head);font-size:13px;padding:5px 12px;border-radius:6px;white-space:nowrap;min-width:80px;text-align:center;">CORRECT</div>
+                  <div style="font-size:13px;color:var(--off);">Jump when hitter's <strong>hip clears the net height</strong> → blocker peaks at contact → maximum penetration</div>
+                </div>
+              </div>
+            </div>
+            <ul class="steps">
+              <li><span class="snum" style="background:var(--red)">1</span>Watch the hitter's hip — not the ball, not the hands</li>
+              <li><span class="snum" style="background:var(--red)">2</span>When hitter's hip rises to net height → begin your jump</li>
+              <li><span class="snum" style="background:var(--red)">3</span>Drive arms upward from below waist — arm swing adds 2–4 inches</li>
+              <li><span class="snum" style="background:var(--red)">4</span>At peak: push hands forward and down — do not pull them back</li>
+            </ul>
+          </div>
+          <div>
+            <div class="cuebox cu-red">
+              <div class="cu-title">Coaching Cues</div>
+              <ul class="cu-list">
+                <li>Watch the hip, jump after the hip</li>
+                <li>Count it — ONE (hitter jumps)... TWO (you jump)</li>
+                <li>You should be going UP as they are swinging THROUGH</li>
+                <li>Never pull your hands back — only forward</li>
+                <li>If you're coming down before the hit, you jumped too early</li>
+              </ul>
+            </div>
+            <div class="alert al-sky" style="margin-top:14px;">
+              <div class="alert-title">🔧 Teaching Tip</div>
+              <div style="color:var(--off);font-size:13px;line-height:1.6;">Exaggerate the delay in practice. Make players count out loud "ONE" when the hitter leaves the ground, then jump on "TWO." It feels wrong at first — they'll be convinced they're jumping too late — but the contact timing will be perfect. After 2 weeks it becomes natural.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LANDING -->
+    <div class="phase-item" id="ph-land">
+      <div class="phase-hd" onclick="togglePhase('ph-land')">
+        <div class="phase-num-col pn-orange">4</div>
+        <div class="phase-hd-content">
+          <div class="phase-cat" style="color:var(--orange)">Safety & Transition</div>
+          <div class="phase-name">Safe Landing &amp; Immediate Reset</div>
+          <div class="phase-tag">Landing correctly prevents injury and enables transition</div>
+        </div>
+        <div class="phase-chev">▼</div>
+      </div>
+      <div class="phase-bd">
+        <p style="font-size:14px;color:var(--off);line-height:1.7;margin-bottom:14px;">How a blocker lands is as important as how they jump. A stiff landing risks ankle and knee injuries. A soft landing immediately positions the player for transition. Every blocking session must include landing mechanics — especially with 7th graders whose tendons are still developing.</p>
+        <div class="g2">
+          <div>
+            <ul class="steps">
+              <li><span class="snum" style="background:var(--orange)">1</span>Land on <strong>both feet simultaneously</strong> — not one foot first</li>
+              <li><span class="snum" style="background:var(--orange)">2</span>Land on the <strong>balls of the feet</strong> — never flat-footed or heel-first</li>
+              <li><span class="snum" style="background:var(--orange)">3</span><strong>Bend knees immediately</strong> on landing to absorb force — soft and quiet</li>
+              <li><span class="snum" style="background:var(--orange)">4</span>Do NOT reach back into the net while landing — hands clear of net</li>
+              <li><span class="snum" style="background:var(--orange)">5</span>Immediately execute the <strong>drop step</strong> to begin transition (see Footwork chapter)</li>
+            </ul>
+            <div class="cuebox cu-orange">
+              <div class="cu-title">Coaching Cues</div>
+              <ul class="cu-list">
+                <li>Land like a cat — silent feet, bent knees</li>
+                <li>Both feet at the same time, every time</li>
+                <li>Land and DROP — one motion, no pause</li>
+                <li>If your landing makes a loud noise, your knees are not bending</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="alert al-red">
+              <div class="alert-title">⚠️ Injury Warning</div>
+              <div style="color:var(--off);font-size:13px;line-height:1.6;">Landing with straight knees or landing on one foot are the two leading causes of knee and ankle injuries in youth volleyball. Run landing mechanics as a dedicated 3-minute drill at the start of every blocking session for the first 4 weeks. Make it non-negotiable before any jump blocking occurs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════ FOOTWORK ══════ -->
+<div class="pg" id="pg-foot">
+  <div class="s-eyebrow">Chapter 3</div>
+  <div class="s-title">Blocking <em>Footwork</em><br>Patterns</div>
+  <div class="s-desc">Three footwork patterns cover every blocking situation. Which one you use depends entirely on how far the blocker needs to travel. Teach Pattern 1 first — it covers 70% of all blocking situations at this level.</div>
+
+  <div class="alert al-lime" style="margin-bottom:32px;">
+    <strong>Rule of thumb:</strong> Footwork is not about speed — it's about arriving in <strong>balance</strong>. A blocker who sprints to position but is off-balance produces a worse block than a blocker who moves efficiently and arrives square. Teach balance first, then increase speed.
+  </div>
+
+  <div class="divider"><div class="div-label">Pattern 1 — Step Close (Short Distance)</div><div class="div-line"></div></div>
+  <div class="fw-steps" style="margin-bottom:14px;">
+    <div class="fw-step">
+      <div class="fw-step-num" style="color:var(--lime)">1</div>
+      <div class="fw-step-name">READ</div>
+      <div class="fw-step-foot">Watch setter → where is the set going?</div>
+    </div>
+    <div class="fw-arrow">→</div>
+    <div class="fw-step">
+      <div class="fw-step-num" style="color:var(--sky)">2</div>
+      <div class="fw-step-name">STEP</div>
+      <div class="fw-step-foot">Lead foot steps toward the hitter</div>
+    </div>
+    <div class="fw-arrow">→</div>
+    <div class="fw-step">
+      <div class="fw-step-num" style="color:var(--orange)">3</div>
+      <div class="fw-step-name">CLOSE</div>
+      <div class="fw-step-foot">Trailing foot closes tight to lead foot</div>
+    </div>
+    <div class="fw-arrow">→</div>
+    <div class="fw-step">
+      <div class="fw-step-num" style="color:var(--red)">4</div>
+      <div class="fw-step-name">JUMP</div>
+      <div class="fw-step-foot">Explode up off both feet simultaneously</div>
+    </div>
+    <div class="fw-arrow">→</div>
+    <div class="fw-step">
+      <div class="fw-step-num" style="color:var(--violet)">5</div>
+      <div class="fw-step-name">LAND</div>
+      <div class="fw-step-foot">Two feet, bent knees, then drop step</div>
+    </div>
+  </div>
+  <div class="alert al-sky" style="margin-bottom:28px;">
+    <strong>When to use:</strong> Moving 1–4 feet laterally — outside blocker closing on a set near their position, or a middle blocker reacting to a set that's close to center. The step-close keeps the body square so both hands stay even. <strong>This is the pattern to drill most.</strong>
+  </div>
+
+  <div class="divider"><div class="div-label">Pattern 2 — Crossover Step (Medium Distance)</div><div class="div-line"></div></div>
+  <div class="fw-steps" style="margin-bottom:14px;">
+    <div class="fw-step">
+      <div class="fw-step-num" style="color:var(--lime)">1</div>
+      <div class="fw-step-name">PIVOT</div>
+      <div class="fw-step-foot">Turn lead foot to face direction of travel</div>
+    </div>
+    <div class="fw-arrow">→</div>
+    <div class="fw-step">
+      <div class="fw-step-num" style="color:var(--sky)">2</div>
+      <div class="fw-step-name">CROSS</div>
+      <div class="fw-step-foot">Dominant foot crosses in front of body</div>
+    </div>
+    <div class="fw-arrow">→</div>
+    <div class="fw-step">
+      <div class="fw-step-num" style="color:var(--orange)">3</div>
+      <div class="fw-step-name">SQUARE</div>
+      <div class="fw-step-foot">Plant foot squares hips back to net</div>
+    </div>
+    <div class="fw-arrow">→</div>
+    <div class="fw-step">
+      <div class="fw-step-num" style="color:var(--red)">4</div>
+      <div class="fw-step-name">JUMP</div>
+      <div class="fw-step-foot">Two-foot takeoff from square position</div>
+    </div>
+    <div class="fw-arrow">→</div>
+    <div class="fw-step">
+      <div class="fw-step-num" style="color:var(--violet)">5</div>
+      <div class="fw-step-name">LAND</div>
+      <div class="fw-step-foot">Absorb and transition immediately</div>
+    </div>
+  </div>
+  <div class="alert al-sky" style="margin-bottom:28px;">
+    <strong>When to use:</strong> Moving 4–8 feet — middle blocker traveling to outside positions, outside blocker helping on a back set. The key is squaring up before jumping. A blocker who jumps while still turning will be twisted in the air — only one hand will be effective.
+  </div>
+
+  <div class="divider"><div class="div-label">Pattern 3 — Step-Hop (Long Distance / Advanced)</div><div class="div-line"></div></div>
+  <div class="fw-steps" style="margin-bottom:14px;">
+    <div class="fw-step">
+      <div class="fw-step-num" style="color:var(--lime)">1</div>
+      <div class="fw-step-name">PREP STEP</div>
+      <div class="fw-step-foot">Small step to load lateral movement</div>
+    </div>
+    <div class="fw-arrow">→</div>
+    <div class="fw-step">
+      <div class="fw-step-num" style="color:var(--sky)">2</div>
+      <div class="fw-step-name">CROSSOVER</div>
+      <div class="fw-step-foot">Big crossing step to cover distance fast</div>
+    </div>
+    <div class="fw-arrow">→</div>
+    <div class="fw-step">
+      <div class="fw-step-num" style="color:var(--orange)">3</div>
+      <div class="fw-step-name">HOP</div>
+      <div class="fw-step-foot">Small hop-step to square up and load</div>
+    </div>
+    <div class="fw-arrow">→</div>
+    <div class="fw-step">
+      <div class="fw-step-num" style="color:var(--red)">4</div>
+      <div class="fw-step-name">JUMP</div>
+      <div class="fw-step-foot">Explosive vertical from loaded hop position</div>
+    </div>
+    <div class="fw-arrow">→</div>
+    <div class="fw-step">
+      <div class="fw-step-num" style="color:var(--violet)">5</div>
+      <div class="fw-step-name">LAND</div>
+      <div class="fw-step-foot">Two feet, then transition drop step</div>
+    </div>
+  </div>
+  <div class="alert al-gold" style="margin-bottom:36px;">
+    <strong>When to use:</strong> Moving more than 8 feet — a middle blocker chasing a pushed set all the way to the pin, or covering for a partner blocker. The hop step is what separates this from a run — it reloads the legs for an explosive vertical jump. <strong>Teach only after Pattern 1 and 2 are solid.</strong>
+  </div>
+
+  <div class="divider"><div class="div-label">Footwork Practice Progression</div><div class="div-line"></div></div>
+  <div class="g3" style="margin-bottom:36px;">
+    <div class="con-box cb-lime">
+      <div class="con-icon">🚶</div>
+      <div class="con-title">Week 1–2: Walk It</div>
+      <div class="con-text">Walk through each footwork pattern in slow motion. No jumping. Coach watches every foot placement. Say the step name out loud as you do it: "step — close — jump." Repetition before speed.</div>
+    </div>
+    <div class="con-box cb-sky">
+      <div class="con-icon">🏃</div>
+      <div class="con-title">Week 3: Run It</div>
+      <div class="con-text">Same patterns at full speed. Add a simulated jump at the end — no ball. Coach calls "left" or "right" randomly, player executes the correct pattern. Time from cue to peak of jump.</div>
+    </div>
+    <div class="con-box cb-orange">
+      <div class="con-icon">🏐</div>
+      <div class="con-title">Week 4+: Live It</div>
+      <div class="con-text">Footwork in real blocking situations against live attackers. Coach identifies which pattern each player is using — correct any player who defaults to a shuffle when a crossover is needed.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ READING ══════ -->
+<div class="pg" id="pg-read">
+  <div class="s-eyebrow">Chapter 4</div>
+  <div class="s-title">Reading <em>the Hitter</em></div>
+  <div class="s-desc">Reading is the highest-leverage blocking skill — and the most neglected. A blocker who reads correctly can be in position before the ball leaves the hitter's hand. A blocker who reacts late is always scrambling, no matter how fast their feet are.</div>
+
+  <div class="alert al-lime" style="margin-bottom:32px;">
+    <strong>The Eyework Sequence:</strong> Setter → Ball → Hitter Approach → Hitter Shoulder → Hitter Elbow → Contact. Blockers must track this exact sequence on every rally. Missing any step means guessing at the wrong moment.
+  </div>
+
+  <div class="divider"><div class="div-label">What to Read — In Order</div><div class="div-line"></div></div>
+  <div class="phase-acc">
+
+    <div class="phase-item open" id="rph1">
+      <div class="phase-hd" onclick="togglePhase('rph1')">
+        <div class="phase-num-col pn-lime">1</div>
+        <div class="phase-hd-content">
+          <div class="phase-cat" style="color:var(--lime)">Read First</div>
+          <div class="phase-name">Watch the Setter's Hands</div>
+          <div class="phase-tag">The earliest possible read — tells you where the set is going before the hitter even starts their approach</div>
+        </div>
+        <div class="phase-chev">▼</div>
+      </div>
+      <div class="phase-bd">
+        <div class="g2">
+          <div>
+            <p style="font-size:14px;color:var(--off);line-height:1.7;margin-bottom:12px;">The setter's hand release angle tells you almost everything. Hands angling left = set to zone 4. Hands angling right = set to zone 2. Hands forward = back set. An experienced blocker is already beginning their footwork while the ball is still in the setter's hands.</p>
+            <ul class="steps">
+              <li><span class="snum" style="background:var(--lime)">→</span>Hands angling toward zone 4 (left front) = outside set left</li>
+              <li><span class="snum" style="background:var(--lime)">→</span>Hands angling toward zone 2 (right front) = right side set</li>
+              <li><span class="snum" style="background:var(--lime)">→</span>Setter facing away from usual direction = back set incoming</li>
+              <li><span class="snum" style="background:var(--lime)">→</span>Very quick, low release = quick set or shoot set to the middle</li>
+            </ul>
+          </div>
+          <div class="cuebox cu-lime">
+            <div class="cu-title">Coaching Cues</div>
+            <ul class="cu-list">
+              <li>Eyes on the setter from the first pass — never look away</li>
+              <li>Your feet should react to the setter's hands — not the ball</li>
+              <li>Call it out loud: "Outside!" "Right side!" the moment you read it</li>
+              <li>Your teammates need to hear what you see — call it every time</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-item" id="rph2">
+      <div class="phase-hd" onclick="togglePhase('rph2')">
+        <div class="phase-num-col pn-sky">2</div>
+        <div class="phase-hd-content">
+          <div class="phase-cat" style="color:var(--sky)">Read Second</div>
+          <div class="phase-name">Watch the Hitter's Approach Angle</div>
+          <div class="phase-tag">Approach direction predicts shot direction — 80% of the time</div>
+        </div>
+        <div class="phase-chev">▼</div>
+      </div>
+      <div class="phase-bd">
+        <div class="g2">
+          <div>
+            <p style="font-size:14px;color:var(--off);line-height:1.7;margin-bottom:12px;">Most hitters approach in the same direction they intend to hit. An approach cutting inside usually means a cross-court hit. An approach coming straight means a line shot is likely. Watch the approach direction as a strong secondary clue.</p>
+            <ul class="steps">
+              <li><span class="snum" style="background:var(--sky)">→</span>Approach cutting sharply inward (toward middle) → cross-court hit likely</li>
+              <li><span class="snum" style="background:var(--sky)">→</span>Approach staying outside, parallel to sideline → line shot likely</li>
+              <li><span class="snum" style="background:var(--sky)">→</span>Very fast approach → hitter is timing an aggressive swing, rarely tips</li>
+              <li><span class="snum" style="background:var(--sky)">→</span>Slow floating approach → tip or roll highly likely, jump later</li>
+            </ul>
+          </div>
+          <div class="cuebox cu-sky">
+            <div class="cu-title">Coaching Cues</div>
+            <ul class="cu-list">
+              <li>Watch their feet — where are they coming from?</li>
+              <li>A hitter cutting inside is setting up the cross — shift your hands inside</li>
+              <li>A hitter floating in slow = probably a tip — stay patient, don't jump early</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-item" id="rph3">
+      <div class="phase-hd" onclick="togglePhase('rph3')">
+        <div class="phase-num-col pn-red">3</div>
+        <div class="phase-hd-content">
+          <div class="phase-cat" style="color:var(--red)">Read Third — Final Cue</div>
+          <div class="phase-name">Watch the Hitter's Shoulder</div>
+          <div class="phase-tag">The last read before jumping — the most reliable shot predictor</div>
+        </div>
+        <div class="phase-chev">▼</div>
+      </div>
+      <div class="phase-bd">
+        <div class="g2">
+          <div>
+            <p style="font-size:14px;color:var(--off);line-height:1.7;margin-bottom:12px;">The hitting shoulder's angle at the top of the jump is the single best predictor of shot direction. An open shoulder (facing cross-court) means a cross-court swing. A closed shoulder (facing the line) means a line shot. Elite blockers read this automatically.</p>
+            <ul class="steps">
+              <li><span class="snum" style="background:var(--red)">→</span><strong style="color:var(--white)">Open shoulder</strong> (perpendicular to sideline, chest facing cross-court) = cross-court attack</li>
+              <li><span class="snum" style="background:var(--red)">→</span><strong style="color:var(--white)">Closed shoulder</strong> (parallel to sideline, chest facing the line) = line attack</li>
+              <li><span class="snum" style="background:var(--red)">→</span><strong style="color:var(--white)">Elbow high and behind head</strong> = hard powerful swing incoming — block aggressively</li>
+              <li><span class="snum" style="background:var(--red)">→</span><strong style="color:var(--white)">Elbow low or bent</strong> = tip or roll incoming — hands forward, don't jump high</li>
+            </ul>
+          </div>
+          <div>
+            <div class="cuebox cu-red">
+              <div class="cu-title">Coaching Cues</div>
+              <ul class="cu-list">
+                <li>Open chest = cross. Closed chest = line. Simple.</li>
+                <li>High elbow = big swing. Low elbow = tip. React accordingly.</li>
+                <li>Make a call every single time — even wrong calls train the read habit</li>
+                <li>Don't look at the ball — look at the shoulder</li>
+              </ul>
+            </div>
+            <div class="alert al-gold" style="margin-top:14px;">
+              <div class="alert-title">Teaching the Shoulder Read</div>
+              <div style="color:var(--off);font-size:13px;line-height:1.6;">Run the Shoulder Read Drill from the Transition guide: player A simulates a hitting motion, player B calls "line" or "cross" based on shoulder — before contact. No ball needed. This drill builds the read reflex faster than any live blocking drill. Run it 15 reps per player every session for 4 weeks.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════ TEAM BLOCKING ══════ -->
+<div class="pg" id="pg-team">
+  <div class="s-eyebrow">Chapter 5</div>
+  <div class="s-title">Team <em>Blocking</em></div>
+  <div class="s-desc">One blocker can slow a hitter. Two blockers working together can eliminate half the court. Team blocking requires timing, communication, and closing the seam between blockers. This is where individual skill becomes a system.</div>
+
+  <div class="divider"><div class="div-label">The 3 Responsibilities</div><div class="div-line"></div></div>
+  <div class="g3" style="margin-bottom:32px;">
+    <div class="con-box cb-lime">
+      <div class="con-icon">📋</div>
+      <div class="con-title">Outside Blocker Sets the Block</div>
+      <div class="con-text">The outside blocker (on the side where the set is going) establishes position first. She <strong>does NOT move until she reads the set</strong>. She jumps and penetrates — her position determines where the seam is. The middle blocker must close to her.</div>
+    </div>
+    <div class="con-box cb-sky">
+      <div class="con-icon">🏃</div>
+      <div class="con-title">Middle Blocker Closes the Seam</div>
+      <div class="con-text">The middle blocker moves laterally to join the outside blocker. Her inside hand must touch — or nearly touch — the outside blocker's inside hand. <strong>Any gap between them is a hole the hitter will find.</strong> She jumps slightly after the outside blocker.</div>
+    </div>
+    <div class="con-box cb-orange">
+      <div class="con-icon">💬</div>
+      <div class="con-title">Communication Throughout</div>
+      <div class="con-text">"Outside!" when the set is tracked. "Go!" when the outside blocker commits. "Closed!" when the seam is sealed. Verbal cues between blockers reduce hesitation and prevent both players from moving the same direction on a fake set.</div>
+    </div>
+  </div>
+
+  <div class="divider"><div class="div-label">Closing the Seam — Step by Step</div><div class="div-line"></div></div>
+  <div style="background:var(--panel);border:1px solid var(--rim);border-radius:14px;overflow:hidden;margin-bottom:28px;">
+    <div style="padding:16px 22px;background:var(--panel2);border-bottom:1px solid var(--rim);font-family:var(--head);font-size:16px;font-weight:600;letter-spacing:1px;">The Seam Closing Sequence</div>
+    <div style="padding:20px 22px;">
+      <ul class="steps">
+        <li><span class="snum" style="background:var(--lime)">1</span>Set is tracked by both blockers. Both call out direction: "Outside! Outside!"</li>
+        <li><span class="snum" style="background:var(--lime)">2</span>Outside blocker moves to the hitter's hitting shoulder and sets her position at the net</li>
+        <li><span class="snum" style="background:var(--lime)">3</span>Middle blocker closes quickly — her outside foot plants next to outside blocker's inside foot</li>
+        <li><span class="snum" style="background:var(--lime)">4</span>Both blockers load — outside blocker jumps first, middle blocker jumps 0.2 seconds later</li>
+        <li><span class="snum" style="background:var(--lime)">5</span>In the air: outside blocker's inside hand and middle blocker's outside hand close the seam</li>
+        <li><span class="snum" style="background:var(--lime)">6</span>Both penetrate over the net together — one unified wall, not two separate blocks</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="g2" style="margin-bottom:36px;">
+    <div>
+      <div class="divider"><div class="div-label">Sealing Line vs Cross</div><div class="div-line"></div></div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="background:var(--panel2);border:1px solid var(--rim);border-radius:10px;padding:14px 16px;">
+          <div style="font-family:var(--head);font-size:16px;color:var(--lime);margin-bottom:6px;letter-spacing:0.5px;">Seal the Line</div>
+          <div style="font-size:13px;color:var(--off);line-height:1.6;">Outside blocker positions hand on the outside (line side) of the ball — takes away the line shot. Back row defender at zone 5 (line) shifts to cover cross-court. Middle blocker closes seam. Hitter is forced to hit cross into the waiting back row defense.</div>
+        </div>
+        <div style="background:var(--panel2);border:1px solid var(--rim);border-radius:10px;padding:14px 16px;">
+          <div style="font-family:var(--head);font-size:16px;color:var(--sky);margin-bottom:6px;letter-spacing:0.5px;">Seal the Cross</div>
+          <div style="font-size:13px;color:var(--off);line-height:1.6;">Outside blocker shifts hands inside — takes away the cross-court angle. Back row at zone 1 (cross-court) shifts to cover the open line. Works best when your outside blocker reads the hitter's shoulder showing open = cross.</div>
+        </div>
+        <div style="background:var(--panel2);border:1px solid var(--rim);border-radius:10px;padding:14px 16px;">
+          <div style="font-family:var(--head);font-size:16px;color:var(--orange);margin-bottom:6px;letter-spacing:0.5px;">Swing Blocking</div>
+          <div style="font-size:13px;color:var(--off);line-height:1.6;">Advanced: blocker swings hands from outside to inside (or vice versa) mid-air to take away a shot the hitter reveals late. Teach only after the basic technique is mastered — requires reading the shoulder in the air.</div>
+        </div>
+      </div>
+    </div>
+    <div class="svg-wrap">
+      <div class="svg-lbl">Team Block — Seam Closed (Top View)</div>
+      <svg class="court-svg" viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg">
+        <rect width="300" height="380" fill="#13131a" rx="10"/>
+        <!-- Court outline -->
+        <rect x="15" y="15" width="270" height="350" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" rx="4"/>
+        <!-- Net -->
+        <rect x="15" y="178" width="270" height="10" fill="#c8b060" opacity="0.8"/>
+        <text x="150" y="186" fill="rgba(200,176,96,0.6)" font-size="8" text-anchor="middle" letter-spacing="3" font-family="Inter,sans-serif" font-weight="700">NET</text>
+        <!-- 3m lines -->
+        <line x1="15" y1="90" x2="285" y2="90" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="5,4"/>
+        <line x1="15" y1="275" x2="285" y2="275" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="5,4"/>
+        <!-- Hitter (opponent) -->
+        <circle cx="80" cy="50" r="18" fill="#f04060" stroke="white" stroke-width="1.5" opacity="0.9"/>
+        <text x="80" y="54" fill="white" font-size="9" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">ATK</text>
+        <!-- Attack path -->
+        <line x1="80" y1="68" x2="80" y2="175" stroke="#f04060" stroke-width="2" stroke-dasharray="5,3"/>
+        <!-- Outside Blocker (OB) -->
+        <circle cx="80" cy="205" r="20" fill="#b8e840" stroke="white" stroke-width="2"/>
+        <text x="80" y="210" fill="#09090b" font-size="10" font-weight="800" text-anchor="middle" font-family="Inter,sans-serif">OB</text>
+        <!-- Middle Blocker (MB) -->
+        <circle cx="120" cy="205" r="20" fill="#40b0f0" stroke="white" stroke-width="2"/>
+        <text x="120" y="210" fill="#09090b" font-size="10" font-weight="800" text-anchor="middle" font-family="Inter,sans-serif">MB</text>
+        <!-- Seam closed indicator -->
+        <line x1="99" y1="195" x2="101" y2="195" stroke="var(--lime)" stroke-width="3"/>
+        <text x="100" y="185" fill="var(--lime)" font-size="8" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">SEAM</text>
+        <text x="100" y="175" fill="var(--lime)" font-size="8" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">CLOSED</text>
+        <!-- Block wall visual -->
+        <rect x="60" y="186" width="80" height="6" fill="rgba(184,232,64,0.3)" stroke="var(--lime)" stroke-width="1" rx="3"/>
+        <text x="100" y="193" fill="var(--lime)" font-size="7" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">BLOCK WALL</text>
+        <!-- Back row defenders -->
+        <circle cx="50" cy="310" r="14" fill="var(--mint)" stroke="white" stroke-width="1.5" opacity="0.7"/>
+        <text x="50" y="314" fill="#09090b" font-size="9" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">D1</text>
+        <circle cx="150" cy="330" r="14" fill="var(--mint)" stroke="white" stroke-width="1.5" opacity="0.7"/>
+        <text x="150" y="334" fill="#09090b" font-size="9" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">D2</text>
+        <circle cx="250" cy="310" r="14" fill="var(--mint)" stroke="white" stroke-width="1.5" opacity="0.7"/>
+        <text x="250" y="314" fill="#09090b" font-size="9" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">D3</text>
+        <!-- Labels -->
+        <text x="150" y="30" fill="rgba(255,255,255,0.3)" font-size="9" text-anchor="middle" letter-spacing="2" font-family="Inter,sans-serif">OPPONENT</text>
+        <text x="150" y="365" fill="rgba(255,255,255,0.3)" font-size="9" text-anchor="middle" letter-spacing="2" font-family="Inter,sans-serif">YOUR SIDE</text>
+      </svg>
+      <div style="font-size:11px;color:var(--muted);text-align:center;max-width:280px;line-height:1.5;">OB and MB seal the seam directly in front of the attacker. Back row defenders cover unblocked zones.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ DRILLS ══════ -->
+<div class="pg" id="pg-drills">
+  <div class="s-eyebrow">Chapter 6</div>
+  <div class="s-title">8 <em>Blocking</em> Drills</div>
+  <div class="s-desc">These drills build blocking from mechanics to live play. Run them in order — don't skip to live blocking before mechanics are correct. A player who practices bad mechanics gets faster at doing it wrong.</div>
+
+  <div class="drill-stack">
+
+    <div class="dc open" id="bd1">
+      <div class="dc-hd" onclick="toggleDrill('bd1')">
+        <div class="dc-bar" style="background:var(--lime)"></div>
+        <div class="dc-hd-content">
+          <div class="dc-cat">Mechanics — Week 1</div>
+          <div class="dc-name">The Hand Check Drill</div>
+          <div class="dc-pills"><span class="dc-pill">⏱ 3 min</span><span class="dc-pill">👥 Full Team</span><span class="dc-pill">No ball</span></div>
+        </div>
+        <div class="dc-chev">▼</div>
+      </div>
+      <div class="dc-bd">
+        <div class="dc-goal">🎯 Builds muscle memory for correct hand position before any ball is involved. Run this at the start of every blocking session — 3 minutes, huge payoff.</div>
+        <div class="g2">
+          <ul class="steps">
+            <li><span class="snum" style="background:var(--lime)">1</span>All players stand at the net in ready position</li>
+            <li><span class="snum" style="background:var(--lime)">2</span>On whistle: jump and push hands over the net into block position — hold for 2 seconds</li>
+            <li><span class="snum" style="background:var(--lime)">3</span>Coach walks the line: fingers spread? Wrists firm? Thumbs up? Penetrating?</li>
+            <li><span class="snum" style="background:var(--lime)">4</span>Any player with bent wrists or hands below net = redo the rep</li>
+            <li><span class="snum" style="background:var(--lime)">5</span>Run 8 reps. Fast. Correct every error immediately.</li>
+          </ul>
+          <div class="cuebox cu-lime">
+            <div class="cu-title">Coaching Points</div>
+            <ul class="cu-list">
+              <li>This is the foundation — do not skip it</li>
+              <li>Correct wrist flexion immediately — it becomes a habit in days</li>
+              <li>Add: eyes forward, not down at the ground</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dc" id="bd2">
+      <div class="dc-hd" onclick="toggleDrill('bd2')">
+        <div class="dc-bar" style="background:var(--sky)"></div>
+        <div class="dc-hd-content">
+          <div class="dc-cat">Timing — Week 1</div>
+          <div class="dc-name">Box Jump Block Timing</div>
+          <div class="dc-pills"><span class="dc-pill">⏱ 8 min</span><span class="dc-pill">👥 Pairs</span><span class="dc-pill">Box or platform needed</span></div>
+        </div>
+        <div class="dc-chev">▼</div>
+      </div>
+      <div class="dc-bd">
+        <div class="dc-goal">🎯 Coach stands on a box holding a ball at a fixed height. Blocker practices jumping and pressing hands forward at the exact right moment. Isolates jump timing completely.</div>
+        <div class="g2">
+          <ul class="steps">
+            <li><span class="snum" style="background:var(--sky)">1</span>Coach stands on a box with ball held at net height + 1 foot</li>
+            <li><span class="snum" style="background:var(--sky)">2</span>Player stands in ready position at the net, hands up</li>
+            <li><span class="snum" style="background:var(--sky)">3</span>Coach counts: "ONE" (pause) — player jumps. At peak: hands press forward to contact ball</li>
+            <li><span class="snum" style="background:var(--sky)">4</span>Focus on: did both hands contact the ball simultaneously? Did they penetrate over?</li>
+            <li><span class="snum" style="background:var(--sky)">5</span>10 reps each player. Coach varies height to adjust difficulty.</li>
+          </ul>
+          <div class="cuebox cu-sky">
+            <div class="cu-title">Coaching Points</div>
+            <ul class="cu-list">
+              <li>The ball should be pressed toward the floor — not just touched</li>
+              <li>If player misses: did they jump too early, too late, or too far from the net?</li>
+              <li>Track: number of clean two-hand contacts per 10 attempts</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dc" id="bd3">
+      <div class="dc-hd" onclick="toggleDrill('bd3')">
+        <div class="dc-bar" style="background:var(--orange)"></div>
+        <div class="dc-hd-content">
+          <div class="dc-cat">Footwork — Week 2</div>
+          <div class="dc-name">Mirror Blocking Footwork</div>
+          <div class="dc-pills"><span class="dc-pill">⏱ 7 min</span><span class="dc-pill">👥 Pairs at net</span><span class="dc-pill">No ball</span></div>
+        </div>
+        <div class="dc-chev">▼</div>
+      </div>
+      <div class="dc-bd">
+        <div class="dc-goal">🎯 Two players mirror each other at the net — one moves, the other follows. Trains lateral footwork and net presence without the pressure of a live ball.</div>
+        <div class="g2">
+          <ul class="steps">
+            <li><span class="snum" style="background:var(--orange)">1</span>Two players face each other across the net in ready position</li>
+            <li><span class="snum" style="background:var(--orange)">2</span>Player A shuffles or slides laterally — Player B mirrors exactly on the opposite side</li>
+            <li><span class="snum" style="background:var(--orange)">3</span>Player A then stops and jumps — Player B simultaneously jumps and penetrates hands</li>
+            <li><span class="snum" style="background:var(--orange)">4</span>Hands should nearly meet at the net on every jump</li>
+            <li><span class="snum" style="background:var(--orange)">5</span>Switch: Player B leads, Player A mirrors. Run 3 minutes each direction.</li>
+          </ul>
+          <div class="cuebox cu-orange">
+            <div class="cu-title">Coaching Points</div>
+            <ul class="cu-list">
+              <li>Footwork should be step-close, not shuffle — correct any shuffling</li>
+              <li>Both players must jump at the same time — work on sync</li>
+              <li>Add: Player B calls "jump!" when they jump to train communication</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dc" id="bd4">
+      <div class="dc-hd" onclick="toggleDrill('bd4')">
+        <div class="dc-bar" style="background:var(--red)"></div>
+        <div class="dc-hd-content">
+          <div class="dc-cat">Reading — Week 2</div>
+          <div class="dc-name">Eye Progression &amp; Tempo Drill</div>
+          <div class="dc-pills"><span class="dc-pill">⏱ 10 min</span><span class="dc-pill">👥 3 blockers</span><span class="dc-pill">Setters on opposite side</span></div>
+        </div>
+        <div class="dc-chev">▼</div>
+      </div>
+      <div class="dc-bd">
+        <div class="dc-goal">🎯 Trains the full eyework sequence: watch setter → call direction → move to correct position. No hitting — just reading and moving.</div>
+        <div class="g2">
+          <ul class="steps">
+            <li><span class="snum" style="background:var(--red)">1</span>3 blockers at the net. Setter on the opposite side receives a toss from coach</li>
+            <li><span class="snum" style="background:var(--red)">2</span>Setter sets to zone 4, zone 2, or back to the libero (simulating a middle attack)</li>
+            <li><span class="snum" style="background:var(--red)">3</span>Blockers must call out the direction the moment setter's hands release: "Outside!" "Right!" "Back!"</li>
+            <li><span class="snum" style="background:var(--red)">4</span>Blockers move to the correct blocking position — no hitter, no need to jump</li>
+            <li><span class="snum" style="background:var(--red)">5</span>Coach gives feedback: did they call correctly? Did they move before the ball arrived?</li>
+          </ul>
+          <div class="cuebox cu-red">
+            <div class="cu-title">Coaching Points</div>
+            <ul class="cu-list">
+              <li>Silence = failure. Every rep must have a verbal call.</li>
+              <li>Track: what % of sets are called correctly before ball arrives</li>
+              <li>The middle blocker should always call — she has the best sightline</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dc" id="bd5">
+      <div class="dc-hd" onclick="toggleDrill('bd5')">
+        <div class="dc-bar" style="background:var(--violet)"></div>
+        <div class="dc-hd-content">
+          <div class="dc-cat">Team Blocking — Week 3</div>
+          <div class="dc-name">Seam Closing Drill</div>
+          <div class="dc-pills"><span class="dc-pill">⏱ 10 min</span><span class="dc-pill">👥 2 blockers + setter</span><span class="dc-pill">No hitter initially</span></div>
+        </div>
+        <div class="dc-chev">▼</div>
+      </div>
+      <div class="dc-bd">
+        <div class="dc-goal">🎯 Outside blocker and middle blocker practice closing the seam between them — the most important team blocking skill. Run without a hitter first, then add one.</div>
+        <div class="g2">
+          <ul class="steps">
+            <li><span class="snum" style="background:var(--violet)">1</span>Outside blocker (OB) and middle blocker (MB) at the net in starting positions</li>
+            <li><span class="snum" style="background:var(--violet)">2</span>Coach sets or tosses to zone 4. OB moves immediately to the hitting position.</li>
+            <li><span class="snum" style="background:var(--violet)">3</span>MB closes quickly — plants inside foot next to OB's inside foot. No gap between them.</li>
+            <li><span class="snum" style="background:var(--violet)">4</span>Both jump — coach checks: are inside hands touching? Any gap?</li>
+            <li><span class="snum" style="background:var(--violet)">5</span>10 reps to zone 4, 10 reps to zone 2. Then add a live hitter.</li>
+          </ul>
+          <div class="cuebox cu-violet">
+            <div class="cu-title">Coaching Points</div>
+            <ul class="cu-list">
+              <li>MB must arrive before OB jumps — not after</li>
+              <li>Gap between hands = fail the rep. Redo it.</li>
+              <li>OB calls "go!" when she jumps so MB knows exact timing</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dc" id="bd6">
+      <div class="dc-hd" onclick="toggleDrill('bd6')">
+        <div class="dc-bar" style="background:var(--mint)"></div>
+        <div class="dc-hd-content">
+          <div class="dc-cat">Live Blocking — Week 3</div>
+          <div class="dc-name">Outside Hitter vs Block</div>
+          <div class="dc-pills"><span class="dc-pill">⏱ 12 min</span><span class="dc-pill">👥 2 blockers + hitter</span><span class="dc-pill">Live attacking</span></div>
+        </div>
+        <div class="dc-chev">▼</div>
+      </div>
+      <div class="dc-bd">
+        <div class="dc-goal">🎯 Two blockers face a live outside hitter attacking at full speed. Trains real reading, real timing, and real seam closing against game-speed attacks.</div>
+        <div class="g2">
+          <ul class="steps">
+            <li><span class="snum" style="background:var(--mint)">1</span>Coach sets from zone 3 to zone 4. Outside hitter attacks against 2 blockers.</li>
+            <li><span class="snum" style="background:var(--mint)">2</span>Blockers must call the set direction, close the seam, and jump with correct timing</li>
+            <li><span class="snum" style="background:var(--mint)">3</span>Run 10 balls. Track: touches, stuffs, balls that escape through the seam</li>
+            <li><span class="snum" style="background:var(--mint)">4</span>After 10: coach gives feedback on timing and seam quality. Run 10 more.</li>
+            <li><span class="snum" style="background:var(--mint)">5</span>Rotate blockers. Keep the hitter constant so blockers can read one hitter's tendencies.</li>
+          </ul>
+          <div class="cuebox cu-mint">
+            <div class="cu-title">Coaching Points</div>
+            <ul class="cu-list">
+              <li>A touch counts — celebrate touches as much as stuffs</li>
+              <li>Pause after seam escapes — identify: timing issue or gap issue?</li>
+              <li>Have hitter call their shot before swinging — trains read skill</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dc" id="bd7">
+      <div class="dc-hd" onclick="toggleDrill('bd7')">
+        <div class="dc-bar" style="background:var(--gold)"></div>
+        <div class="dc-hd-content">
+          <div class="dc-cat">Competition — Week 4</div>
+          <div class="dc-name">Blockers vs Hitters Tournament</div>
+          <div class="dc-pills"><span class="dc-pill">⏱ 15 min</span><span class="dc-pill">👥 Full Team</span><span class="dc-pill">Competitive scoring</span></div>
+        </div>
+        <div class="dc-chev">▼</div>
+      </div>
+      <div class="dc-bd">
+        <div class="dc-goal">🎯 High-energy competitive drill where blockers try to accumulate touches and stuffs against hitters. Tracks efficiency on both sides — builds blocking confidence through scoreboard accountability.</div>
+        <div class="g2">
+          <ul class="steps">
+            <li><span class="snum" style="background:var(--gold)">1</span>One hitter attacks 10 balls against 2 rotating blockers. Coach sets.</li>
+            <li><span class="snum" style="background:var(--gold)">2</span>Hitter scores: Kill = 2pts. In-play hit = 1pt. Error = 0pts.</li>
+            <li><span class="snum" style="background:var(--gold)">3</span>Blockers score: Stuff = 3pts. Touch = 1pt. No touch = 0pts.</li>
+            <li><span class="snum" style="background:var(--gold)">4</span>After 10 balls: tally scores. Rotate hitter. Keep running blockers to compete.</li>
+            <li><span class="snum" style="background:var(--gold)">5</span>Team with most total points after all rotations wins the tournament.</li>
+          </ul>
+          <div class="cuebox cu-gold">
+            <div class="cu-title">Coaching Points</div>
+            <ul class="cu-list">
+              <li>Track the leaderboard publicly — competition drives intensity</li>
+              <li>A touch that leads to a back-row kill = blocker gets the point too</li>
+              <li>Silence from blockers = deduct a point. Communication is scored.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dc" id="bd8">
+      <div class="dc-hd" onclick="toggleDrill('bd8')">
+        <div class="dc-bar" style="background:var(--red)"></div>
+        <div class="dc-hd-content">
+          <div class="dc-cat">Full Integration — Week 4</div>
+          <div class="dc-name">Block-Defense System Drill</div>
+          <div class="dc-pills"><span class="dc-pill">⏱ 12 min</span><span class="dc-pill">👥 Full Team</span><span class="dc-pill">6v6 defense</span></div>
+        </div>
+        <div class="dc-chev">▼</div>
+      </div>
+      <div class="dc-bd">
+        <div class="dc-goal">🎯 Full team block and back-row defense working together as a unit. The block takes away one angle, the back row covers the other. This is the end goal of all blocking training.</div>
+        <div class="g2">
+          <ul class="steps">
+            <li><span class="snum" style="background:var(--red)">1</span>Full 6v6. Coaches control the set location — alternate zone 4 and zone 2 sets</li>
+            <li><span class="snum" style="background:var(--red)">2</span>Before each set: blockers call direction. Back row adjusts based on block call (line sealed → back row shifts cross)</li>
+            <li><span class="snum" style="background:var(--red)">3</span>After each rally: coach identifies what the block took away and whether back row covered correctly</li>
+            <li><span class="snum" style="background:var(--red)">4</span>Goal: team stops 50%+ of attacks in 20 balls</li>
+            <li><span class="snum" style="background:var(--red)">5</span>Run 20 balls. Debrief. Adjust. Run 20 more.</li>
+          </ul>
+          <div class="cuebox cu-red">
+            <div class="cu-title">Coaching Points</div>
+            <ul class="cu-list">
+              <li>The block must communicate to the back row what angle they are sealing</li>
+              <li>A dig off a touch block = block gets credit — teach players to value touches</li>
+              <li>If back row is not adjusting to block calls: this is a communication breakdown, not a skill breakdown</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════ MISTAKES ══════ -->
+<div class="pg" id="pg-mistakes">
+  <div class="s-eyebrow">Chapter 7</div>
+  <div class="s-title">8 <em>Common</em> Blocking<br>Mistakes</div>
+  <div class="s-desc">These are the errors you will see every single practice. Recognizing them instantly — and knowing the fix — separates a coach who speeds up improvement from one who watches the same mistake for 3 months.</div>
+
+  <div class="mistake-grid">
+    <div class="mistake-card">
+      <div class="mc-head"><div class="mc-icon">🧱</div><div class="mc-title">Hands Not Penetrating</div></div>
+      <div class="mc-body">
+        <div class="mc-wrong"><span class="mc-badge mb-wrong">WRONG</span> Hands stop at the net tape — no penetration over to the opponent's side. Ball hits hands and deflects back into your own court.</div>
+        <div class="mc-fix"><span class="mc-badge mb-fix">FIX</span> Run the Hand Check Drill every session. Cue: "Reach for the ball on THEIR side — not the tape." Make players touch the top of the net with their wrists, then push forward.</div>
+      </div>
+    </div>
+    <div class="mistake-card">
+      <div class="mc-head"><div class="mc-icon">⏰</div><div class="mc-title">Jumping Too Early</div></div>
+      <div class="mc-body">
+        <div class="mc-wrong"><span class="mc-badge mb-wrong">WRONG</span> Blocker jumps when the hitter jumps — already at peak and descending when contact happens. Hands are below the net when the ball arrives.</div>
+        <div class="mc-fix"><span class="mc-badge mb-fix">FIX</span> Teach the "ONE-TWO" count. Hitter leaves ground = ONE. Blocker jumps = TWO. Exaggerate the delay in practice until it feels natural. Takes 3–4 weeks to retrain this instinct.</div>
+      </div>
+    </div>
+    <div class="mistake-card">
+      <div class="mc-head"><div class="mc-icon">🫳</div><div class="mc-title">Bent Wrists</div></div>
+      <div class="mc-body">
+        <div class="mc-wrong"><span class="mc-badge mb-wrong">WRONG</span> Wrists flex back on contact — turning the hands into a ramp that deflects the ball upward or backward instead of downward into the opponent's court.</div>
+        <div class="mc-fix"><span class="mc-badge mb-fix">FIX</span> Cue: "Wrists are concrete — they do not move." Have players push their hands against a wall pre-practice, feeling the locked wrist position. 1 week of daily hand checks eliminates this.</div>
+      </div>
+    </div>
+    <div class="mistake-card">
+      <div class="mc-head"><div class="mc-icon">🤸</div><div class="mc-title">Jumping Away From Net</div></div>
+      <div class="mc-body">
+        <div class="mc-wrong"><span class="mc-badge mb-wrong">WRONG</span> Blocker jumps backward to avoid touching the net — resulting in zero penetration and a block that can never reach the ball.</div>
+        <div class="mc-fix"><span class="mc-badge mb-fix">FIX</span> Cue: "Jump UP, not backward." Mark a line on the floor. Feet must stay on the line through takeoff. If they jump backward, feet will visibly leave the line.</div>
+      </div>
+    </div>
+    <div class="mistake-card">
+      <div class="mc-head"><div class="mc-icon">🕳️</div><div class="mc-title">Gap Between Hands</div></div>
+      <div class="mc-body">
+        <div class="mc-wrong"><span class="mc-badge mb-wrong">WRONG</span> Space between the two blockers' hands — or between one blocker's hands — gives the hitter a hole to thread. Elite hitters find this gap every time.</div>
+        <div class="mc-fix"><span class="mc-badge mb-fix">FIX</span> In solo blocking: thumbs must nearly touch. In team blocking: inside hands must close. Run seam closing drill and physically require blockers to touch hands at the seam before considering the rep clean.</div>
+      </div>
+    </div>
+    <div class="mistake-card">
+      <div class="mc-head"><div class="mc-icon">👀</div><div class="mc-title">Watching the Ball, Not the Hitter</div></div>
+      <div class="mc-body">
+        <div class="mc-wrong"><span class="mc-badge mb-wrong">WRONG</span> Blocker watches the set travel to the hitter instead of watching the setter then immediately shifting to the hitter's shoulder. Leads to late positioning every time.</div>
+        <div class="mc-fix"><span class="mc-badge mb-fix">FIX</span> Run the Eye Progression Drill. Enforce: "Eyes from setter to shoulder — skip the ball in the air." Call out any player watching the ball instead of the hitter. Takes 2–3 weeks of consistent correction.</div>
+      </div>
+    </div>
+    <div class="mistake-card">
+      <div class="mc-head"><div class="mc-icon">🤐</div><div class="mc-title">Silence at the Net</div></div>
+      <div class="mc-body">
+        <div class="mc-wrong"><span class="mc-badge mb-wrong">WRONG</span> Blockers do not call the set direction, do not communicate who is taking the ball, and don't call their jump. The back row is flying blind and cannot adjust to the block's angle.</div>
+        <div class="mc-fix"><span class="mc-badge mb-fix">FIX</span> Make verbal communication mandatory — deduct a rep if there is silence. Cue: "If I can't hear you from the sideline, your block doesn't count." Takes 4 weeks of consistent enforcement to become automatic.</div>
+      </div>
+    </div>
+    <div class="mistake-card">
+      <div class="mc-head"><div class="mc-icon">🛑</div><div class="mc-title">Stiff Landing</div></div>
+      <div class="mc-body">
+        <div class="mc-wrong"><span class="mc-badge mb-wrong">WRONG</span> Landing with locked knees — creates a loud "thud," risks ankle and knee injury, and prevents any transition movement. The player is planted and unable to drop step.</div>
+        <div class="mc-fix"><span class="mc-badge mb-fix">FIX</span> Cue: "Land like a cat — silent feet." Run landing mechanics for 3 minutes at the start of every blocking session for the first 4 weeks. Loud landings get an immediate verbal correction.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 4-WEEK PLAN ══════ -->
+<div class="pg" id="pg-plan">
+  <div class="s-eyebrow">Chapter 8</div>
+  <div class="s-title">4-Week <em>Blocking</em><br>Practice Plan</div>
+  <div class="s-desc">Layer the skills week over week. Never go to live blocking before mechanics are correct — bad mechanics practiced at speed create habits that take months to break.</div>
+
+  <div class="alert al-lime" style="margin-bottom:28px;">
+    <strong>📋 Time Allocation:</strong> Slot 12–18 minutes per practice for blocking focus. Every session starts with the Hand Check Drill (3 min) — no exceptions. Add drills from the list each week. By Week 4 your team will block with confidence and your back row will know how to read the block.
+  </div>
+
+  <div class="week-wrap">
+    <table class="week-table">
+      <thead>
+        <tr><th>WEEK</th><th>FOCUS</th><th>DRILLS</th><th>WHAT TO LOOK FOR</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="wk">1</td>
+          <td><strong style="color:var(--white)">Mechanics Only</strong><br><span style="font-size:12px;color:var(--muted);">No live blocking. Just hands and timing.</span></td>
+          <td>
+            <span class="tag t-lime">Hand Check Drill</span>
+            <span class="tag t-sky">Box Jump Block Timing</span>
+            <span class="tag t-red">Landing Mechanics</span>
+          </td>
+          <td style="font-size:12px;">Are wrists firm? Are hands penetrating? Are they landing on two feet with bent knees? Correct every single rep.</td>
+        </tr>
+        <tr>
+          <td class="wk">2</td>
+          <td><strong style="color:var(--white)">Footwork + Reading</strong><br><span style="font-size:12px;color:var(--muted);">Add lateral movement and eyework</span></td>
+          <td>
+            <span class="tag t-lime">Hand Check Drill</span>
+            <span class="tag t-orange">Mirror Footwork</span>
+            <span class="tag t-red">Eye Progression Drill</span>
+          </td>
+          <td style="font-size:12px;">Are they using step-close? Are they calling the set direction out loud? Are they watching the setter or the ball?</td>
+        </tr>
+        <tr>
+          <td class="wk">3</td>
+          <td><strong style="color:var(--white)">Team Blocking</strong><br><span style="font-size:12px;color:var(--muted);">Seam closing + live hitters</span></td>
+          <td>
+            <span class="tag t-lime">Hand Check Drill</span>
+            <span class="tag t-violet">Seam Closing Drill</span>
+            <span class="tag t-mint">Outside Hitter vs Block</span>
+          </td>
+          <td style="font-size:12px;">Is the seam closed? Is MB arriving before OB jumps? Are there seam gaps? Track touches vs stuffs per 10 balls.</td>
+        </tr>
+        <tr>
+          <td class="wk">4</td>
+          <td><strong style="color:var(--white)">Full System Integration</strong><br><span style="font-size:12px;color:var(--muted);">Block + defense working as one unit</span></td>
+          <td>
+            <span class="tag t-lime">Hand Check Drill</span>
+            <span class="tag t-gold">Blockers vs Hitters Tournament</span>
+            <span class="tag t-red">Block-Defense System Drill</span>
+          </td>
+          <td style="font-size:12px;">Is the back row adjusting to block calls? Are blockers communicating what angle they sealed? Goal: stop 50%+ of attacks.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="divider"><div class="div-label">Game Day Blocking Checklist</div><div class="div-line"></div></div>
+  <div class="cl-grid">
+    <div class="cl-card">
+      <div class="cl-head">⚡ Pre-Match</div>
+      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>Warm up with 5 min of hand check reps at the net</div>
+      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>Remind blockers: jump after the hitter's hip, not with it</div>
+      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>Set communication code: "Line!" or "Cross!" called every block</div>
+      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>Tell back row which angle is being sealed pre-set</div>
+    </div>
+    <div class="cl-card">
+      <div class="cl-head">🏐 During Match</div>
+      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>Celebrate every touch — not just stuffs</div>
+      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>Middle blocker calls direction on every set</div>
+      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>If seam keeps opening — remind MB to close tighter</div>
+      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>Track hitter tendencies and adjust block angle mid-set</div>
+    </div>
+    <div class="cl-card">
+      <div class="cl-head">📋 Timeout Focus</div>
+      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>Identify: is the hitter going line, cross, or tip every time?</div>
+      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>Adjust: tell OB to seal the angle they keep hitting</div>
+      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>If hitter is killing you: slow down their approach — serve at them</div>
+      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>Reinforce: "A touch changes the whole rally. Get your hands up."</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// NAV
+function go(pgId, btnId) {
+  document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.sn-btn').forEach(b => b.classList.remove('on'));
+  document.getElementById(pgId).classList.add('on');
+  document.getElementById(btnId).classList.add('on');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ACCORDIONS
+function togglePhase(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+function toggleDrill(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+// CHECKLIST
+function ck(el) {
+  el.classList.toggle('on');
+  el.textContent = el.classList.contains('on') ? '✓' : '';
+}
+</script>
+</body>
+</html>

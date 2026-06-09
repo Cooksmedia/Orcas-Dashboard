@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jump Higher — Volleyball Training Program</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void: #050507;
+  --panel: #0d0d12;
+  --panel2: #13131a;
+  --panel3: #1a1a24;
+  --rim: #22222f;
+  --lime: #c8f135;
+  --lime2: #d9f55a;
+  --lime-dim: rgba(200,241,53,0.08);
+  --lime-glow: rgba(200,241,53,0.15);
+  --white: #f0f0f0;
+  --muted: #5a5a70;
+  --mid: #8888a0;
+  --red: #ff4444;
+  --orange: #ff8c00;
+  --blue: #4488ff;
+  --head: 'Anton', sans-serif;
+  --body: 'Lexend', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--void);
+  color: var(--white);
+  font-family: var(--body);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  padding: 70px 40px 60px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--rim);
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 50%, rgba(200,241,53,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 10% 80%, rgba(68,136,255,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-grid-lines {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+.hero-tag {
+  display: inline-block;
+  font-family: var(--body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--lime);
+  border: 1px solid rgba(200,241,53,0.3);
+  padding: 6px 16px;
+  border-radius: 100px;
+  margin-bottom: 22px;
+}
+.hero h1 {
+  font-family: var(--head);
+  font-size: clamp(56px, 11vw, 130px);
+  line-height: 0.88;
+  letter-spacing: -1px;
+  margin-bottom: 10px;
+}
+.hero h1 .lime { color: var(--lime); }
+.hero h1 .outline {
+  -webkit-text-stroke: 2px rgba(240,240,240,0.25);
+  color: transparent;
+}
+.hero-sub {
+  font-size: 15px;
+  color: var(--mid);
+  max-width: 520px;
+  line-height: 1.7;
+  margin-top: 18px;
+}
+.hero-stats {
+  display: flex;
+  gap: 0;
+  margin-top: 36px;
+  border: 1px solid var(--rim);
+  border-radius: 12px;
+  overflow: hidden;
+  max-width: 560px;
+}
+.hero-stat {
+  flex: 1;
+  padding: 18px 20px;
+  border-right: 1px solid var(--rim);
+  text-align: center;
+}
+.hero-stat:last-child { border-right: none; }
+.hs-num {
+  font-family: var(--head);
+  font-size: 34px;
+  color: var(--lime);
+  line-height: 1;
+}
+.hs-label { font-size: 11px; color: var(--muted); margin-top: 4px; letter-spacing: 1px; }
+
+/* ── NAV TABS ── */
+.sticky-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(5,5,7,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rim);
+  padding: 0 40px;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+}
+.snav-btn {
+  font-family: var(--body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 16px 22px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  margin-bottom: -1px;
+}
+.snav-btn:hover { color: var(--white); }
+.snav-btn.on { color: var(--lime); border-bottom-color: var(--lime); }
+
+/* ── PAGES ── */
+.pg { display: none; padding: 48px 40px; max-width: 1100px; margin: 0 auto; }
+.pg.on { display: block; }
+
+/* ── SECTION HEADS ── */
+.sec-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--lime);
+  margin-bottom: 8px;
+}
+.sec-title {
+  font-family: var(--head);
+  font-size: clamp(28px, 4vw, 46px);
+  line-height: 1;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.sec-title span { color: var(--lime); }
+.sec-desc { font-size: 14px; color: var(--mid); line-height: 1.7; max-width: 640px; margin-bottom: 36px; }
+
+/* ── PHASE BANNER ── */
+.phase-banner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--lime-dim);
+  border: 1px solid rgba(200,241,53,0.2);
+  border-radius: 12px;
+  padding: 18px 24px;
+  margin-bottom: 28px;
+}
+.pb-num {
+  font-family: var(--head);
+  font-size: 48px;
+  color: var(--lime);
+  line-height: 1;
+  min-width: 52px;
+}
+.pb-content { flex: 1; }
+.pb-label { font-size: 10px; font-weight: 600; letter-spacing: 3px; color: rgba(200,241,53,0.6); text-transform: uppercase; margin-bottom: 3px; }
+.pb-title { font-family: var(--head); font-size: 22px; letter-spacing: 0.5px; color: var(--lime); }
+.pb-desc { font-size: 13px; color: var(--mid); margin-top: 4px; }
+.pb-weeks {
+  font-family: var(--head);
+  font-size: 13px;
+  color: var(--lime);
+  background: rgba(200,241,53,0.12);
+  padding: 6px 14px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+/* ── EXERCISE GRID ── */
+.ex-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; margin-bottom: 40px; }
+
+.ex-card {
+  background: var(--panel);
+  border: 1px solid var(--rim);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.2s;
+  cursor: pointer;
+}
+.ex-card:hover { border-color: rgba(200,241,53,0.4); transform: translateY(-2px); }
+.ex-card.open { border-color: rgba(200,241,53,0.5); }
+
+.ex-card-top {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.ex-icon {
+  width: 60px;
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.ex-card.plyometric .ex-icon { background: rgba(255,68,68,0.12); }
+.ex-card.strength .ex-icon { background: rgba(255,140,0,0.12); }
+.ex-card.technique .ex-icon { background: rgba(200,241,53,0.08); }
+.ex-card.mobility .ex-icon { background: rgba(68,136,255,0.12); }
+
+.ex-top-content { flex: 1; padding: 14px 16px 14px 8px; }
+.ex-type {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.ex-card.plyometric .ex-type { color: var(--red); }
+.ex-card.strength .ex-type { color: var(--orange); }
+.ex-card.technique .ex-type { color: var(--lime); }
+.ex-card.mobility .ex-type { color: var(--blue); }
+
+.ex-name { font-family: var(--head); font-size: 16px; letter-spacing: 0.5px; line-height: 1.1; }
+.ex-meta { display: flex; gap: 10px; margin-top: 4px; flex-wrap: wrap; }
+.ex-meta-item { font-size: 11px; color: var(--muted); }
+.ex-chevron { padding: 0 14px; font-size: 14px; color: var(--muted); transition: transform 0.25s; }
+.ex-card.open .ex-chevron { transform: rotate(180deg); }
+
+.ex-body { display: none; padding: 0 16px 18px 16px; border-top: 1px solid var(--rim); }
+.ex-card.open .ex-body { display: block; }
+
+.ex-body-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+@media(max-width:500px){ .ex-body-grid { grid-template-columns: 1fr; } }
+
+.ex-how-label { font-size: 10px; font-weight: 600; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
+.ex-steps { list-style: none; }
+.ex-steps li { display: flex; gap: 8px; margin-bottom: 7px; font-size: 12.5px; color: #aaa; line-height: 1.5; align-items: flex-start; }
+.ex-snum {
+  background: var(--lime);
+  color: var(--void);
+  font-weight: 700;
+  font-size: 10px;
+  border-radius: 50%;
+  width: 18px; height: 18px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 2px;
+}
+
+.ex-sets-box {
+  background: var(--panel2);
+  border: 1px solid var(--rim);
+  border-radius: 10px;
+  padding: 14px;
+}
+.ex-sets-title { font-size: 10px; font-weight: 600; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; margin-bottom: 10px; }
+.ex-set-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--rim); font-size: 13px; }
+.ex-set-row:last-child { border-bottom: none; }
+.esr-label { color: var(--mid); font-size: 12px; }
+.esr-val { font-family: var(--head); font-size: 16px; color: var(--lime); }
+
+.ex-cue {
+  margin-top: 12px;
+  background: var(--lime-dim);
+  border-left: 3px solid var(--lime);
+  border-radius: 0 8px 8px 0;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: rgba(200,241,53,0.8);
+  line-height: 1.55;
+}
+.ex-cue strong { color: var(--lime); }
+
+/* ── WORKOUT SCHEDULE ── */
+.week-card {
+  background: var(--panel);
+  border: 1px solid var(--rim);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+.week-card-hd {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 22px;
+  cursor: pointer;
+  user-select: none;
+}
+.wk-num {
+  font-family: var(--head);
+  font-size: 36px;
+  color: var(--lime);
+  line-height: 1;
+  min-width: 44px;
+}
+.wk-info { flex: 1; }
+.wk-title { font-family: var(--head); font-size: 18px; letter-spacing: 0.5px; }
+.wk-focus { font-size: 12px; color: var(--muted); margin-top: 3px; }
+.wk-chevron { font-size: 16px; color: var(--muted); transition: transform 0.25s; }
+.week-card.open .wk-chevron { transform: rotate(180deg); }
+.week-body { display: none; padding: 0 22px 22px; }
+.week-card.open .week-body { display: block; }
+
+.day-row {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--rim);
+  align-items: start;
+}
+.day-row:last-child { border-bottom: none; }
+.day-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding-top: 3px;
+}
+.day-label.active { color: var(--lime); }
+.day-label.rest { color: var(--muted); }
+.day-exercises { display: flex; flex-wrap: wrap; gap: 6px; }
+.day-ex-chip {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 100px;
+  background: var(--panel2);
+  border: 1px solid var(--rim);
+  color: var(--mid);
+}
+.day-ex-chip.ply { border-color: rgba(255,68,68,0.3); color: #ff8888; background: rgba(255,68,68,0.06); }
+.day-ex-chip.str { border-color: rgba(255,140,0,0.3); color: #ffb055; background: rgba(255,140,0,0.06); }
+.day-ex-chip.tec { border-color: rgba(200,241,53,0.3); color: var(--lime); background: var(--lime-dim); }
+.day-ex-chip.mob { border-color: rgba(68,136,255,0.3); color: #88aaff; background: rgba(68,136,255,0.06); }
+.rest-text { font-size: 13px; color: var(--muted); font-style: italic; }
+
+/* ── SCIENCE SECTION ── */
+.science-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-bottom: 36px; }
+.sci-card {
+  background: var(--panel);
+  border: 1px solid var(--rim);
+  border-radius: 14px;
+  padding: 22px;
+  position: relative;
+  overflow: hidden;
+}
+.sci-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.sci-card.s1::before { background: linear-gradient(90deg, var(--red), #ff8888); }
+.sci-card.s2::before { background: linear-gradient(90deg, var(--orange), #ffd080); }
+.sci-card.s3::before { background: linear-gradient(90deg, var(--lime), var(--lime2)); }
+.sci-card.s4::before { background: linear-gradient(90deg, var(--blue), #88aaff); }
+.sci-icon { font-size: 28px; margin-bottom: 12px; }
+.sci-title { font-family: var(--head); font-size: 18px; letter-spacing: 0.5px; margin-bottom: 8px; }
+.sci-body { font-size: 13px; color: var(--mid); line-height: 1.65; }
+
+/* ── PROGRESS TRACKER ── */
+.tracker-wrap {
+  background: var(--panel);
+  border: 1px solid var(--rim);
+  border-radius: 14px;
+  padding: 28px;
+  margin-bottom: 28px;
+}
+.tracker-title { font-family: var(--head); font-size: 22px; margin-bottom: 6px; }
+.tracker-desc { font-size: 13px; color: var(--mid); margin-bottom: 22px; }
+
+.measurement-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.meas-card {
+  background: var(--panel2);
+  border: 1px solid var(--rim);
+  border-radius: 10px;
+  padding: 16px;
+}
+.meas-label { font-size: 10px; font-weight: 600; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
+.meas-inputs { display: flex; gap: 8px; align-items: center; }
+.meas-input {
+  flex: 1;
+  background: var(--panel3);
+  border: 1px solid var(--rim);
+  border-radius: 7px;
+  padding: 8px 10px;
+  color: var(--white);
+  font-family: var(--body);
+  font-size: 14px;
+  font-weight: 600;
+  outline: none;
+  width: 100%;
+  text-align: center;
+  transition: border-color 0.2s;
+}
+.meas-input:focus { border-color: var(--lime); }
+.meas-unit { font-size: 11px; color: var(--muted); white-space: nowrap; }
+.meas-gain {
+  font-family: var(--head);
+  font-size: 18px;
+  color: var(--lime);
+  margin-top: 8px;
+  min-height: 24px;
+}
+
+.btn {
+  font-family: var(--body);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 11px 24px;
+  border-radius: 9px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.btn-lime { background: var(--lime); color: var(--void); }
+.btn-lime:hover { background: var(--lime2); }
+.btn-outline { background: none; color: var(--white); border: 1px solid var(--rim); }
+.btn-outline:hover { border-color: var(--lime); color: var(--lime); }
+
+/* ── TIPS SECTION ── */
+.tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.tip-card {
+  background: var(--panel);
+  border: 1px solid var(--rim);
+  border-radius: 14px;
+  padding: 22px;
+}
+.tip-num { font-family: var(--head); font-size: 48px; color: var(--rim); line-height: 1; margin-bottom: 8px; }
+.tip-title { font-family: var(--head); font-size: 17px; margin-bottom: 8px; }
+.tip-body { font-size: 13px; color: var(--mid); line-height: 1.65; }
+
+/* ── INTENSITY BADGE ── */
+.intensity {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 3px 10px;
+  border-radius: 100px;
+}
+.int-high { background: rgba(255,68,68,0.15); color: var(--red); }
+.int-med { background: rgba(255,140,0,0.15); color: var(--orange); }
+.int-low { background: rgba(68,136,255,0.15); color: var(--blue); }
+
+/* ── EMPTY ── */
+.empty { padding: 40px; text-align: center; color: var(--muted); font-size: 14px; }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--void); }
+::-webkit-scrollbar-thumb { background: var(--rim); border-radius: 2px; }
+
+@media(max-width:600px) {
+  .hero { padding: 40px 20px 36px; }
+  .pg { padding: 28px 16px; }
+  .sticky-nav { padding: 0 16px; }
+  .hero-stats { flex-direction: column; }
+  .hero-stat { border-right: none; border-bottom: 1px solid var(--rim); }
+  .hero-stat:last-child { border-bottom: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-tag">🏐 Volleyball Jump Training</div>
+  <h1>JUMP<br><span class="lime">HIGHER.</span><br><span class="outline">HIT HARDER.</span></h1>
+  <p class="hero-sub">A complete plyometric, strength, and technique program for 7th–9th grade volleyball players. Built to add real inches to every player's vertical — safely and progressively.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="hs-num">3–6"</div><div class="hs-label">Avg Vertical Gain</div></div>
+    <div class="hero-stat"><div class="hs-num">4</div><div class="hs-label">Training Phases</div></div>
+    <div class="hero-stat"><div class="hs-num">16</div><div class="hs-label">Exercises</div></div>
+    <div class="hero-stat"><div class="hs-num">12</div><div class="hs-label">Week Program</div></div>
+  </div>
+</div>
+
+<!-- STICKY NAV -->
+<div class="sticky-nav">
+  <button class="snav-btn on" id="tab-science" onclick="go('science','tab-science')">Why It Works</button>
+  <button class="snav-btn" id="tab-exercises" onclick="go('exercises','tab-exercises')">Exercises</button>
+  <button class="snav-btn" id="tab-program" onclick="go('program','tab-program')">12-Week Program</button>
+  <button class="snav-btn" id="tab-tracker" onclick="go('tracker','tab-tracker')">Progress Tracker</button>
+  <button class="snav-btn" id="tab-tips" onclick="go('tips','tab-tips')">Coach Tips</button>
+</div>
+
+<!-- ══════════ SCIENCE ══════════ -->
+<div class="pg on" id="pg-science">
+  <div class="sec-eyebrow">The Foundation</div>
+  <div class="sec-title">Why Players <span>Don't Jump Higher</span></div>
+  <p class="sec-desc">Most players think jumping is about leg strength alone. It's not. The vertical jump is a combination of 4 physical systems — and all 4 need to be trained. Ignore one and you leave inches on the floor.</p>
+
+  <div class="science-grid">
+    <div class="sci-card s1">
+      <div class="sci-icon">⚡</div>
+      <div class="sci-title">Reactive Strength</div>
+      <div class="sci-body">The ability to absorb force and immediately redirect it upward. This is trained through <strong>plyometrics</strong> — box jumps, depth jumps, and bounding. Most undertrained system at this age level.</div>
+    </div>
+    <div class="sci-card s2">
+      <div class="sci-icon">💪</div>
+      <div class="sci-title">Concentric Power</div>
+      <div class="sci-body">Raw muscle force production in the quads, glutes, and calves. Trained through <strong>squats, single-leg work, and calf raises</strong>. The engine behind every jump.</div>
+    </div>
+    <div class="sci-card s3">
+      <div class="sci-icon">🎯</div>
+      <div class="sci-title">Approach Mechanics</div>
+      <div class="sci-body">How a player converts horizontal speed into vertical height. The 4-step approach, arm swing, and two-foot plant can add <strong>2–4 inches instantly</strong> with no fitness change at all.</div>
+    </div>
+    <div class="sci-card s4">
+      <div class="sci-icon">🔄</div>
+      <div class="sci-title">Hip Mobility & Flexibility</div>
+      <div class="sci-body">Tight hips and ankles limit how deep a player can load before jumping. <strong>Mobility work</strong> allows a deeper pre-jump dip — which means more stored energy to release upward.</div>
+    </div>
+  </div>
+
+  <div style="background:var(--panel);border:1px solid var(--rim);border-radius:14px;padding:28px;margin-bottom:32px;">
+    <div class="sec-eyebrow">The Rule</div>
+    <div style="font-family:var(--head);font-size:28px;margin-bottom:10px;">Train All 4 Systems. Every Week.</div>
+    <p style="font-size:14px;color:var(--mid);line-height:1.7;max-width:640px;">This program cycles through all four systems weekly so no gains are left on the table. Plyometrics 2x per week. Strength 2x per week. Technique every practice. Mobility every session as part of warm-up. That's the formula.</p>
+  </div>
+
+  <div class="sec-eyebrow">The Science of Progress</div>
+  <div class="sec-title">What Changes <span>in Your Body</span></div>
+  <div class="science-grid" style="margin-top:20px;">
+    <div class="sci-card s1">
+      <div class="sci-icon">🧠</div>
+      <div class="sci-title">Neural Firing Rate</div>
+      <div class="sci-body">Weeks 1–4 gains come mostly from your nervous system learning to fire muscles faster and in better sequence — not muscle growth. This is why proper form from Day 1 matters so much.</div>
+    </div>
+    <div class="sci-card s2">
+      <div class="sci-icon">🏋️</div>
+      <div class="sci-title">Muscle Fiber Recruitment</div>
+      <div class="sci-body">Weeks 4–8 your body starts recruiting more fast-twitch fibers. These are the fibers responsible for explosive power. Plyometrics are the fastest way to wake them up.</div>
+    </div>
+    <div class="sci-card s3">
+      <div class="sci-icon">📈</div>
+      <div class="sci-title">Tendon Stiffness</div>
+      <div class="sci-body">Weeks 8–12 tendons become stiffer and more elastic, storing and releasing energy like springs. This is the "pop" elite athletes feel — and it takes time to develop safely.</div>
+    </div>
+    <div class="sci-card s4">
+      <div class="sci-icon">⚠️</div>
+      <div class="sci-title">The Safety Rule</div>
+      <div class="sci-body">Never do max-intensity plyometrics two days in a row. Tendons need 48 hours to recover. Skipping rest days is the #1 reason young athletes get knee injuries from jump training.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ EXERCISES ══════════ -->
+<div class="pg" id="pg-exercises">
+  <div class="sec-eyebrow">The Exercise Library</div>
+  <div class="sec-title">All <span>16 Exercises</span></div>
+  <p class="sec-desc">Tap any exercise to see full instructions, coaching cues, and sets/reps. Color coded by type: 🔴 Plyometric · 🟠 Strength · 🟢 Technique · 🔵 Mobility</p>
+
+  <div id="ex-filters" style="display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;">
+    <button class="btn btn-outline" style="font-size:12px;padding:7px 16px;" id="ef-all" onclick="filterEx('all','ef-all')">All</button>
+    <button class="btn btn-outline" style="font-size:12px;padding:7px 16px;border-color:rgba(255,68,68,0.4);color:#ff8888;" id="ef-ply" onclick="filterEx('plyometric','ef-ply')">🔴 Plyometric</button>
+    <button class="btn btn-outline" style="font-size:12px;padding:7px 16px;border-color:rgba(255,140,0,0.4);color:#ffb055;" id="ef-str" onclick="filterEx('strength','ef-str')">🟠 Strength</button>
+    <button class="btn btn-outline" style="font-size:12px;padding:7px 16px;border-color:rgba(200,241,53,0.4);color:var(--lime);" id="ef-tec" onclick="filterEx('technique','ef-tec')">🟢 Technique</button>
+    <button class="btn btn-outline" style="font-size:12px;padding:7px 16px;border-color:rgba(68,136,255,0.4);color:#88aaff;" id="ef-mob" onclick="filterEx('mobility','ef-mob')">🔵 Mobility</button>
+  </div>
+
+  <div class="ex-grid" id="ex-grid"></div>
+</div>
+
+<!-- ══════════ PROGRAM ══════════ -->
+<div class="pg" id="pg-program">
+  <div class="sec-eyebrow">12-Week Training Program</div>
+  <div class="sec-title">The <span>Plan</span></div>
+  <p class="sec-desc">Four progressive phases, each building on the last. Run 3 days per week minimum. Never plyometrics two days in a row. Mobility every single day as warm-up.</p>
+
+  <!-- PHASE 1 -->
+  <div class="phase-banner">
+    <div class="pb-num">1</div>
+    <div class="pb-content">
+      <div class="pb-label">Weeks 1–3</div>
+      <div class="pb-title">Foundation & Mechanics</div>
+      <div class="pb-desc">Build movement quality. No high-intensity jumps yet. Fix the approach, activate the glutes, and open up hip mobility.</div>
+    </div>
+    <div class="pb-weeks">3 Weeks</div>
+  </div>
+  <div id="phase1-weeks"></div>
+
+  <!-- PHASE 2 -->
+  <div class="phase-banner" style="margin-top:32px;">
+    <div class="pb-num">2</div>
+    <div class="pb-content">
+      <div class="pb-label">Weeks 4–6</div>
+      <div class="pb-title">Explosive Loading</div>
+      <div class="pb-desc">Introduce high-intensity plyometrics. Box jumps, bounding, depth drops. Volume increases. Strength work gets heavier.</div>
+    </div>
+    <div class="pb-weeks">3 Weeks</div>
+  </div>
+  <div id="phase2-weeks"></div>
+
+  <!-- PHASE 3 -->
+  <div class="phase-banner" style="margin-top:32px;">
+    <div class="pb-num">3</div>
+    <div class="pb-content">
+      <div class="pb-label">Weeks 7–9</div>
+      <div class="pb-title">Power Transfer</div>
+      <div class="pb-desc">Connect gym strength to on-court jumping. Approach jump work, combo drills, and volleyball-specific bounding patterns.</div>
+    </div>
+    <div class="pb-weeks">3 Weeks</div>
+  </div>
+  <div id="phase3-weeks"></div>
+
+  <!-- PHASE 4 -->
+  <div class="phase-banner" style="margin-top:32px;">
+    <div class="pb-num">4</div>
+    <div class="pb-content">
+      <div class="pb-label">Weeks 10–12</div>
+      <div class="pb-title">Peak & Test</div>
+      <div class="pb-desc">Reduce volume, maintain intensity. Fresh legs jump higher. End with a vertical jump test to measure your gains.</div>
+    </div>
+    <div class="pb-weeks">3 Weeks</div>
+  </div>
+  <div id="phase4-weeks"></div>
+</div>
+
+<!-- ══════════ TRACKER ══════════ -->
+<div class="pg" id="pg-tracker">
+  <div class="sec-eyebrow">Progress Tracker</div>
+  <div class="sec-title">Measure Your <span>Gains</span></div>
+  <p class="sec-desc">Test every 3 weeks. Record standing reach and max jump reach — the difference is your vertical jump. Gains you can see keep players motivated.</p>
+
+  <div class="tracker-wrap">
+    <div class="tracker-title">Vertical Jump Measurements</div>
+    <div class="tracker-desc">Enter standing reach (tip of fingers when standing flat-footed) and jump reach (highest point touched when jumping). Vertical = Jump Reach − Standing Reach.</div>
+
+    <div class="measurement-grid" id="meas-grid"></div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
+      <button class="btn btn-lime" onclick="saveTracker()">💾 Save Progress</button>
+      <button class="btn btn-outline" onclick="clearTracker()">Reset</button>
+      <span id="tracker-saved" style="font-size:13px;color:var(--lime);opacity:0;transition:opacity .3s;align-self:center;">✓ Saved!</span>
+    </div>
+  </div>
+
+  <div class="tracker-wrap" id="progress-summary" style="display:none;">
+    <div class="tracker-title">📈 Your Progress</div>
+    <div id="progress-content"></div>
+  </div>
+
+  <div style="background:var(--panel);border:1px solid var(--rim);border-radius:14px;padding:24px;">
+    <div style="font-family:var(--head);font-size:20px;margin-bottom:16px;">How to Test Correctly</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;">
+      <div style="font-size:13px;color:var(--mid);line-height:1.6;"><strong style="color:var(--white);">Standing Reach</strong><br>Shoes off. Stand flat against a wall. Reach both arms up as high as possible. Mark or measure the highest point. This is your baseline.</div>
+      <div style="font-size:13px;color:var(--mid);line-height:1.6;"><strong style="color:var(--white);">Jump Reach</strong><br>Stand 6 inches from wall. Jump from two feet (no step). Touch the wall at highest point. Best of 3 attempts counts.</div>
+      <div style="font-size:13px;color:var(--mid);line-height:1.6;"><strong style="color:var(--white);">Approach Jump</strong><br>Same as above but use your full 4-step approach. This measures volleyball-specific vertical — usually 3–5" higher than standing jump.</div>
+      <div style="font-size:13px;color:var(--mid);line-height:1.6;"><strong style="color:var(--white);">Test Conditions</strong><br>Always test after a full warm-up but before any hard training. Same time of day each test. Same shoes (or barefoot). Consistency = valid data.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ TIPS ══════════ -->
+<div class="pg" id="pg-tips">
+  <div class="sec-eyebrow">For the Coach</div>
+  <div class="sec-title">Making <span>It Work</span></div>
+  <p class="sec-desc">Jump training with young athletes is powerful — and requires careful management. These principles separate programs that produce results from ones that cause injuries.</p>
+
+  <div class="tips-grid" style="margin-bottom:36px;">
+    <div class="tip-card">
+      <div class="tip-num">01</div>
+      <div class="tip-title">Land Before You Launch</div>
+      <div class="tip-body">Before any high-intensity plyometrics, athletes must be able to land perfectly — soft knees, quiet feet, hips back. If the landing is stiff or noisy, the tendons are not ready. Never skip the landing mechanics progression.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">02</div>
+      <div class="tip-title">Quality Over Quantity</div>
+      <div class="tip-body">5 perfect box jumps are worth more than 20 sloppy ones. Stop a set the moment form breaks down. Fatigue + plyometrics = injury risk. Teach athletes to recognize when they're done for the day.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">03</div>
+      <div class="tip-title">The 48-Hour Rule</div>
+      <div class="tip-body">Never schedule high-intensity plyometrics two days in a row. Tendons don't recover overnight. Space plyo sessions with at least one full rest or low-impact day between them. This is non-negotiable for athletes under 16.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">04</div>
+      <div class="tip-title">Fix the Approach First</div>
+      <div class="tip-body">The biggest free gains come from approach mechanics — not fitness. A player with a perfect 4-step approach and proper arm swing can gain 3–5 inches instantly with zero strength change. Start here every season.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">05</div>
+      <div class="tip-title">Celebrate Small Gains</div>
+      <div class="tip-body">A half-inch improvement is significant for a developing athlete. Track and celebrate every measurement. Seeing numbers go up is one of the most powerful motivators you can give a 7th–9th grader.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">06</div>
+      <div class="tip-title">Work Both Legs Equally</div>
+      <div class="tip-body">Single-leg exercises (Bulgarian split squats, single-leg box jumps) are as important as bilateral work. Imbalances between legs are one of the leading causes of knee injuries in adolescent female athletes.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">07</div>
+      <div class="tip-title">Warm-Up Is Not Optional</div>
+      <div class="tip-body">Cold muscles and tendons don't jump well and injure easily. Minimum 8-minute dynamic warm-up before any jump training: leg swings, hip circles, bodyweight squats, skipping, ankle rolls. Non-negotiable.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">08</div>
+      <div class="tip-title">In-Season Maintenance</div>
+      <div class="tip-body">During the season, drop volume to 1x per week plyometrics and 1x strength. Don't stop entirely — gains disappear in 3 weeks without stimulus. Maintenance keeps what was built during the off-season.</div>
+    </div>
+  </div>
+
+  <div style="background:linear-gradient(135deg,var(--lime-dim),transparent);border:1px solid rgba(200,241,53,0.25);border-radius:14px;padding:28px;">
+    <div style="font-family:var(--head);font-size:24px;color:var(--lime);margin-bottom:10px;">The Fastest Way to Add Inches</div>
+    <p style="font-size:14px;color:rgba(200,241,53,0.7);line-height:1.7;max-width:640px;">
+      In order of impact: <strong style="color:var(--lime);">1)</strong> Fix approach arm swing — most players barely use their arms, costing 2–4 inches immediately. <strong style="color:var(--lime);">2)</strong> Hip mobility — tight hips cap the pre-jump load. 10 minutes of hip stretching daily adds inches within 2 weeks. <strong style="color:var(--lime);">3)</strong> Calf raises — the calf is the last muscle to fire in a jump and the most undertrained. 100 single-leg calf raises per day produces measurable results in 3–4 weeks.
+    </p>
+  </div>
+</div>
+
+<script>
+// ── EXERCISE DATA ──
+const EXERCISES = [
+  // PLYOMETRIC
+  {id:'box-jump', type:'plyometric', icon:'📦', name:'Box Jump', intensity:'high',
+   time:'6–8 min', sets:'3', reps:'6–8', rest:'90 sec',
+   steps:['Stand 1 foot in front of a box (12–18 inches high)','Dip into a quarter squat, swing arms back','Explode upward, swing arms forward and up','Land softly on the box — hips back, knees bent, quiet feet','Step down (don\'t jump down). Reset. Repeat.'],
+   cue:'<strong>Key cue:</strong> The landing is the drill. Land like you\'re trying not to make a sound. Stiff landings = tendons not ready for this height.'},
+  {id:'depth-drop', type:'plyometric', icon:'⬇️', name:'Depth Drop to Jump', intensity:'high',
+   time:'5 min', sets:'3', reps:'5', rest:'2 min',
+   steps:['Stand on edge of box (8–12 inches). Do NOT jump — just step off.','Both feet land simultaneously. Absorb the force — immediately jump straight up.','The key is the speed of transition: ground contact time should be under 0.3 seconds.','Swing arms aggressively on the jump up.','Walk back. Rest fully before next rep.'],
+   cue:'<strong>Key cue:</strong> "Hot ground" — imagine the floor is hot and you bounce off it as fast as possible. This trains the elastic energy storage in tendons.'},
+  {id:'broad-jump', type:'plyometric', icon:'➡️', name:'Standing Broad Jump', intensity:'med',
+   time:'5 min', sets:'3', reps:'5', rest:'60 sec',
+   steps:['Stand with feet hip-width. Swing arms back and dip into quarter squat.','Explode forward — arms swing forward aggressively.','Land on both feet simultaneously, soft knees.','Measure distance each session. Track improvement over weeks.','Focus: max horizontal power, not technique perfection.'],
+   cue:'<strong>Key cue:</strong> Arm swing contributes 15% of jump power. Players who barely use arms are giving away free distance.'},
+  {id:'lateral-bound', type:'plyometric', icon:'↔️', name:'Lateral Single-Leg Bound', intensity:'med',
+   time:'6 min', sets:'3', reps:'8 each side', rest:'60 sec',
+   steps:['Stand on right foot. Bound laterally to the left, landing on left foot.','Absorb, stabilize for 1 second, then bound back to right foot.','Focus on a controlled, stable single-leg landing.','Progress: increase bound distance over weeks.','Watch for knee caving inward on landing — stop and correct immediately.'],
+   cue:'<strong>Key cue:</strong> Single-leg stability is critical for volleyball. Most knee injuries happen on single-leg landings. Master the landing before increasing distance.'},
+  {id:'ankle-hops', type:'plyometric', icon:'🦘', name:'Rapid Ankle Hops', intensity:'low',
+   time:'3 min', sets:'3', reps:'20 sec continuous', rest:'45 sec',
+   steps:['Stand with feet hip-width. Slight knee bend only — this is all in the ankles.','Hop rapidly, staying on balls of feet. Minimal knee bend.','Goal: as many hops as possible in 20 seconds with minimal ground contact time.','Arms stay at sides or hands on hips — isolate the ankles.','Progress to single-leg ankle hops.'],
+   cue:'<strong>Key cue:</strong> Rapid ankle hops build the Achilles tendon spring — the most important elastic structure in jumping. 10 minutes per week of this pays dividends in 4–6 weeks.'},
+  // STRENGTH
+  {id:'squat-jump', type:'strength', icon:'🏋️', name:'Bodyweight Squat Jump', intensity:'med',
+   time:'5 min', sets:'4', reps:'10', rest:'60 sec',
+   steps:['Stand feet shoulder-width. Arms at sides.','Drop into full squat (thighs parallel or below) — arms swing back.','Explode upward, arms swing overhead. Get full extension — toes leave ground.','Land softly, immediately drop back into squat for next rep.','No pausing at top — continuous rhythm.'],
+   cue:'<strong>Key cue:</strong> Full depth matters. A quarter squat jump trains the wrong muscle range. Go deep to recruit glutes properly.'},
+  {id:'bulgarian', type:'strength', icon:'🦵', name:'Bulgarian Split Squat', intensity:'high',
+   time:'8 min', sets:'3', reps:'8–10 each leg', rest:'90 sec',
+   steps:['Stand 2 feet in front of a bench. Place rear foot on bench behind you.','Front foot far enough forward that your front shin stays vertical at the bottom.','Lower straight down until front thigh is parallel to floor.','Drive through front heel to return. Keep torso upright.','Add weight (hold water bottles or dumbbells) as strength increases.'],
+   cue:'<strong>Key cue:</strong> The most effective single-leg strength exercise for volleyball players. Glute activation on the drive up is the key — think "push the ground away."'},
+  {id:'wall-calf', type:'strength', icon:'🦶', name:'Single-Leg Calf Raises', intensity:'low',
+   time:'6 min', sets:'3', reps:'20–25 each leg', rest:'45 sec',
+   steps:['Stand on one foot on edge of step or raised surface. Hold wall for balance.','Lower heel as far down as possible — full stretch at bottom.','Drive up to full tippy-toe height at top. Pause 1 second.','Slow and controlled — 2 seconds up, 2 seconds down.','Do not rush. Quality over speed. 25 slow reps beats 50 fast ones.'],
+   cue:'<strong>Key cue:</strong> The calf-Achilles complex is the final power output in every jump. It\'s massively undertrained. Players who add serious calf work see vertical gains in 3–4 weeks.'},
+  {id:'glute-bridge', type:'strength', icon:'🍑', name:'Explosive Glute Bridge', intensity:'med',
+   time:'5 min', sets:'3', reps:'12', rest:'60 sec',
+   steps:['Lie on back, knees bent, feet flat on floor hip-width.','Drive hips up explosively — squeeze glutes hard at the top.','Full hip extension at top. Pause 1 second.','Lower slow (3 seconds down). Explode up immediately.','Progress: single-leg version, then add weight on hips.'],
+   cue:'<strong>Key cue:</strong> Inactive glutes are the #1 cause of knee pain in young athletes — and they cap jumping height. Wake them up daily.'},
+  {id:'nordic', type:'strength', icon:'💪', name:'Nordic Hamstring Curl', intensity:'high',
+   time:'6 min', sets:'3', reps:'5–6', rest:'2 min',
+   steps:['Kneel on padded surface. Partner holds ankles down firmly.','Keep body in a rigid straight line from knees to head.','Slowly lower body toward ground by bending at knees only. Use hands to catch yourself.','As slowly as possible — aim for 5 seconds down.','Push back up with arms, then pull with hamstrings to return. Repeat.'],
+   cue:'<strong>Key cue:</strong> The most effective hamstring injury prevention exercise in existence. Hamstring strength is directly tied to jumping power. Hard at first — that\'s normal.'},
+  // TECHNIQUE
+  {id:'approach-arms', type:'technique', icon:'🏐', name:'Approach Arm Swing Drill', intensity:'low',
+   time:'5 min', sets:'5', reps:'10 approaches', rest:'20 sec',
+   steps:['Player runs their standard 4-step approach WITHOUT a ball.','On the jump, focus entirely on the arm swing: both arms swing back hard behind body on the penultimate step.','On jump, BOTH arms drive forward and up explosively — like pulling down a rope above you.','Land. Walk back. Repeat.','Add: coach calls "ARMS" as a reminder cue on each jump.'],
+   cue:'<strong>Key cue:</strong> A proper arm swing adds 3–5 inches instantly. Most players use 20% of their available arm power. Swinging both arms (not just one) and driving them fully overhead is the single fastest fix.'},
+  {id:'penultimate', type:'technique', icon:'⚡', name:'Penultimate Step Power Drill', intensity:'med',
+   time:'6 min', sets:'4', reps:'8 approaches', rest:'30 sec',
+   steps:['The penultimate step (second to last) is the power generator of the approach.','Run approach at 75% speed. On the penultimate step — BRAKE. Exaggerate the heel-to-toe contact.','This braking step converts horizontal speed into vertical energy.','After brake step — explode up from both feet.','Progress: add a ball and hit over net.'],
+   cue:'<strong>Key cue:</strong> "Slow-slow-FAST." The last two steps must accelerate. Teach players to feel the difference between a passive penultimate step and an active braking one.'},
+  {id:'approach-jump', type:'technique', icon:'🎯', name:'Approach Jump Test', intensity:'med',
+   time:'5 min', sets:'3', reps:'6 jumps', rest:'60 sec',
+   steps:['Full 4-step approach, max effort. No ball.','Jump and reach as high as possible against a wall or reach target.','Record height. Compare to standing vertical.','Goal: approach jump should be 3–6 inches higher than standing jump.','If gap is less than 3 inches — approach mechanics need work.'],
+   cue:'<strong>Key cue:</strong> The gap between standing and approach vertical is a direct measure of how well a player converts speed into height. This gap should grow every 3 weeks.'},
+  // MOBILITY
+  {id:'hip-flexor', type:'mobility', icon:'🧘', name:'Hip Flexor Stretch Sequence', intensity:'low',
+   time:'5 min', sets:'3', reps:'45 sec each side', rest:'15 sec',
+   steps:['Kneeling lunge position: right knee on ground, left foot forward.','Drive hips forward until you feel stretch in right hip flexor.','Raise right arm overhead and lean slightly left — increases stretch depth.','Hold 45 seconds. Breathe deep — exhale into the stretch.','Switch sides. Do this EVERY session before jumping.'],
+   cue:'<strong>Key cue:</strong> Tight hip flexors are a major vertical limiter. They prevent full hip extension at the top of the jump. 5 minutes of daily hip flexor stretching produces visible jump gains within 2 weeks.'},
+  {id:'ankle-mob', type:'mobility', icon:'🦶', name:'Ankle Mobility Drills', intensity:'low',
+   time:'4 min', sets:'2', reps:'10 each direction each ankle', rest:'none',
+   steps:['Sit on floor, legs extended. Circle each ankle 10x clockwise, 10x counter-clockwise.','Kneeling: place one foot flat, drive knee forward over toes until you feel ankle stretch. 10 reps each.','Standing calf stretch: hands on wall, one foot back, heel flat. Hold 30 seconds.','Ankle rolls before and after every session.','Restricted ankle mobility directly limits squat depth and jump load.'],
+   cue:'<strong>Key cue:</strong> If a player can\'t perform a full deep squat, the ankles are usually the limiting factor — not the legs. Fix the ankles first.'},
+  {id:'thoracic', type:'mobility', icon:'🔄', name:'Thoracic Spine Rotation', intensity:'low',
+   time:'3 min', sets:'2', reps:'10 each side', rest:'none',
+   steps:['Sit on heels, knees on floor (child\'s pose variation).','Place one hand behind head. Rotate thoracic spine, pointing elbow up toward ceiling.','Hold 2 seconds at top. Return. Repeat 10x each side.','Also: foam roll thoracic spine — 60 seconds up and down.','A mobile thoracic spine allows full arm swing and arm-overhead reach.'],
+   cue:'<strong>Key cue:</strong> Players who can\'t rotate their upper back fully can\'t maximize their arm swing. This is overlooked in volleyball jump training but matters for every attack.'},
+];
+
+// ── WEEKLY PROGRAM DATA ──
+const PROGRAM = {
+  phase1: [
+    {wk:1, title:'Week 1 — Wake Up', focus:'Mechanics + activation. No high jumps.',
+     days:[
+       {label:'DAY 1', active:true, exs:[{name:'Hip Flexor Stretch',t:'mob'},{name:'Ankle Mobility',t:'mob'},{name:'Glute Bridge',t:'str'},{name:'Ankle Hops',t:'ply'},{name:'Approach Arm Swing',t:'tec'}]},
+       {label:'DAY 2', active:false, exs:[{name:'REST or light walk',t:''}]},
+       {label:'DAY 3', active:true, exs:[{name:'Hip Flexor Stretch',t:'mob'},{name:'Bodyweight Squat Jump',t:'str'},{name:'Single-Leg Calf Raise',t:'str'},{name:'Approach Jump Test',t:'tec'}]},
+       {label:'DAY 4', active:false, exs:[{name:'REST',t:''}]},
+       {label:'DAY 5', active:true, exs:[{name:'Ankle Mobility',t:'mob'},{name:'Glute Bridge',t:'str'},{name:'Approach Arm Swing',t:'tec'},{name:'Ankle Hops',t:'ply'}]},
+     ]},
+    {wk:2, title:'Week 2 — Build Base', focus:'Add box jumps. Continue mechanics work.',
+     days:[
+       {label:'DAY 1', active:true, exs:[{name:'Hip Flexor Stretch',t:'mob'},{name:'Box Jump',t:'ply'},{name:'Bulgarian Split Squat',t:'str'},{name:'Approach Arm Swing',t:'tec'}]},
+       {label:'DAY 2', active:false, exs:[{name:'REST',t:''}]},
+       {label:'DAY 3', active:true, exs:[{name:'Ankle Mobility',t:'mob'},{name:'Bodyweight Squat Jump',t:'str'},{name:'Single-Leg Calf Raise',t:'str'},{name:'Penultimate Step Drill',t:'tec'}]},
+       {label:'DAY 4', active:false, exs:[{name:'REST or mobility only',t:''}]},
+       {label:'DAY 5', active:true, exs:[{name:'Hip Flexor Stretch',t:'mob'},{name:'Box Jump',t:'ply'},{name:'Glute Bridge',t:'str'},{name:'Approach Jump Test',t:'tec'}]},
+     ]},
+    {wk:3, title:'Week 3 — Solidify', focus:'Increase box jump volume. All 4 systems active.',
+     days:[
+       {label:'DAY 1', active:true, exs:[{name:'Full Mobility Warm-Up',t:'mob'},{name:'Box Jump x4 sets',t:'ply'},{name:'Bulgarian Split Squat',t:'str'},{name:'Nordic Hamstring Curl',t:'str'}]},
+       {label:'DAY 2', active:false, exs:[{name:'REST',t:''}]},
+       {label:'DAY 3', active:true, exs:[{name:'Hip Flexor + Ankle',t:'mob'},{name:'Bodyweight Squat Jump',t:'str'},{name:'Single-Leg Calf Raise',t:'str'},{name:'Penultimate Step Drill',t:'tec'}]},
+       {label:'DAY 4', active:false, exs:[{name:'REST',t:''}]},
+       {label:'DAY 5', active:true, exs:[{name:'Full Mobility',t:'mob'},{name:'Box Jump',t:'ply'},{name:'Approach Arm Swing',t:'tec'},{name:'Approach Jump Test + Measure',t:'tec'}]},
+     ]},
+  ],
+  phase2: [
+    {wk:4, title:'Week 4 — Introduce Depth Work', focus:'Depth drops introduced. Reactive training begins.',
+     days:[
+       {label:'DAY 1', active:true, exs:[{name:'Full Mobility',t:'mob'},{name:'Depth Drop to Jump',t:'ply'},{name:'Box Jump',t:'ply'},{name:'Bulgarian Split Squat',t:'str'}]},
+       {label:'DAY 2', active:false, exs:[{name:'REST — tendons need recovery',t:''}]},
+       {label:'DAY 3', active:true, exs:[{name:'Hip Flexor + Thoracic',t:'mob'},{name:'Nordic Hamstring Curl',t:'str'},{name:'Single-Leg Calf Raise',t:'str'},{name:'Penultimate Step Drill',t:'tec'}]},
+       {label:'DAY 4', active:false, exs:[{name:'REST',t:''}]},
+       {label:'DAY 5', active:true, exs:[{name:'Full Mobility',t:'mob'},{name:'Broad Jump',t:'ply'},{name:'Bodyweight Squat Jump',t:'str'},{name:'Approach Jump Test',t:'tec'}]},
+     ]},
+    {wk:5, title:'Week 5 — Volume Push', focus:'Plyometric volume peaks this week. Monitor fatigue.',
+     days:[
+       {label:'DAY 1', active:true, exs:[{name:'Full Mobility',t:'mob'},{name:'Depth Drop to Jump x4',t:'ply'},{name:'Lateral Single-Leg Bound',t:'ply'},{name:'Bulgarian Split Squat',t:'str'}]},
+       {label:'DAY 2', active:false, exs:[{name:'REST — mandatory',t:''}]},
+       {label:'DAY 3', active:true, exs:[{name:'Ankle + Hip Mobility',t:'mob'},{name:'Nordic Hamstring x4',t:'str'},{name:'Glute Bridge',t:'str'},{name:'Approach Arm Swing x60 approaches',t:'tec'}]},
+       {label:'DAY 4', active:false, exs:[{name:'REST',t:''}]},
+       {label:'DAY 5', active:true, exs:[{name:'Full Mobility',t:'mob'},{name:'Box Jump',t:'ply'},{name:'Broad Jump',t:'ply'},{name:'Approach Jump Test + Measure',t:'tec'}]},
+     ]},
+    {wk:6, title:'Week 6 — Consolidation', focus:'Slightly reduce volume. Sharpen quality.',
+     days:[
+       {label:'DAY 1', active:true, exs:[{name:'Full Mobility',t:'mob'},{name:'Depth Drop to Jump',t:'ply'},{name:'Bulgarian Split Squat',t:'str'},{name:'Nordic Hamstring',t:'str'}]},
+       {label:'DAY 2', active:false, exs:[{name:'REST',t:''}]},
+       {label:'DAY 3', active:true, exs:[{name:'Full Mobility',t:'mob'},{name:'Ankle Hops',t:'ply'},{name:'Single-Leg Calf Raise x3 sets',t:'str'},{name:'Penultimate Step Drill',t:'tec'}]},
+       {label:'DAY 4', active:false, exs:[{name:'REST',t:''}]},
+       {label:'DAY 5', active:true, exs:[{name:'Full Mobility',t:'mob'},{name:'Broad Jump',t:'ply'},{name:'Approach Jump Test',t:'tec'}]},
+     ]},
+  ],
+  phase3: [
+    {wk:7, title:'Week 7 — Court Transfer', focus:'Connect every strength gain to actual volleyball jumps.',
+     days:[
+       {label:'DAY 1', active:true, exs:[{name:'Full Mobility',t:'mob'},{name:'Box Jump',t:'ply'},{name:'Depth Drop to Jump',t:'ply'},{name:'Approach Jump x10',t:'tec'}]},
+       {label:'DAY 2', active:false, exs:[{name:'REST',t:''}]},
+       {label:'DAY 3', active:true, exs:[{name:'Hip Flexor + Thoracic',t:'mob'},{name:'Bulgarian Split Squat',t:'str'},{name:'Single-Leg Calf Raise',t:'str'},{name:'Lateral Bound',t:'ply'}]},
+       {label:'DAY 4', active:false, exs:[{name:'REST',t:''}]},
+       {label:'DAY 5', active:true, exs:[{name:'Full Mobility',t:'mob'},{name:'Approach Jump Test + Measure',t:'tec'},{name:'Approach Arm Swing focus',t:'tec'},{name:'Ankle Hops',t:'ply'}]},
+     ]},
+    {wk:8, title:'Week 8 — Volleyball Integration', focus:'All drills tied to game situations.',
+     days:[
+       {label:'DAY 1', active:true, exs:[{name:'Full Mobility',t:'mob'},{name:'Approach Jump x15 max effort',t:'tec'},{name:'Depth Drop to Jump',t:'ply'},{name:'Nordic Hamstring',t:'str'}]},
+       {label:'DAY 2', active:false, exs:[{name:'REST',t:''}]},
+       {label:'DAY 3', active:true, exs:[{name:'Full Mobility',t:'mob'},{name:'Lateral Bound',t:'ply'},{name:'Bulgarian Split Squat',t:'str'},{name:'Glute Bridge',t:'str'}]},
+       {label:'DAY 4', active:false, exs:[{name:'REST',t:''}]},
+       {label:'DAY 5', active:true, exs:[{name:'Full Mobility',t:'mob'},{name:'Approach Jump Test',t:'tec'},{name:'Broad Jump',t:'ply'},{name:'Ankle Hops',t:'ply'}]},
+     ]},
+    {wk:9, title:'Week 9 — Sharpen', focus:'Technical refinement. Peak volleyball jump quality.',
+     days:[
+       {label:'DAY 1', active:true, exs:[{name:'Full Mobility',t:'mob'},{name:'Box Jump max height attempt',t:'ply'},{name:'Penultimate Step',t:'tec'},{name:'Approach Jump x20',t:'tec'}]},
+       {label:'DAY 2', active:false, exs:[{name:'REST',t:''}]},
+       {label:'DAY 3', active:true, exs:[{name:'Full Mobility',t:'mob'},{name:'Bulgarian Split Squat',t:'str'},{name:'Single-Leg Calf Raise',t:'str'},{name:'Nordic Hamstring',t:'str'}]},
+       {label:'DAY 4', active:false, exs:[{name:'REST',t:''}]},
+       {label:'DAY 5', active:true, exs:[{name:'Full Mobility',t:'mob'},{name:'Approach Jump Test + Measure',t:'tec'},{name:'Depth Drop',t:'ply'}]},
+     ]},
+  ],
+  phase4: [
+    {wk:10, title:'Week 10 — Taper Begins', focus:'Cut plyometric volume 30%. Maintain intensity.',
+     days:[
+       {label:'DAY 1', active:true, exs:[{name:'Full Mobility',t:'mob'},{name:'Box Jump — 2 sets only',t:'ply'},{name:'Approach Jump x10',t:'tec'},{name:'Bulgarian Split Squat',t:'str'}]},
+       {label:'DAY 2', active:false, exs:[{name:'REST',t:''}]},
+       {label:'DAY 3', active:true, exs:[{name:'Full Mobility',t:'mob'},{name:'Single-Leg Calf Raise',t:'str'},{name:'Glute Bridge',t:'str'},{name:'Approach Arm Swing',t:'tec'}]},
+       {label:'DAY 4', active:false, exs:[{name:'REST',t:''}]},
+       {label:'DAY 5', active:true, exs:[{name:'Full Mobility',t:'mob'},{name:'Depth Drop — 2 sets',t:'ply'},{name:'Approach Jump Test',t:'tec'}]},
+     ]},
+    {wk:11, title:'Week 11 — Fresh Legs', focus:'Minimal volume. Maximum freshness. Legs recover = jump higher.',
+     days:[
+       {label:'DAY 1', active:true, exs:[{name:'Full Mobility',t:'mob'},{name:'Box Jump — 2 sets',t:'ply'},{name:'Approach Jump x8',t:'tec'}]},
+       {label:'DAY 2', active:false, exs:[{name:'REST',t:''}]},
+       {label:'DAY 3', active:true, exs:[{name:'Full Mobility only',t:'mob'},{name:'Easy walk or stretch',t:'mob'}]},
+       {label:'DAY 4', active:false, exs:[{name:'REST',t:''}]},
+       {label:'DAY 5', active:true, exs:[{name:'Full Mobility',t:'mob'},{name:'Approach Jump x6 max effort',t:'tec'}]},
+     ]},
+    {wk:12, title:'Week 12 — TEST WEEK 🏆', focus:'Minimum training. Maximum recovery. Final vertical test.',
+     days:[
+       {label:'DAY 1', active:true, exs:[{name:'Full Mobility',t:'mob'},{name:'Approach Arm Swing x10',t:'tec'},{name:'Easy box jump x5',t:'ply'}]},
+       {label:'DAY 2', active:false, exs:[{name:'FULL REST',t:''}]},
+       {label:'DAY 3', active:true, exs:[{name:'FINAL VERTICAL TEST',t:'tec'},{name:'Standing vertical — 3 attempts',t:'tec'},{name:'Approach jump — 3 attempts',t:'tec'},{name:'Record and celebrate!',t:'tec'}]},
+       {label:'DAY 4', active:false, exs:[{name:'REST — program complete!',t:''}]},
+       {label:'DAY 5', active:false, exs:[{name:'Begin maintenance program (1x ply/week)',t:''}]},
+     ]},
+  ],
+};
+
+const TRACKER_TESTS = ['Baseline (Wk 0)','Test 1 (Wk 3)','Test 2 (Wk 6)','Test 3 (Wk 9)','Final (Wk 12)'];
+let trackerData = JSON.parse(localStorage.getItem('jt_tracker')||'{}');
+let exFilter = 'all';
+
+// ── RENDER EXERCISES ──
+function renderExercises() {
+  const grid = document.getElementById('ex-grid');
+  const filtered = exFilter === 'all' ? EXERCISES : EXERCISES.filter(e => e.type === exFilter);
+  grid.innerHTML = filtered.map(e => {
+    const typeClass = e.type;
+    const intClass = e.intensity === 'high' ? 'int-high' : e.intensity === 'med' ? 'int-med' : 'int-low';
+    const intLabel = e.intensity === 'high' ? '🔴 High Intensity' : e.intensity === 'med' ? '🟠 Medium' : '🔵 Low';
+    return `<div class="ex-card ${typeClass}" id="ex-${e.id}">
+      <div class="ex-card-top" onclick="toggleEx('${e.id}')">
+        <div class="ex-icon">${e.icon}</div>
+        <div class="ex-top-content">
+          <div class="ex-type">${e.type}</div>
+          <div class="ex-name">${e.name}</div>
+          <div class="ex-meta">
+            <span class="ex-meta-item">⏱ ${e.time}</span>
+            <span class="intensity ${intClass}">${intLabel}</span>
+          </div>
+        </div>
+        <div class="ex-chevron">▼</div>
+      </div>
+      <div class="ex-body">
+        <div class="ex-body-grid">
+          <div>
+            <div class="ex-how-label">How to Do It</div>
+            <ul class="ex-steps">
+              ${e.steps.map((s,i) => `<li><span class="ex-snum">${i+1}</span>${s}</li>`).join('')}
+            </ul>
+          </div>
+          <div>
+            <div class="ex-sets-box">
+              <div class="ex-sets-title">Sets & Reps</div>
+              <div class="ex-set-row"><span class="esr-label">Sets</span><span class="esr-val">${e.sets}</span></div>
+              <div class="ex-set-row"><span class="esr-label">Reps / Duration</span><span class="esr-val">${e.reps}</span></div>
+              <div class="ex-set-row"><span class="esr-label">Rest Between Sets</span><span class="esr-val">${e.rest}</span></div>
+            </div>
+            <div class="ex-cue">${e.cue}</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleEx(id) {
+  document.getElementById('ex-'+id).classList.toggle('open');
+}
+
+function filterEx(type, btnId) {
+  exFilter = type;
+  document.querySelectorAll('#ex-filters button').forEach(b => {
+    b.style.background = 'none';
+    b.style.color = '';
+  });
+  document.getElementById(btnId).style.background = 'var(--lime)';
+  document.getElementById(btnId).style.color = 'var(--void)';
+  document.getElementById(btnId).style.borderColor = 'var(--lime)';
+  renderExercises();
+}
+
+// ── RENDER PROGRAM ──
+function renderProgram() {
+  ['phase1','phase2','phase3','phase4'].forEach(phase => {
+    const container = document.getElementById(phase+'-weeks');
+    if (!container) return;
+    container.innerHTML = PROGRAM[phase].map((wk, i) => `
+      <div class="week-card ${i===0?'open':''}" id="wkc-${phase}-${wk.wk}">
+        <div class="week-card-hd" onclick="toggleWk('wkc-${phase}-${wk.wk}')">
+          <div class="wk-num">${wk.wk}</div>
+          <div class="wk-info">
+            <div class="wk-title">${wk.title}</div>
+            <div class="wk-focus">${wk.focus}</div>
+          </div>
+          <div class="wk-chevron">▼</div>
+        </div>
+        <div class="week-body">
+          ${wk.days.map(d => `
+            <div class="day-row">
+              <div class="day-label ${d.active?'active':'rest'}">${d.label}</div>
+              <div class="day-exercises">
+                ${d.exs.map(ex => ex.t
+                  ? `<span class="day-ex-chip ${ex.t==='ply'?'ply':ex.t==='str'?'str':ex.t==='tec'?'tec':'mob'}">${ex.name}</span>`
+                  : `<span class="rest-text">${ex.name}</span>`
+                ).join('')}
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>
+    `).join('');
+  });
+}
+
+function toggleWk(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+// ── TRACKER ──
+function renderTracker() {
+  const grid = document.getElementById('meas-grid');
+  grid.innerHTML = TRACKER_TESTS.map(test => {
+    const key = test.replace(/[^a-z0-9]/gi,'_');
+    const saved = trackerData[key] || {};
+    const vert = (saved.jump && saved.stand) ? (parseFloat(saved.jump) - parseFloat(saved.stand)).toFixed(1) : '';
+    return `<div class="meas-card">
+      <div class="meas-label">${test}</div>
+      <div style="margin-bottom:6px;">
+        <div style="font-size:10px;color:var(--muted);margin-bottom:3px;">Standing Reach (inches)</div>
+        <input class="meas-input" id="stand-${key}" type="number" step="0.5" placeholder="e.g. 84" value="${saved.stand||''}">
+      </div>
+      <div style="margin-bottom:6px;">
+        <div style="font-size:10px;color:var(--muted);margin-bottom:3px;">Jump Reach (inches)</div>
+        <input class="meas-input" id="jump-${key}" type="number" step="0.5" placeholder="e.g. 98" value="${saved.jump||''}">
+      </div>
+      <div class="meas-gain">${vert ? '+' + vert + '"' : '—'}</div>
+      <div style="font-size:10px;color:var(--muted);">Vertical</div>
+    </div>`;
+  }).join('');
+}
+
+function saveTracker() {
+  TRACKER_TESTS.forEach(test => {
+    const key = test.replace(/[^a-z0-9]/gi,'_');
+    const stand = document.getElementById('stand-'+key)?.value;
+    const jump = document.getElementById('jump-'+key)?.value;
+    if (stand || jump) trackerData[key] = { stand, jump };
+  });
+  localStorage.setItem('jt_tracker', JSON.stringify(trackerData));
+  renderTracker();
+  renderProgressSummary();
+  const msg = document.getElementById('tracker-saved');
+  msg.style.opacity = 1;
+  setTimeout(() => msg.style.opacity = 0, 2200);
+}
+
+function renderProgressSummary() {
+  const summary = document.getElementById('progress-summary');
+  const content = document.getElementById('progress-content');
+  const entries = TRACKER_TESTS.map(test => {
+    const key = test.replace(/[^a-z0-9]/gi,'_');
+    const d = trackerData[key] || {};
+    if (!d.stand || !d.jump) return null;
+    return { test, vert: parseFloat(d.jump) - parseFloat(d.stand) };
+  }).filter(Boolean);
+
+  if (entries.length < 2) { summary.style.display='none'; return; }
+  summary.style.display = 'block';
+  const gain = (entries[entries.length-1].vert - entries[0].vert).toFixed(1);
+  content.innerHTML = `
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:20px;">
+      ${entries.map(e => `<div style="text-align:center;">
+        <div style="font-family:var(--head);font-size:28px;color:var(--lime);">${e.vert.toFixed(1)}"</div>
+        <div style="font-size:11px;color:var(--muted);">${e.test}</div>
+      </div>`).join('')}
+    </div>
+    <div style="font-size:15px;color:var(--white);">Total gain: <strong style="font-family:var(--head);font-size:24px;color:var(--lime);">+${gain} inches</strong></div>
+  `;
+}
+
+function clearTracker() {
+  if (!confirm('Clear all tracker data?')) return;
+  trackerData = {};
+  localStorage.removeItem('jt_tracker');
+  renderTracker();
+  document.getElementById('progress-summary').style.display = 'none';
+}
+
+// ── NAV ──
+function go(pageId, btnId) {
+  document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.snav-btn').forEach(b => b.classList.remove('on'));
+  document.getElementById('pg-'+pageId).classList.add('on');
+  document.getElementById(btnId).classList.add('on');
+}
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', function() {
+  renderExercises();
+  renderProgram();
+  renderTracker();
+  renderProgressSummary();
+});
+</script>
+</body>
+</html>

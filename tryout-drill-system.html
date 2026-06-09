@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tryout Drill System — Volleyball</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0e0e0e;
+  --paper: #f2efe8;
+  --paper2: #e8e4da;
+  --paper3: #ddd9ce;
+  --white: #ffffff;
+  --red: #c0392b;
+  --red-light: #fdf0ee;
+  --gold: #c47d00;
+  --gold-light: #fef6e4;
+  --green: #1a6b3a;
+  --green-light: #eaf6ee;
+  --blue: #1a4a8a;
+  --blue-light: #edf2fb;
+  --purple: #5c2d8a;
+  --purple-light: #f3edfb;
+  --muted: #888074;
+  --border: #ccc8be;
+  --head: 'Archivo Black', sans-serif;
+  --body: 'Archivo', sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);min-height:100vh;}
+
+/* ── TOP BAR ── */
+.topbar{
+  background:var(--ink);color:var(--paper);
+  padding:0 32px;
+  display:flex;align-items:center;gap:0;
+  position:sticky;top:0;z-index:300;
+  border-bottom:3px solid var(--red);
+}
+.brand{
+  font-family:var(--head);font-size:17px;letter-spacing:1px;
+  padding:16px 28px 16px 0;border-right:1px solid rgba(255,255,255,.1);
+  margin-right:4px;color:var(--paper);
+}
+.brand span{color:#f5c518;}
+.nav-btn{
+  font-family:var(--body);font-size:12px;font-weight:700;letter-spacing:1px;
+  padding:0 20px;height:56px;border:none;background:none;
+  color:rgba(242,239,232,.45);cursor:pointer;transition:all .2s;
+  border-bottom:3px solid transparent;margin-bottom:-3px;
+  text-transform:uppercase;white-space:nowrap;
+}
+.nav-btn:hover{color:var(--paper);}
+.nav-btn.on{color:#f5c518;border-bottom-color:#f5c518;}
+
+/* ── PAGES ── */
+.pg{display:none;max-width:1080px;margin:0 auto;padding:36px 28px;}
+.pg.on{display:block;}
+
+/* ── HERO STRIP ── */
+.hero-strip{
+  background:var(--ink);color:var(--paper);
+  padding:40px 32px;border-radius:16px;margin-bottom:32px;
+  position:relative;overflow:hidden;
+}
+.hero-strip::before{
+  content:'TRYOUT';
+  position:absolute;right:-20px;top:50%;transform:translateY(-50%);
+  font-family:var(--head);font-size:120px;color:rgba(255,255,255,.04);
+  pointer-events:none;line-height:1;
+}
+.hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:4px;color:#f5c518;text-transform:uppercase;margin-bottom:10px;}
+.hero-title{font-family:var(--head);font-size:clamp(32px,5vw,58px);line-height:.95;margin-bottom:16px;}
+.hero-title span{color:#f5c518;}
+.hero-desc{font-size:14px;color:rgba(242,239,232,.65);line-height:1.7;max-width:580px;}
+.hero-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;}
+.hpill{font-size:11px;font-weight:700;padding:5px 14px;border-radius:100px;background:rgba(255,255,255,.08);color:rgba(242,239,232,.7);border:1px solid rgba(255,255,255,.1);}
+
+/* ── SECTION HEADER ── */
+.sec-hd{
+  display:flex;align-items:center;gap:14px;margin-bottom:22px;margin-top:36px;
+}
+.sec-hd:first-child{margin-top:0;}
+.sec-num{
+  font-family:var(--head);font-size:13px;
+  background:var(--ink);color:var(--paper);
+  width:32px;height:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.sec-label{font-family:var(--head);font-size:22px;letter-spacing:.5px;}
+.sec-line{flex:1;height:2px;background:var(--border);}
+
+/* ── ROSTER INPUT ── */
+.roster-add{
+  background:var(--white);border:1px solid var(--border);border-radius:12px;
+  padding:20px 24px;margin-bottom:20px;
+  display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;
+}
+.fg{display:flex;flex-direction:column;gap:5px;}
+.fg label{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;}
+.fg input,.fg select{
+  background:var(--paper);border:1.5px solid var(--border);border-radius:8px;
+  padding:9px 14px;color:var(--ink);font-family:var(--body);font-size:13px;
+  outline:none;transition:border-color .2s;
+}
+.fg input:focus,.fg select:focus{border-color:var(--ink);}
+.fg select option{background:var(--white);}
+.btn{
+  font-family:var(--body);font-size:13px;font-weight:700;
+  padding:10px 20px;border-radius:8px;border:none;cursor:pointer;
+  transition:all .18s;letter-spacing:.3px;
+}
+.btn-ink{background:var(--ink);color:var(--paper);}
+.btn-ink:hover{background:#2a2a2a;}
+.btn-outline{background:none;color:var(--ink);border:1.5px solid var(--border);}
+.btn-outline:hover{border-color:var(--ink);}
+.btn-red{background:var(--red);color:white;}
+.btn-red:hover{background:#a93226;}
+.btn-sm{padding:7px 13px;font-size:12px;}
+.btn-ghost{background:none;color:var(--muted);border:none;font-size:12px;padding:6px 10px;cursor:pointer;}
+.btn-ghost:hover{color:var(--red);}
+
+/* ── PLAYER TABLE ── */
+.ptable-wrap{background:var(--white);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:28px;}
+.ptable{width:100%;border-collapse:collapse;}
+.ptable th{
+  font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);padding:12px 16px;border-bottom:1.5px solid var(--border);
+  background:var(--paper2);text-align:left;
+}
+.ptable td{padding:13px 16px;font-size:13px;border-bottom:1px solid var(--paper2);vertical-align:middle;}
+.ptable tr:last-child td{border-bottom:none;}
+.ptable tr:hover td{background:var(--paper);}
+.pos-chip{
+  font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px;
+  display:inline-block;
+}
+.chip-S{background:#fff8e0;color:var(--gold);border:1px solid #ffe08a;}
+.chip-OH{background:var(--blue-light);color:var(--blue);border:1px solid #b8d0f5;}
+.chip-MB{background:var(--green-light);color:var(--green);border:1px solid #9dd8b4;}
+.chip-OPP{background:var(--red-light);color:var(--red);border:1px solid #f5b8b0;}
+.chip-L{background:var(--purple-light);color:var(--purple);border:1px solid #d0b8f5;}
+.ov-score{font-family:var(--head);font-size:20px;color:var(--ink);}
+.empty-row{padding:40px;text-align:center;color:var(--muted);font-size:14px;}
+
+/* ── DRILL STATION CARDS ── */
+.stations{display:flex;flex-direction:column;gap:0;border:1.5px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:32px;}
+.station{background:var(--white);border-bottom:1.5px solid var(--border);}
+.station:last-child{border-bottom:none;}
+.station-hd{
+  display:flex;align-items:center;gap:0;cursor:pointer;user-select:none;
+}
+.station-num{
+  font-family:var(--head);font-size:20px;
+  width:64px;min-height:64px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;color:white;
+}
+.st1 .station-num{background:var(--blue);}
+.st2 .station-num{background:var(--red);}
+.st3 .station-num{background:var(--green);}
+.st4 .station-num{background:var(--gold);}
+.st5 .station-num{background:var(--purple);}
+.st6 .station-num{background:#1a7a7a;}
+.st7 .station-num{background:#7a3a1a;}
+
+.station-title-wrap{flex:1;padding:16px 20px;}
+.station-cat{font-size:10px;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:3px;}
+.st1 .station-cat{color:var(--blue);}
+.st2 .station-cat{color:var(--red);}
+.st3 .station-cat{color:var(--green);}
+.st4 .station-cat{color:var(--gold);}
+.st5 .station-cat{color:var(--purple);}
+.st6 .station-cat{color:#1a7a7a;}
+.st7 .station-cat{color:#7a3a1a;}
+.station-name{font-family:var(--head);font-size:18px;letter-spacing:.5px;line-height:1.1;}
+.station-meta{display:flex;gap:16px;margin-top:4px;flex-wrap:wrap;}
+.st-meta-item{font-size:12px;color:var(--muted);}
+.station-chevron{padding:0 20px;font-size:16px;color:var(--muted);transition:transform .25s;}
+.station.open .station-chevron{transform:rotate(180deg);}
+
+.station-body{display:none;padding:0 24px 24px 88px;}
+.station.open .station-body{display:block;}
+@media(max-width:560px){.station-body{padding:0 16px 20px 16px;}}
+
+.drill-2col{display:grid;grid-template-columns:1.2fr 1fr;gap:20px;margin-bottom:16px;}
+@media(max-width:620px){.drill-2col{grid-template-columns:1fr;}}
+
+.drill-instructions{font-size:14px;line-height:1.75;color:#333;}
+.drill-instructions strong{color:var(--ink);}
+.drill-steps-list{list-style:none;margin-top:10px;}
+.drill-steps-list li{
+  display:flex;gap:10px;margin-bottom:9px;font-size:13.5px;line-height:1.55;color:#333;
+}
+.dsn{
+  background:var(--ink);color:var(--paper);font-family:var(--head);font-size:10px;
+  border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:2px;
+}
+
+/* SCORING RUBRIC */
+.rubric{background:var(--paper2);border-radius:10px;padding:14px 16px;margin-bottom:14px;}
+.rubric-title{font-size:10px;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:10px;}
+.rubric-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:6px;font-size:13px;line-height:1.45;}
+.rubric-score{
+  font-family:var(--head);font-size:14px;min-width:28px;
+  text-align:center;padding:2px 6px;border-radius:5px;flex-shrink:0;
+}
+.rs-5{background:#1a6b3a;color:white;}
+.rs-4{background:#2ea050;color:white;}
+.rs-3{background:#f5c518;color:#000;}
+.rs-2{background:#e07b00;color:white;}
+.rs-1{background:#c0392b;color:white;}
+
+/* WHAT TO WATCH */
+.watch-box{
+  background:var(--blue-light);border:1px solid #b8d0f5;border-radius:10px;
+  padding:14px 16px;
+}
+.watch-title{font-size:10px;font-weight:700;letter-spacing:3px;color:var(--blue);text-transform:uppercase;margin-bottom:8px;}
+.watch-item{font-size:13px;color:var(--blue);padding:3px 0 3px 16px;position:relative;line-height:1.45;}
+.watch-item::before{content:'●';position:absolute;left:0;font-size:8px;top:6px;color:var(--blue);opacity:.6;}
+
+/* SCORE ENTRY (per player per drill) */
+.score-section{margin-top:18px;border-top:1.5px solid var(--border);padding-top:18px;}
+.score-section-title{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:14px;}
+.score-grid{display:flex;flex-direction:column;gap:8px;}
+.score-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.score-player-name{font-size:13px;font-weight:700;min-width:140px;flex:1;}
+.score-btns{display:flex;gap:4px;}
+.score-btn{
+  width:36px;height:36px;border-radius:8px;border:1.5px solid var(--border);
+  background:var(--paper);font-family:var(--head);font-size:14px;
+  cursor:pointer;transition:all .15s;color:var(--ink);
+}
+.score-btn:hover{border-color:var(--ink);}
+.score-btn.sel-1{background:#c0392b;color:white;border-color:#c0392b;}
+.score-btn.sel-2{background:#e07b00;color:white;border-color:#e07b00;}
+.score-btn.sel-3{background:#c9a800;color:white;border-color:#c9a800;}
+.score-btn.sel-4{background:#2ea050;color:white;border-color:#2ea050;}
+.score-btn.sel-5{background:#1a6b3a;color:white;border-color:#1a6b3a;}
+.score-note{
+  flex:1;min-width:120px;max-width:240px;
+  background:var(--paper);border:1.5px solid var(--border);border-radius:8px;
+  padding:7px 10px;font-size:12px;color:var(--ink);font-family:var(--body);outline:none;
+}
+.score-note:focus{border-color:var(--ink);}
+.score-note::placeholder{color:var(--muted);}
+.save-drill-row{margin-top:12px;display:flex;gap:10px;align-items:center;}
+.saved-flash{font-size:12px;color:var(--green);opacity:0;transition:opacity .3s;}
+.saved-flash.show{opacity:1;}
+
+/* ── RESULTS PAGE ── */
+.results-controls{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
+.filter-pill{
+  font-size:12px;font-weight:700;padding:7px 16px;border-radius:100px;
+  border:1.5px solid var(--border);background:none;color:var(--muted);cursor:pointer;transition:all .2s;
+}
+.filter-pill.on{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+
+.results-table-wrap{background:var(--white);border:1.5px solid var(--border);border-radius:12px;overflow-x:auto;margin-bottom:28px;}
+.results-table{width:100%;border-collapse:collapse;min-width:640px;}
+.results-table th{
+  font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);padding:12px 14px;border-bottom:1.5px solid var(--border);
+  background:var(--paper2);text-align:center;cursor:pointer;user-select:none;
+  white-space:nowrap;
+}
+.results-table th:first-child{text-align:left;}
+.results-table th:hover{color:var(--ink);}
+.results-table td{padding:12px 14px;font-size:13px;border-bottom:1px solid var(--paper2);text-align:center;vertical-align:middle;}
+.results-table td:first-child{text-align:left;font-weight:700;}
+.results-table tr:last-child td{border-bottom:none;}
+.results-table tr:hover td{background:var(--paper);}
+.score-bar-wrap{width:60px;height:8px;background:var(--paper2);border-radius:4px;overflow:hidden;display:inline-block;vertical-align:middle;margin-left:6px;}
+.score-bar-fill{height:100%;border-radius:4px;background:var(--green);}
+.grade-A{color:var(--green);font-family:var(--head);font-size:16px;}
+.grade-B{color:var(--blue);font-family:var(--head);font-size:16px;}
+.grade-C{color:var(--gold);font-family:var(--head);font-size:16px;}
+.grade-D{color:var(--red);font-family:var(--head);font-size:16px;}
+
+/* PLAYER DETAIL CARD */
+.player-detail{background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:24px;margin-bottom:20px;display:none;}
+.player-detail.show{display:block;}
+.pd-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap;}
+.pd-name{font-family:var(--head);font-size:28px;line-height:1;}
+.pd-overall{font-family:var(--head);font-size:48px;color:var(--ink);line-height:1;}
+.pd-grade-label{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--muted);margin-top:2px;}
+.pd-drill-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:16px;}
+.pd-drill-item{background:var(--paper);border:1px solid var(--border);border-radius:10px;padding:12px 14px;}
+.pd-drill-name{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--muted);margin-bottom:5px;}
+.pd-drill-score{font-family:var(--head);font-size:22px;}
+.pd-drill-note{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4;}
+
+/* ── PRINT BUTTON ── */
+.print-btn{
+  background:var(--ink);color:var(--paper);font-family:var(--body);font-weight:700;
+  font-size:13px;padding:10px 22px;border-radius:8px;border:none;cursor:pointer;
+}
+@media print{
+  .topbar,.results-controls,.print-btn{display:none;}
+  .station-body{display:block!important;}
+  .player-detail{display:block!important;}
+  body{background:white;}
+}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .topbar{padding:0 12px;overflow-x:auto;}
+  .pg{padding:20px 14px;}
+  .hero-strip{padding:28px 20px;}
+  .roster-add{flex-direction:column;}
+  .station-body{padding-left:16px;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="brand">TRYOUT<span>VB</span></div>
+  <button class="nav-btn on" id="tab-home" onclick="nav('home','tab-home')">Overview</button>
+  <button class="nav-btn" id="tab-roster" onclick="nav('roster','tab-roster')">Roster</button>
+  <button class="nav-btn" id="tab-stations" onclick="nav('stations','tab-stations')">Drill Stations</button>
+  <button class="nav-btn" id="tab-results" onclick="nav('results','tab-results')">Results</button>
+</div>
+
+<!-- ══════════ OVERVIEW ══════════ -->
+<div class="pg on" id="pg-home">
+  <div class="hero-strip">
+    <div class="hero-eyebrow">Volleyball Evaluation System</div>
+    <div class="hero-title">DRILL-BASED<br><span>TRYOUT GUIDE</span></div>
+    <div class="hero-desc">7 measurable skill stations. Every score is earned from actual reps — not just gut feelings. Objective, fair, and backed by numbers your players can see and understand.</div>
+    <div class="hero-pills">
+      <span class="hpill">7 Drill Stations</span>
+      <span class="hpill">Grades 7–9</span>
+      <span class="hpill">1–5 Rubric Per Station</span>
+      <span class="hpill">Live Score Entry</span>
+      <span class="hpill">Auto-Ranked Results</span>
+    </div>
+  </div>
+
+  <!-- HOW TO RUN -->
+  <div class="sec-hd"><div class="sec-num">?</div><div class="sec-label">How to Run Your Tryout</div><div class="sec-line"></div></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:32px;">
+    <div style="background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:20px;">
+      <div style="font-family:var(--head);font-size:32px;color:var(--paper2);">01</div>
+      <div style="font-family:var(--head);font-size:17px;margin:8px 0 6px;">Build Your Roster</div>
+      <div style="font-size:13px;color:#555;line-height:1.6;">Add every tryout athlete in the Roster tab. Name, jersey number, grade, and position they're trying out for.</div>
+    </div>
+    <div style="background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:20px;">
+      <div style="font-family:var(--head);font-size:32px;color:var(--paper2);">02</div>
+      <div style="font-family:var(--head);font-size:17px;margin:8px 0 6px;">Run the 7 Stations</div>
+      <div style="font-size:13px;color:#555;line-height:1.6;">Rotate players through each drill. Every drill has a clear 1–5 rubric so any coach or assistant can score consistently.</div>
+    </div>
+    <div style="background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:20px;">
+      <div style="font-family:var(--head);font-size:32px;color:var(--paper2);">03</div>
+      <div style="font-family:var(--head);font-size:17px;margin:8px 0 6px;">Score in Real Time</div>
+      <div style="font-size:13px;color:#555;line-height:1.6;">At the bottom of each station, tap 1–5 for each player as they go. Add quick notes right then — don't wait until later.</div>
+    </div>
+    <div style="background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:20px;">
+      <div style="font-family:var(--head);font-size:32px;color:var(--paper2);">04</div>
+      <div style="font-family:var(--head);font-size:17px;margin:8px 0 6px;">Review Results</div>
+      <div style="font-size:13px;color:#555;line-height:1.6;">Go to Results for a ranked leaderboard, letter grades, and individual breakdowns per player. Sort by any drill or overall.</div>
+    </div>
+  </div>
+
+  <!-- STATION OVERVIEW -->
+  <div class="sec-hd"><div class="sec-num">7</div><div class="sec-label">The 7 Drill Stations</div><div class="sec-line"></div></div>
+  <div style="background:var(--white);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:28px;">
+    <table style="width:100%;border-collapse:collapse;">
+      <thead>
+        <tr style="background:var(--paper2);">
+          <th style="padding:12px 16px;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--muted);text-align:left;border-bottom:1.5px solid var(--border);">#</th>
+          <th style="padding:12px 16px;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--muted);text-align:left;border-bottom:1.5px solid var(--border);">STATION</th>
+          <th style="padding:12px 16px;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--muted);text-align:left;border-bottom:1.5px solid var(--border);">SKILL TESTED</th>
+          <th style="padding:12px 16px;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--muted);text-align:left;border-bottom:1.5px solid var(--border);">TIME</th>
+          <th style="padding:12px 16px;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--muted);text-align:left;border-bottom:1.5px solid var(--border);">FORMAT</th>
+        </tr>
+      </thead>
+      <tbody id="overview-rows"></tbody>
+    </table>
+  </div>
+
+  <div style="background:var(--ink);color:var(--paper);border-radius:12px;padding:20px 24px;font-size:14px;line-height:1.7;">
+    <strong style="color:#f5c518;">Why this system is fair:</strong> Every drill has the same rubric for everyone. The same pass, the same serve, the same attack — scored the same way no matter who's doing it. Players can see their scores after tryouts and understand exactly why they placed where they did.
+  </div>
+</div>
+
+<!-- ══════════ ROSTER ══════════ -->
+<div class="pg" id="pg-roster">
+  <div class="sec-hd" style="margin-top:0"><div class="sec-label">Tryout Roster</div><div class="sec-line"></div></div>
+  <div class="roster-add">
+    <div class="fg" style="flex:1;min-width:140px;"><label>Athlete Name</label><input id="r-name" placeholder="First Last"/></div>
+    <div class="fg" style="min-width:60px;max-width:80px;"><label>Jersey #</label><input id="r-num" type="number" placeholder="#"/></div>
+    <div class="fg" style="min-width:80px;"><label>Grade</label>
+      <select id="r-grade"><option>7th</option><option>8th</option><option>9th</option></select>
+    </div>
+    <div class="fg" style="min-width:180px;"><label>Trying Out For</label>
+      <select id="r-pos">
+        <option value="OH">Outside Hitter (OH)</option>
+        <option value="MB">Middle Blocker (MB)</option>
+        <option value="S">Setter (S)</option>
+        <option value="OPP">Opposite / Right Side</option>
+        <option value="L">Libero (L)</option>
+      </select>
+    </div>
+    <div><label style="visibility:hidden">.</label><button class="btn btn-ink" onclick="addPlayer()">+ Add Athlete</button></div>
+  </div>
+
+  <div class="ptable-wrap">
+    <table class="ptable">
+      <thead><tr>
+        <th>#</th><th>Athlete</th><th>Grade</th><th>Position</th><th>Stations Done</th><th>Overall</th><th></th>
+      </tr></thead>
+      <tbody id="roster-tbody"><tr><td colspan="7"><div class="empty-row">No athletes yet — add your first above.</div></td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════ STATIONS ══════════ -->
+<div class="pg" id="pg-stations">
+  <div class="sec-hd" style="margin-top:0"><div class="sec-label">Drill Stations</div><div class="sec-line"></div>
+    <button class="btn btn-outline btn-sm" onclick="expandAll()">Expand All</button>
+    <button class="btn btn-outline btn-sm" onclick="collapseAll()">Collapse All</button>
+  </div>
+  <div class="stations" id="stations-wrap"></div>
+</div>
+
+<!-- ══════════ RESULTS ══════════ -->
+<div class="pg" id="pg-results">
+  <div class="sec-hd" style="margin-top:0"><div class="sec-label">Tryout Results</div><div class="sec-line"></div>
+    <button class="print-btn" onclick="window.print()">🖨 Print</button>
+  </div>
+  <div class="results-controls" id="results-controls">
+    <span style="font-size:12px;font-weight:700;letter-spacing:1px;color:var(--muted);">FILTER:</span>
+    <button class="filter-pill on" id="fp-all" onclick="filterResults('all','fp-all')">All</button>
+    <button class="filter-pill" id="fp-OH" onclick="filterResults('OH','fp-OH')">Outside Hitter</button>
+    <button class="filter-pill" id="fp-MB" onclick="filterResults('MB','fp-MB')">Middle Blocker</button>
+    <button class="filter-pill" id="fp-S" onclick="filterResults('S','fp-S')">Setter</button>
+    <button class="filter-pill" id="fp-OPP" onclick="filterResults('OPP','fp-OPP')">Opposite</button>
+    <button class="filter-pill" id="fp-L" onclick="filterResults('L','fp-L')">Libero</button>
+  </div>
+  <div class="results-table-wrap"><table class="results-table" id="results-table"><thead><tr id="results-thead"></tr></thead><tbody id="results-tbody"></tbody></table></div>
+  <div class="player-detail" id="player-detail"></div>
+</div>
+
+<script>
+// ════════ DATA ════════
+const STATIONS = [
+  {
+    id:'pass', num:1, cat:'Passing & Serve Receive', name:'10-Ball Serve Receive', color:'blue',
+    time:'8 min', format:'10 serves per player, scored per pass',
+    skill:'Platform accuracy, footwork, body positioning, call-ball communication',
+    setup:'Server at full service line. 3-player W-formation. Coach tosses mix of float serves and driven balls.',
+    steps:[
+      'Player assumes receive position in W-formation (zones 1, 6, 5)',
+      'Server delivers 10 serves — mix of float, deep, short, body',
+      'Player must call "mine!" before passing to setter target (cone at zone 3)',
+      'Coach scores each pass on the rubric. Count called balls separately.',
+      'Rotate after all 10 serves. Run twice for reliability.'
+    ],
+    rubric:[
+      {s:5,label:'5 — Elite',desc:'8–10 passes hit target zone. Calls every ball. Moves early. Perfect platform angle.'},
+      {s:4,label:'4 — Above Avg',desc:'6–7 passes on target. Calls most balls. Footwork mostly correct. Slight platform variance.'},
+      {s:3,label:'3 — Average',desc:'4–5 passes usable. Calls some balls. Late footwork but makes contact.'},
+      {s:2,label:'2 — Below Avg',desc:'2–3 passes on target. Inconsistent calling. Flat-footed. Platform angles off.'},
+      {s:1,label:'1 — Needs Work',desc:'0–1 passes on target. Silent. No footwork. Flinching or backing up on hard serves.'},
+    ],
+    watch:['Are their feet already moving when the ball crosses the net?','Do they call the ball BEFORE it reaches them?','Is their platform flat and angled toward zone 3?','Do they step into hard balls or back away?']
+  },
+  {
+    id:'serve', num:2, cat:'Serving', name:'Zone Target Serving', color:'red',
+    time:'6 min', format:'10 serves, tracked by zone success',
+    skill:'Serve consistency, directional control, pressure serving',
+    setup:'Cones mark 3 target zones: Zone A (deep left corner), Zone B (short middle), Zone C (deep right corner).',
+    steps:[
+      'Each player serves 10 balls from behind the service line',
+      'Before each serve, player must call which zone they are targeting',
+      'Score is based on (a) making the serve in, and (b) hitting the called zone',
+      'In means in. Net or out = 0 for that rep.',
+      'Bonus: an unreturnable serve (ace) in any zone = automatic 5 for that rep.'
+    ],
+    rubric:[
+      {s:5,label:'5 — Elite',desc:'8–10 serves in. 6+ hit the called zone. Clean mechanics, consistent toss.'},
+      {s:4,label:'4 — Above Avg',desc:'7–8 serves in. 4–5 hit called zone. Good mechanics, slight toss variance.'},
+      {s:3,label:'3 — Average',desc:'5–6 serves in. 2–3 hit called zone. Makes it over but limited directional control.'},
+      {s:2,label:'2 — Below Avg',desc:'3–4 serves in. Rarely hits called zone. Mechanics inconsistent.'},
+      {s:1,label:'1 — Needs Work',desc:'0–2 serves in. No zone intent. Mechanical errors (toss, arm swing, foot fault).'},
+    ],
+    watch:['Are they tossing consistently or is each toss different?','Do they have a pre-serve routine (breath, bounce, focus)?','Are they aiming or just getting it over?','How do they react after a serve error?']
+  },
+  {
+    id:'set', num:3, cat:'Setting', name:'Setting Accuracy Test', color:'green',
+    time:'7 min', format:'15 sets, scored by height and landing zone',
+    skill:'Set accuracy, hand position, release speed, decision-making',
+    setup:'2 target cones placed at outside hitter position (zone 4) and right side (zone 2). Setter works from zone 3.',
+    steps:[
+      'Coach or passer sends ball to setter at zone 3 — 15 reps',
+      'Setter must call "right" or "left" before setting (simulates decision)',
+      'Set must reach at least net height + 3 feet and land near the called cone',
+      'Score height, location, and hand form separately — average them',
+      'Alternate 8 sets to zone 4, 7 sets to zone 2 (or vice versa).'
+    ],
+    rubric:[
+      {s:5,label:'5 — Elite',desc:'12–15 sets on target. Consistent height. Clean hand contact. Calls before releasing.'},
+      {s:4,label:'4 — Above Avg',desc:'9–11 sets on target. Good height. Minor hand variance. Usually calls correctly.'},
+      {s:3,label:'3 — Average',desc:'6–8 sets usable. Some low or wide sets. Hands okay. Sometimes calls late.'},
+      {s:2,label:'2 — Below Avg',desc:'3–5 usable sets. Frequently low, wide, or mis-hit. Slow to call direction.'},
+      {s:1,label:'1 — Needs Work',desc:'0–2 usable sets. Inconsistent contact, flat sets, late footwork to ball.'},
+    ],
+    watch:['Are hands above forehead before ball arrives?','Is release point consistent (same spot every time)?','Do they use their legs or just their arms?','Can they disguise the set direction?']
+  },
+  {
+    id:'attack', num:4, cat:'Attacking', name:'Hitting Efficiency Lines', color:'gold',
+    time:'8 min', format:'10 swings, scored on outcome + mechanics',
+    skill:'Approach timing, arm swing, shot selection, kill rate',
+    setup:'Setter sets from zone 3 to left side (zone 4). Coach stands opposite court and calls "line" or "cross" before each set.',
+    steps:[
+      'Player approaches from outside. Setter sets a hittable ball.',
+      'Just before set, coach calls "line" or "cross" — player must hit called shot',
+      'Score each swing: kill=5, in play no error=4, controlled tip/roll=3, blocked=2, error=1',
+      'Run 5 sets from left side (zone 4), 5 from right side (zone 2) if applicable',
+      'Track error rate vs kill rate separately.'
+    ],
+    rubric:[
+      {s:5,label:'5 — Elite',desc:'6–8 kills. Hits called shot. Explosive approach, full arm swing, adjusts to set.'},
+      {s:4,label:'4 — Above Avg',desc:'4–5 kills. Mostly hits called shot. Good approach and timing. 1–2 errors.'},
+      {s:3,label:'3 — Average',desc:'2–3 kills. Some shot selection. Approach okay. 3–4 errors or shanks.'},
+      {s:2,label:'2 — Below Avg',desc:'0–1 kills. Ignores called shot. Approach or timing off. 5+ errors.'},
+      {s:1,label:'1 — Needs Work',desc:'No kills. Wild arm swing, no approach, hits into net frequently.'},
+    ],
+    watch:['Does the approach match the set height (not jumping too early)?','Is the arm swing from hip to full extension?','Do they look at the block before swinging?','How do they handle a bad set?']
+  },
+  {
+    id:'defense', num:5, cat:'Defense', name:'Read & React Digging', color:'purple',
+    time:'7 min', format:'10 attacks directed at player, scored on response',
+    skill:'Court reading, defensive posture, dig quality, floor coverage',
+    setup:'Coach or hitter at net attacks to random defensive zones. Player starts in base defensive position.',
+    steps:[
+      'Player stands in base defense (zone 6 or 5 depending on position)',
+      'Coach tips, attacks, or rolls to random positions — 10 total',
+      'Mix: 3 sharp angles, 3 tips near net, 2 down the line, 2 cut shots',
+      'Player must dig ball up playably. Score posture and result together.',
+      'Add: coach counts "read" if player moved before ball crossed net.'
+    ],
+    rubric:[
+      {s:5,label:'5 — Elite',desc:'8–10 playable digs. Low posture throughout. Moves BEFORE ball crosses net. Reading shoulders.'},
+      {s:4,label:'4 — Above Avg',desc:'6–7 playable digs. Usually low. Sometimes reads early. Good range.'},
+      {s:3,label:'3 — Average',desc:'4–5 playable digs. Medium posture. Reacts at contact, not before. Limited range.'},
+      {s:2,label:'2 — Below Avg',desc:'2–3 playable digs. Often stands up. Late reactions. Poor range on angle shots.'},
+      {s:1,label:'1 — Needs Work',desc:'0–1 playable digs. Stands tall. Flinches on hard hits. Does not move to ball.'},
+    ],
+    watch:['Are hips below the knee before ball arrives?','Do they move toward the ball or wait for it?','Do they recover after the dig (get back to base)?','Can they handle hard balls without flinching?']
+  },
+  {
+    id:'block', num:6, cat:'Blocking', name:'Block Footwork & Penetration', color:'teal',
+    time:'6 min', format:'8 block attempts, scored on form + result',
+    skill:'Footwork timing, arm penetration, reading the hitter, lateral movement',
+    setup:'Player starts at position 3 (middle). Hitters attack from left side and right side alternating.',
+    steps:[
+      'Player starts in blocking stance at middle. Hitter attacks from zone 4 or zone 2.',
+      'Player must use step-close footwork to reach the correct position',
+      'Jump and penetrate over net — hands must cross plane of net',
+      'Score: blocked=5, touched=4, correct footwork no touch=3, wrong position=2, no attempt=1',
+      'Run 4 reps from left attack, 4 reps from right attack.'
+    ],
+    rubric:[
+      {s:5,label:'5 — Elite',desc:'Blocks 2–3 balls. Consistent step-close. Both hands penetrate. Reads hitter shoulder.'},
+      {s:4,label:'4 — Above Avg',desc:'Touches 3–4 balls. Good footwork. Penetrates. 1–2 mistimed jumps.'},
+      {s:3,label:'3 — Average',desc:'Correct position most of the time. Jump timing off. Hands at net but no penetration.'},
+      {s:2,label:'2 — Below Avg',desc:'Slow footwork, late to position. Jumps straight up without penetrating.'},
+      {s:1,label:'1 — Needs Work',desc:"Does not reach hitter's position. No penetration. No footwork pattern visible."},
+    ],
+    watch:['Step-close, not crossover — is the last two steps correct?','Do hands go OVER the net, not into it?','Are they watching the setter before moving?','Can they get to both left and right side quickly?']
+  },
+  {
+    id:'compete', num:7, cat:'Competitive Spirit & IQ', name:'Live Scrimmage Evaluation', color:'brown',
+    time:'10 min', format:'Live play observation — 3 specific traits scored',
+    skill:'Communication, clutch play, decision-making, leadership, competitive intensity',
+    setup:'6v6 scrimmage, rally scoring to 15. Coach observes and does NOT coach during play.',
+    steps:[
+      'Run a full live scrimmage — no coaching interruptions during this station',
+      'Observe 3 things per player: (1) Communication volume, (2) How they respond to errors, (3) Decision-making speed',
+      'Track: "called ball" tallies, how fast they reset after a mistake, and whether they make smart plays or safe plays',
+      'Score each player at the end of the scrimmage — not during',
+      'Note: who elevates when the score is tight? Who shrinks?'
+    ],
+    rubric:[
+      {s:5,label:'5 — Elite',desc:'Calls every ball. Leads and directs teammates. Elevates under pressure. Smart decisions under fatigue.'},
+      {s:4,label:'4 — Above Avg',desc:'Communicates regularly. Resets quickly after errors. Mostly smart decisions. Competes hard throughout.'},
+      {s:3,label:'3 — Average',desc:'Some communication. Inconsistent after errors. Plays safe but is present and trying.'},
+      {s:2,label:'2 — Below Avg',desc:'Mostly silent. Slows down after mistakes. Disappears in tight moments.'},
+      {s:1,label:'1 — Needs Work',desc:'No communication. Visibly frustrated or disengaged. Makes the team quieter when involved.'},
+    ],
+    watch:['Who talks the most? Who is silent?','After a bad play — does the player reset or sulk?','Who is still sprinting at the end of a long rally?','Who do teammates look to when it\'s close?']
+  }
+];
+
+const POS_COLORS={S:'chip-S',OH:'chip-OH',MB:'chip-MB',OPP:'chip-OPP',L:'chip-L'};
+let players=JSON.parse(localStorage.getItem('tvb_players')||'[]');
+let drillScores=JSON.parse(localStorage.getItem('tvb_scores')||'{}');
+let sortCol='overall', sortAsc=false, filterPos='all';
+
+// ════════ OVERVIEW TABLE ════════
+function renderOverview(){
+  const tbody=document.getElementById('overview-rows');
+  if(!tbody)return;
+  tbody.innerHTML=STATIONS.map(s=>`<tr>
+    <td style="padding:12px 16px;border-bottom:1px solid var(--paper2);">
+      <span style="font-family:var(--head);font-size:18px;color:var(--paper3);">${s.num}</span>
+    </td>
+    <td style="padding:12px 16px;border-bottom:1px solid var(--paper2);font-weight:700;">${s.name}</td>
+    <td style="padding:12px 16px;border-bottom:1px solid var(--paper2);font-size:13px;color:#444;">${s.cat}</td>
+    <td style="padding:12px 16px;border-bottom:1px solid var(--paper2);font-size:12px;color:var(--muted);">${s.time}</td>
+    <td style="padding:12px 16px;border-bottom:1px solid var(--paper2);font-size:12px;color:var(--muted);">${s.format}</td>
+  </tr>`).join('');
+}
+
+// ════════ NAV ════════
+function nav(pageId, btnId){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('on'));
+  document.getElementById('pg-'+pageId).classList.add('on');
+  document.getElementById(btnId).classList.add('on');
+  if(pageId==='roster')renderRoster();
+  if(pageId==='stations'){renderStations();}
+  if(pageId==='results'){renderResultsTable();document.getElementById('player-detail').classList.remove('show');}
+}
+
+// ════════ ROSTER ════════
+function addPlayer(){
+  const name=document.getElementById('r-name').value.trim();
+  if(!name){alert('Enter athlete name.');return;}
+  players.push({id:Date.now()+'',name,num:document.getElementById('r-num').value||'—',
+    grade:document.getElementById('r-grade').value,pos:document.getElementById('r-pos').value});
+  save();document.getElementById('r-name').value='';document.getElementById('r-num').value='';
+  renderRoster();
+}
+function removePlayer(id){
+  if(!confirm('Remove athlete?'))return;
+  players=players.filter(p=>p.id!==id);delete drillScores[id];save();renderRoster();
+}
+function getDrillsDone(id){return STATIONS.filter(s=>drillScores[id]&&drillScores[id][s.id]!==undefined).length;}
+function getOverall(id){
+  const sc=drillScores[id]||{};
+  const vals=STATIONS.map(s=>sc[s.id]).filter(v=>v!==undefined);
+  return vals.length?(vals.reduce((a,b)=>a+b,0)/vals.length):null;
+}
+function getGrade(v){
+  if(v===null)return'—';
+  if(v>=4.5)return'A+';if(v>=4.0)return'A';if(v>=3.5)return'B+';
+  if(v>=3.0)return'B';if(v>=2.5)return'C+';if(v>=2.0)return'C';return'D';
+}
+function gradeClass(v){
+  if(v===null)return'';
+  if(v>=3.5)return'grade-A';if(v>=3.0)return'grade-B';if(v>=2.5)return'grade-C';return'grade-D';
+}
+function renderRoster(){
+  const tbody=document.getElementById('roster-tbody');
+  if(!players.length){tbody.innerHTML='<tr><td colspan="7"><div class="empty-row">No athletes yet.</div></td></tr>';return;}
+  tbody.innerHTML=players.map(p=>{
+    const done=getDrillsDone(p.id),ov=getOverall(p.id);
+    return`<tr>
+      <td style="color:var(--muted);font-size:12px;">#${p.num}</td>
+      <td style="font-weight:700;">${p.name}</td>
+      <td><span style="font-size:12px;color:var(--muted);">${p.grade}</span></td>
+      <td><span class="pos-chip ${POS_COLORS[p.pos]||''}">${p.pos}</span></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="flex:1;max-width:80px;height:6px;background:var(--paper2);border-radius:3px;overflow:hidden;">
+            <div style="height:100%;width:${(done/7)*100}%;background:${done===7?'var(--green)':'var(--blue)'};border-radius:3px;"></div>
+          </div>
+          <span style="font-size:12px;color:var(--muted);">${done}/7</span>
+        </div>
+      </td>
+      <td><span class="ov-score ${gradeClass(ov)}">${ov!==null?ov.toFixed(1):'—'}</span>${ov!==null?` <span style="font-size:12px;color:var(--muted);">${getGrade(ov)}</span>`:''}</td>
+      <td><button class="btn-ghost" onclick="removePlayer('${p.id}')">✕</button></td>
+    </tr>`;
+  }).join('');
+}
+
+// ════════ STATIONS ════════
+function renderStations(){
+  const wrap=document.getElementById('stations-wrap');
+  wrap.innerHTML=STATIONS.map((s,i)=>`
+    <div class="station st${i+1}" id="station-${s.id}">
+      <div class="station-hd" onclick="toggleStation('${s.id}')">
+        <div class="station-num">${s.num}</div>
+        <div class="station-title-wrap">
+          <div class="station-cat">${s.cat}</div>
+          <div class="station-name">${s.name}</div>
+          <div class="station-meta">
+            <span class="st-meta-item">⏱ ${s.time}</span>
+            <span class="st-meta-item">📋 ${s.format}</span>
+          </div>
+        </div>
+        <div class="station-chevron">▼</div>
+      </div>
+      <div class="station-body">
+        <div class="drill-2col">
+          <div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:10px;">SETUP & INSTRUCTIONS</div>
+            <div class="drill-instructions">
+              <strong>Setup:</strong> ${s.setup}
+              <ul class="drill-steps-list" style="margin-top:10px;">
+                ${s.steps.map((step,j)=>`<li><span class="dsn">${j+1}</span>${step}</li>`).join('')}
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="rubric">
+              <div class="rubric-title">Scoring Rubric (1–5)</div>
+              ${s.rubric.map(r=>`<div class="rubric-row">
+                <span class="rubric-score rs-${r.s}">${r.s}</span>
+                <div><strong>${r.label}</strong><br><span style="font-size:12px;color:#555;">${r.desc}</span></div>
+              </div>`).join('')}
+            </div>
+            <div class="watch-box">
+              <div class="watch-title">What to Watch For</div>
+              ${s.watch.map(w=>`<div class="watch-item">${w}</div>`).join('')}
+            </div>
+          </div>
+        </div>
+
+        <!-- SCORE ENTRY -->
+        <div class="score-section">
+          <div class="score-section-title">Score Athletes — Station ${s.num}</div>
+          <div class="score-grid" id="scoregrid-${s.id}">
+            ${players.length?renderScoreRows(s.id):'<div style="color:var(--muted);font-size:13px;">Add athletes to your roster first.</div>'}
+          </div>
+          ${players.length?`<div class="save-drill-row">
+            <button class="btn btn-ink btn-sm" onclick="saveDrillScores('${s.id}')">💾 Save Scores</button>
+            <span class="saved-flash" id="flash-${s.id}">✓ Saved!</span>
+          </div>`:''}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderScoreRows(drillId){
+  return players.map(p=>{
+    const cur=(drillScores[p.id]||{})[drillId];
+    const curNote=(drillScores[p.id]||{})[drillId+'_note']||'';
+    const btns=[1,2,3,4,5].map(n=>`<button class="score-btn${cur===n?' sel-'+n:''}" onclick="selectScore('${p.id}','${drillId}',${n})" id="sb-${p.id}-${drillId}-${n}">${n}</button>`).join('');
+    return`<div class="score-row">
+      <div class="score-player-name">${p.name} <span class="pos-chip ${POS_COLORS[p.pos]||''}" style="font-size:10px">${p.pos}</span></div>
+      <div class="score-btns">${btns}</div>
+      <input class="score-note" id="note-${p.id}-${drillId}" placeholder="Quick note…" value="${curNote}"/>
+    </div>`;
+  }).join('');
+}
+
+function selectScore(pid,drill,score){
+  if(!drillScores[pid])drillScores[pid]={};
+  drillScores[pid][drill]=score;
+  // Update button visuals
+  [1,2,3,4,5].forEach(n=>{
+    const btn=document.getElementById(`sb-${pid}-${drill}-${n}`);
+    if(btn){btn.className='score-btn'+(n===score?' sel-'+n:'');}
+  });
+}
+
+function saveDrillScores(drillId){
+  players.forEach(p=>{
+    const noteEl=document.getElementById(`note-${p.id}-${drillId}`);
+    if(noteEl){
+      if(!drillScores[p.id])drillScores[p.id]={};
+      drillScores[p.id][drillId+'_note']=noteEl.value;
+    }
+  });
+  save();renderRoster();
+  const fl=document.getElementById('flash-'+drillId);
+  fl.classList.add('show');setTimeout(()=>fl.classList.remove('show'),2000);
+}
+
+function toggleStation(id){
+  document.getElementById('station-'+id).classList.toggle('open');
+}
+function expandAll(){document.querySelectorAll('.station').forEach(s=>s.classList.add('open'));}
+function collapseAll(){document.querySelectorAll('.station').forEach(s=>s.classList.remove('open'));}
+
+// ════════ RESULTS ════════
+function filterResults(pos,btnId){
+  filterPos=pos;
+  document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('on'));
+  document.getElementById(btnId).classList.add('on');
+  renderResultsTable();
+}
+
+function renderResultsTable(){
+  const thead=document.getElementById('results-thead');
+  const tbody=document.getElementById('results-tbody');
+  const cols=['Player',...STATIONS.map(s=>s.cat.split(' ')[0]),'Overall','Grade'];
+  thead.innerHTML=cols.map((c,i)=>`<th onclick="sortBy('${i===0?'name':i===cols.length-1?'grade':i===cols.length-2?'overall':STATIONS[i-1]?.id||''}')">${c} ${i===0||i===cols.length-1?'':i===cols.length-2&&sortCol==='overall'?'↓':sortCol===STATIONS[i-1]?.id?'↓':''}</th>`).join('');
+
+  let filtered=players.filter(p=>filterPos==='all'||p.pos===filterPos);
+  filtered.sort((a,b)=>{
+    if(sortCol==='name')return sortAsc?a.name.localeCompare(b.name):b.name.localeCompare(a.name);
+    if(sortCol==='overall'){const oa=getOverall(a.id)||0,ob=getOverall(b.id)||0;return sortAsc?oa-ob:ob-oa;}
+    const va=(drillScores[a.id]||{})[sortCol]||0,vb=(drillScores[b.id]||{})[sortCol]||0;
+    return sortAsc?va-vb:vb-va;
+  });
+
+  if(!filtered.length){tbody.innerHTML=`<tr><td colspan="${cols.length}"><div class="empty-row">No athletes match this filter.</div></td></tr>`;return;}
+  tbody.innerHTML=filtered.map((p,rank)=>{
+    const ov=getOverall(p.id);
+    const drillCells=STATIONS.map(s=>{
+      const v=(drillScores[p.id]||{})[s.id];
+      if(v===undefined)return`<td style="color:var(--muted);">—</td>`;
+      const pct=(v/5)*100;
+      return`<td>${v}<div class="score-bar-wrap"><div class="score-bar-fill" style="width:${pct}%;background:${v>=4?'var(--green)':v>=3?'var(--gold)':'var(--red)'};"></div></div></td>`;
+    }).join('');
+    return`<tr style="cursor:pointer;" onclick="showPlayerDetail('${p.id}')">
+      <td>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-family:var(--head);font-size:14px;color:var(--muted);min-width:24px;">${rank+1}</span>
+          <div>
+            <div>${p.name}</div>
+            <div style="display:flex;gap:6px;margin-top:3px;">
+              <span class="pos-chip ${POS_COLORS[p.pos]||''}" style="font-size:10px;">${p.pos}</span>
+              <span style="font-size:11px;color:var(--muted);">${p.grade}</span>
+            </div>
+          </div>
+        </div>
+      </td>
+      ${drillCells}
+      <td><strong style="font-family:var(--head);font-size:18px;">${ov!==null?ov.toFixed(2):'—'}</strong></td>
+      <td><span class="${gradeClass(ov)}">${getGrade(ov)}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+function sortBy(col){
+  if(sortCol===col)sortAsc=!sortAsc;else{sortCol=col;sortAsc=false;}
+  renderResultsTable();
+}
+
+function showPlayerDetail(id){
+  const p=players.find(x=>x.id===id);
+  if(!p)return;
+  const ov=getOverall(id);
+  const sc=drillScores[id]||{};
+  const el=document.getElementById('player-detail');
+  el.classList.add('show');
+  el.innerHTML=`
+    <div class="pd-header">
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:var(--muted);margin-bottom:4px;">#${p.num} · ${p.grade} · <span class="pos-chip ${POS_COLORS[p.pos]||''}">${p.pos}</span></div>
+        <div class="pd-name">${p.name}</div>
+      </div>
+      <div style="margin-left:auto;text-align:right;">
+        <div class="pd-overall ${gradeClass(ov)}">${ov!==null?ov.toFixed(2):'—'}</div>
+        <div class="pd-grade-label">OVERALL · ${getGrade(ov)}</div>
+      </div>
+    </div>
+    <div class="pd-drill-grid">
+      ${STATIONS.map(s=>{
+        const v=sc[s.id];const note=sc[s.id+'_note']||'';
+        return`<div class="pd-drill-item">
+          <div class="pd-drill-name">${s.cat.toUpperCase()}</div>
+          <div class="pd-drill-score ${v!==undefined?gradeClass(v):''}">${v!==undefined?v+' / 5':'Not scored'}</div>
+          ${note?`<div class="pd-drill-note">"${note}"</div>`:''}
+        </div>`;
+      }).join('')}
+    </div>
+    <div style="font-size:12px;color:var(--muted);text-align:right;cursor:pointer;" onclick="document.getElementById('player-detail').classList.remove('show')">✕ Close</div>
+  `;
+  el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ════════ UTILS ════════
+function save(){
+  localStorage.setItem('tvb_players',JSON.stringify(players));
+  localStorage.setItem('tvb_scores',JSON.stringify(drillScores));
+}
+
+// ════════ INIT ════════
+document.addEventListener('DOMContentLoaded', function() {
+  renderOverview();
+  renderRoster();
+  renderStations();
+});
+</script>
+</body>
+</html>

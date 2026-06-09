@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fix It: Serve Receive & Ball Fear</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=Karla:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f0e8;
+  --surface: #ffffff;
+  --navy: #0f1f3d;
+  --navy2: #162a4f;
+  --red: #d63030;
+  --red-light: #fff0f0;
+  --red-border: #ffd0d0;
+  --amber: #e07b00;
+  --amber-light: #fff8ec;
+  --amber-border: #fde3b0;
+  --green: #1a7a4a;
+  --green-light: #edfaf3;
+  --green-border: #b3ecd0;
+  --blue: #1a55a0;
+  --blue-light: #eef4ff;
+  --blue-border: #c0d8ff;
+  --text: #1a1a1a;
+  --muted: #777;
+  --border: #e0dcd4;
+  --head: 'Barlow Condensed', sans-serif;
+  --body: 'Karla', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  min-height: 100vh;
+}
+
+/* HERO */
+.hero {
+  background: var(--navy);
+  color: white;
+  padding: 48px 40px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: '🏐';
+  position: absolute;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 120px;
+  opacity: 0.06;
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--head);
+  font-size: 12px;
+  letter-spacing: 4px;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+.hero h1 {
+  font-family: var(--head);
+  font-size: clamp(36px, 7vw, 68px);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: 1px;
+  margin-bottom: 18px;
+}
+.hero h1 .accent { color: #f0b429; }
+.hero-sub {
+  font-size: 15px;
+  color: rgba(255,255,255,0.6);
+  max-width: 580px;
+  line-height: 1.65;
+}
+.hero-tags { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+.hero-tag {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 100px;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.7);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+/* PROBLEM CARDS */
+.problems {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-bottom: 3px solid var(--border);
+}
+@media(max-width:640px){ .problems { grid-template-columns: 1fr; } }
+.problem-card {
+  padding: 32px 36px;
+  border-right: 1px solid var(--border);
+}
+.problem-card:last-child { border-right: none; }
+.problem-icon { font-size: 32px; margin-bottom: 14px; }
+.problem-label {
+  font-family: var(--head);
+  font-size: 11px;
+  letter-spacing: 4px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.problem-card.p1 .problem-label { color: var(--red); }
+.problem-card.p2 .problem-label { color: var(--amber); }
+.problem-title {
+  font-family: var(--head);
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  line-height: 1.1;
+}
+.problem-body {
+  font-size: 14px;
+  color: #444;
+  line-height: 1.7;
+}
+.root-cause {
+  margin-top: 14px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.p1 .root-cause { background: var(--red-light); color: var(--red); border-left: 3px solid var(--red); }
+.p2 .root-cause { background: var(--amber-light); color: var(--amber); border-left: 3px solid var(--amber); }
+
+/* MAIN CONTENT */
+main { max-width: 1060px; margin: 0 auto; padding: 40px 32px; }
+
+.section-head {
+  font-family: var(--head);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-head.red { color: var(--red); border-color: var(--red-border); }
+.section-head.amber { color: var(--amber); border-color: var(--amber-border); }
+.section-head.green { color: var(--green); border-color: var(--green-border); }
+.section-head.blue { color: var(--blue); border-color: var(--blue-border); }
+
+/* DRILL CARDS */
+.drills { display: flex; flex-direction: column; gap: 20px; margin-bottom: 48px; }
+
+.drill-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.drill-header {
+  display: flex;
+  align-items: stretch;
+  cursor: pointer;
+  user-select: none;
+}
+.drill-num-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 22px;
+  min-width: 72px;
+  font-family: var(--head);
+  font-size: 28px;
+  font-weight: 800;
+  color: white;
+}
+.drill-card.footwork .drill-num-col { background: var(--red); }
+.drill-card.fearfix .drill-num-col { background: var(--amber); }
+.drill-card.combo .drill-num-col { background: var(--green); }
+
+.drill-header-content {
+  flex: 1;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.drill-category {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.drill-card.footwork .drill-category { color: var(--red); }
+.drill-card.fearfix .drill-category { color: var(--amber); }
+.drill-card.combo .drill-category { color: var(--green); }
+
+.drill-name {
+  font-family: var(--head);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  line-height: 1.1;
+}
+.drill-meta { display: flex; gap: 14px; flex-wrap: wrap; }
+.drill-meta-item {
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.drill-toggle {
+  padding: 0 20px;
+  font-size: 18px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  transition: transform 0.25s;
+}
+.drill-card.open .drill-toggle { transform: rotate(180deg); }
+
+.drill-body { display: none; padding: 0 24px 24px; }
+.drill-card.open .drill-body { display: block; }
+
+.drill-body-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+@media(max-width:560px){ .drill-body-grid { grid-template-columns: 1fr; } }
+
+.drill-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.drill-steps { list-style: none; }
+.drill-steps li {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #333;
+  align-items: flex-start;
+}
+.step-num {
+  background: var(--navy);
+  color: white;
+  font-family: var(--head);
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.coaching-cue {
+  background: var(--blue-light);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.coaching-cue .cue-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--blue);
+  margin-bottom: 8px;
+}
+.cue-list { list-style: none; }
+.cue-list li {
+  font-size: 13px;
+  color: var(--blue);
+  padding: 4px 0;
+  padding-left: 18px;
+  position: relative;
+  line-height: 1.5;
+}
+.cue-list li::before { content: '"'; position: absolute; left: 0; font-size: 15px; line-height: 1; }
+
+.progression-bar {
+  display: flex;
+  gap: 0;
+  margin-top: 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.prog-step {
+  flex: 1;
+  padding: 10px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  border-right: 1px solid var(--border);
+  line-height: 1.4;
+}
+.prog-step:last-child { border-right: none; }
+.prog-step .prog-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; display: block; color: var(--muted); margin-bottom: 3px; }
+.prog-step.easy { background: var(--green-light); color: var(--green); }
+.prog-step.med { background: var(--amber-light); color: var(--amber); }
+.prog-step.hard { background: var(--red-light); color: var(--red); }
+
+.fear-level {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 100px;
+  margin-bottom: 14px;
+}
+.fear-level.low { background: var(--green-light); color: var(--green); }
+.fear-level.med { background: var(--amber-light); color: var(--amber); }
+.fear-level.high { background: var(--red-light); color: var(--red); }
+
+/* MINDSET SECTION */
+.mindset-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+  margin-bottom: 48px;
+}
+.mindset-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+.mindset-card .m-icon { font-size: 24px; margin-bottom: 10px; }
+.mindset-card .m-title { font-family: var(--head); font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+.mindset-card .m-body { font-size: 13px; color: #555; line-height: 1.6; }
+
+/* WEEKLY SCHEDULE */
+.schedule-table {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 48px;
+}
+.schedule-table table { width: 100%; border-collapse: collapse; }
+.schedule-table th {
+  font-family: var(--head);
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: white;
+  background: var(--navy);
+  padding: 13px 18px;
+  text-align: left;
+}
+.schedule-table td {
+  padding: 13px 18px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.schedule-table tr:last-child td { border-bottom: none; }
+.schedule-table tr:nth-child(even) td { background: #fafaf8; }
+.wk-col { font-family: var(--head); font-size: 18px; font-weight: 700; color: var(--navy); min-width: 60px; }
+.time-col { color: var(--muted); min-width: 80px; font-weight: 600; }
+.focus-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 100px;
+  margin-right: 6px;
+}
+.tag-red { background: var(--red-light); color: var(--red); }
+.tag-amber { background: var(--amber-light); color: var(--amber); }
+.tag-green { background: var(--green-light); color: var(--green); }
+
+/* PROGRESS TRACKER */
+.tracker-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px;
+  margin-bottom: 48px;
+}
+.tracker-section h3 { font-family: var(--head); font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+.tracker-section p { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+.player-rows { display: flex; flex-direction: column; gap: 14px; }
+.player-track-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.player-track-name {
+  font-weight: 700;
+  font-size: 14px;
+  min-width: 140px;
+}
+.skill-check-group { display: flex; gap: 8px; flex-wrap: wrap; }
+.skill-check {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #555;
+  background: #f5f5f5;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 4px 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+}
+.skill-check input { display: none; }
+.skill-check.checked { background: var(--green-light); border-color: var(--green-border); color: var(--green); font-weight: 700; }
+
+/* PRINT */
+@media print {
+  .hero::after { display: none; }
+  .drill-body { display: block !important; }
+  .drill-toggle { display: none; }
+}
+
+@media(max-width:600px){
+  .hero { padding: 32px 20px; }
+  main { padding: 28px 16px; }
+  .problem-card { padding: 24px 20px; }
+  .drill-num-col { min-width: 52px; font-size: 22px; padding: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-label">Problem Solver Drill Plan</div>
+  <h1>FIX THE<br><span class="accent">WEAK SPOTS</span></h1>
+  <p class="hero-sub">Targeted drills and progressions to solve serve receive footwork and fear of the ball — two of the most common problems at the 7th–9th grade level.</p>
+  <div class="hero-tags">
+    <span class="hero-tag">🦶 Footwork & Positioning</span>
+    <span class="hero-tag">😰 Ball Fear Desensitization</span>
+    <span class="hero-tag">📈 Progressive Difficulty</span>
+    <span class="hero-tag">60 Min Sessions</span>
+  </div>
+</div>
+
+<div class="problems">
+  <div class="problem-card p1">
+    <div class="problem-icon">🦶</div>
+    <div class="problem-label">Problem 1 — Footwork</div>
+    <div class="problem-title">Not Moving to the Ball. Waiting Instead of Reading.</div>
+    <div class="problem-body">Players are reacting to where the ball already is instead of reading where it's going. Feet are set late, body angle is wrong, and they're making contact off-platform — or missing entirely.</div>
+    <div class="root-cause">⚠️ Root Cause: Players are watching the ball flight, not the server's contact point. They don't know how to read where the ball will go before it leaves the server's hand.</div>
+  </div>
+  <div class="problem-card p2">
+    <div class="problem-icon">😰</div>
+    <div class="problem-label">Problem 2 — Ball Fear</div>
+    <div class="problem-title">Flinching, Backing Up, Letting Balls Drop.</div>
+    <div class="problem-body">When a hard or fast ball comes at them — especially high and toward the face — players flinch, bail out, or raise their arms defensively instead of holding platform and moving forward to meet it.</div>
+    <div class="root-cause">⚠️ Root Cause: Their self-protection instinct overrides their training. The fix isn't "don't be scared" — it's progressive exposure that builds real trust between their face and a moving ball.</div>
+  </div>
+</div>
+
+<main>
+
+<!-- ============ FOOTWORK DRILLS ============ -->
+<div class="section-head red">🦶 Footwork & Positioning Drills</div>
+<div class="drills">
+
+  <!-- DRILL 1 -->
+  <div class="drill-card footwork open">
+    <div class="drill-header" onclick="toggleDrill(this)">
+      <div class="drill-num-col">01</div>
+      <div class="drill-header-content">
+        <div class="drill-category">Footwork Drill</div>
+        <div class="drill-name">Read the Server's Contact Point</div>
+        <div class="drill-meta">
+          <span class="drill-meta-item">⏱ 8 min</span>
+          <span class="drill-meta-item">👥 Full Team</span>
+          <span class="drill-meta-item">📍 Serve Receive Line</span>
+        </div>
+      </div>
+      <div class="drill-toggle">▼</div>
+    </div>
+    <div class="drill-body">
+      <p style="font-size:14px;color:#444;line-height:1.65;margin-bottom:16px;">
+        The #1 fix for late footwork is teaching players to read <strong>before</strong> the ball is served. They should be moving to their spot while the ball is still in the air — not after it bounces or dips toward them.
+      </p>
+      <div class="drill-body-grid">
+        <div>
+          <div class="drill-section-label">How to Run It</div>
+          <ul class="drill-steps">
+            <li><span class="step-num">1</span>Server stands at the service line. Receivers in W-formation (3 players).</li>
+            <li><span class="step-num">2</span>BEFORE the serve, coach calls "FREEZE" — server holds toss. Receivers must call where they think it's going: "Mine left!" or "Short zone 5!"</li>
+            <li><span class="step-num">3</span>Server releases. Did they call it right? Give feedback immediately.</li>
+            <li><span class="step-num">4</span>Progress to calling it AND moving 2 steps before contact.</li>
+            <li><span class="step-num">5</span>Run 15 reps per group, rotate servers.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="coaching-cue">
+            <div class="cue-label">Coaching Cues — Say These Out Loud</div>
+            <ul class="cue-list">
+              <li>Watch the toss, not the server's face</li>
+              <li>Your feet move before the ball crosses the net</li>
+              <li>Call it before it gets to you</li>
+              <li>Two steps toward the ball, every time</li>
+              <li>Early is right. Late is wrong. Always.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="drill-section-label">Progression — Increase Difficulty Over 3 Weeks</div>
+      <div class="progression-bar">
+        <div class="prog-step easy"><span class="prog-label">WEEK 1</span>Coach tosses underhand — predictable, slow</div>
+        <div class="prog-step med"><span class="prog-label">WEEK 2</span>Teammate serves — real serves, shorter range</div>
+        <div class="prog-step hard"><span class="prog-label">WEEK 3</span>Random zone serves — no warning, game speed</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DRILL 2 -->
+  <div class="drill-card footwork">
+    <div class="drill-header" onclick="toggleDrill(this)">
+      <div class="drill-num-col">02</div>
+      <div class="drill-header-content">
+        <div class="drill-category">Footwork Drill</div>
+        <div class="drill-name">Shuffle to the Ball — No Crossover Rule</div>
+        <div class="drill-meta">
+          <span class="drill-meta-item">⏱ 6 min</span>
+          <span class="drill-meta-item">👥 Groups of 3</span>
+          <span class="drill-meta-item">📍 Half Court</span>
+        </div>
+      </div>
+      <div class="drill-toggle">▼</div>
+    </div>
+    <div class="drill-body">
+      <p style="font-size:14px;color:#444;line-height:1.65;margin-bottom:16px;">
+        Players who cross their feet when moving laterally lose their platform angle on contact. This drill forces the correct shuffle-step footwork pattern so they arrive at the ball with their body already facing the target.
+      </p>
+      <div class="drill-body-grid">
+        <div>
+          <div class="drill-section-label">How to Run It</div>
+          <ul class="drill-steps">
+            <li><span class="step-num">1</span>Place 3 cones in a line, 6 feet apart. Player starts at middle cone.</li>
+            <li><span class="step-num">2</span>Coach points left or right — player shuffle-steps (no crossover) to that cone, touches it with outside hand, shuffles back.</li>
+            <li><span class="step-num">3</span>Add a ball: coach tosses to left or right side. Player must shuffle, not step-cross, to pass the ball back.</li>
+            <li><span class="step-num">4</span>If player crosses feet = redo that rep. No exceptions.</li>
+            <li><span class="step-num">5</span>10 reps each player, then rotate.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="coaching-cue">
+            <div class="cue-label">Coaching Cues</div>
+            <ul class="cue-list">
+              <li>Stay square to the target, even while moving</li>
+              <li>Shoulder points where you want the ball to go</li>
+              <li>Get there early, pause, then pass</li>
+              <li>Shuffle first, arms second — not at the same time</li>
+              <li>Low hips = faster feet. Stand up = dead feet.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="drill-section-label">Progression</div>
+      <div class="progression-bar">
+        <div class="prog-step easy"><span class="prog-label">START</span>No ball — just footwork with cones</div>
+        <div class="prog-step med"><span class="prog-label">NEXT</span>Add soft toss, pass to self</div>
+        <div class="prog-step hard"><span class="prog-label">ADVANCED</span>Add live serve, must shuffle-pass to target</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DRILL 3 -->
+  <div class="drill-card footwork">
+    <div class="drill-header" onclick="toggleDrill(this)">
+      <div class="drill-num-col">03</div>
+      <div class="drill-header-content">
+        <div class="drill-category">Footwork Drill</div>
+        <div class="drill-name">Ball Drop Reaction — First Step Trigger</div>
+        <div class="drill-meta">
+          <span class="drill-meta-item">⏱ 5 min</span>
+          <span class="drill-meta-item">👥 Pairs</span>
+          <span class="drill-meta-item">📍 Anywhere</span>
+        </div>
+      </div>
+      <div class="drill-toggle">▼</div>
+    </div>
+    <div class="drill-body">
+      <p style="font-size:14px;color:#444;line-height:1.65;margin-bottom:16px;">
+        This drill trains the first step — the most important step in serve receive. Most players' first step is too slow. This makes it fast and automatic.
+      </p>
+      <div class="drill-body-grid">
+        <div>
+          <div class="drill-section-label">How to Run It</div>
+          <ul class="drill-steps">
+            <li><span class="step-num">1</span>Partner A holds a ball at shoulder height, arm extended to side. Player B in athletic stance, 6 feet away.</li>
+            <li><span class="step-num">2</span>Partner A drops the ball without warning. Player B must catch it before second bounce.</li>
+            <li><span class="step-num">3</span>Increase distance each round. Move to left AND right sides.</li>
+            <li><span class="step-num">4</span>Add a rule: first step MUST be a shuffle (not a reach-step). Penalize reach-steps.</li>
+            <li><span class="step-num">5</span>Progress to: partner tosses instead of drops — adds reading element.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="coaching-cue">
+            <div class="cue-label">Coaching Cues</div>
+            <ul class="cue-list">
+              <li>Eyes on the ball, feet already loaded</li>
+              <li>First step is always toward the ball</li>
+              <li>Don't wait — go NOW</li>
+              <li>Your body should be moving before your brain says move</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DRILL 4 -->
+  <div class="drill-card footwork">
+    <div class="drill-header" onclick="toggleDrill(this)">
+      <div class="drill-num-col">04</div>
+      <div class="drill-header-content">
+        <div class="drill-category">Footwork Drill</div>
+        <div class="drill-name">Platform Angle Gate Drill</div>
+        <div class="drill-meta">
+          <span class="drill-meta-item">⏱ 8 min</span>
+          <span class="drill-meta-item">👥 Groups of 4</span>
+          <span class="drill-meta-item">📍 Back Row</span>
+        </div>
+      </div>
+      <div class="drill-toggle">▼</div>
+    </div>
+    <div class="drill-body">
+      <p style="font-size:14px;color:#444;line-height:1.65;margin-bottom:16px;">
+        Players often have the right footwork but the wrong body angle — so even a well-timed pass goes sideways. This drill teaches them to face their target FIRST, then platform second.
+      </p>
+      <div class="drill-body-grid">
+        <div>
+          <div class="drill-section-label">How to Run It</div>
+          <ul class="drill-steps">
+            <li><span class="step-num">1</span>Set up two cones as a "gate" — 3 feet wide — representing the setter target at zone 3. Place it 20 feet from the passers.</li>
+            <li><span class="step-num">2</span>Coach tosses from various angles. Player must pass through the gate.</li>
+            <li><span class="step-num">3</span>Before passing, player must say "GATE" to confirm they see the target.</li>
+            <li><span class="step-num">4</span>Track: how many of 10 passes go through the gate? Set a team goal (start at 5/10, build to 8/10).</li>
+            <li><span class="step-num">5</span>Add live serves for advanced players.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="coaching-cue">
+            <div class="cue-label">Coaching Cues</div>
+            <ul class="cue-list">
+              <li>Hips face the gate before the ball gets to you</li>
+              <li>You're not passing the ball — you're directing traffic</li>
+              <li>Point your belly button to zone 3</li>
+              <li>See the target. Move your hips. Then pass.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============ BALL FEAR DRILLS ============ -->
+<div class="section-head amber">😰 Ball Fear Desensitization Drills</div>
+<div style="background:var(--amber-light);border:1px solid var(--amber-border);border-radius:10px;padding:16px 20px;margin-bottom:20px;font-size:14px;line-height:1.65;color:#5a3d00;">
+  <strong>⚠️ Coach's Note:</strong> Run these drills in order. Do NOT skip to the harder ones for a player who hasn't mastered the earlier ones. The goal is to build <em>real confidence</em> — not to force it. Praise bravery loudly and publicly. One "she didn't flinch!" in front of the team does more than 10 reps alone.
+</div>
+<div class="drills">
+
+  <!-- FEAR DRILL 1 -->
+  <div class="drill-card fearfix">
+    <div class="drill-header" onclick="toggleDrill(this)">
+      <div class="drill-num-col">F1</div>
+      <div class="drill-header-content">
+        <div class="drill-category">Ball Fear — Stage 1 (Lowest Pressure)</div>
+        <div class="drill-name">Self-Toss Face Level Hold</div>
+        <div class="drill-meta">
+          <span class="drill-meta-item">⏱ 4 min</span>
+          <span class="drill-meta-item">👥 Solo</span>
+          <span class="fear-level low">😊 No Fear Required</span>
+        </div>
+      </div>
+      <div class="drill-toggle">▼</div>
+    </div>
+    <div class="drill-body">
+      <p style="font-size:14px;color:#444;line-height:1.65;margin-bottom:16px;">
+        Build trust between the ball and the face slowly. No one throws at anyone in this stage. The player is in full control.
+      </p>
+      <div class="drill-body-grid">
+        <div>
+          <div class="drill-section-label">How to Run It</div>
+          <ul class="drill-steps">
+            <li><span class="step-num">1</span>Player holds ball at face height with both hands, arms extended — ball 12 inches from face.</li>
+            <li><span class="step-num">2</span>Slowly move ball toward face and back, 10 times. Eyes stay open. Breathe.</li>
+            <li><span class="step-num">3</span>Toss ball 1 foot above face and catch it. Repeat 10 times. Eyes OPEN.</li>
+            <li><span class="step-num">4</span>Toss 2 feet above face. Let it bounce off forehead (gently). No dodging.</li>
+            <li><span class="step-num">5</span>Partner holds ball 3 feet away, releases — player headers it back. No flinching goal.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="coaching-cue">
+            <div class="cue-label">What to Say to the Player</div>
+            <ul class="cue-list">
+              <li>The ball cannot hurt you when YOU control it</li>
+              <li>Eyes open means you're in charge of the ball</li>
+              <li>Every rep tells your brain: I'm safe</li>
+              <li>We're not rushing. There's no wrong answer here.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEAR DRILL 2 -->
+  <div class="drill-card fearfix">
+    <div class="drill-header" onclick="toggleDrill(this)">
+      <div class="drill-num-col">F2</div>
+      <div class="drill-header-content">
+        <div class="drill-category">Ball Fear — Stage 2 (Building Trust)</div>
+        <div class="drill-name">Soft Toss to Platform — Eyes Forward Rule</div>
+        <div class="drill-meta">
+          <span class="drill-meta-item">⏱ 6 min</span>
+          <span class="drill-meta-item">👥 Pairs</span>
+          <span class="fear-level low">😐 Mild Challenge</span>
+        </div>
+      </div>
+      <div class="drill-toggle">▼</div>
+    </div>
+    <div class="drill-body">
+      <p style="font-size:14px;color:#444;line-height:1.65;margin-bottom:16px;">
+        Now someone else is throwing the ball. It's aimed at them on purpose. The key rule: <strong>eyes never leave the ball</strong>. If they look away = reset.
+      </p>
+      <div class="drill-body-grid">
+        <div>
+          <div class="drill-section-label">How to Run It</div>
+          <ul class="drill-steps">
+            <li><span class="step-num">1</span>Partner tosses UNDERHAND directly at player's platform from 8 feet away. SLOW. No pace.</li>
+            <li><span class="step-num">2</span>Player passes back. Eyes never leave ball. If they look away = rep doesn't count.</li>
+            <li><span class="step-num">3</span>After 5 clean reps, partner tosses slightly above platform toward chest height.</li>
+            <li><span class="step-num">4</span>After 5 more clean reps, toss toward chin/shoulder height. Player holds platform up to meet it.</li>
+            <li><span class="step-num">5</span>Celebrate: "YOU KEPT YOUR EYES OPEN!" This is the win, not the pass quality.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="coaching-cue">
+            <div class="cue-label">Coaching Cues</div>
+            <ul class="cue-list">
+              <li>Track the ball from the second it leaves their hand</li>
+              <li>Step INTO the ball, not away from it</li>
+              <li>Your platform is a wall. The ball bounces off. It doesn't hurt.</li>
+              <li>You cannot get hurt by something you're watching</li>
+              <li>Forward is brave. Backward is giving up the point.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEAR DRILL 3 -->
+  <div class="drill-card fearfix">
+    <div class="drill-header" onclick="toggleDrill(this)">
+      <div class="drill-num-col">F3</div>
+      <div class="drill-header-content">
+        <div class="drill-category">Ball Fear — Stage 3 (Pace Introduction)</div>
+        <div class="drill-name">The Courage Wall — Absorb the Speed</div>
+        <div class="drill-meta">
+          <span class="drill-meta-item">⏱ 8 min</span>
+          <span class="drill-meta-item">👥 Groups of 3</span>
+          <span class="fear-level med">😤 Real Challenge</span>
+        </div>
+      </div>
+      <div class="drill-toggle">▼</div>
+    </div>
+    <div class="drill-body">
+      <p style="font-size:14px;color:#444;line-height:1.65;margin-bottom:16px;">
+        Introduce pace in a controlled way. The player learns that <strong>a faster ball is actually easier to pass</strong> than a slow floater — because pace = more control off the platform.
+      </p>
+      <div class="drill-body-grid">
+        <div>
+          <div class="drill-section-label">How to Run It</div>
+          <ul class="drill-steps">
+            <li><span class="step-num">1</span>Player stands 4 feet from the net, facing it. Coach is on other side hitting DOWN balls (no jump, just firm arm swing over net).</li>
+            <li><span class="step-num">2</span>Ball is hit directly at the player's midsection — not fast, not slow. Medium pace.</li>
+            <li><span class="step-num">3</span>Player's job: arms form platform, absorb the ball, redirect up. Do NOT back up.</li>
+            <li><span class="step-num">4</span>After 5 reps at midsection — move balls to shoulder height. Same rule: hold platform.</li>
+            <li><span class="step-num">5</span>Key teaching: "The faster the ball comes at you, the less YOU have to swing. Just hold still and let the ball do the work."</li>
+          </ul>
+        </div>
+        <div>
+          <div class="coaching-cue">
+            <div class="cue-label">The Big Mindset Shift — Say This</div>
+            <ul class="cue-list">
+              <li>A fast ball is your FRIEND. It bounces high off your platform.</li>
+              <li>You don't swing at it — you CATCH it with your arms</li>
+              <li>Move toward the ball. Forward feet = control.</li>
+              <li>If it hits you, so what? That's just a rep. Try again.</li>
+              <li>Brave means scared AND doing it anyway</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEAR DRILL 4 -->
+  <div class="drill-card fearfix">
+    <div class="drill-header" onclick="toggleDrill(this)">
+      <div class="drill-num-col">F4</div>
+      <div class="drill-header-content">
+        <div class="drill-category">Ball Fear — Stage 4 (Game Speed)</div>
+        <div class="drill-name">Stand Your Ground — Live Attack Receive</div>
+        <div class="drill-meta">
+          <span class="drill-meta-item">⏱ 10 min</span>
+          <span class="drill-meta-item">👥 Full Team</span>
+          <span class="fear-level high">🔥 Game Speed</span>
+        </div>
+      </div>
+      <div class="drill-toggle">▼</div>
+    </div>
+    <div class="drill-body">
+      <p style="font-size:14px;color:#444;line-height:1.65;margin-bottom:16px;">
+        Full game-speed attacks directed at players. This is where the desensitization pays off. Only run this after stages 1–3 are solid. <strong>Never start here.</strong>
+      </p>
+      <div class="drill-body-grid">
+        <div>
+          <div class="drill-section-label">How to Run It</div>
+          <ul class="drill-steps">
+            <li><span class="step-num">1</span>Standard defensive positions. Attacker hits from position 4 (left side).</li>
+            <li><span class="step-num">2</span>Coach tells hitter to aim at Zone 6 (middle back) — the most intimidating ball for newer defenders.</li>
+            <li><span class="step-num">3</span>Defenders dig balls. Count consecutive digs as a team. Goal: 5 in a row.</li>
+            <li><span class="step-num">4</span>Add rule: if anyone steps back or flinches = counter resets to 0. Team must hold ground.</li>
+            <li><span class="step-num">5</span>Celebrate loudly when players hold ground even if they miss the dig. The brave read = the win.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="coaching-cue">
+            <div class="cue-label">Coaching Cues</div>
+            <ul class="cue-list">
+              <li>Your feet stay planted until AFTER you read the ball</li>
+              <li>Move TOWARD — even half a step counts</li>
+              <li>A missed dig from a brave position is better than a made dig from a scared position</li>
+              <li>That's how your body learns. Rep by rep.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============ COMBO INTEGRATION ============ -->
+<div class="section-head green">⚡ Combined Integration — Both Problems Together</div>
+<div class="drills" style="margin-bottom:48px;">
+
+  <div class="drill-card combo open">
+    <div class="drill-header" onclick="toggleDrill(this)">
+      <div class="drill-num-col">★</div>
+      <div class="drill-header-content">
+        <div class="drill-category">Integration Drill — Use After 3 Weeks</div>
+        <div class="drill-name">Move, Hold, Pass — The Full Package Drill</div>
+        <div class="drill-meta">
+          <span class="drill-meta-item">⏱ 12 min</span>
+          <span class="drill-meta-item">👥 Full Team</span>
+          <span class="drill-meta-item">📍 Full Court Serve Receive</span>
+        </div>
+      </div>
+      <div class="drill-toggle">▼</div>
+    </div>
+    <div class="drill-body">
+      <p style="font-size:14px;color:#444;line-height:1.65;margin-bottom:16px;">
+        This drill wraps footwork reading AND ball courage into one competitive game. It replicates exactly what happens in a match.
+      </p>
+      <div class="drill-body-grid">
+        <div>
+          <div class="drill-section-label">How to Run It</div>
+          <ul class="drill-steps">
+            <li><span class="step-num">1</span>3 receivers in W-formation. Server serves from full distance — mix of float and hard serves.</li>
+            <li><span class="step-num">2</span>Scoring: 3 points = pass that hits the setter target. 2 points = pass stays on their side. 1 point = they moved toward the ball and touched it. 0 = they backed up or flinched.</li>
+            <li><span class="step-num">3</span>Coach tracks the score out loud. Team competes against their own best.</li>
+            <li><span class="step-num">4</span>After 10 serves, rotate receivers. Keep a leaderboard.</li>
+            <li><span class="step-num">5</span>At the end: recognize the player who scored highest on MOVEMENT COURAGE — not just passing accuracy.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="coaching-cue">
+            <div class="cue-label">What You're Looking For</div>
+            <ul class="cue-list">
+              <li>Feet moving before ball crosses the net</li>
+              <li>No backward steps on hard serves</li>
+              <li>Platform held steady on high balls</li>
+              <li>Calling the ball before it arrives</li>
+              <li>Square hips to zone 3 at contact</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============ WEEKLY INSERTION SCHEDULE ============ -->
+<div class="section-head blue">📅 How to Work These Into Your 60-Min Practice</div>
+<div class="schedule-table">
+  <table>
+    <thead><tr><th>WEEK</th><th>TIME SLOT</th><th>FOCUS</th><th>DRILLS TO USE</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="wk-col">1</td>
+        <td class="time-col">Min 8–22</td>
+        <td><span class="focus-tag tag-amber">Ball Fear</span>Start desensitization quietly — no big announcement. Just run F1 and F2 as "warm-up drills."</td>
+        <td>F1 + F2 (solo and pairs)</td>
+      </tr>
+      <tr>
+        <td class="wk-col">2</td>
+        <td class="time-col">Min 8–28</td>
+        <td><span class="focus-tag tag-red">Footwork</span>Read the server. Introduce Drill 01 and 02. Keep it low pressure — no competition yet.</td>
+        <td>Drill 01 + Drill 02 + F2</td>
+      </tr>
+      <tr>
+        <td class="wk-col">3</td>
+        <td class="time-col">Min 8–30</td>
+        <td><span class="focus-tag tag-amber">Ball Fear</span><span class="focus-tag tag-red">Footwork</span>Combine footwork with pace. Introduce F3 (Courage Wall). Players with better confidence face harder tosses.</td>
+        <td>Drill 03 + F3</td>
+      </tr>
+      <tr>
+        <td class="wk-col">4</td>
+        <td class="time-col">Min 8–24</td>
+        <td><span class="focus-tag tag-red">Footwork</span>Gate drill for platform angle. Advanced players get live serves. Beginners still use toss.</td>
+        <td>Drill 04 (Gate) + Drill 01 revisit</td>
+      </tr>
+      <tr>
+        <td class="wk-col">5</td>
+        <td class="time-col">Min 8–28</td>
+        <td><span class="focus-tag tag-amber">Ball Fear</span>Ready for F4 — live attack receive. Only for players who passed F1–F3. Others keep building.</td>
+        <td>F4 (game speed) + Drill 02 for beginners</td>
+      </tr>
+      <tr>
+        <td class="wk-col">6+</td>
+        <td class="time-col">Min 8–20</td>
+        <td><span class="focus-tag tag-green">Integration</span>Run the Full Package integration drill every practice as the standard serve receive warm-up. It's now your baseline.</td>
+        <td>★ Move-Hold-Pass (every week)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ============ MINDSET CARDS ============ -->
+<div class="section-head blue">🧠 What to Say (and Not Say) to Scared Players</div>
+<div class="mindset-cards">
+  <div class="mindset-card">
+    <div class="m-icon">✅</div>
+    <div class="m-title">DO Say This</div>
+    <div class="m-body">"I saw you move toward that ball — that's huge." Praise the <em>action</em>, not just the result. A missed dig with brave feet is worth more than a made pass from a scared position.</div>
+  </div>
+  <div class="mindset-card">
+    <div class="m-icon">❌</div>
+    <div class="m-title">Don't Say This</div>
+    <div class="m-body">"Stop being scared" or "just go get it!" These phrases shame the player without giving them tools. Fear is a physical response, not a choice. Work the drills, not the emotions.</div>
+  </div>
+  <div class="mindset-card">
+    <div class="m-icon">🏆</div>
+    <div class="m-title">Reward Bravery Publicly</div>
+    <div class="m-body">When a player who normally flinches holds her platform on a hard ball — STOP PRACTICE and celebrate it. That one moment of public recognition can break the fear pattern faster than 50 reps.</div>
+  </div>
+  <div class="mindset-card">
+    <div class="m-icon">🔄</div>
+    <div class="m-title">Give Them a Reset Cue</div>
+    <div class="m-body">Teach one physical cue they use when fear kicks in: "Two steps forward, arms out." A physical action interrupts the freeze response. Same cue, every time, until it's automatic.</div>
+  </div>
+  <div class="mindset-card">
+    <div class="m-icon">👥</div>
+    <div class="m-title">Pair Them Strategically</div>
+    <div class="m-body">Put hesitant players beside your most fearless passer in serve receive. Confidence is contagious at this age. Watching a teammate charge the ball repeatedly reprograms what "normal" looks like.</div>
+  </div>
+  <div class="mindset-card">
+    <div class="m-icon">📈</div>
+    <div class="m-title">Track Their Progress Visibly</div>
+    <div class="m-body">Keep a simple "courage board" — every time a player holds ground on a hard serve, they get a tally mark. It makes their growth visible and turns bravery into a thing they want to collect.</div>
+  </div>
+</div>
+
+</main>
+
+<script>
+function toggleDrill(header) {
+  const card = header.closest('.drill-card');
+  card.classList.toggle('open');
+}
+</script>
+</body>
+</html>
