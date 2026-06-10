@@ -391,7 +391,9 @@ body{background:var(--paper);color:var(--ink);font-family:var(--body);min-height
 
 <!-- ══════════ ROSTER ══════════ -->
 <div class="pg" id="pg-roster">
-  <div class="sec-hd" style="margin-top:0"><div class="sec-label">Tryout Roster</div><div class="sec-line"></div></div>
+  <div class="sec-hd" style="margin-top:0"><div class="sec-label">Tryout Roster</div><div class="sec-line"></div>
+    <div id="storage-note" style="font-size:11px;color:#888;font-style:italic;"></div>
+  </div>
   <div class="roster-add">
     <div class="fg" style="flex:1;min-width:140px;"><label>Athlete Name</label><input id="r-name" placeholder="First Last"/></div>
     <div class="fg" style="min-width:60px;max-width:80px;"><label>Jersey #</label><input id="r-num" type="number" placeholder="#"/></div>
@@ -636,12 +638,11 @@ function addPlayer(){
   if(!name){alert('Enter athlete name.');return;}
   players.push({id:Date.now()+'',name,num:document.getElementById('r-num').value||'—',
     grade:document.getElementById('r-grade').value,pos:document.getElementById('r-pos').value});
-  save();document.getElementById('r-name').value='';document.getElementById('r-num').value='';
+  save();
+  document.getElementById('r-name').value='';
+  document.getElementById('r-num').value='';
   renderRoster();
-}
-function removePlayer(id){
-  if(!confirm('Remove athlete?'))return;
-  players=players.filter(p=>p.id!==id);delete drillScores[id];save();renderRoster();
+  showSaveBanner('✓ Athlete added!');
 }
 function getDrillsDone(id){return STATIONS.filter(s=>drillScores[id]&&drillScores[id][s.id]!==undefined).length;}
 function getOverall(id){
@@ -677,7 +678,7 @@ function renderRoster(){
         </div>
       </td>
       <td><span class="ov-score ${gradeClass(ov)}">${ov!==null?ov.toFixed(1):'—'}</span>${ov!==null?` <span style="font-size:12px;color:var(--muted);">${getGrade(ov)}</span>`:''}</td>
-      <td><button class="btn-ghost" onclick="removePlayer('${p.id}')">✕</button></td>
+      <td><button class="btn-ghost" onclick="editPlayer('${p.id}')" title="Edit athlete" style="color:var(--blue);font-size:13px;padding:6px 12px;border:1px solid var(--rule);border-radius:7px;">✏️ Edit</button></td>
     </tr>`;
   }).join('');
 }
@@ -874,12 +875,158 @@ function showPlayerDetail(id){
 
 // ════════ UTILS ════════
 function save(){
-  localStorage.setItem('tvb_players',JSON.stringify(players));
-  localStorage.setItem('tvb_scores',JSON.stringify(drillScores));
+  try {
+    localStorage.setItem('tvb_players', JSON.stringify(players));
+    localStorage.setItem('tvb_scores',  JSON.stringify(drillScores));
+  } catch(e) {
+    // localStorage blocked (iframe sandbox) — data lives in memory only this session
+  }
+}
+
+function loadSaved(){
+  try {
+    const p = localStorage.getItem('tvb_players');
+    const s = localStorage.getItem('tvb_scores');
+    if(p) players     = JSON.parse(p);
+    if(s) drillScores = JSON.parse(s);
+  } catch(e){}
+}
+
+// ── EDIT PLAYER MODAL ──
+function editPlayer(id){
+  const p = players.find(x=>x.id===id);
+  if(!p) return;
+
+  // Remove any existing modal
+  const old = document.getElementById('edit-modal');
+  if(old) old.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'edit-modal';
+  modal.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;padding:20px;';
+
+  const posOpts = ['OH','MB','S','OPP','L'].map(pos=>
+    `<option value="${pos}" ${p.pos===pos?'selected':''}>${pos === 'OH'?'Outside Hitter (OH)':pos==='MB'?'Middle Blocker (MB)':pos==='S'?'Setter (S)':pos==='OPP'?'Opposite / Right Side':pos==='L'?'Libero (L)':pos}</option>`
+  ).join('');
+
+  const gradeOpts = ['7th','8th','9th'].map(g=>
+    `<option value="${g}" ${p.grade===g?'selected':''}>${g} Grade</option>`
+  ).join('');
+
+  modal.innerHTML = `
+    <div style="background:#fff;border-radius:16px;padding:28px 26px;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3);font-family:'Archivo',sans-serif;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:#1a1a1a;letter-spacing:1px;">EDIT ATHLETE</div>
+        <button onclick="document.getElementById('edit-modal').remove()" style="background:#f0ece3;border:none;border-radius:8px;width:32px;height:32px;cursor:pointer;font-size:16px;color:#777;">✕</button>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div>
+          <label style="font-size:10px;font-weight:700;letter-spacing:2px;color:#888;text-transform:uppercase;display:block;margin-bottom:5px;">Athlete Name</label>
+          <input id="edit-name" type="text" value="${p.name}"
+            style="width:100%;background:#f3efe8;border:1.5px solid #e0dcd4;border-radius:8px;padding:10px 14px;font-family:'Archivo',sans-serif;font-size:14px;color:#1a1a1a;outline:none;"
+            onfocus="this.style.borderColor='#c0392b'" onblur="this.style.borderColor='#e0dcd4'">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div>
+            <label style="font-size:10px;font-weight:700;letter-spacing:2px;color:#888;text-transform:uppercase;display:block;margin-bottom:5px;">Jersey #</label>
+            <input id="edit-num" type="number" value="${p.num==='—'?'':p.num}" placeholder="—"
+              style="width:100%;background:#f3efe8;border:1.5px solid #e0dcd4;border-radius:8px;padding:10px 14px;font-family:'Archivo',sans-serif;font-size:14px;color:#1a1a1a;outline:none;"
+              onfocus="this.style.borderColor='#c0392b'" onblur="this.style.borderColor='#e0dcd4'">
+          </div>
+          <div>
+            <label style="font-size:10px;font-weight:700;letter-spacing:2px;color:#888;text-transform:uppercase;display:block;margin-bottom:5px;">Grade</label>
+            <select id="edit-grade" style="width:100%;background:#f3efe8;border:1.5px solid #e0dcd4;border-radius:8px;padding:10px 14px;font-family:'Archivo',sans-serif;font-size:13px;color:#1a1a1a;outline:none;cursor:pointer;">
+              ${gradeOpts}
+            </select>
+          </div>
+        </div>
+        <div>
+          <label style="font-size:10px;font-weight:700;letter-spacing:2px;color:#888;text-transform:uppercase;display:block;margin-bottom:5px;">Position</label>
+          <select id="edit-pos" style="width:100%;background:#f3efe8;border:1.5px solid #e0dcd4;border-radius:8px;padding:10px 14px;font-family:'Archivo',sans-serif;font-size:13px;color:#1a1a1a;outline:none;cursor:pointer;">
+            ${posOpts}
+          </select>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:22px;">
+        <button onclick="saveEdit('${id}')"
+          style="flex:1;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:1px;padding:12px;background:#1a1a1a;color:#fff;border:none;border-radius:9px;cursor:pointer;transition:background .15s;"
+          onmouseover="this.style.background='#c0392b'" onmouseout="this.style.background='#1a1a1a'">
+          SAVE CHANGES
+        </button>
+        <button onclick="confirmRemove('${id}')"
+          style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;padding:12px 18px;background:#fff;color:#c0392b;border:2px solid #f5c6c6;border-radius:9px;cursor:pointer;transition:all .15s;"
+          onmouseover="this.style.background='#fdf0ef'" onmouseout="this.style.background='#fff'">
+          REMOVE
+        </button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e=>{ if(e.target===modal) modal.remove(); });
+  document.getElementById('edit-name').focus();
+  // Enter key saves
+  document.getElementById('edit-name').addEventListener('keydown', e=>{ if(e.key==='Enter') saveEdit(id); });
+}
+
+function saveEdit(id){
+  const name = document.getElementById('edit-name').value.trim();
+  if(!name){ alert('Name cannot be empty.'); return; }
+  const p = players.find(x=>x.id===id);
+  if(!p) return;
+  p.name  = name;
+  p.num   = document.getElementById('edit-num').value || '—';
+  p.grade = document.getElementById('edit-grade').value;
+  p.pos   = document.getElementById('edit-pos').value;
+  save();
+  document.getElementById('edit-modal').remove();
+  renderRoster();
+  // Re-render station score rows so names update
+  renderStations();
+  showSaveBanner('✓ Athlete updated!');
+}
+
+function confirmRemove(id){
+  if(!confirm('Remove this athlete? Their scores will also be deleted.')) return;
+  players = players.filter(p=>p.id!==id);
+  delete drillScores[id];
+  save();
+  document.getElementById('edit-modal')?.remove();
+  renderRoster();
+}
+
+function showSaveBanner(msg){
+  const old = document.getElementById('save-banner');
+  if(old) old.remove();
+  const b = document.createElement('div');
+  b.id = 'save-banner';
+  b.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;font-family:"Archivo",sans-serif;font-size:13px;font-weight:700;padding:11px 22px;border-radius:10px;z-index:8000;box-shadow:0 4px 20px rgba(0,0,0,0.3);white-space:nowrap;';
+  b.textContent = msg;
+  document.body.appendChild(b);
+  setTimeout(()=>b.remove(), 2400);
 }
 
 // ════════ INIT ════════
 document.addEventListener('DOMContentLoaded', function() {
+  loadSaved();
+
+  // Check if localStorage is available and working
+  let storageOk = false;
+  try {
+    localStorage.setItem('tvb_test','1');
+    localStorage.removeItem('tvb_test');
+    storageOk = true;
+  } catch(e) { storageOk = false; }
+
+  const note = document.getElementById('storage-note');
+  if(note){
+    note.textContent = storageOk
+      ? '✓ Auto-saves to this browser'
+      : '⚠️ Open in your own browser tab (not embedded) for data to save between sessions';
+    note.style.color = storageOk ? '#1a7a4a' : '#c0392b';
+  }
+
   renderOverview();
   renderRoster();
   renderStations();
