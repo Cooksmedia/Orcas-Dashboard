@@ -426,6 +426,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--body);min-height
       </div>
     </div>
     <div><label style="visibility:hidden">.</label><button class="btn btn-ink" onclick="addPlayer()">+ Add Athlete</button></div>
+    <div><label style="visibility:hidden">.</label><button class="btn" style="border:1.5px solid var(--blue);color:var(--blue);background:transparent;" onclick="importFromEval(true)">⟳ Sync from Eval Roster</button></div>
   </div>
 
   <div class="ptable-wrap">
@@ -661,6 +662,39 @@ function nav(pageId, btnId){
 }
 
 // ════════ ROSTER ════════
+// Shared roster: pull players already entered in the Eval System (vb_players).
+// Both tools live on the same GitHub Pages domain, so they share localStorage.
+function importFromEval(showMsg){
+  let evalPlayers = [];
+  try { evalPlayers = JSON.parse(localStorage.getItem('vb_players') || '[]'); } catch(e){}
+  if(!evalPlayers.length){
+    if(showMsg) alert('No roster found in the Eval System yet. Add players there first, then sync.');
+    return 0;
+  }
+  const existing = new Set(players.map(p => (p.name||'').trim().toLowerCase()));
+  let added = 0;
+  evalPlayers.forEach(ep => {
+    const key = (ep.name||'').trim().toLowerCase();
+    if(!key || existing.has(key)) return;
+    let pos = ep.position || 'OH';
+    if(pos === 'RS') pos = 'OPP'; // Eval System uses RS; this tool uses OPP
+    players.push({
+      id: 'ev-' + (ep.id || (Date.now() + '' + added)),
+      name: ep.name.trim(),
+      num: (ep.jersey && ep.jersey !== '—') ? ep.jersey : '—',
+      grade: ep.grade || '7th',
+      pos: pos
+    });
+    existing.add(key);
+    added++;
+  });
+  if(added){
+    save();
+    if(document.getElementById('roster-tbody')) renderRoster();
+  }
+  if(showMsg) showSaveBanner(added ? ('✓ Synced ' + added + ' athlete' + (added > 1 ? 's' : '') + ' from Eval roster') : '✓ Roster already in sync');
+  return added;
+}
 function addPlayer(){
   const name=document.getElementById('r-name').value.trim();
   if(!name){alert('Enter athlete name.');return;}
@@ -1051,6 +1085,9 @@ function showSaveBanner(msg){
 // ════════ INIT ════════
 document.addEventListener('DOMContentLoaded', function() {
   loadSaved();
+
+  // Auto-pull the shared roster from the Eval System if this tool has none yet
+  if(!players.length) importFromEval(false);
 
   // Check if localStorage is available and working
   let storageOk = false;
