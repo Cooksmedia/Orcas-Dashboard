@@ -1428,11 +1428,46 @@ function hideTimer() {
 //  OPEN VIDEO
 // ══════════════════════════════════════════════
 function openVideo(url) {
-  const w = window.open(url, '_blank');
-  if (!w || w.closed || typeof w.closed === 'undefined') {
-    // Fallback: navigate current tab if popup was blocked
-    window.location.href = url;
-  }
+  // GMS blocks requests from inside embedded viewers.
+  // Show a copy-link dialog so coach can open in their own browser.
+  const existing = document.getElementById('video-link-modal');
+  if (existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'video-link-modal';
+  modal.style.cssText = `
+    position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);
+    display:flex;align-items:center;justify-content:center;padding:20px;
+  `;
+  modal.innerHTML = `
+    <div style="background:#fff;border-radius:16px;padding:28px 24px;max-width:480px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.4);font-family:'DM Sans',sans-serif;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:3px;color:#888;text-transform:uppercase;margin-bottom:6px;">▶ Watch Drill Video</div>
+      <div style="font-size:18px;font-weight:700;color:#1a1612;margin-bottom:14px;">Gold Medal Squared</div>
+      <p style="font-size:13px;color:#666;line-height:1.6;margin-bottom:16px;">
+        Copy the link below and paste it into your browser to watch the full video explanation on goldmedalsquared.com
+      </p>
+      <div style="display:flex;gap:8px;align-items:center;background:#f5f0e8;border:1.5px solid #e0dcd4;border-radius:9px;padding:10px 14px;margin-bottom:16px;">
+        <div id="vlm-url" style="font-size:12px;color:#444;flex:1;word-break:break-all;font-family:monospace;">${url}</div>
+        <button id="vlm-copy" onclick="
+          navigator.clipboard.writeText('${url}').then(()=>{
+            this.textContent='✓ Copied!';
+            this.style.background='#1a6b3a';
+            setTimeout(()=>{this.textContent='Copy';this.style.background='#1a1612';},2000);
+          }).catch(()=>{
+            document.getElementById('vlm-url').select?.();
+          });
+        " style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;padding:7px 14px;background:#1a1612;color:#fff;border:none;border-radius:7px;cursor:pointer;white-space:nowrap;">
+          Copy
+        </button>
+      </div>
+      <div style="font-size:11px;color:#aaa;margin-bottom:16px;">
+        💡 Tip: Once the site is open in your browser, bookmark it for quick access next time.
+      </div>
+      <button onclick="document.getElementById('video-link-modal').remove()" style="font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;padding:10px 22px;background:#f0ece3;border:none;border-radius:9px;cursor:pointer;color:#333;width:100%;">Close</button>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
 }
 
 // ══════════════════════════════════════════════

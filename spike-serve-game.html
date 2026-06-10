@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>SPIKE — POV Serve Trainer</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Space Mono',monospace;user-select:none;touch-action:none;}
+canvas{display:block;}
+#game-canvas{position:fixed;top:0;left:0;width:100%;height:100%;cursor:crosshair;}
+
+/* ── OVERLAYS ── */
+.overlay{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;}
+.overlay.hide{display:none;}
+
+/* HUD */
+#hud{position:fixed;top:0;left:0;right:0;z-index:50;padding:12px 20px;display:flex;align-items:center;gap:16px;pointer-events:none;background:linear-gradient(to bottom,rgba(0,0,0,0.7),transparent);}
+.hud-val{font-family:'Black Han Sans',sans-serif;font-size:28px;line-height:1;color:#FFE344;}
+.hud-lbl{font-size:8px;letter-spacing:3px;color:rgba(255,255,255,0.4);text-transform:uppercase;}
+.hud-sep{width:1px;height:24px;background:rgba(255,255,255,0.15);}
+#hud-target{margin-left:auto;font-family:'Black Han Sans',sans-serif;font-size:14px;letter-spacing:2px;color:#ff6b1a;text-shadow:0 0 12px rgba(255,107,26,0.6);}
+#hud-serves{font-family:'Black Han Sans',sans-serif;font-size:18px;color:rgba(255,255,255,0.6);}
+
+/* TIMING BAR */
+#timing-bar{position:fixed;bottom:180px;left:50%;transform:translateX(-50%);width:min(340px,88vw);z-index:60;display:none;}
+.t-track{width:100%;height:20px;background:rgba(0,0,0,0.5);border:1.5px solid rgba(255,255,255,0.2);border-radius:10px;overflow:hidden;position:relative;backdrop-filter:blur(4px);}
+.t-sweet{position:absolute;top:0;bottom:0;background:rgba(0,255,120,0.4);border-left:2px solid #00ff78;border-right:2px solid #00ff78;}
+.t-cursor{position:absolute;top:-2px;bottom:-2px;width:6px;background:#fff;border-radius:3px;box-shadow:0 0 12px rgba(255,255,255,0.9);}
+.t-label{font-size:11px;letter-spacing:3px;color:rgba(255,255,255,0.6);text-align:center;margin-top:6px;text-transform:uppercase;}
+
+/* PHASE TEXT */
+#phase-txt{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);font-family:'Black Han Sans',sans-serif;font-size:clamp(32px,7vw,64px);letter-spacing:4px;text-align:center;z-index:55;pointer-events:none;text-shadow:0 0 30px currentColor;opacity:0;transition:opacity 0.2s;}
+#phase-txt.show{opacity:1;}
+
+/* FEEDBACK */
+#feedback{position:fixed;top:38%;left:50%;transform:translate(-50%,-50%) scale(0.85);z-index:70;text-align:center;pointer-events:none;opacity:0;transition:all 0.25s;}
+#feedback.show{opacity:1;transform:translate(-50%,-50%) scale(1);}
+#fb-word{font-family:'Black Han Sans',sans-serif;font-size:clamp(44px,11vw,88px);letter-spacing:3px;text-shadow:0 0 40px currentColor;}
+#fb-pts{font-family:'Black Han Sans',sans-serif;font-size:22px;color:#FFE344;margin-top:4px;}
+#fb-tip{font-size:12px;color:rgba(255,255,255,0.55);margin-top:8px;max-width:260px;line-height:1.55;letter-spacing:0.5px;}
+
+/* TAP HINT */
+#tap-hint{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:60;font-size:11px;letter-spacing:3px;color:rgba(255,255,255,0.4);text-transform:uppercase;pointer-events:none;animation:blink 1.5s ease infinite;}
+@keyframes blink{0%,100%{opacity:0.4}50%{opacity:1}}
+
+/* SWEET CIRCLE */
+#sweet-circle{position:fixed;border-radius:50%;border:3px solid #00ff78;background:rgba(0,255,120,0.07);box-shadow:0 0 24px rgba(0,255,120,0.4);pointer-events:none;z-index:52;display:none;animation:circPulse 0.7s ease infinite;}
+@keyframes circPulse{0%,100%{box-shadow:0 0 16px rgba(0,255,120,0.4)}50%{box-shadow:0 0 36px rgba(0,255,120,0.7)}}
+
+/* WELCOME */
+#screen-welcome{background:rgba(0,0,0,0.88);backdrop-filter:blur(10px);}
+.logo{font-family:'Black Han Sans',sans-serif;font-size:clamp(64px,16vw,110px);line-height:0.9;letter-spacing:4px;}
+.logo .s{color:#ff6b1a;}.logo .p{color:#fff;}
+.tagline{font-size:10px;letter-spacing:5px;color:rgba(255,255,255,0.35);margin-bottom:28px;}
+.pick-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:10px;}
+.pick-lbl{font-size:9px;letter-spacing:3px;color:rgba(255,255,255,0.3);text-transform:uppercase;margin-bottom:8px;}
+.pick-btn{font-family:'Black Han Sans',sans-serif;font-size:14px;letter-spacing:1px;padding:10px 18px;border:2px solid rgba(255,255,255,0.12);border-radius:10px;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.5);cursor:pointer;transition:all 0.2s;}
+.pick-btn:hover{border-color:#ff6b1a;color:#ff6b1a;}
+.pick-btn.on{border-color:#ff6b1a;background:rgba(255,107,26,0.14);color:#ff6b1a;}
+.steps-row{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;justify-content:center;}
+.step-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px 14px;min-width:120px;flex:1;max-width:160px;}
+.step-num{font-family:'Black Han Sans',sans-serif;font-size:30px;color:#ff6b1a;}
+.step-txt{font-size:10px;color:rgba(255,255,255,0.45);line-height:1.45;margin-top:3px;}
+.btn-play{font-family:'Black Han Sans',sans-serif;font-size:22px;letter-spacing:4px;padding:15px 52px;background:#ff6b1a;color:#000;border:none;border-radius:12px;cursor:pointer;transition:all 0.2s;box-shadow:0 0 40px rgba(255,107,26,0.4);}
+.btn-play:hover{background:#ff8040;transform:translateY(-3px);box-shadow:0 6px 50px rgba(255,107,26,0.6);}
+
+/* RESULTS */
+#screen-results{background:rgba(0,0,0,0.92);backdrop-filter:blur(10px);}
+.res-trophy{font-size:68px;animation:rb 1.2s ease infinite alternate;display:block;margin-bottom:10px;}
+@keyframes rb{from{transform:translateY(0)}to{transform:translateY(-12px)}}
+.res-title{font-family:'Black Han Sans',sans-serif;font-size:clamp(14px,3vw,20px);letter-spacing:4px;color:rgba(255,255,255,0.5);margin-bottom:4px;}
+.res-score{font-family:'Black Han Sans',sans-serif;font-size:clamp(60px,14vw,100px);color:#ff6b1a;line-height:1;}
+.res-max{font-size:10px;letter-spacing:3px;color:rgba(255,255,255,0.3);margin-bottom:16px;}
+.res-grade{font-family:'Black Han Sans',sans-serif;font-size:18px;padding:8px 26px;border-radius:100px;display:inline-block;margin-bottom:18px;}
+.res-bd{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px 18px;max-width:320px;width:100%;margin:0 auto 18px;text-align:left;}
+.res-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.06);font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:0.5px;}
+.res-row:last-child{border-bottom:none;}
+.res-v{font-family:'Black Han Sans',sans-serif;font-size:18px;color:#ff6b1a;}
+.res-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.btn-again{font-family:'Black Han Sans',sans-serif;font-size:17px;letter-spacing:2px;padding:12px 26px;background:#ff6b1a;color:#000;border:none;border-radius:10px;cursor:pointer;transition:all 0.2s;}
+.btn-again:hover{background:#ff8040;transform:translateY(-2px);}
+.btn-menu{font-family:'Black Han Sans',sans-serif;font-size:15px;letter-spacing:1px;padding:12px 20px;background:none;color:#fff;border:1.5px solid rgba(255,255,255,0.15);border-radius:10px;cursor:pointer;transition:all 0.2s;}
+.btn-menu:hover{border-color:#ff6b1a;color:#ff6b1a;}
+
+.cf{position:fixed;pointer-events:none;z-index:9999;border-radius:2px;animation:cfF linear forwards;}
+@keyframes cfF{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(101vh) rotate(540deg);opacity:0}}
+
+#streak-glow{position:fixed;inset:0;pointer-events:none;z-index:49;opacity:0;background:radial-gradient(ellipse at 50% 70%,rgba(0,255,120,0.12) 0%,transparent 65%);transition:opacity 0.2s;}
+#streak-glow.on{opacity:1;}
+</style>
+</head>
+<body>
+
+<!-- CANVAS — the entire game world -->
+<canvas id="game-canvas"></canvas>
+
+<!-- STREAK GLOW -->
+<div id="streak-glow"></div>
+
+<!-- HUD -->
+<div id="hud">
+  <div><div class="hud-lbl">Score</div><div class="hud-val" id="hud-score">0</div></div>
+  <div class="hud-sep"></div>
+  <div><div class="hud-lbl">Streak</div><div class="hud-val" id="hud-streak" style="color:#ff9f43">0</div></div>
+  <div class="hud-sep"></div>
+  <div id="hud-target">TARGET: —</div>
+  <div id="hud-serves">10 LEFT</div>
+</div>
+
+<!-- TIMING BAR -->
+<div id="timing-bar">
+  <div class="t-track">
+    <div class="t-sweet" id="t-sweet"></div>
+    <div class="t-cursor" id="t-cursor"></div>
+  </div>
+  <div class="t-label" id="t-label">TAP TO TOSS</div>
+</div>
+
+<!-- PHASE TEXT -->
+<div id="phase-txt"></div>
+
+<!-- SWEET CIRCLE -->
+<div id="sweet-circle"></div>
+
+<!-- FEEDBACK -->
+<div id="feedback">
+  <div id="fb-word"></div>
+  <div id="fb-pts"></div>
+  <div id="fb-tip"></div>
+</div>
+
+<!-- TAP HINT -->
+<div id="tap-hint" style="display:none;">TAP ANYWHERE OR PRESS SPACE</div>
+
+<!-- WELCOME -->
+<div class="overlay" id="screen-welcome">
+  <div class="logo"><span class="s">SP</span><span class="p">IKE</span></div>
+  <div class="tagline">POV SERVE TRAINER · FIERCE ORCAS VOLLEYBALL</div>
+
+  <div class="steps-row">
+    <div class="step-card"><div class="step-num">1</div><div class="step-txt">TAP when the cursor hits the GREEN to TOSS</div></div>
+    <div class="step-card"><div class="step-num">2</div><div class="step-txt">TAP again in the GREEN CIRCLE to STRIKE</div></div>
+    <div class="step-card"><div class="step-num">3</div><div class="step-txt">Hit the glowing TARGET ZONE for points</div></div>
+  </div>
+
+  <div class="pick-lbl">Serve Type</div>
+  <div class="pick-row" id="type-row">
+    <button class="pick-btn on" data-v="float" onclick="pickType(this)">🌊 FLOAT</button>
+    <button class="pick-btn" data-v="topspin" onclick="pickType(this)">⚡ TOPSPIN</button>
+    <button class="pick-btn" data-v="jump" onclick="pickType(this)">🚀 JUMP SERVE</button>
+  </div>
+  <div class="pick-lbl" style="margin-top:12px;">Difficulty</div>
+  <div class="pick-row" id="diff-row">
+    <button class="pick-btn on" data-v="easy" onclick="pickDiff(this)">EASY</button>
+    <button class="pick-btn" data-v="medium" onclick="pickDiff(this)">MEDIUM</button>
+    <button class="pick-btn" data-v="hard" onclick="pickDiff(this)">HARD</button>
+  </div>
+  <br>
+  <button class="btn-play" onclick="startGame()">STEP TO THE LINE →</button>
+</div>
+
+<!-- RESULTS -->
+<div class="overlay hide" id="screen-results">
+  <span class="res-trophy" id="res-trophy">🏆</span>
+  <div class="res-title">SESSION COMPLETE</div>
+  <div class="res-score" id="res-score">0</div>
+  <div class="res-max" id="res-max">OUT OF 300 PTS</div>
+  <div class="res-grade" id="res-grade"></div>
+  <div class="res-bd" id="res-bd"></div>
+  <div class="res-btns">
+    <button class="btn-again" onclick="restartGame()">🔄 AGAIN</button>
+    <button class="btn-menu" onclick="showMenu()">← MENU</button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+//  CANVAS RENDERER — full POV scene
+// ═══════════════════════════════════════════
+const canvas = document.getElementById('game-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, CX, CY;
+
+function resize(){
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+  CX = W/2; CY = H/2;
+}
+window.addEventListener('resize', ()=>{resize(); if(!G.inMenu) drawScene();});
+resize();
+
+// ── SCENE CONSTANTS ──
+const HORIZON = 0.44; // fraction of height
+const NET_Y   = 0.47;
+const FLOOR_Y = 0.44; // where floor meets horizon
+
+// ── DRAW FULL POV GYM SCENE ──
+function drawScene(){
+  ctx.clearRect(0,0,W,H);
+
+  const hy = H * HORIZON;
+
+  // ===== SKY / CEILING (dark gym) =====
+  const skyGrad = ctx.createLinearGradient(0,0,0,hy);
+  skyGrad.addColorStop(0,'#06090f');
+  skyGrad.addColorStop(0.6,'#0c1520');
+  skyGrad.addColorStop(1,'#101c2a');
+  ctx.fillStyle = skyGrad;
+  ctx.fillRect(0,0,W,hy);
+
+  // Gym rafters (horizontal lines)
+  ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+  ctx.lineWidth = 1;
+  for(let i=1;i<=6;i++){
+    const y = hy * (i/7);
+    ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
+  }
+
+  // Gymnasium lights (overhead)
+  const lightPositions = [0.15,0.35,0.5,0.65,0.85];
+  lightPositions.forEach(lx=>{
+    const lxPx = W * lx;
+    // cord
+    ctx.strokeStyle = 'rgba(200,200,180,0.12)';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(lxPx, 0); ctx.lineTo(lxPx, hy*0.32); ctx.stroke();
+    // fixture
+    ctx.fillStyle = 'rgba(220,210,160,0.15)';
+    ctx.fillRect(lxPx-18, hy*0.3, 36, 8);
+    // glow bloom
+    const lg = ctx.createRadialGradient(lxPx, hy*0.34, 0, lxPx, hy*0.34, 100);
+    lg.addColorStop(0,'rgba(255,240,180,0.18)');
+    lg.addColorStop(0.4,'rgba(255,240,180,0.06)');
+    lg.addColorStop(1,'rgba(255,240,180,0)');
+    ctx.fillStyle = lg;
+    ctx.beginPath(); ctx.arc(lxPx, hy*0.34, 100, 0, Math.PI*2); ctx.fill();
+  });
+
+  // Wall lines (perspective side walls)
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+  ctx.lineWidth = 1;
+  // Left wall
+  ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(CX, hy); ctx.stroke();
+  // Right wall
+  ctx.beginPath(); ctx.moveTo(W,0); ctx.lineTo(CX, hy); ctx.stroke();
+  // Ceiling center
+  ctx.beginPath(); ctx.moveTo(CX,0); ctx.lineTo(CX,hy*0.2); ctx.stroke();
+
+  // ===== FLOOR =====
+  const floorGrad = ctx.createLinearGradient(0,hy,0,H);
+  floorGrad.addColorStop(0,'#2a4a1a');
+  floorGrad.addColorStop(0.4,'#3a5e26');
+  floorGrad.addColorStop(1,'#1e3810');
+  ctx.fillStyle = floorGrad;
+  ctx.fillRect(0,hy,W,H-hy);
+
+  // Floor perspective lines (converge to vanishing point at CX, hy)
+  ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+  ctx.lineWidth = 1.5;
+  const vx = CX, vy = hy;
+  // Side lines
+  ctx.beginPath(); ctx.moveTo(vx,vy); ctx.lineTo(0,H); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(vx,vy); ctx.lineTo(W,H); ctx.stroke();
+  // Inner court lines — perspective
+  [-0.32,-0.16,0,0.16,0.32].forEach(off=>{
+    const bx = CX + off*W;
+    ctx.strokeStyle = off===0 ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.08)';
+    ctx.beginPath(); ctx.moveTo(vx, vy); ctx.lineTo(bx, H); ctx.stroke();
+  });
+  // Horizontal court lines
+  [0.15,0.35,0.6,0.85].forEach(p=>{
+    const ly = hy + (H-hy)*p;
+    const spread = p * W * 0.55;
+    ctx.strokeStyle = `rgba(255,255,255,${0.05 + p*0.08})`;
+    ctx.lineWidth = p < 0.3 ? 1 : 1.5;
+    ctx.beginPath(); ctx.moveTo(CX-spread, ly); ctx.lineTo(CX+spread, ly); ctx.stroke();
+  });
+
+  // 3m attack line
+  {
+    const ly = hy + (H-hy)*0.32;
+    const spread = 0.32 * W * 0.55;
+    ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([8,6]);
+    ctx.beginPath(); ctx.moveTo(CX-spread,ly); ctx.lineTo(CX+spread,ly); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // ===== NET =====
+  drawNet(hy);
+
+  // ===== FAR COURT (opponent side) =====
+  drawFarCourt(hy);
+
+  // ===== OPPONENT PLAYER =====
+  drawOpponent(hy);
+}
+
+function drawNet(hy){
+  const ny = hy + (H-hy)*0.04;
+  const nBot = ny + (H * 0.13);
+  const left = CX - W*0.36;
+  const right = CX + W*0.36;
+
+  // Posts
+  ctx.fillStyle = '#888';
+  ctx.fillRect(left-4, ny-6, 8, nBot-ny+6);
+  ctx.fillRect(right-4, ny-6, 8, nBot-ny+6);
+
+  // Net top tape
+  const tapeGrad = ctx.createLinearGradient(left, ny, right, ny);
+  tapeGrad.addColorStop(0,'#c8a030');
+  tapeGrad.addColorStop(0.5,'#ffe080');
+  tapeGrad.addColorStop(1,'#c8a030');
+  ctx.fillStyle = tapeGrad;
+  ctx.fillRect(left, ny, right-left, 10);
+
+  // Net mesh
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(left, ny+10, right-left, nBot-ny-10);
+  ctx.clip();
+  ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+  ctx.lineWidth = 1;
+  // Vertical strings
+  for(let x=left; x<=right; x+=14){
+    ctx.beginPath(); ctx.moveTo(x,ny+10); ctx.lineTo(x,nBot); ctx.stroke();
+  }
+  // Horizontal strings
+  for(let y=ny+14; y<=nBot; y+=14){
+    ctx.beginPath(); ctx.moveTo(left,y); ctx.lineTo(right,y); ctx.stroke();
+  }
+  ctx.restore();
+
+  // Net shadow on floor
+  const shadowGrad = ctx.createLinearGradient(0,ny,0,ny+40);
+  shadowGrad.addColorStop(0,'rgba(0,0,0,0.4)');
+  shadowGrad.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle = shadowGrad;
+  ctx.fillRect(left, nBot, right-left, 40);
+}
+
+function drawFarCourt(hy){
+  // Far court floor lighting (bright spot far away)
+  const fcGrad = ctx.createRadialGradient(CX, hy+20, 10, CX, hy+20, 160);
+  fcGrad.addColorStop(0,'rgba(100,180,80,0.15)');
+  fcGrad.addColorStop(1,'rgba(100,180,80,0)');
+  ctx.fillStyle = fcGrad;
+  ctx.fillRect(0,hy,W,100);
+
+  // Draw target zones on far court
+  if(!G.currentZone) return;
+  const zones = G.allZones;
+  zones.forEach(z=>{
+    const isTarget = z.id === G.currentZone;
+    // Project zone rect into perspective
+    const zl = CX + z.fx * W * 0.3;
+    const zr = CX + z.tx * W * 0.3;
+    const zt = hy + z.fy * (H-hy) * 0.25;
+    const zb = hy + z.ty * (H-hy) * 0.25;
+
+    if(isTarget){
+      ctx.fillStyle = 'rgba(255,107,26,0.22)';
+      ctx.strokeStyle = '#ff6b1a';
+      ctx.lineWidth = 2.5;
+    } else {
+      ctx.fillStyle = 'rgba(255,255,255,0.04)';
+      ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+      ctx.lineWidth = 1;
+    }
+    // Draw as trapezoid for perspective feel
+    ctx.beginPath();
+    ctx.moveTo(zl, zt); ctx.lineTo(zr, zt);
+    ctx.lineTo(zr+(zr-CX)*0.08, zb); ctx.lineTo(zl+(zl-CX)*0.08, zb);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // Label
+    ctx.fillStyle = isTarget ? '#ff6b1a' : 'rgba(255,255,255,0.18)';
+    ctx.font = `bold ${isTarget?13:10}px Space Mono`;
+    ctx.textAlign = 'center';
+    ctx.fillText(z.label, (zl+zr)/2 + (zl+zr-CX*2)*0.04, (zt+zb)/2 + 3);
+
+    // Pulsing glow for target
+    if(isTarget && G.phase==='toss'){
+      ctx.strokeStyle = `rgba(255,107,26,${0.3 + Math.sin(Date.now()*0.004)*0.2})`;
+      ctx.lineWidth = 3;
+      ctx.stroke();
+    }
+  });
+}
+
+function drawOpponent(hy){
+  // Simple silhouette player on far side
+  const px = CX + (Math.sin(Date.now()*0.0008)*0.06)*W;
+  const py = hy - 1;
+  const scale = 0.5 + Math.sin(Date.now()*0.001)*0.02;
+  const h = 58 * scale;
+  ctx.fillStyle = 'rgba(255,255,255,0.18)';
+  // Body
+  ctx.beginPath();
+  ctx.ellipse(px, py-h*0.55, 9*scale, 20*scale, 0, 0, Math.PI*2);
+  ctx.fill();
+  // Head
+  ctx.beginPath();
+  ctx.arc(px, py-h*0.88, 9*scale, 0, Math.PI*2);
+  ctx.fill();
+  // Arms
+  ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+  ctx.lineWidth = 4*scale;
+  ctx.beginPath();
+  ctx.moveTo(px-12*scale, py-h*0.7);
+  ctx.lineTo(px-22*scale, py-h*0.55);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(px+12*scale, py-h*0.7);
+  ctx.lineTo(px+22*scale, py-h*0.45);
+  ctx.stroke();
+}
+
+// ── PLAYER HANDS (POV) ──
+let handSwing = 0; // 0=ready, 1=swing
+
+function drawHands(phase, swingP){
+  const armW = Math.min(W, 520);
+  const armX = (W - armW)/2;
+  const baseY = H;
+
+  // === LEFT HAND (holding ball / tossing) ===
+  const lx = armX + armW*0.28;
+  let ly = baseY - 140;
+
+  if(phase === 'toss_rising'){
+    ly = baseY - 140 - (swingP * (H*0.28));
+  } else if(phase === 'idle' || phase === 'toss'){
+    ly = baseY - 140;
+  } else {
+    ly = baseY - 250;
+  }
+
+  ctx.save();
+  // Sleeve left
+  const slGrad = ctx.createLinearGradient(lx-30,baseY,lx+30,baseY-200);
+  slGrad.addColorStop(0,'#1a3a6b');
+  slGrad.addColorStop(1,'#0f2050');
+  ctx.fillStyle = slGrad;
+  ctx.beginPath();
+  ctx.moveTo(lx-36,baseY);
+  ctx.quadraticCurveTo(lx-30,baseY-80,lx-18,baseY-160);
+  ctx.quadraticCurveTo(lx,baseY-180,lx+18,baseY-160);
+  ctx.quadraticCurveTo(lx+30,baseY-80,lx+36,baseY);
+  ctx.fill();
+
+  // Left arm skin
+  const skinL = ctx.createLinearGradient(lx-20,0,lx+20,0);
+  skinL.addColorStop(0,'#b87040');
+  skinL.addColorStop(1,'#d09060');
+  ctx.fillStyle = skinL;
+  ctx.beginPath();
+  ctx.ellipse(lx, baseY-170, 16, 22, 0.1, 0, Math.PI*2);
+  ctx.fill();
+
+  // Left hand / glove
+  ctx.fillStyle = '#cc3030';
+  ctx.beginPath();
+  ctx.ellipse(lx, baseY-195, 18, 16, 0, 0, Math.PI*2);
+  ctx.fill();
+  // Glove detail
+  ctx.strokeStyle = '#ff6060';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.arc(lx, baseY-198, 12, 0.3, Math.PI-0.3);
+  ctx.stroke();
+  ctx.restore();
+
+  // === RIGHT HAND (hitting arm) ===
+  const rx = armX + armW*0.73;
+  let ry = baseY - 120;
+  let angle = -0.15;
+
+  if(phase === 'strike' || swingP > 0){
+    // Swing animation — arm comes up and forward
+    angle = -0.15 - swingP * 1.8;
+    ry = baseY - 120 - swingP * (H * 0.35);
+  }
+
+  ctx.save();
+  ctx.translate(rx, baseY);
+  ctx.rotate(angle);
+
+  // Sleeve right
+  const srGrad = ctx.createLinearGradient(-30,0,30,-200);
+  srGrad.addColorStop(0,'#1a3a6b');
+  srGrad.addColorStop(1,'#0f2050');
+  ctx.fillStyle = srGrad;
+  ctx.beginPath();
+  ctx.moveTo(-38,0);
+  ctx.quadraticCurveTo(-32,-90,-20,-170);
+  ctx.quadraticCurveTo(0,-195,20,-170);
+  ctx.quadraticCurveTo(32,-90,38,0);
+  ctx.fill();
+
+  // Arm skin
+  ctx.fillStyle = '#c08050';
+  ctx.beginPath();
+  ctx.ellipse(0,-182,16,20,0,0,Math.PI*2);
+  ctx.fill();
+
+  // Right glove (hitting hand)
+  ctx.fillStyle = '#cc3030';
+  ctx.beginPath();
+  ctx.ellipse(0,-208,22,18,0,0,Math.PI*2);
+  ctx.fill();
+  // Glove lines
+  ctx.strokeStyle = '#ff6060';
+  ctx.lineWidth = 1.5;
+  for(let i=-8;i<=8;i+=8){
+    ctx.beginPath();
+    ctx.moveTo(i,-196);
+    ctx.lineTo(i,-222);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+// ── BALL RENDERER ──
+function drawBall(x, y, size, spinAngle, glow){
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(spinAngle);
+
+  // Shadow
+  const shadowSize = size * 0.6;
+  const shadowGrad = ctx.createRadialGradient(0,0,0,0,0,shadowSize);
+  shadowGrad.addColorStop(0,'rgba(0,0,0,0.35)');
+  shadowGrad.addColorStop(1,'rgba(0,0,0,0)');
+
+  // Glow
+  if(glow > 0){
+    const glowGrad = ctx.createRadialGradient(0,0,size*0.3,0,0,size*1.4);
+    glowGrad.addColorStop(0,`rgba(255,220,80,${glow*0.5})`);
+    glowGrad.addColorStop(1,'rgba(255,220,80,0)');
+    ctx.fillStyle = glowGrad;
+    ctx.beginPath(); ctx.arc(0,0,size*1.4,0,Math.PI*2); ctx.fill();
+  }
+
+  // Ball base (white/cream)
+  const ballGrad = ctx.createRadialGradient(-size*0.25,-size*0.25,size*0.1,0,0,size);
+  ballGrad.addColorStop(0,'#ffffff');
+  ballGrad.addColorStop(0.3,'#f5f0e0');
+  ballGrad.addColorStop(0.7,'#e8d8a0');
+  ballGrad.addColorStop(1,'#c8b060');
+  ctx.fillStyle = ballGrad;
+  ctx.beginPath(); ctx.arc(0,0,size,0,Math.PI*2); ctx.fill();
+
+  // Panel 1 — teal (top-right arc)
+  ctx.save();
+  ctx.beginPath(); ctx.arc(0,0,size,0,Math.PI*2); ctx.clip();
+  ctx.fillStyle = '#20a890';
+  ctx.beginPath();
+  ctx.moveTo(0,0);
+  ctx.arc(0,0,size,Math.PI*1.5,Math.PI*0.1);
+  ctx.fill();
+  // Panel 2 — orange/yellow arc
+  ctx.fillStyle = '#e8a020';
+  ctx.beginPath();
+  ctx.moveTo(0,0);
+  ctx.arc(0,0,size,Math.PI*0.8,Math.PI*1.3);
+  ctx.fill();
+  ctx.restore();
+
+  // Panel lines
+  ctx.strokeStyle = 'rgba(0,0,0,0.35)';
+  ctx.lineWidth = size*0.04;
+  // Seam 1
+  ctx.beginPath();
+  ctx.arc(size*0.1, 0, size*0.85, -Math.PI*0.5, Math.PI*0.5);
+  ctx.stroke();
+  // Seam 2
+  ctx.beginPath();
+  ctx.arc(-size*0.1, 0, size*0.85, Math.PI*0.5, Math.PI*1.5);
+  ctx.stroke();
+  // Equator line
+  ctx.beginPath();
+  ctx.moveTo(-size, 0); ctx.lineTo(size, 0);
+  ctx.stroke();
+
+  // Highlight
+  const hlGrad = ctx.createRadialGradient(-size*0.28,-size*0.28,0,-size*0.28,-size*0.28,size*0.5);
+  hlGrad.addColorStop(0,'rgba(255,255,255,0.7)');
+  hlGrad.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle = hlGrad;
+  ctx.beginPath(); ctx.arc(0,0,size,0,Math.PI*2); ctx.fill();
+
+  ctx.restore();
+}
+
+// ── CONTACT FLASH ──
+function drawContactFlash(x, y, progress){
+  if(progress <= 0 || progress >= 1) return;
+  const r = progress * 80;
+  const alpha = 1 - progress;
+  ctx.strokeStyle = `rgba(255,220,50,${alpha})`;
+  ctx.lineWidth = 4 * (1-progress);
+  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2); ctx.stroke();
+  // Inner ring
+  ctx.strokeStyle = `rgba(255,255,255,${alpha*0.7})`;
+  ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(x, y, r*0.5, 0, Math.PI*2); ctx.stroke();
+}
+
+// ═══════════════════════════════════════════
+//  GAME STATE
+// ═══════════════════════════════════════════
+const G = {
+  inMenu: true,
+  phase: 'idle', // idle | toss | toss_rising | strike | flying | feedback
+  serveType: 'float',
+  difficulty: 'easy',
+  servesLeft: 10,
+  score: 0,
+  streak: 0,
+  maxStreak: 0,
+  aces: 0,
+  errors: 0,
+  perfectTosses: 0,
+  perfectStrikes: 0,
+
+  currentZone: null,
+  allZones: [
+    {id:'4F', label:'4', fx:-0.95, tx:-0.28, fy:0.05, ty:0.5},
+    {id:'3F', label:'3', fx:-0.28, tx:0.28,  fy:0.05, ty:0.5},
+    {id:'2F', label:'2', fx:0.28,  tx:0.95,  fy:0.05, ty:0.5},
+    {id:'5B', label:'5', fx:-0.95, tx:-0.28, fy:0.5,  ty:0.95},
+    {id:'6B', label:'6', fx:-0.28, tx:0.28,  fy:0.5,  ty:0.95},
+    {id:'1B', label:'1', fx:0.28,  tx:0.95,  fy:0.5,  ty:0.95},
+  ],
+  zoneSequence: ['4F','6B','1B','5B','3F','2F','6B','1B','4F','5B'],
+
+  // Ball
+  ballX: 0, ballY: 0, ballSize: 28, ballSpin: 0, ballGlow: 0,
+  ballVX: 0, ballVY: 0,
+
+  // Timing
+  sweepPos: 0, sweepDir: 1, sweepActive: false,
+  tossSweetS: 0, tossSweetE: 0,
+  strikeSweetS: 0, strikeSweetE: 0,
+
+  // Animation
+  tossQuality: null,
+  strikeQuality: null,
+  handSwing: 0,
+  flashProgress: 0,
+  flashX: 0, flashY: 0,
+
+  // Feedback
+  fbTimeout: null,
+  animRunning: false,
+};
+
+const DIFF = {
+  easy:   {sw:0.36, stw:0.34, spd:0.55},
+  medium: {sw:0.24, stw:0.24, spd:0.75},
+  hard:   {sw:0.13, stw:0.14, spd:0.95},
+};
+
+// Zone display names
+const ZNAMES = {
+  '4F':'ZONE 4 — Front Left',
+  '3F':'ZONE 3 — Short Middle',
+  '2F':'ZONE 2 — Front Right',
+  '5B':'ZONE 5 — Deep Left',
+  '6B':'ZONE 6 — Deep Middle',
+  '1B':'ZONE 1 — Deep Right',
+};
+
+// ═══════════════════════════════════════════
+//  MAIN RENDER LOOP
+// ═══════════════════════════════════════════
+let lastT = 0;
+function loop(t){
+  requestAnimationFrame(loop);
+  if(G.inMenu) return;
+
+  const dt = Math.min((t - lastT)/1000, 0.05);
+  lastT = t;
+
+  // Draw base scene
+  drawScene();
+
+  // Draw hands
+  const swingP = G.phase === 'strike' ? G.handSwing : (G.phase === 'flying' ? 1 : 0);
+  drawHands(G.phase, swingP);
+
+  // Sweep cursor
+  if(G.sweepActive){
+    const cfg = DIFF[G.difficulty];
+    G.sweepPos += G.sweepDir * cfg.spd * dt * 1.5;
+    if(G.sweepPos >= 1){G.sweepPos=1; G.sweepDir=-1;}
+    if(G.sweepPos <= 0){G.sweepPos=0; G.sweepDir=1;}
+    document.getElementById('t-cursor').style.left = (G.sweepPos*100)+'%';
+  }
+
+  // Ball spin
+  if(G.phase === 'flying' || G.phase === 'toss_rising'){
+    G.ballSpin += dt * 4;
+  }
+
+  // Toss rising animation
+  if(G.phase === 'toss_rising'){
+    G.ballY -= dt * G.tossRiseSpeed;
+    G.ballSize = Math.min(G.ballSize + dt * 8, G.tossPeakSize);
+    if(G.ballY <= G.tossPeakY){
+      G.ballY = G.tossPeakY;
+      G.phase = 'strike';
+      startStrikePhase();
+    }
+  }
+
+  // Ball flight animation
+  if(G.phase === 'flying'){
+    G.ballX += G.ballVX * dt;
+    G.ballY += G.ballVY * dt;
+    G.ballVY += 180 * dt; // gravity
+    G.handSwing = Math.min(G.handSwing + dt * 3, 1);
+    G.ballGlow = Math.max(G.ballGlow - dt * 2, 0);
+
+    // Check if reached target zone visual
+    const hy = H * HORIZON;
+    if(G.ballY < hy + 30 && G.ballY > hy - 20 && G.phase === 'flying'){
+      // Ball crossing net height
+    }
+    if(G.ballY < hy - 30 || G.ballY > H + 50){
+      finishFlight();
+    }
+  }
+
+  // Flash animation
+  if(G.flashProgress > 0 && G.flashProgress < 1){
+    G.flashProgress += dt * 2.5;
+    drawContactFlash(G.flashX, G.flashY, G.flashProgress);
+  }
+
+  // Draw ball
+  if(G.phase !== 'idle' && G.phase !== 'toss'){
+    drawBall(G.ballX, G.ballY, G.ballSize, G.ballSpin, G.ballGlow);
+  }
+
+  // Animate scene continuously for life (opponent sway etc)
+  // Already handled by drawScene() using Date.now()
+}
+requestAnimationFrame(loop);
+
+// ═══════════════════════════════════════════
+//  GAME FLOW
+// ═══════════════════════════════════════════
+function pickType(btn){
+  G.serveType = btn.dataset.v;
+  document.querySelectorAll('#type-row .pick-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+}
+function pickDiff(btn){
+  G.difficulty = btn.dataset.v;
+  document.querySelectorAll('#diff-row .pick-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+function startGame(){
+  G.inMenu = false;
+  G.servesLeft = 10; G.score = 0; G.streak = 0; G.maxStreak = 0;
+  G.aces = 0; G.errors = 0; G.perfectTosses = 0; G.perfectStrikes = 0;
+  document.getElementById('screen-welcome').classList.add('hide');
+  document.getElementById('screen-results').classList.add('hide');
+  beginServe();
+}
+
+function beginServe(){
+  if(G.servesLeft <= 0){ showResults(); return; }
+  G.phase = 'toss';
+  G.tossQuality = null; G.strikeQuality = null;
+  G.handSwing = 0; G.flashProgress = 0;
+  G.ballSpin = 0; G.ballGlow = 0;
+
+  // Pick zone
+  const idx = 10 - G.servesLeft;
+  G.currentZone = G.zoneSequence[idx % G.zoneSequence.length];
+  updateHUD();
+
+  // Set up toss timing bar
+  const cfg = DIFF[G.difficulty];
+  G.tossSweetS = 0.25 + Math.random() * 0.3;
+  G.tossSweetE = Math.min(G.tossSweetS + cfg.sw, 0.92);
+
+  const tBar = document.getElementById('timing-bar');
+  tBar.style.display = 'block';
+  document.getElementById('t-sweet').style.left = (G.tossSweetS*100)+'%';
+  document.getElementById('t-sweet').style.width = ((G.tossSweetE-G.tossSweetS)*100)+'%';
+  document.getElementById('t-label').textContent = 'TAP TO RELEASE TOSS';
+
+  document.getElementById('sweet-circle').style.display = 'none';
+  showPhase('READY TO SERVE', '#ff6b1a', 1400);
+  document.getElementById('tap-hint').style.display = 'block';
+  document.getElementById('tap-hint').textContent = 'TAP / CLICK / SPACE  →  TOSS';
+
+  G.sweepPos = 0; G.sweepDir = 1;
+  G.sweepActive = true;
+}
+
+function executeToss(){
+  if(G.phase !== 'toss') return;
+  G.phase = 'idle';
+  G.sweepActive = false;
+
+  const pos = G.sweepPos;
+  let q;
+  if(pos >= G.tossSweetS && pos <= G.tossSweetE){
+    q = 'perfect'; G.perfectTosses++;
+  } else if(Math.abs(pos - (G.tossSweetS+G.tossSweetE)/2) < 0.18){
+    q = 'good';
+  } else {
+    q = 'poor';
+  }
+  G.tossQuality = q;
+  document.getElementById('timing-bar').style.display = 'none';
+  document.getElementById('tap-hint').style.display = 'none';
+
+  // Ball starting position — in the "tossing hand" area
+  const armX = (W - Math.min(W,520))/2;
+  G.ballX = armX + Math.min(W,520)*0.28;
+  G.ballY = H - 210;
+  G.ballSize = 32;
+
+  // Peak position depends on quality
+  let peakX = CX + (q==='perfect' ? 8 : q==='good' ? 20 : 40);
+  let peakH = q==='perfect' ? H*0.2 : q==='good' ? H*0.26 : H*0.35;
+  G.tossPeakY = peakH;
+  G.tossPeakSize = q==='perfect' ? 38 : q==='good' ? 35 : 30;
+  G.tossRiseSpeed = q==='perfect' ? H*0.52 : q==='good' ? H*0.45 : H*0.38;
+
+  if(q==='perfect') showPhase('PERFECT TOSS!', '#00ff78', 1200);
+  else if(q==='good') showPhase('GOOD TOSS', '#FFE344', 1000);
+  else showPhase('TOSS OFF...', '#ff4466', 1000);
+
+  G.phase = 'toss_rising';
+}
+
+function startStrikePhase(){
+  // Show sweet circle around ball
+  const cfg = DIFF[G.difficulty];
+  const sz = G.tossQuality==='perfect' ? 100 : G.tossQuality==='good' ? 78 : 54;
+  const sc = document.getElementById('sweet-circle');
+  sc.style.display = 'block';
+  sc.style.width = sz+'px';
+  sc.style.height = sz+'px';
+  sc.style.left = (G.ballX - sz/2)+'px';
+  sc.style.top = (G.ballY - sz/2)+'px';
+
+  // Strike timing bar
+  G.strikeSweetS = 0.28 + Math.random()*0.22;
+  G.strikeSweetE = Math.min(G.strikeSweetS + cfg.stw, 0.92);
+  const tBar = document.getElementById('timing-bar');
+  tBar.style.display = 'block';
+  document.getElementById('t-sweet').style.left = (G.strikeSweetS*100)+'%';
+  document.getElementById('t-sweet').style.width = ((G.strikeSweetE-G.strikeSweetS)*100)+'%';
+  document.getElementById('t-label').textContent = 'TAP TO SWING!';
+
+  document.getElementById('tap-hint').style.display = 'block';
+  document.getElementById('tap-hint').textContent = 'SWING NOW! → TAP / CLICK / SPACE';
+  showPhase('SWING!', '#ff6b1a', 1000);
+
+  G.sweepPos = 0; G.sweepDir = 1;
+  G.sweepActive = true;
+}
+
+function executeStrike(){
+  if(G.phase !== 'strike') return;
+  G.phase = 'idle';
+  G.sweepActive = false;
+  document.getElementById('timing-bar').style.display = 'none';
+  document.getElementById('tap-hint').style.display = 'none';
+  document.getElementById('sweet-circle').style.display = 'none';
+
+  const pos = G.sweepPos;
+  let q;
+  if(pos >= G.strikeSweetS && pos <= G.strikeSweetE){
+    q = 'perfect'; G.perfectStrikes++;
+  } else if(Math.abs(pos-(G.strikeSweetS+G.strikeSweetE)/2) < 0.14){
+    q = 'good';
+  } else if(pos < G.strikeSweetS - 0.1){
+    q = 'early';
+  } else {
+    q = 'late';
+  }
+  G.strikeQuality = q;
+
+  // Contact flash
+  G.flashX = G.ballX; G.flashY = G.ballY; G.flashProgress = 0.01;
+  G.ballGlow = 1.0;
+
+  // Determine outcome
+  const outcome = calcOutcome(G.tossQuality, q);
+  launchBall(outcome);
+}
+
+function calcOutcome(toss, strike){
+  if(toss==='perfect' && strike==='perfect') return 'ace';
+  if((toss==='perfect'&&strike==='good')||(toss==='good'&&strike==='perfect')) return 'great';
+  if(strike==='early') return 'net';
+  if(strike==='late') return 'long';
+  if(toss==='poor' && strike==='poor') return Math.random()<0.5?'net':'long';
+  return 'in';
+}
+
+function launchBall(outcome){
+  const hy = H * HORIZON;
+  G.phase = 'flying';
+  G.handSwing = 0.1;
+
+  // Figure out target zone screen position
+  const z = G.allZones.find(z=>z.id===G.currentZone);
+  const tzx = CX + ((z.fx+z.tx)/2) * W * 0.3;
+  const tzy = hy + ((z.fy+z.ty)/2) * (H-hy) * 0.25;
+
+  let tx, ty, pts, word, color, tip;
+
+  switch(outcome){
+    case 'ace':
+      tx=tzx; ty=tzy;
+      pts=30; word='ACE!! 🔥'; color='#00ff78';
+      tip='PERFECT! Toss + Strike timing = Unreturnable serve!';
+      G.aces++;
+      break;
+    case 'great':
+      tx=tzx+(Math.random()-0.5)*60; ty=tzy+20;
+      pts=20; word='GREAT!'; color='#FFE344';
+      tip='Nearly perfect. Tighten your timing for an ace next time.';
+      break;
+    case 'in':
+      tx=CX+(Math.random()-0.5)*W*0.3; ty=hy+20;
+      pts=10; word='IN!'; color='#4af0ff';
+      tip='Good serve — in play! Focus on your timing windows.';
+      break;
+    case 'net':
+      tx=CX+(Math.random()-0.5)*80; ty=hy+10;
+      pts=0; word='NET!'; color='#ff2244';
+      tip='Early swing = ball goes down into the net. Wait for peak height.';
+      G.errors++; G.streak=0;
+      break;
+    case 'long':
+      tx=CX+(Math.random()-0.5)*100; ty=H*0.7;
+      pts=0; word='LONG!'; color='#ff2244';
+      tip='Late swing = ball goes upward and long. Contact at the peak!';
+      G.errors++; G.streak=0;
+      break;
+  }
+
+  G._outcome = outcome;
+  G._pts = pts;
+  G._word = word;
+  G._color = color;
+  G._tip = tip;
+
+  // Set ball velocity
+  const dist = Math.sqrt((tx-G.ballX)**2 + (ty-G.ballY)**2);
+  const dur = outcome==='net' ? 0.4 : 0.7;
+  G.ballVX = (tx - G.ballX) / dur;
+  G.ballVY = (ty - G.ballY - 0.5*180*dur*dur) / dur;
+
+  if(outcome==='ace' || outcome==='great') confetti(outcome==='ace'?50:20);
+}
+
+function finishFlight(){
+  if(G.phase!=='flying') return;
+  G.phase = 'feedback';
+
+  const pts = G._pts;
+  G.score += pts;
+  G.servesLeft--;
+
+  if(pts > 0){
+    G.streak++;
+    if(G.streak > G.maxStreak) G.maxStreak = G.streak;
+  }
+
+  // Streak bonus
+  let bonus = 0;
+  if(G.streak >= 3 && pts > 0){
+    bonus = Math.floor(pts*0.4);
+    G.score += bonus;
+    document.getElementById('streak-glow').classList.add('on');
+    setTimeout(()=>document.getElementById('streak-glow').classList.remove('on'), 500);
+  }
+
+  updateHUD();
+  showFeedback(G._word, pts, bonus, G._tip, G._color);
+}
+
+function showFeedback(word, pts, bonus, tip, color){
+  const fw = document.getElementById('fb-word');
+  const fp = document.getElementById('fb-pts');
+  const ft = document.getElementById('fb-tip');
+  fw.textContent = word;
+  fw.style.color = color;
+  fp.textContent = pts>0 ? `+${pts}${bonus>0?' (+'+bonus+' streak bonus)':''}`:'NO POINTS';
+  ft.textContent = tip;
+  document.getElementById('feedback').classList.add('show');
+
+  clearTimeout(G.fbTimeout);
+  G.fbTimeout = setTimeout(()=>{
+    document.getElementById('feedback').classList.remove('show');
+    setTimeout(()=>{
+      if(G.servesLeft <= 0) showResults();
+      else beginServe();
+    }, 300);
+  }, 2400);
+}
+
+function showPhase(txt, color, dur=1400){
+  const el = document.getElementById('phase-txt');
+  el.textContent = txt;
+  el.style.color = color;
+  el.classList.add('show');
+  clearTimeout(G._phaseTimeout);
+  G._phaseTimeout = setTimeout(()=>el.classList.remove('show'), dur);
+}
+
+function updateHUD(){
+  document.getElementById('hud-score').textContent = G.score;
+  document.getElementById('hud-streak').textContent = G.streak >= 3 ? G.streak+'🔥' : G.streak;
+  document.getElementById('hud-serves').textContent = G.servesLeft + ' LEFT';
+  document.getElementById('hud-target').textContent = G.currentZone ? 'TARGET: '+ZNAMES[G.currentZone] : 'TARGET: —';
+}
+
+// ── RESULTS ──
+function showResults(){
+  G.phase = 'idle';
+  document.getElementById('timing-bar').style.display = 'none';
+  document.getElementById('sweet-circle').style.display = 'none';
+  document.getElementById('tap-hint').style.display = 'none';
+  document.getElementById('feedback').classList.remove('show');
+
+  const max = 10*30;
+  const pct = G.score/max*100;
+  let grade, gb, trophy;
+  if(pct>=85){grade='S RANK — ELITE SERVE';gb='background:#00ff78;color:#000';trophy='🏆';}
+  else if(pct>=65){grade='A RANK — SHARP!';gb='background:#FFE344;color:#000';trophy='🥇';}
+  else if(pct>=45){grade='B RANK — PROGRESSING';gb='background:#ff6b1a;color:#000';trophy='🥈';}
+  else{grade='C RANK — KEEP TRAINING';gb='background:#ff2244;color:#fff';trophy='💪';}
+
+  document.getElementById('res-trophy').textContent = trophy;
+  document.getElementById('res-score').textContent = G.score;
+  document.getElementById('res-max').textContent = `OUT OF ${max} POINTS`;
+  const g = document.getElementById('res-grade');
+  g.textContent = grade;
+  g.style.cssText = gb+';border-radius:100px;';
+
+  document.getElementById('res-bd').innerHTML = `
+    <div class="res-row"><span>SCORE</span><span class="res-v">${G.score}</span></div>
+    <div class="res-row"><span>ACES</span><span class="res-v">${G.aces}🔥</span></div>
+    <div class="res-row"><span>ERRORS</span><span class="res-v">${G.errors}</span></div>
+    <div class="res-row"><span>PERFECT TOSSES</span><span class="res-v">${G.perfectTosses}/10</span></div>
+    <div class="res-row"><span>PERFECT STRIKES</span><span class="res-v">${G.perfectStrikes}/10</span></div>
+    <div class="res-row"><span>BEST STREAK</span><span class="res-v">${G.maxStreak}🔥</span></div>
+  `;
+  document.getElementById('screen-results').classList.remove('hide');
+  if(pct>=65) confetti(60);
+}
+
+function restartGame(){
+  document.getElementById('screen-results').classList.add('hide');
+  startGame();
+}
+function showMenu(){
+  G.inMenu = true;
+  G.phase = 'idle';
+  document.getElementById('timing-bar').style.display = 'none';
+  document.getElementById('sweet-circle').style.display = 'none';
+  document.getElementById('tap-hint').style.display = 'none';
+  document.getElementById('feedback').classList.remove('show');
+  document.getElementById('screen-results').classList.add('hide');
+  document.getElementById('screen-welcome').classList.remove('hide');
+}
+
+// ── INPUT ──
+function handleTap(){
+  if(G.inMenu) return;
+  if(G.phase==='toss') executeToss();
+  else if(G.phase==='strike') executeStrike();
+}
+
+document.getElementById('game-canvas').addEventListener('click', handleTap);
+document.getElementById('game-canvas').addEventListener('touchend', e=>{ e.preventDefault(); handleTap(); }, {passive:false});
+document.addEventListener('keydown', e=>{
+  if(e.code==='Space'||e.code==='Enter'){e.preventDefault(); handleTap();}
+});
+
+// ── CONFETTI ──
+function confetti(n=30){
+  const cols=['#ff6b1a','#00ff78','#FFE344','#4af0ff','#ff2244','#ffffff','#a855f7'];
+  for(let i=0;i<n;i++){
+    setTimeout(()=>{
+      const el=document.createElement('div');
+      el.className='cf';
+      el.style.cssText=`left:${Math.random()*100}vw;width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;background:${cols[Math.floor(Math.random()*cols.length)]};animation-duration:${1.2+Math.random()*1.6}s;animation-delay:${Math.random()*0.3}s;`;
+      document.body.appendChild(el);
+      setTimeout(()=>el.remove(),3000);
+    },i*20);
+  }
+}
+</script>
+</body>
+</html>
