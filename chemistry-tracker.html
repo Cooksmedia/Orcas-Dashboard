@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fierce Orcas — Chemistry Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a1628; --navy2:#0f2040; --navy3:#152850;
+  --panel:#1a2e50; --panel2:#1f3660; --rim:#2a4070; --rim2:#3a5490;
+  --teal:#00c8be; --teal2:#00e8dc; --teal-d:rgba(0,200,190,.1);
+  --orca-white:#f0ede6; --orca-ice:#d4e8f0; --orca-gray:#6a7d96;
+  --yellow:#ffe040; --green:#3ddc84; --red:#ff4d6d; --orange:#ff9f43;
+  --head:'Barlow Condensed',sans-serif;
+  --body:'Barlow',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--navy);color:var(--orca-white);font-family:var(--body);min-height:100vh;}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--navy2);border-bottom:1px solid var(--rim);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:54px;position:sticky;top:0;z-index:100;}
+.tb-brand{display:flex;align-items:center;gap:10px;}
+.tb-title{font-family:var(--head);font-size:20px;font-weight:800;letter-spacing:2px;color:var(--orca-white);}
+.tb-title span{color:var(--teal);}
+.tb-sub{font-size:10px;font-weight:600;color:var(--orca-gray);letter-spacing:3px;text-transform:uppercase;margin-top:1px;}
+.tab-row{display:flex;gap:0;border-bottom:none;}
+.tab-btn{font-family:var(--head);font-size:14px;font-weight:700;letter-spacing:2px;padding:0 22px;height:54px;background:none;border:none;border-bottom:3px solid transparent;color:var(--orca-gray);cursor:pointer;transition:all .2s;white-space:nowrap;margin-bottom:-1px;}
+.tab-btn:hover{color:var(--orca-white);}
+.tab-btn.on{color:var(--teal);border-bottom-color:var(--teal);}
+
+/* ── PAGES ── */
+.pg{display:none;max-width:1100px;margin:0 auto;padding:28px 20px 64px;}
+.pg.on{display:block;}
+
+/* ── HERO ── */
+.hero-strip{background:linear-gradient(135deg,var(--navy2) 0%,var(--navy3) 100%);border-bottom:1px solid var(--rim);padding:32px 24px;position:relative;overflow:hidden;}
+.hero-strip::before{content:'';position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,200,190,.08) 0%,transparent 70%);pointer-events:none;}
+.hero-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.hero-text{}
+.hero-eyebrow{font-size:10px;font-weight:700;letter-spacing:5px;color:var(--teal);text-transform:uppercase;margin-bottom:6px;}
+.hero-h1{font-family:var(--head);font-size:clamp(32px,5vw,52px);font-weight:900;letter-spacing:1px;line-height:1;margin-bottom:6px;}
+.hero-h1 em{color:var(--teal);font-style:normal;}
+.hero-desc{font-size:13px;color:var(--orca-gray);line-height:1.65;max-width:500px;}
+.hero-stats{display:flex;gap:0;background:var(--panel);border:1px solid var(--rim);border-radius:10px;overflow:hidden;}
+.hstat{padding:14px 20px;border-right:1px solid var(--rim);text-align:center;}
+.hstat:last-child{border-right:none;}
+.hstat-num{font-family:var(--head);font-size:28px;font-weight:800;color:var(--teal);line-height:1;}
+.hstat-lbl{font-size:9px;color:var(--orca-gray);letter-spacing:2px;margin-top:2px;}
+
+/* ── SECTION HEADS ── */
+.sec-head{display:flex;align-items:center;gap:14px;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--rim);}
+.sec-title{font-family:var(--head);font-size:22px;font-weight:800;letter-spacing:2px;color:var(--orca-white);}
+.sec-title em{color:var(--teal);font-style:normal;}
+.sec-line{flex:1;height:1px;background:var(--rim);}
+.sec-badge{font-size:10px;font-weight:700;letter-spacing:2px;padding:4px 12px;border-radius:100px;background:var(--teal-d);color:var(--teal);border:1px solid rgba(0,200,190,.25);}
+
+/* ── MODE TOGGLE ── */
+.mode-toggle{display:flex;gap:0;background:var(--panel);border:1px solid var(--rim);border-radius:10px;overflow:hidden;margin-bottom:24px;width:fit-content;}
+.mt-btn{font-family:var(--head);font-size:16px;font-weight:700;letter-spacing:2px;padding:11px 28px;background:none;border:none;color:var(--orca-gray);cursor:pointer;transition:all .2s;border-right:1px solid var(--rim);}
+.mt-btn:last-child{border-right:none;}
+.mt-btn:hover{color:var(--orca-white);}
+.mt-btn.on{background:var(--teal);color:var(--navy);}
+
+/* ── ROUND CARDS ── */
+.round-grid{display:flex;flex-direction:column;gap:14px;}
+.round-card{background:var(--panel);border:1px solid var(--rim);border-radius:14px;overflow:hidden;}
+.round-header{display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--panel2);cursor:pointer;user-select:none;}
+.round-num{font-family:var(--head);font-size:28px;font-weight:900;color:var(--teal);min-width:48px;line-height:1;}
+.round-info{flex:1;}
+.round-label{font-family:var(--head);font-size:16px;font-weight:700;letter-spacing:1px;}
+.round-sitout{font-size:11px;color:var(--orca-gray);margin-top:2px;}
+.round-status{font-size:12px;font-weight:700;letter-spacing:1px;padding:4px 12px;border-radius:100px;}
+.rs-done{background:rgba(61,220,132,.12);color:var(--green);border:1px solid rgba(61,220,132,.3);}
+.rs-pending{background:var(--teal-d);color:var(--teal);border:1px solid rgba(0,200,190,.25);}
+.round-chev{color:var(--orca-gray);font-size:14px;transition:transform .25s;}
+.round-card.open .round-chev{transform:rotate(180deg);}
+.round-body{display:none;padding:18px;}
+.round-card.open .round-body{display:block;}
+
+/* ── TEAM GRIDS ── */
+.teams-grid-6{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.teams-grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:14px;}
+@media(max-width:600px){.teams-grid-6{grid-template-columns:1fr;}}
+
+.team-card{background:var(--navy2);border:1.5px solid var(--rim);border-radius:12px;overflow:hidden;}
+.team-header{padding:10px 16px;display:flex;align-items:center;justify-content:space-between;}
+.team-name{font-family:var(--head);font-size:16px;font-weight:800;letter-spacing:1px;}
+.team-score-wrap{display:flex;align-items:center;gap:8px;}
+.team-score-lbl{font-size:10px;color:var(--orca-gray);letter-spacing:1px;}
+.team-score-input{font-family:var(--head);font-size:20px;font-weight:800;width:52px;text-align:center;background:var(--navy3);border:1.5px solid var(--rim2);border-radius:7px;color:var(--yellow);padding:4px 6px;outline:none;cursor:pointer;transition:border-color .2s;}
+.team-score-input:focus{border-color:var(--teal);}
+.team-score-input.winner{border-color:var(--green);background:rgba(61,220,132,.08);}
+.team-players{padding:10px 14px 14px;display:flex;flex-direction:column;gap:5px;border-top:1px solid var(--rim);}
+.player-pill{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;padding:5px 10px;background:var(--panel);border-radius:7px;border:1px solid var(--rim);}
+.player-pill .pill-num{font-family:var(--head);font-size:14px;color:var(--orca-gray);min-width:18px;}
+.sitout-bar{background:rgba(255,255,255,.04);border:1px dashed var(--rim);border-radius:10px;padding:10px 16px;font-size:12px;color:var(--orca-gray);text-align:center;margin-bottom:14px;}
+.sitout-bar span{color:var(--orange);font-weight:700;}
+
+/* ── SCORE CONTROLS ── */
+.score-ctrl{display:flex;align-items:center;gap:10px;justify-content:flex-end;flex-wrap:wrap;}
+.btn-save-round{font-family:var(--head);font-size:15px;font-weight:700;letter-spacing:1px;padding:10px 22px;background:var(--teal);color:var(--navy);border:none;border-radius:9px;cursor:pointer;transition:all .2s;}
+.btn-save-round:hover{background:var(--teal2);}
+.btn-clear-round{font-family:var(--head);font-size:14px;font-weight:700;letter-spacing:1px;padding:10px 16px;background:none;color:var(--orca-gray);border:1px solid var(--rim);border-radius:9px;cursor:pointer;transition:all .2s;}
+.btn-clear-round:hover{border-color:var(--red);color:var(--red);}
+.saved-badge{font-size:11px;font-weight:700;color:var(--green);display:none;}
+.saved-badge.show{display:block;}
+
+/* ── TEAM COLOR ACCENTS ── */
+.tc-a .team-header{background:rgba(0,200,190,.08);border-bottom:2px solid rgba(0,200,190,.3);}
+.tc-a .team-name{color:var(--teal);}
+.tc-b .team-header{background:rgba(255,224,64,.06);border-bottom:2px solid rgba(255,224,64,.25);}
+.tc-b .team-name{color:var(--yellow);}
+.tc-1 .team-header{background:rgba(0,200,190,.07);border-bottom:2px solid rgba(0,200,190,.25);}
+.tc-1 .team-name{color:var(--teal);}
+.tc-2 .team-header{background:rgba(255,224,64,.05);border-bottom:2px solid rgba(255,224,64,.2);}
+.tc-2 .team-name{color:var(--yellow);}
+.tc-3 .team-header{background:rgba(61,220,132,.06);border-bottom:2px solid rgba(61,220,132,.22);}
+.tc-3 .team-name{color:var(--green);}
+.tc-4 .team-header{background:rgba(255,159,67,.06);border-bottom:2px solid rgba(255,159,67,.22);}
+.tc-4 .team-name{color:var(--orange);}
+
+/* ── CHEMISTRY MATRIX ── */
+.matrix-wrap{overflow-x:auto;border:1px solid var(--rim);border-radius:14px;background:var(--panel);}
+.matrix-table{border-collapse:collapse;min-width:100%;}
+.matrix-table th,.matrix-table td{padding:0;}
+.matrix-corner{width:120px;min-width:120px;background:var(--panel2);}
+.matrix-col-head{font-family:var(--head);font-size:11px;font-weight:800;letter-spacing:1px;writing-mode:vertical-rl;transform:rotate(180deg);padding:10px 6px;background:var(--panel2);border-bottom:1px solid var(--rim);border-right:1px solid var(--rim);white-space:nowrap;text-align:left;vertical-align:bottom;}
+.matrix-row-head{font-size:12px;font-weight:700;padding:8px 12px;background:var(--panel2);border-right:1px solid var(--rim);border-bottom:1px solid var(--rim);white-space:nowrap;min-width:120px;}
+.matrix-cell{width:44px;min-width:44px;height:44px;text-align:center;border-right:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05);font-family:var(--head);font-size:14px;font-weight:700;vertical-align:middle;transition:background .2s;}
+.matrix-cell.self{background:var(--navy2);}
+.matrix-cell.no-data{color:var(--rim2);font-size:11px;}
+.matrix-cell.heat-0{background:var(--panel);}
+.matrix-cell.heat-1{background:rgba(0,200,190,.12);color:var(--teal);}
+.matrix-cell.heat-2{background:rgba(0,200,190,.22);color:var(--teal2);}
+.matrix-cell.heat-3{background:rgba(61,220,132,.22);color:var(--green);}
+.matrix-cell.heat-4{background:rgba(61,220,132,.36);color:#5aff9a;}
+.matrix-cell.heat-5{background:rgba(255,224,64,.28);color:var(--yellow);}
+
+/* ── TOP PAIRS ── */
+.pairs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:28px;}
+.pair-card{background:var(--panel);border:1px solid var(--rim);border-radius:12px;padding:16px 18px;position:relative;overflow:hidden;}
+.pair-rank{position:absolute;top:10px;right:12px;font-family:var(--head);font-size:28px;font-weight:900;color:rgba(255,255,255,.06);}
+.pair-players{font-family:var(--head);font-size:15px;font-weight:700;letter-spacing:.5px;margin-bottom:4px;line-height:1.3;}
+.pair-score{font-family:var(--head);font-size:26px;font-weight:900;color:var(--teal);line-height:1;}
+.pair-games{font-size:11px;color:var(--orca-gray);margin-top:2px;}
+.pair-bar{height:4px;background:var(--rim);border-radius:2px;margin-top:10px;overflow:hidden;}
+.pair-bar-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--green));border-radius:2px;transition:width .6s ease;}
+.pair-card.gold{border-color:rgba(255,224,64,.4);background:rgba(255,224,64,.05);}
+.pair-card.gold .pair-score{color:var(--yellow);}
+.pair-card.gold .pair-bar-fill{background:linear-gradient(90deg,var(--yellow),var(--orange));}
+.pair-card.silver{border-color:rgba(200,200,220,.3);}
+.pair-card.bronze{border-color:rgba(200,140,60,.3);}
+
+/* ── INDIVIDUAL STATS ── */
+.player-stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+.pstat-card{background:var(--panel);border:1px solid var(--rim);border-radius:12px;padding:16px 18px;}
+.pstat-name{font-family:var(--head);font-size:17px;font-weight:800;letter-spacing:.5px;margin-bottom:2px;}
+.pstat-avg{font-family:var(--head);font-size:30px;font-weight:900;color:var(--teal);line-height:1;}
+.pstat-games{font-size:11px;color:var(--orca-gray);}
+.pstat-bar{height:4px;background:var(--rim);border-radius:2px;margin-top:8px;overflow:hidden;}
+.pstat-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--green));border-radius:2px;}
+
+/* ── PROGRESS BAR ── */
+.prog-wrap{background:var(--panel2);border:1px solid var(--rim);border-radius:12px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.prog-label{font-family:var(--head);font-size:14px;font-weight:700;letter-spacing:1px;color:var(--orca-gray);white-space:nowrap;}
+.prog-bar-track{flex:1;min-width:160px;height:8px;background:var(--rim);border-radius:4px;overflow:hidden;}
+.prog-bar-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--green));border-radius:4px;transition:width .5s ease;}
+.prog-count{font-family:var(--head);font-size:20px;font-weight:800;color:var(--teal);white-space:nowrap;}
+.prog-pct{font-size:12px;color:var(--orca-gray);}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--panel2);border:1px solid var(--rim);border-radius:10px;padding:10px 20px;font-size:13px;font-weight:700;z-index:500;transition:transform .3s ease;white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* ── MISC ── */
+.empty-state{text-align:center;padding:56px 20px;color:var(--orca-gray);font-size:14px;}
+.empty-ico{font-size:48px;display:block;margin-bottom:12px;opacity:.5;}
+@media(max-width:600px){
+  .topbar{padding:0 14px;}
+  .pg{padding:16px 12px 56px;}
+  .hero-strip{padding:24px 14px;}
+  .tab-btn{font-size:12px;padding:0 14px;letter-spacing:1px;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="tb-brand">
+    <div>
+      <div class="tb-title">🐋 <span>ORCAS</span> CHEMISTRY TRACKER</div>
+      <div class="tb-sub">Who plays best together?</div>
+    </div>
+  </div>
+  <div class="tab-row">
+    <button class="tab-btn on" id="tab-6v6" onclick="goTab('6v6')">6v6 ROUNDS</button>
+    <button class="tab-btn" id="tab-3v3" onclick="goTab('3v3')">3v3 ROUNDS</button>
+    <button class="tab-btn" id="tab-chemistry" onclick="goTab('chemistry')">🔬 CHEMISTRY</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero-strip">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-eyebrow">Fierce Orcas · Round-Robin Chemistry System</div>
+      <div class="hero-h1">WHO PLAYS BEST<br><em>TOGETHER?</em></div>
+      <div class="hero-desc">Every player paired with every other player. Score each team after every round — the Chemistry tab builds a real data-driven map of which players elevate each other.</div>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-num">13</div><div class="hstat-lbl">Players</div></div>
+      <div class="hstat"><div class="hstat-num">78</div><div class="hstat-lbl">Pairs to Test</div></div>
+      <div class="hstat"><div class="hstat-num">13</div><div class="hstat-lbl">6v6 Rounds</div></div>
+      <div class="hstat"><div class="hstat-num">26</div><div class="hstat-lbl">3v3 Rounds</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ═══════ 6v6 PAGE ═══════ -->
+<div class="pg on" id="pg-6v6">
+  <div class="sec-head" style="margin-top:0">
+    <div class="sec-title">6v6 <em>Rounds</em></div>
+    <div class="sec-line"></div>
+    <div class="sec-badge" id="badge-6v6">0/13 Scored</div>
+  </div>
+
+  <div id="prog-6v6" class="prog-wrap">
+    <div class="prog-label">PAIRS PLAYED</div>
+    <div class="prog-bar-track"><div class="prog-bar-fill" id="prog-fill-6v6" style="width:0%"></div></div>
+    <div><div class="prog-count" id="prog-count-6v6">0/72</div><div class="prog-pct" id="prog-pct-6v6">of unique pairs in 6v6</div></div>
+  </div>
+
+  <div class="round-grid" id="rounds-6v6"></div>
+</div>
+
+<!-- ═══════ 3v3 PAGE ═══════ -->
+<div class="pg" id="pg-3v3">
+  <div class="sec-head" style="margin-top:0">
+    <div class="sec-title">3v3 <em>Rounds</em></div>
+    <div class="sec-line"></div>
+    <div class="sec-badge" id="badge-3v3">0/26 Scored</div>
+  </div>
+
+  <div id="prog-3v3" class="prog-wrap">
+    <div class="prog-label">PAIRS PLAYED</div>
+    <div class="prog-bar-track"><div class="prog-bar-fill" id="prog-fill-3v3" style="width:0%"></div></div>
+    <div><div class="prog-count" id="prog-count-3v3">0/35</div><div class="prog-pct" id="prog-pct-3v3">of unique pairs in 3v3</div></div>
+  </div>
+
+  <div class="round-grid" id="rounds-3v3"></div>
+</div>
+
+<!-- ═══════ CHEMISTRY PAGE ═══════ -->
+<div class="pg" id="pg-chemistry">
+  <div class="sec-head" style="margin-top:0">
+    <div class="sec-title">🔬 <em>Chemistry</em> Matrix</div>
+    <div class="sec-line"></div>
+    <div class="sec-badge">Score rounds to populate</div>
+  </div>
+
+  <!-- Top Pairs -->
+  <div style="font-family:var(--head);font-size:13px;font-weight:700;letter-spacing:3px;color:var(--orca-gray);text-transform:uppercase;margin-bottom:12px;">⭐ Top Chemistry Pairs</div>
+  <div class="pairs-grid" id="top-pairs"></div>
+
+  <!-- Individual Averages -->
+  <div class="sec-head">
+    <div class="sec-title">Individual <em>Performance</em></div>
+    <div class="sec-line"></div>
+  </div>
+  <div class="player-stats-grid" id="player-averages"></div>
+
+  <!-- Full Matrix -->
+  <div class="sec-head" style="margin-top:28px;">
+    <div class="sec-title">Full <em>Pair Matrix</em></div>
+    <div class="sec-line"></div>
+  </div>
+  <div style="font-size:12px;color:var(--orca-gray);margin-bottom:12px;">Numbers = average score when those two players are on the same team. Darker = better chemistry.</div>
+  <div class="matrix-wrap" id="matrix-wrap"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+//  DATA
+// ═══════════════════════════════════════════
+const PLAYERS = ["Korbynn Abraham", "Aubriella Adams", "Kara Coder", "Itzabel Colmenero", "Nevaeh Cooks", "Avani Hobbs", "Jessa Hobbs", "Lily Israel", "Olivia Lemanski", "Ruby Okafor", "Jewel Purdy", "Aubriella Ramirez", "Audrianna Rogers"];
+
+const ROUNDS_6V6 = [{"round": 1, "teamA": [0, 1, 2, 3, 4, 5], "teamB": [12, 11, 10, 9, 8, 7], "sitOut": [6]}, {"round": 2, "teamA": [0, 1, 2, 3, 4, 5], "teamB": [12, 11, 10, 9, 8, 7], "sitOut": [6]}, {"round": 3, "teamA": [0, 12, 1, 2, 3, 4], "teamB": [11, 10, 9, 8, 7, 6], "sitOut": [5]}, {"round": 4, "teamA": [0, 11, 12, 1, 2, 3], "teamB": [10, 9, 8, 7, 6, 5], "sitOut": [4]}, {"round": 5, "teamA": [0, 10, 11, 12, 1, 2], "teamB": [9, 8, 7, 6, 5, 4], "sitOut": [3]}, {"round": 6, "teamA": [0, 9, 10, 11, 12, 1], "teamB": [8, 7, 6, 5, 4, 3], "sitOut": [2]}, {"round": 7, "teamA": [0, 8, 9, 10, 11, 12], "teamB": [7, 6, 5, 4, 3, 2], "sitOut": [1]}, {"round": 8, "teamA": [0, 7, 8, 9, 10, 11], "teamB": [6, 5, 4, 3, 2, 1], "sitOut": [12]}, {"round": 9, "teamA": [0, 6, 7, 8, 9, 10], "teamB": [5, 4, 3, 2, 1, 12], "sitOut": [11]}, {"round": 10, "teamA": [0, 5, 6, 7, 8, 9], "teamB": [4, 3, 2, 1, 12, 11], "sitOut": [10]}, {"round": 11, "teamA": [0, 4, 5, 6, 7, 8], "teamB": [3, 2, 1, 12, 11, 10], "sitOut": [9]}, {"round": 12, "teamA": [0, 3, 4, 5, 6, 7], "teamB": [2, 1, 12, 11, 10, 9], "sitOut": [8]}, {"round": 13, "teamA": [0, 2, 3, 4, 5, 6], "teamB": [1, 12, 11, 10, 9, 8], "sitOut": [7]}];
+const ROUNDS_3V3 = [{"round": 1, "teams": [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12]], "sitOut": [0]}, {"round": 2, "teams": [[0, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12]], "sitOut": [1]}, {"round": 3, "teams": [[0, 1, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12]], "sitOut": [2]}, {"round": 4, "teams": [[0, 1, 2], [4, 5, 6], [7, 8, 9], [10, 11, 12]], "sitOut": [3]}, {"round": 5, "teams": [[0, 1, 2], [3, 5, 6], [7, 8, 9], [10, 11, 12]], "sitOut": [4]}, {"round": 6, "teams": [[0, 1, 2], [3, 4, 6], [7, 8, 9], [10, 11, 12]], "sitOut": [5]}, {"round": 7, "teams": [[0, 1, 2], [3, 4, 5], [7, 8, 9], [10, 11, 12]], "sitOut": [6]}, {"round": 8, "teams": [[0, 1, 2], [3, 4, 5], [6, 8, 9], [10, 11, 12]], "sitOut": [7]}, {"round": 9, "teams": [[0, 1, 2], [3, 4, 5], [6, 7, 9], [10, 11, 12]], "sitOut": [8]}, {"round": 10, "teams": [[0, 1, 2], [3, 4, 5], [6, 7, 8], [10, 11, 12]], "sitOut": [9]}, {"round": 11, "teams": [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 11, 12]], "sitOut": [10]}, {"round": 12, "teams": [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 10, 12]], "sitOut": [11]}, {"round": 13, "teams": [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 10, 11]], "sitOut": [12]}, {"round": 14, "teams": [[6, 7, 8], [9, 10, 11], [1, 2, 12], [3, 4, 5]], "sitOut": [0]}, {"round": 15, "teams": [[6, 7, 8], [9, 10, 11], [0, 2, 12], [3, 4, 5]], "sitOut": [1]}, {"round": 16, "teams": [[6, 7, 8], [9, 10, 11], [0, 1, 12], [3, 4, 5]], "sitOut": [2]}, {"round": 17, "teams": [[6, 7, 8], [9, 10, 11], [0, 1, 12], [2, 4, 5]], "sitOut": [3]}, {"round": 18, "teams": [[6, 7, 8], [9, 10, 11], [0, 1, 12], [2, 3, 5]], "sitOut": [4]}, {"round": 19, "teams": [[6, 7, 8], [9, 10, 11], [0, 1, 12], [2, 3, 4]], "sitOut": [5]}, {"round": 20, "teams": [[5, 7, 8], [9, 10, 11], [0, 1, 12], [2, 3, 4]], "sitOut": [6]}, {"round": 21, "teams": [[5, 6, 8], [9, 10, 11], [0, 1, 12], [2, 3, 4]], "sitOut": [7]}, {"round": 22, "teams": [[5, 6, 7], [9, 10, 11], [0, 1, 12], [2, 3, 4]], "sitOut": [8]}, {"round": 23, "teams": [[5, 6, 7], [8, 10, 11], [0, 1, 12], [2, 3, 4]], "sitOut": [9]}, {"round": 24, "teams": [[5, 6, 7], [8, 9, 11], [0, 1, 12], [2, 3, 4]], "sitOut": [10]}, {"round": 25, "teams": [[5, 6, 7], [8, 9, 10], [0, 1, 12], [2, 3, 4]], "sitOut": [11]}, {"round": 26, "teams": [[5, 6, 7], [8, 9, 10], [0, 1, 11], [2, 3, 4]], "sitOut": [12]}];
+
+// Scores stored as: scores6[roundIdx][teamKey] = number
+// teamKey: 'A' or 'B' for 6v6; '0','1','2','3' for 3v3
+let scores6 = {}, scores3 = {};
+
+function save(){
+  try{
+    localStorage.setItem('orca_chem_6', JSON.stringify(scores6));
+    localStorage.setItem('orca_chem_3', JSON.stringify(scores3));
+  }catch(e){}
+}
+function load(){
+  try{
+    const s6 = localStorage.getItem('orca_chem_6');
+    const s3 = localStorage.getItem('orca_chem_3');
+    if(s6) scores6 = JSON.parse(s6);
+    if(s3) scores3 = JSON.parse(s3);
+  }catch(e){}
+}
+
+// ═══════════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════════
+function goTab(id){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('on'));
+  document.getElementById('pg-'+id).classList.add('on');
+  document.getElementById('tab-'+id).classList.add('on');
+  if(id==='chemistry') renderChemistry();
+  updateProgress();
+}
+
+// ═══════════════════════════════════════════
+//  RENDER 6v6 ROUNDS
+// ═══════════════════════════════════════════
+function render6v6(){
+  const wrap = document.getElementById('rounds-6v6');
+  wrap.innerHTML = ROUNDS_6V6.map((r,ri)=>{
+    const rKey = String(ri);
+    const scoreA = scores6[rKey]?.A ?? '';
+    const scoreB = scores6[rKey]?.B ?? '';
+    const isDone = scores6[rKey]?.done;
+    const sitNames = r.sitOut.map(i=>firstName(PLAYERS[i])).join(', ');
+
+    return `<div class="round-card ${isDone?'':'open'}" id="r6-${ri}">
+      <div class="round-header" onclick="toggleRound('r6-${ri}')">
+        <div class="round-num">${r.round}</div>
+        <div class="round-info">
+          <div class="round-label">6v6 — ROUND ${r.round}</div>
+          <div class="round-sitout">Sitting out: <strong style="color:var(--orange)">${sitNames}</strong></div>
+        </div>
+        <span class="round-status ${isDone?'rs-done':'rs-pending'}">${isDone?'✓ SCORED':'PENDING'}</span>
+        <div class="round-chev">▼</div>
+      </div>
+      <div class="round-body">
+        <div class="teams-grid-6">
+          ${teamCard6('A', r.teamA, ri, scoreA, 'tc-a')}
+          ${teamCard6('B', r.teamB, ri, scoreB, 'tc-b')}
+        </div>
+        <div class="sitout-bar">🪑 Sitting out this round: <span>${r.sitOut.map(i=>PLAYERS[i]).join(', ')}</span></div>
+        <div class="score-ctrl">
+          <span class="saved-badge ${isDone?'show':''}" id="saved-6-${ri}">✓ Scores saved</span>
+          <button class="btn-clear-round" onclick="clearRound6(${ri})">Clear</button>
+          <button class="btn-save-round" onclick="saveRound6(${ri})">SAVE SCORES</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function teamCard6(side, playerIdxs, ri, score, colorClass){
+  const players = playerIdxs.map(i=>`
+    <div class="player-pill">
+      <span class="pill-num">${i+1}</span>
+      <span>${PLAYERS[i]}</span>
+    </div>`).join('');
+  const winClass = score !== '' && scores6[String(ri)] ?
+    (side==='A' && score > (scores6[String(ri)]?.B??-1) ? 'winner' :
+     side==='B' && score > (scores6[String(ri)]?.A??-1) ? 'winner' : '') : '';
+
+  return `<div class="team-card ${colorClass}">
+    <div class="team-header">
+      <div class="team-name">TEAM ${side}</div>
+      <div class="team-score-wrap">
+        <div class="team-score-lbl">SCORE</div>
+        <input type="number" class="team-score-input ${winClass}" id="score6-${ri}-${side}"
+          value="${score}" min="0" max="99" placeholder="—"
+          oninput="markChanged(${ri},'6')"
+          onchange="autoSave6(${ri})">
+      </div>
+    </div>
+    <div class="team-players">${players}</div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════
+//  RENDER 3v3 ROUNDS
+// ═══════════════════════════════════════════
+const TEAM_COLORS_3 = ['tc-1','tc-2','tc-3','tc-4'];
+const TEAM_NAMES_3  = ['GOLD','SILVER','GREEN','ORANGE'];
+
+function render3v3(){
+  const wrap = document.getElementById('rounds-3v3');
+  wrap.innerHTML = ROUNDS_3V3.map((r,ri)=>{
+    const rKey = String(ri);
+    const isDone = scores3[rKey]?.done;
+    const sitNames = r.sitOut.map(i=>firstName(PLAYERS[i])).join(', ');
+
+    const teamCards = r.teams.map((team,ti)=>{
+      const sc = scores3[rKey]?.[String(ti)] ?? '';
+      return teamCard3(ti, team, ri, sc, TEAM_COLORS_3[ti], TEAM_NAMES_3[ti]);
+    }).join('');
+
+    return `<div class="round-card" id="r3-${ri}">
+      <div class="round-header" onclick="toggleRound('r3-${ri}')">
+        <div class="round-num">${r.round}</div>
+        <div class="round-info">
+          <div class="round-label">3v3 — ROUND ${r.round}</div>
+          <div class="round-sitout">Sitting out: <strong style="color:var(--orange)">${sitNames}</strong></div>
+        </div>
+        <span class="round-status ${isDone?'rs-done':'rs-pending'}">${isDone?'✓ SCORED':'PENDING'}</span>
+        <div class="round-chev">▼</div>
+      </div>
+      <div class="round-body">
+        <div class="teams-grid-3">${teamCards}</div>
+        <div class="sitout-bar">🪑 Sitting out: <span>${r.sitOut.map(i=>PLAYERS[i]).join(', ')}</span></div>
+        <div class="score-ctrl">
+          <span class="saved-badge ${isDone?'show':''}" id="saved-3-${ri}">✓ Scores saved</span>
+          <button class="btn-clear-round" onclick="clearRound3(${ri})">Clear</button>
+          <button class="btn-save-round" onclick="saveRound3(${ri})">SAVE SCORES</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function teamCard3(ti, playerIdxs, ri, score, colorClass, teamName){
+  const players = playerIdxs.map(i=>`
+    <div class="player-pill">
+      <span class="pill-num">${i+1}</span>
+      <span>${PLAYERS[i]}</span>
+    </div>`).join('');
+
+  return `<div class="team-card ${colorClass}">
+    <div class="team-header">
+      <div class="team-name">${teamName}</div>
+      <div class="team-score-wrap">
+        <div class="team-score-lbl">PTS</div>
+        <input type="number" class="team-score-input" id="score3-${ri}-${ti}"
+          value="${score}" min="0" max="99" placeholder="—"
+          onchange="autoSave3(${ri})">
+      </div>
+    </div>
+    <div class="team-players">${players}</div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════
+//  SAVE / CLEAR ROUNDS
+// ═══════════════════════════════════════════
+function saveRound6(ri){
+  const rKey = String(ri);
+  const a = document.getElementById(`score6-${ri}-A`)?.value;
+  const b = document.getElementById(`score6-${ri}-B`)?.value;
+  scores6[rKey] = { A: a!==''?Number(a):null, B: b!==''?Number(b):null, done: true };
+  save();
+  document.getElementById(`saved-6-${ri}`)?.classList.add('show');
+  const card = document.getElementById(`r6-${ri}`);
+  card?.querySelector('.round-status')?.classList.replace('rs-pending','rs-done');
+  card?.querySelector('.round-status') && (card.querySelector('.round-status').textContent='✓ SCORED');
+  updateProgress();
+  showToast('✓ Round '+ROUNDS_6V6[ri].round+' saved!');
+}
+
+function clearRound6(ri){
+  const rKey = String(ri);
+  delete scores6[rKey];
+  save();
+  document.getElementById(`score6-${ri}-A`).value = '';
+  document.getElementById(`score6-${ri}-B`).value = '';
+  document.getElementById(`saved-6-${ri}`)?.classList.remove('show');
+  const card = document.getElementById(`r6-${ri}`);
+  card?.querySelector('.round-status')?.classList.replace('rs-done','rs-pending');
+  card?.querySelector('.round-status') && (card.querySelector('.round-status').textContent='PENDING');
+  updateProgress();
+}
+
+function autoSave6(ri){ saveRound6(ri); }
+
+function saveRound3(ri){
+  const rKey = String(ri);
+  const data = { done: true };
+  for(let ti=0; ti<4; ti++){
+    const v = document.getElementById(`score3-${ri}-${ti}`)?.value;
+    data[String(ti)] = v!==''?Number(v):null;
+  }
+  scores3[rKey] = data;
+  save();
+  document.getElementById(`saved-3-${ri}`)?.classList.add('show');
+  const card = document.getElementById(`r3-${ri}`);
+  card?.querySelector('.round-status')?.classList.replace('rs-pending','rs-done');
+  card?.querySelector('.round-status') && (card.querySelector('.round-status').textContent='✓ SCORED');
+  updateProgress();
+  showToast('✓ Round '+ROUNDS_3V3[ri].round+' saved!');
+}
+
+function clearRound3(ri){
+  const rKey = String(ri);
+  delete scores3[rKey];
+  save();
+  for(let ti=0;ti<4;ti++){
+    const el = document.getElementById(`score3-${ri}-${ti}`);
+    if(el) el.value='';
+  }
+  document.getElementById(`saved-3-${ri}`)?.classList.remove('show');
+  const card = document.getElementById(`r3-${ri}`);
+  card?.querySelector('.round-status')?.classList.replace('rs-done','rs-pending');
+  card?.querySelector('.round-status') && (card.querySelector('.round-status').textContent='PENDING');
+  updateProgress();
+}
+
+function autoSave3(ri){ saveRound3(ri); }
+function markChanged(ri, mode){}
+
+function toggleRound(id){
+  document.getElementById(id).classList.toggle('open');
+}
+
+// ═══════════════════════════════════════════
+//  PROGRESS
+// ═══════════════════════════════════════════
+function updateProgress(){
+  // 6v6
+  const done6 = Object.values(scores6).filter(s=>s.done).length;
+  document.getElementById('badge-6v6').textContent = `${done6}/13 Scored`;
+
+  // Count pairs covered by scored rounds
+  const pairs6 = new Set();
+  ROUNDS_6V6.forEach((r,ri)=>{
+    if(!scores6[String(ri)]?.done) return;
+    [r.teamA, r.teamB].forEach(t=>{
+      for(let i=0;i<t.length;i++) for(let j=i+1;j<t.length;j++)
+        pairs6.add(Math.min(t[i],t[j])+'-'+Math.max(t[i],t[j]));
+    });
+  });
+  document.getElementById('prog-count-6v6').textContent = `${pairs6.size}/72`;
+  document.getElementById('prog-fill-6v6').style.width = (pairs6.size/72*100)+'%';
+
+  // 3v3
+  const done3 = Object.values(scores3).filter(s=>s.done).length;
+  document.getElementById('badge-3v3').textContent = `${done3}/26 Scored`;
+  const pairs3 = new Set();
+  ROUNDS_3V3.forEach((r,ri)=>{
+    if(!scores3[String(ri)]?.done) return;
+    r.teams.forEach(t=>{
+      for(let i=0;i<t.length;i++) for(let j=i+1;j<t.length;j++)
+        pairs3.add(Math.min(t[i],t[j])+'-'+Math.max(t[i],t[j]));
+    });
+  });
+  document.getElementById('prog-count-3v3').textContent = `${pairs3.size}/35`;
+  document.getElementById('prog-fill-3v3').style.width = (pairs3.size/35*100)+'%';
+}
+
+// ═══════════════════════════════════════════
+//  CHEMISTRY MATRIX
+// ═══════════════════════════════════════════
+function buildPairMap(){
+  // Returns map: "i-j" -> { totalScore, count }
+  const map = {};
+  const n = PLAYERS.length;
+  for(let i=0;i<n;i++) for(let j=i+1;j<n;j++) map[i+'-'+j] = {total:0, count:0};
+
+  // 6v6
+  ROUNDS_6V6.forEach((r,ri)=>{
+    const sc = scores6[String(ri)];
+    if(!sc?.done) return;
+    [{team:r.teamA, score:sc.A},{team:r.teamB, score:sc.B}].forEach(({team,score})=>{
+      if(score===null||score===undefined) return;
+      for(let i=0;i<team.length;i++) for(let j=i+1;j<team.length;j++){
+        const k = Math.min(team[i],team[j])+'-'+Math.max(team[i],team[j]);
+        if(map[k]){ map[k].total += score; map[k].count++; }
+      }
+    });
+  });
+
+  // 3v3
+  ROUNDS_3V3.forEach((r,ri)=>{
+    const sc = scores3[String(ri)];
+    if(!sc?.done) return;
+    r.teams.forEach((team,ti)=>{
+      const score = sc[String(ti)];
+      if(score===null||score===undefined) return;
+      for(let i=0;i<team.length;i++) for(let j=i+1;j<team.length;j++){
+        const k = Math.min(team[i],team[j])+'-'+Math.max(team[i],team[j]);
+        if(map[k]){ map[k].total += score; map[k].count++; }
+      }
+    });
+  });
+
+  return map;
+}
+
+function renderChemistry(){
+  const map = buildPairMap();
+  const n = PLAYERS.length;
+
+  // Find max for heat scaling
+  let maxAvg = 0;
+  Object.values(map).forEach(v=>{ if(v.count>0){ const a=v.total/v.count; if(a>maxAvg) maxAvg=a; }});
+  if(maxAvg===0) maxAvg=25;
+
+  // ── TOP PAIRS ──
+  const pairArr = Object.entries(map)
+    .filter(([k,v])=>v.count>0)
+    .map(([k,v])=>{
+      const [a,b]=k.split('-').map(Number);
+      return {a,b,avg:v.total/v.count,count:v.count,total:v.total};
+    })
+    .sort((x,y)=>y.avg-x.avg);
+
+  const topWrap = document.getElementById('top-pairs');
+  if(!pairArr.length){
+    topWrap.innerHTML='<div class="empty-state"><span class="empty-ico">🤝</span>Score some rounds to see chemistry data here.</div>';
+  } else {
+    topWrap.innerHTML = pairArr.slice(0,12).map((p,i)=>{
+      const cls = i===0?'gold':i===1?'silver':i===2?'bronze':'';
+      const bar = Math.min((p.avg/maxAvg)*100,100);
+      return `<div class="pair-card ${cls}">
+        <div class="pair-rank">${i+1}</div>
+        <div class="pair-players">${firstName(PLAYERS[p.a])}<br>&amp; ${firstName(PLAYERS[p.b])}</div>
+        <div class="pair-score">${p.avg.toFixed(1)}</div>
+        <div class="pair-games">${p.count} game${p.count!==1?'s':''} together · avg score/game</div>
+        <div class="pair-bar"><div class="pair-bar-fill" style="width:${bar}%"></div></div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── INDIVIDUAL AVERAGES ──
+  const indivMap = {};
+  PLAYERS.forEach((_,i)=>{ indivMap[i]={total:0,count:0}; });
+  ROUNDS_6V6.forEach((r,ri)=>{
+    const sc = scores6[String(ri)];
+    if(!sc?.done) return;
+    [{team:r.teamA,score:sc.A},{team:r.teamB,score:sc.B}].forEach(({team,score})=>{
+      if(score===null) return;
+      team.forEach(pi=>{ indivMap[pi].total+=score; indivMap[pi].count++; });
+    });
+  });
+  ROUNDS_3V3.forEach((r,ri)=>{
+    const sc = scores3[String(ri)];
+    if(!sc?.done) return;
+    r.teams.forEach((team,ti)=>{
+      const score = sc[String(ti)];
+      if(score===null) return;
+      team.forEach(pi=>{ indivMap[pi].total+=score; indivMap[pi].count++; });
+    });
+  });
+
+  let maxIndiv = 0;
+  Object.values(indivMap).forEach(v=>{ if(v.count>0){ const a=v.total/v.count; if(a>maxIndiv) maxIndiv=a; }});
+  if(maxIndiv===0) maxIndiv=25;
+
+  const indivArr = PLAYERS.map((_,i)=>({i,
+    avg: indivMap[i].count>0 ? indivMap[i].total/indivMap[i].count : null,
+    count: indivMap[i].count
+  })).sort((a,b)=>(b.avg||0)-(a.avg||0));
+
+  const pavgWrap = document.getElementById('player-averages');
+  pavgWrap.innerHTML = indivArr.map(p=>{
+    const bar = p.avg!==null ? Math.min((p.avg/maxIndiv)*100,100) : 0;
+    return `<div class="pstat-card">
+      <div class="pstat-name">${firstName(PLAYERS[p.i])}</div>
+      <div style="font-size:11px;color:var(--orca-gray);margin-bottom:4px;">${PLAYERS[p.i].split(' ')[1]||''}</div>
+      <div class="pstat-avg">${p.avg!==null?p.avg.toFixed(1):'—'}</div>
+      <div class="pstat-games">${p.count} game${p.count!==1?'s':''} scored</div>
+      <div class="pstat-bar"><div class="pstat-fill" style="width:${bar}%"></div></div>
+    </div>`;
+  }).join('');
+
+  // ── FULL MATRIX ──
+  const matWrap = document.getElementById('matrix-wrap');
+  // Short first names for header
+  const shorts = PLAYERS.map(p=>p.split(' ')[0]);
+
+  let html = '<table class="matrix-table"><thead><tr>';
+  html += '<th class="matrix-corner"></th>';
+  shorts.forEach(s=>{ html+=`<th class="matrix-col-head">${s}</th>`; });
+  html += '</tr></thead><tbody>';
+
+  for(let i=0;i<n;i++){
+    html += `<tr><td class="matrix-row-head">${shorts[i]}</td>`;
+    for(let j=0;j<n;j++){
+      if(i===j){ html+='<td class="matrix-cell self">—</td>'; continue; }
+      const k = Math.min(i,j)+'-'+Math.max(i,j);
+      const v = map[k];
+      if(!v||v.count===0){ html+='<td class="matrix-cell no-data">·</td>'; continue; }
+      const avg = v.total/v.count;
+      const heat = avg>=maxAvg*0.85?'heat-5':avg>=maxAvg*0.7?'heat-4':avg>=maxAvg*0.55?'heat-3':avg>=maxAvg*0.4?'heat-2':avg>0?'heat-1':'heat-0';
+      html+=`<td class="matrix-cell ${heat}" title="${PLAYERS[i]} + ${PLAYERS[j]}: avg ${avg.toFixed(1)} (${v.count} games)">${avg.toFixed(0)}</td>`;
+    }
+    html += '</tr>';
+  }
+  html += '</tbody></table>';
+  matWrap.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════
+function firstName(name){ return name.split(' ')[0]; }
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2400);
+}
+
+// ═══════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════
+document.addEventListener('DOMContentLoaded',()=>{
+  load();
+  render6v6();
+  render3v3();
+  updateProgress();
+  // Collapse all round cards except first
+  document.querySelectorAll('.round-card').forEach((c,i)=>{
+    if(i>0) c.classList.remove('open');
+  });
+  // Open first of each
+  document.querySelector('#rounds-6v6 .round-card')?.classList.add('open');
+  document.querySelector('#rounds-3v3 .round-card')?.classList.add('open');
+});
+</script>
+</body>
+</html>
