@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fierce Orcas — Chemistry Session Print Sheet</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── SCREEN UI ── */
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Barlow',sans-serif;background:#f0ece3;color:#1a1612;}
+
+.screen-only{display:block;}
+@media print{.screen-only{display:none!important;}}
+
+/* ── SCREEN HEADER ── */
+.screen-header{
+  background:#0a1628;
+  color:#fff;
+  padding:20px 32px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:14px;
+}
+.sh-brand{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;letter-spacing:2px;}
+.sh-brand span{color:#00d4c8;}
+.sh-sub{font-size:11px;color:rgba(255,255,255,.45);letter-spacing:2px;text-transform:uppercase;margin-top:1px;}
+.sh-buttons{display:flex;gap:10px;flex-wrap:wrap;}
+.btn-print{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:16px;font-weight:700;letter-spacing:2px;
+  padding:10px 24px;
+  border:none;border-radius:9px;cursor:pointer;transition:all .2s;
+}
+.btn-primary{background:#00d4c8;color:#0a1628;}
+.btn-primary:hover{background:#00f0e2;}
+.btn-secondary{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);}
+.btn-secondary:hover{background:rgba(255,255,255,.18);}
+
+/* ── MODE TOGGLE (screen only) ── */
+.mode-bar{
+  background:#fff;
+  border-bottom:2px solid #e0dcd4;
+  padding:12px 32px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.mode-lbl{font-size:11px;font-weight:700;letter-spacing:3px;color:#888;text-transform:uppercase;}
+.mt{display:flex;gap:0;background:#f0ece3;border:1.5px solid #d0ccc4;border-radius:9px;overflow:hidden;}
+.mt-btn{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:15px;font-weight:700;letter-spacing:1px;
+  padding:8px 22px;background:none;border:none;
+  color:#888;cursor:pointer;transition:all .2s;
+}
+.mt-btn.on{background:#0a1628;color:#fff;}
+.pts-lbl{font-size:11px;font-weight:700;letter-spacing:3px;color:#888;text-transform:uppercase;margin-left:14px;}
+.pts-val{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:16px;font-weight:800;
+  background:#f0ece3;border:1.5px solid #d0ccc4;border-radius:8px;
+  padding:6px 14px;color:#1a1612;
+  display:flex;align-items:center;gap:8px;
+}
+.pts-val button{
+  background:none;border:none;cursor:pointer;
+  font-size:18px;color:#888;line-height:1;padding:0 4px;
+  transition:color .15s;
+}
+.pts-val button:hover{color:#0a1628;}
+.pts-num{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;color:#0a1628;min-width:24px;text-align:center;}
+
+/* ── PRINT WRAPPER ── */
+.print-wrap{max-width:820px;margin:24px auto;padding:0 20px;}
+
+/* ── PAGE ── */
+.sheet-page{
+  background:#fff;
+  border-radius:14px;
+  box-shadow:0 2px 20px rgba(0,0,0,.1);
+  margin-bottom:24px;
+  overflow:hidden;
+  display:none;
+}
+.sheet-page.visible{display:block;}
+
+/* ── SHEET HEADER ── */
+.sheet-top{
+  background:#0a1628;
+  padding:16px 24px 14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.st-left{}
+.st-logo{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;letter-spacing:2px;color:#fff;}
+.st-logo span{color:#00d4c8;}
+.st-session{font-size:10px;letter-spacing:3px;color:rgba(255,255,255,.4);text-transform:uppercase;margin-top:2px;}
+.st-right{text-align:right;}
+.st-format{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;letter-spacing:2px;color:#00d4c8;}
+.st-pts{font-size:11px;color:rgba(255,255,255,.45);margin-top:2px;letter-spacing:1px;}
+
+/* ── ROUNDS ── */
+.rounds-wrap{padding:18px 20px;}
+
+/* 6v6 round card */
+.round-block{
+  border:1.5px solid #e0dcd4;
+  border-radius:12px;
+  overflow:hidden;
+  margin-bottom:14px;
+}
+.round-block:last-child{margin-bottom:0;}
+.rb-header{
+  background:#f7f4ef;
+  padding:10px 16px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  border-bottom:1.5px solid #e0dcd4;
+}
+.rb-num{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:28px;font-weight:900;
+  color:#0a1628;
+  min-width:38px;line-height:1;
+}
+.rb-info{flex:1;}
+.rb-title{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;letter-spacing:1px;color:#1a1612;}
+.rb-sit{font-size:11px;color:#888;margin-top:1px;}
+.rb-sit strong{color:#c05000;font-weight:700;}
+.rb-scorebox{display:flex;align-items:center;gap:6px;}
+.score-label{font-size:9px;font-weight:700;letter-spacing:2px;color:#aaa;text-transform:uppercase;}
+.score-field{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:18px;font-weight:800;
+  width:52px;height:34px;
+  border:2px solid #e0dcd4;border-radius:7px;
+  text-align:center;background:#fff;
+  display:flex;align-items:center;justify-content:center;
+  color:#aaa;letter-spacing:2px;
+}
+
+/* 6v6 teams */
+.teams-6v6{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 16px;}
+.team-box{border-radius:9px;overflow:hidden;}
+.team-box-navy{border:1.5px solid #1a3a6b;}
+.team-box-white{border:1.5px solid #c0b898;}
+.team-box-head{padding:7px 14px;display:flex;align-items:center;justify-content:space-between;}
+.tbh-navy{background:#0a1628;}
+.tbh-white{background:#f7f4ef;border-bottom:1.5px solid #d8d0c0;}
+.team-tag{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:900;letter-spacing:2px;}
+.ttn{color:#00d4c8;}
+.ttw{color:#1a1612;}
+.team-score-spot{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:13px;font-weight:700;
+  width:46px;height:26px;
+  border:1.5px dashed;border-radius:5px;
+  display:flex;align-items:center;justify-content:center;
+  letter-spacing:1px;
+}
+.tss-navy{border-color:rgba(0,212,200,.4);color:rgba(0,212,200,.4);}
+.tss-white{border-color:#c0b898;color:#c0b898;}
+.team-players{padding:8px 12px;display:flex;flex-direction:column;gap:4px;background:#fff;}
+.player-row{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#1a1612;padding:2px 0;border-bottom:1px solid #f0ece3;}
+.player-row:last-child{border-bottom:none;}
+.pr-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.dot-navy{background:#0a1628;}
+.dot-white{background:#c0b898;}
+
+/* 3v3 teams */
+.teams-3v3{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 16px;}
+.t3-box{border-radius:9px;overflow:hidden;border:1.5px solid;}
+.t3-1{border-color:#0a7a6a;}
+.t3-2{border-color:#8a6000;}
+.t3-3{border-color:#6030a0;}
+.t3-4{border-color:#a03020;}
+.t3-head{padding:6px 12px;display:flex;align-items:center;justify-content:space-between;}
+.t3h-1{background:#eaf6f3;}
+.t3h-2{background:#fef8ea;}
+.t3h-3{background:#f4eefb;}
+.t3h-4{background:#fdf0ef;}
+.t3-name{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:900;letter-spacing:1px;}
+.t3n-1{color:#0a7a6a;}
+.t3n-2{color:#8a6000;}
+.t3n-3{color:#6030a0;}
+.t3n-4{color:#a03020;}
+.t3-score-spot{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:12px;font-weight:700;
+  width:40px;height:22px;
+  border:1.5px dashed;border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+}
+.t3ss-1{border-color:#0a7a6a;color:#0a7a6a;}
+.t3ss-2{border-color:#8a6000;color:#8a6000;}
+.t3ss-3{border-color:#6030a0;color:#6030a0;}
+.t3ss-4{border-color:#a03020;color:#a03020;}
+.t3-players{padding:7px 11px;background:#fff;display:flex;flex-direction:column;gap:3px;}
+.t3-player{font-size:13px;font-weight:600;color:#1a1612;padding:2px 0;border-bottom:1px solid #f0ece3;display:flex;align-items:center;gap:7px;}
+.t3-player:last-child{border-bottom:none;}
+.t3-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.td1{background:#0a7a6a;}
+.td2{background:#8a6000;}
+.td3{background:#6030a0;}
+.td4{background:#a03020;}
+
+/* ── NOTES LINE ── */
+.notes-section{padding:0 20px 18px;}
+.notes-line{border-top:1.5px dashed #d0ccc4;margin-bottom:8px;margin-top:14px;}
+.notes-lbl{font-size:9px;font-weight:700;letter-spacing:3px;color:#bbb;text-transform:uppercase;margin-bottom:6px;}
+.notes-write{border-bottom:1px solid #d8d4cc;height:18px;margin-bottom:6px;}
+
+/* ── FOOTER STRIP ── */
+.sheet-foot{
+  background:#f7f4ef;
+  border-top:1.5px solid #e0dcd4;
+  padding:8px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-size:10px;
+  color:#aaa;
+  letter-spacing:1px;
+}
+.sf-rule{font-weight:700;color:#888;}
+
+/* ── PRINT STYLES ── */
+@media print{
+  @page{size:letter portrait;margin:0.55in 0.55in 0.5in 0.55in;}
+  body{background:#fff;}
+  .screen-header,.mode-bar{display:none!important;}
+  .print-wrap{max-width:100%;margin:0;padding:0;}
+  .sheet-page{display:block!important;box-shadow:none;border-radius:0;margin-bottom:0;page-break-after:always;}
+  .sheet-page:last-child{page-break-after:avoid;}
+  .round-block{page-break-inside:avoid;}
+  .teams-6v6,.teams-3v3{page-break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+
+<!-- SCREEN HEADER -->
+<div class="screen-header screen-only">
+  <div>
+    <div class="sh-brand">🐋 <span>ORCAS</span> CHEMISTRY — PRINT SHEET</div>
+    <div class="sh-sub">4 Rounds · Coach Sideline Reference</div>
+  </div>
+  <div class="sh-buttons">
+    <button class="btn-print btn-secondary" onclick="showMode('6v6')">6v6 Sheet</button>
+    <button class="btn-print btn-secondary" onclick="showMode('3v3')">3v3 Sheet</button>
+    <button class="btn-print btn-primary" onclick="window.print()">🖨️ Print</button>
+  </div>
+</div>
+
+<!-- MODE BAR -->
+<div class="mode-bar screen-only">
+  <div class="mode-lbl">Format</div>
+  <div class="mt">
+    <button class="mt-btn on" id="btn-6v6" onclick="showMode('6v6')">6v6</button>
+    <button class="mt-btn" id="btn-3v3" onclick="showMode('3v3')">3v3</button>
+  </div>
+  <div class="pts-lbl">Points to</div>
+  <div class="pts-val">
+    <button onclick="changePts(-1)">−</button>
+    <span class="pts-num" id="pts-num">7</span>
+    <button onclick="changePts(1)">+</button>
+  </div>
+  <span style="font-size:12px;color:#888;margin-left:6px;">rally score</span>
+</div>
+
+<div class="print-wrap">
+
+  <!-- ════════════════════ 6v6 SHEET ════════════════════ -->
+  <div class="sheet-page visible" id="page-6v6">
+    <div class="sheet-top">
+      <div class="st-left">
+        <div class="st-logo">🐋 <span>FIERCE ORCAS</span></div>
+        <div class="st-session">Chemistry Session · <span id="date-6v6"></span></div>
+      </div>
+      <div class="st-right">
+        <div class="st-format">6v6 FORMAT</div>
+        <div class="st-pts" id="pts-display-6v6">Play to 7 · Rally Score · 4 Rounds</div>
+      </div>
+    </div>
+
+    <div class="rounds-wrap">
+
+      <!-- ROUND 1 -->
+      <div class="round-block">
+        <div class="rb-header">
+          <div class="rb-num">1</div>
+          <div class="rb-info">
+            <div class="rb-title">ROUND 1</div>
+            <div class="rb-sit">Sitting out: <strong>Korbynn Abraham</strong></div>
+          </div>
+          <div class="rb-scorebox">
+            <div style="text-align:center">
+              <div class="score-label">NAVY</div>
+              <div class="score-field">___</div>
+            </div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;color:#ccc;padding:0 4px;margin-top:12px;">—</div>
+            <div style="text-align:center">
+              <div class="score-label">WHITE</div>
+              <div class="score-field">___</div>
+            </div>
+          </div>
+        </div>
+        <div class="teams-6v6">
+          <div class="team-box team-box-navy">
+            <div class="team-box-head tbh-navy">
+              <div class="team-tag ttn">⬛ NAVY</div>
+              <div class="team-score-spot tss-navy">PTS</div>
+            </div>
+            <div class="team-players">
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Aubriella Adams</div>
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Kara Coder</div>
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Itzabel Colmenero</div>
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Nevaeh Cooks</div>
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Avani Hobbs</div>
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Jessa Hobbs</div>
+            </div>
+          </div>
+          <div class="team-box team-box-white">
+            <div class="team-box-head tbh-white">
+              <div class="team-tag ttw">⬜ WHITE</div>
+              <div class="team-score-spot tss-white">PTS</div>
+            </div>
+            <div class="team-players">
+              <div class="player-row"><div class="pr-dot dot-white"></div>Lily Israel</div>
+              <div class="player-row"><div class="pr-dot dot-white"></div>Olivia Lemanski</div>
+              <div class="player-row"><div class="pr-dot dot-white"></div>Ruby Okafor</div>
+              <div class="player-row"><div class="pr-dot dot-white"></div>Jewel Purdy</div>
+              <div class="player-row"><div class="pr-dot dot-white"></div>Aubriella Ramirez</div>
+              <div class="player-row"><div class="pr-dot dot-white"></div>Audrianna Rogers</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROUND 2 -->
+      <div class="round-block">
+        <div class="rb-header">
+          <div class="rb-num">2</div>
+          <div class="rb-info">
+            <div class="rb-title">ROUND 2</div>
+            <div class="rb-sit">Sitting out: <strong>Aubriella Ramirez</strong></div>
+          </div>
+          <div class="rb-scorebox">
+            <div style="text-align:center"><div class="score-label">NAVY</div><div class="score-field">___</div></div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;color:#ccc;padding:0 4px;margin-top:12px;">—</div>
+            <div style="text-align:center"><div class="score-label">WHITE</div><div class="score-field">___</div></div>
+          </div>
+        </div>
+        <div class="teams-6v6">
+          <div class="team-box team-box-navy">
+            <div class="team-box-head tbh-navy">
+              <div class="team-tag ttn">⬛ NAVY</div>
+              <div class="team-score-spot tss-navy">PTS</div>
+            </div>
+            <div class="team-players">
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Korbynn Abraham</div>
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Aubriella Adams</div>
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Kara Coder</div>
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Itzabel Colmenero</div>
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Nevaeh Cooks</div>
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Avani Hobbs</div>
+            </div>
+          </div>
+          <div class="team-box team-box-white">
+            <div class="team-box-head tbh-white">
+              <div class="team-tag ttw">⬜ WHITE</div>
+              <div class="team-score-spot tss-white">PTS</div>
+            </div>
+            <div class="team-players">
+              <div class="player-row"><div class="pr-dot dot-white"></div>Jessa Hobbs</div>
+              <div class="player-row"><div class="pr-dot dot-white"></div>Lily Israel</div>
+              <div class="player-row"><div class="pr-dot dot-white"></div>Olivia Lemanski</div>
+              <div class="player-row"><div class="pr-dot dot-white"></div>Ruby Okafor</div>
+              <div class="player-row"><div class="pr-dot dot-white"></div>Jewel Purdy</div>
+              <div class="player-row"><div class="pr-dot dot-white"></div>Audrianna Rogers</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROUND 3 -->
+      <div class="round-block">
+        <div class="rb-header">
+          <div class="rb-num">3</div>
+          <div class="rb-info">
+            <div class="rb-title">ROUND 3</div>
+            <div class="rb-sit">Sitting out: <strong>Ruby Okafor</strong></div>
+          </div>
+          <div class="rb-scorebox">
+            <div style="text-align:center"><div class="score-label">NAVY</div><div class="score-field">___</div></div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;color:#ccc;padding:0 4px;margin-top:12px;">—</div>
+            <div style="text-align:center"><div class="score-label">WHITE</div><div class="score-field">___</div></div>
+          </div>
+        </div>
+        <div class="teams-6v6">
+          <div class="team-box team-box-navy">
+            <div class="team-box-head tbh-navy">
+              <div class="team-tag ttn">⬛ NAVY</div>
+              <div class="team-score-spot tss-navy">PTS</div>
+            </div>
+            <div class="team-players">
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Korbynn Abraham</div>
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Aubriella Adams</div>
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Kara Coder</div>
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Itzabel Colmenero</div>
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Nevaeh Cooks</div>
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Audrianna Rogers</div>
+            </div>
+          </div>
+          <div class="team-box team-box-white">
+            <div class="team-box-head tbh-white">
+              <div class="team-tag ttw">⬜ WHITE</div>
+              <div class="team-score-spot tss-white">PTS</div>
+            </div>
+            <div class="team-players">
+              <div class="player-row"><div class="pr-dot dot-white"></div>Avani Hobbs</div>
+              <div class="player-row"><div class="pr-dot dot-white"></div>Jessa Hobbs</div>
+              <div class="player-row"><div class="pr-dot dot-white"></div>Lily Israel</div>
+              <div class="player-row"><div class="pr-dot dot-white"></div>Olivia Lemanski</div>
+              <div class="player-row"><div class="pr-dot dot-white"></div>Jewel Purdy</div>
+              <div class="player-row"><div class="pr-dot dot-white"></div>Aubriella Ramirez</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROUND 4 -->
+      <div class="round-block">
+        <div class="rb-header">
+          <div class="rb-num">4</div>
+          <div class="rb-info">
+            <div class="rb-title">ROUND 4</div>
+            <div class="rb-sit">Sitting out: <strong>Lily Israel</strong></div>
+          </div>
+          <div class="rb-scorebox">
+            <div style="text-align:center"><div class="score-label">NAVY</div><div class="score-field">___</div></div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;color:#ccc;padding:0 4px;margin-top:12px;">—</div>
+            <div style="text-align:center"><div class="score-label">WHITE</div><div class="score-field">___</div></div>
+          </div>
+        </div>
+        <div class="teams-6v6">
+          <div class="team-box team-box-navy">
+            <div class="team-box-head tbh-navy">
+              <div class="team-tag ttn">⬛ NAVY</div>
+              <div class="team-score-spot tss-navy">PTS</div>
+            </div>
+            <div class="team-players">
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Korbynn Abraham</div>
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Aubriella Adams</div>
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Aubriella Ramirez</div>
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Audrianna Rogers</div>
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Kara Coder</div>
+              <div class="player-row"><div class="pr-dot dot-navy"></div>Itzabel Colmenero</div>
+            </div>
+          </div>
+          <div class="team-box team-box-white">
+            <div class="team-box-head tbh-white">
+              <div class="team-tag ttw">⬜ WHITE</div>
+              <div class="team-score-spot tss-white">PTS</div>
+            </div>
+            <div class="team-players">
+              <div class="player-row"><div class="pr-dot dot-white"></div>Nevaeh Cooks</div>
+              <div class="player-row"><div class="pr-dot dot-white"></div>Avani Hobbs</div>
+              <div class="player-row"><div class="pr-dot dot-white"></div>Jessa Hobbs</div>
+              <div class="player-row"><div class="pr-dot dot-white"></div>Olivia Lemanski</div>
+              <div class="player-row"><div class="pr-dot dot-white"></div>Ruby Okafor</div>
+              <div class="player-row"><div class="pr-dot dot-white"></div>Jewel Purdy</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /rounds-wrap -->
+
+    <div class="notes-section">
+      <div class="notes-line"></div>
+      <div class="notes-lbl">Coach Notes</div>
+      <div class="notes-write"></div>
+      <div class="notes-write"></div>
+    </div>
+
+    <div class="sheet-foot">
+      <div>Fierce Orcas Volleyball · Chemistry Session</div>
+      <div class="sf-rule" id="rule-6v6">Play to 7 · Rally Score · Swap after each game</div>
+      <div>Rounds 1–4 of 13</div>
+    </div>
+  </div><!-- /page-6v6 -->
+
+
+  <!-- ════════════════════ 3v3 SHEET ════════════════════ -->
+  <div class="sheet-page" id="page-3v3">
+    <div class="sheet-top">
+      <div class="st-left">
+        <div class="st-logo">🐋 <span>FIERCE ORCAS</span></div>
+        <div class="st-session">Chemistry Session · <span id="date-3v3"></span></div>
+      </div>
+      <div class="st-right">
+        <div class="st-format">3v3 FORMAT</div>
+        <div class="st-pts" id="pts-display-3v3">Play to 7 · Rally Score · 4 Rounds · 2 Courts</div>
+      </div>
+    </div>
+
+    <div class="rounds-wrap">
+
+      <!-- 3v3 ROUND 1 -->
+      <div class="round-block">
+        <div class="rb-header">
+          <div class="rb-num">1</div>
+          <div class="rb-info">
+            <div class="rb-title">ROUND 1 — 2 games play simultaneously</div>
+            <div class="rb-sit">Sitting out: <strong>Korbynn Abraham</strong></div>
+          </div>
+        </div>
+        <div class="teams-3v3">
+          <div class="t3-box t3-1">
+            <div class="t3-head t3h-1">
+              <div class="t3-name t3n-1">🟢 TEAL</div>
+              <div class="t3-score-spot t3ss-1">PTS</div>
+            </div>
+            <div class="t3-players">
+              <div class="t3-player"><div class="t3-dot td1"></div>Aubriella Adams</div>
+              <div class="t3-player"><div class="t3-dot td1"></div>Avani Hobbs</div>
+              <div class="t3-player"><div class="t3-dot td1"></div>Ruby Okafor</div>
+            </div>
+          </div>
+          <div class="t3-box t3-2">
+            <div class="t3-head t3h-2">
+              <div class="t3-name t3n-2">🟡 GOLD</div>
+              <div class="t3-score-spot t3ss-2">PTS</div>
+            </div>
+            <div class="t3-players">
+              <div class="t3-player"><div class="t3-dot td2"></div>Kara Coder</div>
+              <div class="t3-player"><div class="t3-dot td2"></div>Jessa Hobbs</div>
+              <div class="t3-player"><div class="t3-dot td2"></div>Jewel Purdy</div>
+            </div>
+          </div>
+          <div class="t3-box t3-3">
+            <div class="t3-head t3h-3">
+              <div class="t3-name t3n-3">🟣 PURPLE</div>
+              <div class="t3-score-spot t3ss-3">PTS</div>
+            </div>
+            <div class="t3-players">
+              <div class="t3-player"><div class="t3-dot td3"></div>Itzabel Colmenero</div>
+              <div class="t3-player"><div class="t3-dot td3"></div>Lily Israel</div>
+              <div class="t3-player"><div class="t3-dot td3"></div>Aubriella Ramirez</div>
+            </div>
+          </div>
+          <div class="t3-box t3-4">
+            <div class="t3-head t3h-4">
+              <div class="t3-name t3n-4">🔴 RED</div>
+              <div class="t3-score-spot t3ss-4">PTS</div>
+            </div>
+            <div class="t3-players">
+              <div class="t3-player"><div class="t3-dot td4"></div>Nevaeh Cooks</div>
+              <div class="t3-player"><div class="t3-dot td4"></div>Olivia Lemanski</div>
+              <div class="t3-player"><div class="t3-dot td4"></div>Audrianna Rogers</div>
+            </div>
+          </div>
+        </div>
+        <div style="padding:0 16px 10px;font-size:11px;color:#888;font-weight:600;">Court A: 🟢 TEAL vs 🟡 GOLD &nbsp;·&nbsp; Court B: 🟣 PURPLE vs 🔴 RED</div>
+      </div>
+
+      <!-- 3v3 ROUND 2 -->
+      <div class="round-block">
+        <div class="rb-header">
+          <div class="rb-num">2</div>
+          <div class="rb-info">
+            <div class="rb-title">ROUND 2 — 2 games play simultaneously</div>
+            <div class="rb-sit">Sitting out: <strong>Aubriella Adams</strong></div>
+          </div>
+        </div>
+        <div class="teams-3v3">
+          <div class="t3-box t3-1">
+            <div class="t3-head t3h-1"><div class="t3-name t3n-1">🟢 TEAL</div><div class="t3-score-spot t3ss-1">PTS</div></div>
+            <div class="t3-players">
+              <div class="t3-player"><div class="t3-dot td1"></div>Nevaeh Cooks</div>
+              <div class="t3-player"><div class="t3-dot td1"></div>Olivia Lemanski</div>
+              <div class="t3-player"><div class="t3-dot td1"></div>Audrianna Rogers</div>
+            </div>
+          </div>
+          <div class="t3-box t3-2">
+            <div class="t3-head t3h-2"><div class="t3-name t3n-2">🟡 GOLD</div><div class="t3-score-spot t3ss-2">PTS</div></div>
+            <div class="t3-players">
+              <div class="t3-player"><div class="t3-dot td2"></div>Korbynn Abraham</div>
+              <div class="t3-player"><div class="t3-dot td2"></div>Avani Hobbs</div>
+              <div class="t3-player"><div class="t3-dot td2"></div>Ruby Okafor</div>
+            </div>
+          </div>
+          <div class="t3-box t3-3">
+            <div class="t3-head t3h-3"><div class="t3-name t3n-3">🟣 PURPLE</div><div class="t3-score-spot t3ss-3">PTS</div></div>
+            <div class="t3-players">
+              <div class="t3-player"><div class="t3-dot td3"></div>Kara Coder</div>
+              <div class="t3-player"><div class="t3-dot td3"></div>Jessa Hobbs</div>
+              <div class="t3-player"><div class="t3-dot td3"></div>Jewel Purdy</div>
+            </div>
+          </div>
+          <div class="t3-box t3-4">
+            <div class="t3-head t3h-4"><div class="t3-name t3n-4">🔴 RED</div><div class="t3-score-spot t3ss-4">PTS</div></div>
+            <div class="t3-players">
+              <div class="t3-player"><div class="t3-dot td4"></div>Itzabel Colmenero</div>
+              <div class="t3-player"><div class="t3-dot td4"></div>Lily Israel</div>
+              <div class="t3-player"><div class="t3-dot td4"></div>Aubriella Ramirez</div>
+            </div>
+          </div>
+        </div>
+        <div style="padding:0 16px 10px;font-size:11px;color:#888;font-weight:600;">Court A: 🟢 TEAL vs 🟡 GOLD &nbsp;·&nbsp; Court B: 🟣 PURPLE vs 🔴 RED</div>
+      </div>
+
+      <!-- 3v3 ROUND 3 -->
+      <div class="round-block">
+        <div class="rb-header">
+          <div class="rb-num">3</div>
+          <div class="rb-info">
+            <div class="rb-title">ROUND 3 — 2 games play simultaneously</div>
+            <div class="rb-sit">Sitting out: <strong>Kara Coder</strong></div>
+          </div>
+        </div>
+        <div class="teams-3v3">
+          <div class="t3-box t3-1">
+            <div class="t3-head t3h-1"><div class="t3-name t3n-1">🟢 TEAL</div><div class="t3-score-spot t3ss-1">PTS</div></div>
+            <div class="t3-players">
+              <div class="t3-player"><div class="t3-dot td1"></div>Itzabel Colmenero</div>
+              <div class="t3-player"><div class="t3-dot td1"></div>Lily Israel</div>
+              <div class="t3-player"><div class="t3-dot td1"></div>Aubriella Ramirez</div>
+            </div>
+          </div>
+          <div class="t3-box t3-2">
+            <div class="t3-head t3h-2"><div class="t3-name t3n-2">🟡 GOLD</div><div class="t3-score-spot t3ss-2">PTS</div></div>
+            <div class="t3-players">
+              <div class="t3-player"><div class="t3-dot td2"></div>Nevaeh Cooks</div>
+              <div class="t3-player"><div class="t3-dot td2"></div>Olivia Lemanski</div>
+              <div class="t3-player"><div class="t3-dot td2"></div>Audrianna Rogers</div>
+            </div>
+          </div>
+          <div class="t3-box t3-3">
+            <div class="t3-head t3h-3"><div class="t3-name t3n-3">🟣 PURPLE</div><div class="t3-score-spot t3ss-3">PTS</div></div>
+            <div class="t3-players">
+              <div class="t3-player"><div class="t3-dot td3"></div>Korbynn Abraham</div>
+              <div class="t3-player"><div class="t3-dot td3"></div>Avani Hobbs</div>
+              <div class="t3-player"><div class="t3-dot td3"></div>Ruby Okafor</div>
+            </div>
+          </div>
+          <div class="t3-box t3-4">
+            <div class="t3-head t3h-4"><div class="t3-name t3n-4">🔴 RED</div><div class="t3-score-spot t3ss-4">PTS</div></div>
+            <div class="t3-players">
+              <div class="t3-player"><div class="t3-dot td4"></div>Aubriella Adams</div>
+              <div class="t3-player"><div class="t3-dot td4"></div>Jessa Hobbs</div>
+              <div class="t3-player"><div class="t3-dot td4"></div>Jewel Purdy</div>
+            </div>
+          </div>
+        </div>
+        <div style="padding:0 16px 10px;font-size:11px;color:#888;font-weight:600;">Court A: 🟢 TEAL vs 🟡 GOLD &nbsp;·&nbsp; Court B: 🟣 PURPLE vs 🔴 RED</div>
+      </div>
+
+      <!-- 3v3 ROUND 4 -->
+      <div class="round-block">
+        <div class="rb-header">
+          <div class="rb-num">4</div>
+          <div class="rb-info">
+            <div class="rb-title">ROUND 4 — 2 games play simultaneously</div>
+            <div class="rb-sit">Sitting out: <strong>Itzabel Colmenero</strong></div>
+          </div>
+        </div>
+        <div class="teams-3v3">
+          <div class="t3-box t3-1">
+            <div class="t3-head t3h-1"><div class="t3-name t3n-1">🟢 TEAL</div><div class="t3-score-spot t3ss-1">PTS</div></div>
+            <div class="t3-players">
+              <div class="t3-player"><div class="t3-dot td1"></div>Aubriella Adams</div>
+              <div class="t3-player"><div class="t3-dot td1"></div>Jessa Hobbs</div>
+              <div class="t3-player"><div class="t3-dot td1"></div>Jewel Purdy</div>
+            </div>
+          </div>
+          <div class="t3-box t3-2">
+            <div class="t3-head t3h-2"><div class="t3-name t3n-2">🟡 GOLD</div><div class="t3-score-spot t3ss-2">PTS</div></div>
+            <div class="t3-players">
+              <div class="t3-player"><div class="t3-dot td2"></div>Kara Coder</div>
+              <div class="t3-player"><div class="t3-dot td2"></div>Lily Israel</div>
+              <div class="t3-player"><div class="t3-dot td2"></div>Aubriella Ramirez</div>
+            </div>
+          </div>
+          <div class="t3-box t3-3">
+            <div class="t3-head t3h-3"><div class="t3-name t3n-3">🟣 PURPLE</div><div class="t3-score-spot t3ss-3">PTS</div></div>
+            <div class="t3-players">
+              <div class="t3-player"><div class="t3-dot td3"></div>Nevaeh Cooks</div>
+              <div class="t3-player"><div class="t3-dot td3"></div>Olivia Lemanski</div>
+              <div class="t3-player"><div class="t3-dot td3"></div>Audrianna Rogers</div>
+            </div>
+          </div>
+          <div class="t3-box t3-4">
+            <div class="t3-head t3h-4"><div class="t3-name t3n-4">🔴 RED</div><div class="t3-score-spot t3ss-4">PTS</div></div>
+            <div class="t3-players">
+              <div class="t3-player"><div class="t3-dot td4"></div>Korbynn Abraham</div>
+              <div class="t3-player"><div class="t3-dot td4"></div>Avani Hobbs</div>
+              <div class="t3-player"><div class="t3-dot td4"></div>Ruby Okafor</div>
+            </div>
+          </div>
+        </div>
+        <div style="padding:0 16px 10px;font-size:11px;color:#888;font-weight:600;">Court A: 🟢 TEAL vs 🟡 GOLD &nbsp;·&nbsp; Court B: 🟣 PURPLE vs 🔴 RED</div>
+      </div>
+
+    </div><!-- /rounds-wrap -->
+
+    <div class="notes-section">
+      <div class="notes-line"></div>
+      <div class="notes-lbl">Coach Notes</div>
+      <div class="notes-write"></div>
+      <div class="notes-write"></div>
+    </div>
+
+    <div class="sheet-foot">
+      <div>Fierce Orcas Volleyball · Chemistry Session</div>
+      <div class="sf-rule" id="rule-3v3">Play to 7 · Rally Score · 2 Courts Running Simultaneously</div>
+      <div>Rounds 1–4 of 26</div>
+    </div>
+  </div><!-- /page-3v3 -->
+
+</div><!-- /print-wrap -->
+
+<script>
+let currentPts = 7;
+
+// Set today's date
+const today = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+document.getElementById('date-6v6').textContent = today;
+document.getElementById('date-3v3').textContent = today;
+
+function showMode(mode){
+  document.getElementById('page-6v6').classList.toggle('visible', mode==='6v6');
+  document.getElementById('page-3v3').classList.toggle('visible', mode==='3v3');
+  document.getElementById('btn-6v6').classList.toggle('on', mode==='6v6');
+  document.getElementById('btn-3v3').classList.toggle('on', mode==='3v3');
+}
+
+function changePts(delta){
+  currentPts = Math.max(3, Math.min(25, currentPts + delta));
+  document.getElementById('pts-num').textContent = currentPts;
+  document.getElementById('pts-display-6v6').textContent = `Play to ${currentPts} · Rally Score · 4 Rounds`;
+  document.getElementById('pts-display-3v3').textContent = `Play to ${currentPts} · Rally Score · 4 Rounds · 2 Courts`;
+  document.getElementById('rule-6v6').textContent = `Play to ${currentPts} · Rally Score · Swap after each game`;
+  document.getElementById('rule-3v3').textContent = `Play to ${currentPts} · Rally Score · 2 Courts Running Simultaneously`;
+}
+</script>
+</body>
+</html>
