@@ -8,121 +8,129 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{font-family:'Barlow',sans-serif;background:#f0ece3;color:#1a1612;}
-
-/* SCREEN ONLY */
 .screen-only{display:block;}
 @media print{.screen-only{display:none!important;}}
 
-/* SCREEN HEADER */
-.screen-header{background:#0a1628;color:#fff;padding:16px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
-.sh-title{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;letter-spacing:2px;}
+.screen-header{background:#0a1628;color:#fff;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.sh-title{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:800;letter-spacing:2px;}
 .sh-title span{color:#00d4c8;}
-.sh-sub{font-size:10px;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-top:1px;}
-.btn-print{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;padding:9px 22px;background:#00d4c8;color:#0a1628;border:none;border-radius:8px;cursor:pointer;}
+.sh-sub{font-size:9px;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
+.btn-print{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;padding:9px 22px;background:#00d4c8;color:#0a1628;border:none;border-radius:8px;cursor:pointer;}
 .btn-print:hover{background:#00f0e2;}
 
-/* PRINT WRAPPER */
-.wrap{max-width:760px;margin:20px auto;padding:0 16px;}
+.wrap{max-width:740px;margin:18px auto;padding:0 14px;}
 
-/* CARD */
-.card{background:#fff;border-radius:14px;box-shadow:0 2px 18px rgba(0,0,0,.1);overflow:hidden;margin-bottom:20px;}
+.card{background:#fff;border-radius:12px;box-shadow:0 2px 16px rgba(0,0,0,.1);overflow:hidden;}
 
-/* TOP HEADER */
-.card-top{background:#0a1628;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
-.ct-left{}
-.ct-logo{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;letter-spacing:2px;color:#fff;}
+/* TOP */
+.card-top{background:#0a1628;padding:13px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.ct-logo{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:900;letter-spacing:2px;color:#fff;}
 .ct-logo span{color:#00d4c8;}
-.ct-sub{font-size:9px;letter-spacing:3px;color:rgba(255,255,255,.35);text-transform:uppercase;margin-top:2px;}
+.ct-sub{font-size:9px;letter-spacing:3px;color:rgba(255,255,255,.35);text-transform:uppercase;margin-top:1px;}
 .ct-right{text-align:right;}
-.ct-title{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;letter-spacing:2px;color:#00d4c8;}
-.ct-pts{font-size:10px;color:rgba(255,255,255,.4);letter-spacing:1px;margin-top:2px;}
+.ct-title{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;letter-spacing:2px;color:#00d4c8;}
+.ct-detail{font-size:9px;color:rgba(255,255,255,.4);letter-spacing:1px;margin-top:2px;}
+
+/* ONE COURT BADGE */
+.one-court-badge{background:#ff6b1a;color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;letter-spacing:2px;padding:3px 10px;border-radius:100px;display:inline-block;margin-top:3px;}
 
 /* SCHEDULE STRIP */
-.schedule-strip{background:#f7f4ef;border-bottom:2px solid #e0dcd4;padding:10px 20px;display:flex;gap:0;overflow-x:auto;}
-.sched-block{flex:1;min-width:80px;text-align:center;padding:6px 8px;border-right:1px solid #e0dcd4;}
-.sched-block:last-child{border-right:none;}
-.sb-time{font-size:9px;font-weight:700;letter-spacing:1px;color:#aaa;text-transform:uppercase;margin-bottom:3px;}
-.sb-name{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;letter-spacing:.5px;color:#1a1612;line-height:1.2;}
+.sched{display:flex;background:#f7f4ef;border-bottom:2px solid #e0dcd4;overflow-x:auto;}
+.sb{flex:1;min-width:68px;padding:7px 8px;text-align:center;border-right:1px solid #e0dcd4;}
+.sb:last-child{border-right:none;}
+.sb-time{font-size:8px;font-weight:700;letter-spacing:1px;color:#bbb;text-transform:uppercase;margin-bottom:2px;}
+.sb-name{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;letter-spacing:.5px;color:#1a1612;line-height:1.2;}
 .sb-name.eval{color:#0a7a6a;}
-.sb-dur{font-size:10px;font-weight:600;color:#888;margin-top:2px;}
+.sb-dur{font-size:9px;font-weight:600;color:#999;margin-top:1px;}
+.sb.highlight{background:#fff8ec;}
+.sb.game-col{background:#eaf6f3;}
 
-/* GROUPS SECTION */
-.groups-section{padding:16px 20px 10px;}
-.gs-label{font-size:9px;font-weight:700;letter-spacing:4px;color:#aaa;text-transform:uppercase;margin-bottom:10px;}
-.groups-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px;}
-.group-pill{border-radius:9px;overflow:hidden;border:2px solid;}
-
-/* Group colors */
+/* GROUPS */
+.groups-sec{padding:13px 18px 8px;}
+.sec-lbl{font-size:8px;font-weight:700;letter-spacing:4px;color:#bbb;text-transform:uppercase;margin-bottom:8px;}
+.groups-row{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px;}
+.gp{border-radius:8px;overflow:hidden;border:2px solid;}
 .gc-A{border-color:#1a3a6b;}.gc-B{border-color:#0a7a6a;}.gc-C{border-color:#7a2a8a;}
 .gc-D{border-color:#8a4a00;}.gc-E{border-color:#8a1a2a;}
-.gp-head{padding:5px 8px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:900;letter-spacing:1px;text-align:center;}
-.gph-A{background:#1a3a6b;color:#fff;}
-.gph-B{background:#0a7a6a;color:#fff;}
-.gph-C{background:#7a2a8a;color:#fff;}
-.gph-D{background:#8a4a00;color:#fff;}
+.gp-h{padding:4px 6px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:900;letter-spacing:1px;text-align:center;}
+.gph-A{background:#1a3a6b;color:#fff;}.gph-B{background:#0a7a6a;color:#fff;}
+.gph-C{background:#7a2a8a;color:#fff;}.gph-D{background:#8a4a00;color:#fff;}
 .gph-E{background:#8a1a2a;color:#fff;}
-.gp-players{padding:6px 8px;background:#fff;font-size:11px;font-weight:600;color:#1a1612;line-height:1.5;}
-.gp-players .gp-name{display:block;padding:2px 0;border-bottom:1px solid #f0ece3;}
-.gp-players .gp-name:last-child{border-bottom:none;}
+.gp-ps{padding:5px 7px;background:#fff;font-size:10px;font-weight:600;color:#1a1612;line-height:1.45;}
+.gp-p{display:block;padding:1px 0;border-bottom:1px solid #f0ece3;}
+.gp-p:last-child{border-bottom:none;}
 
 /* ROTATION TABLE */
-.rot-section{padding:0 20px 16px;}
-.rot-label{font-size:9px;font-weight:700;letter-spacing:4px;color:#aaa;text-transform:uppercase;margin-bottom:10px;}
-.rot-table{width:100%;border-collapse:collapse;border:1.5px solid #e0dcd4;border-radius:10px;overflow:hidden;}
-.rot-table th{background:#f7f4ef;border-bottom:2px solid #e0dcd4;border-right:1px solid #e0dcd4;padding:8px 10px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;letter-spacing:1px;text-align:center;color:#1a1612;}
-.rot-table th:first-child{text-align:left;min-width:110px;}
-.rot-table td{border-right:1px solid #e0dcd4;border-bottom:1px solid #e0dcd4;padding:9px 10px;text-align:center;vertical-align:top;}
-.rot-table td:first-child{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:#555;text-align:left;background:#faf8f4;}
+.rot-sec{padding:0 18px 12px;}
+.rot-table{width:100%;border-collapse:collapse;border:1.5px solid #e0dcd4;border-radius:9px;overflow:hidden;font-size:12px;}
+.rot-table th{background:#f7f4ef;border-bottom:2px solid #e0dcd4;border-right:1px solid #e0dcd4;padding:7px 8px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;letter-spacing:1px;text-align:center;color:#1a1612;}
+.rot-table th:first-child{text-align:left;min-width:100px;}
+.rot-table th .s-sub{font-family:'Barlow',sans-serif;font-size:9px;font-weight:500;color:#999;display:block;letter-spacing:.5px;margin-top:1px;}
+.rot-table td{border-right:1px solid #e0dcd4;border-bottom:1px solid #e0dcd4;padding:7px 8px;text-align:center;vertical-align:middle;}
+.rot-table td:first-child{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:#666;text-align:left;background:#faf8f4;line-height:1.3;}
 .rot-table tr:last-child td{border-bottom:none;}
 
-/* Group badge inside table */
-.grp-badge{display:inline-block;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:900;width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;}
-.gb-A{background:#1a3a6b;color:#fff;}
-.gb-B{background:#0a7a6a;color:#fff;}
-.gb-C{background:#7a2a8a;color:#fff;}
-.gb-D{background:#8a4a00;color:#fff;}
+/* group badges */
+.gb{display:inline-flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:900;width:26px;height:26px;border-radius:50%;}
+.gb-A{background:#1a3a6b;color:#fff;}.gb-B{background:#0a7a6a;color:#fff;}
+.gb-C{background:#7a2a8a;color:#fff;}.gb-D{background:#8a4a00;color:#fff;}
 .gb-E{background:#8a1a2a;color:#fff;}
 
-/* WHISTLE ROW */
-.whistle-row{background:#fff9ec;border-top:2px dashed #e0cca0;border-bottom:none;}
-.whistle-row td{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;color:#8a6000;text-align:center;padding:7px 10px;}
+/* whistle + eval rows */
+.whistle-row td{background:#fff9ec;border-top:1.5px dashed #e0cca0;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;color:#8a6000;text-align:center;padding:5px 8px;}
+.eval-row td{background:#eaf6f3;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;letter-spacing:1px;color:#0a5a4a;text-align:center;padding:9px 8px;}
 
-/* EVAL ROW */
-.eval-row td{background:#eaf6f3;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;letter-spacing:1px;color:#0a5a4a;text-align:center;padding:10px;}
+/* ONE COURT NOTE */
+.court-note{background:#fff8ec;border:1.5px solid #f0d080;border-radius:8px;padding:9px 14px;margin:0 18px 12px;font-size:11px;color:#7a5000;line-height:1.55;}
+.court-note strong{font-weight:700;color:#5a3800;}
 
 /* STATION KEY */
-.key-section{padding:0 20px 16px;}
-.key-label{font-size:9px;font-weight:700;letter-spacing:4px;color:#aaa;text-transform:uppercase;margin-bottom:8px;}
-.key-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
-.key-row{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#333;background:#f7f4ef;border-radius:7px;padding:7px 10px;}
-.key-code{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:900;color:#0a1628;min-width:26px;}
-.key-desc{line-height:1.35;}
-.key-desc strong{display:block;font-weight:700;font-size:12px;}
-.key-desc span{font-size:11px;color:#888;}
+.key-sec{padding:0 18px 10px;}
+.key-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.key-row{display:flex;align-items:flex-start;gap:7px;background:#f7f4ef;border-radius:6px;padding:6px 9px;font-size:11px;}
+.key-code{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:900;color:#0a1628;min-width:24px;}
+.key-desc strong{display:block;font-weight:700;font-size:11px;margin-bottom:1px;}
+.key-desc span{font-size:10px;color:#888;line-height:1.3;}
 
-/* SCORING REMINDER */
-.scoring-strip{background:#0a1628;padding:10px 20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
-.score-item{text-align:center;}
-.si-val{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;color:#00d4c8;line-height:1;}
-.si-lbl{font-size:9px;color:rgba(255,255,255,.4);letter-spacing:1px;margin-top:1px;}
-.score-div{width:1px;height:30px;background:rgba(255,255,255,.1);}
-.rubric-note{font-size:11px;color:rgba(255,255,255,.5);flex:1;line-height:1.5;}
+/* COURT LAYOUT NOTE */
+.court-layout{background:#0a1628;margin:0 18px 12px;border-radius:8px;padding:10px 14px;}
+.cl-title{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;letter-spacing:2px;color:#00d4c8;margin-bottom:7px;}
+.cl-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.cl-zone{font-size:10px;color:rgba(255,255,255,.7);line-height:1.4;}
+.cl-zone strong{color:#fff;display:block;font-size:11px;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;}
 
-/* NOTES LINES */
-.notes-section{padding:8px 20px 16px;}
-.notes-label{font-size:9px;font-weight:700;letter-spacing:4px;color:#aaa;text-transform:uppercase;margin-bottom:6px;}
-.notes-line{border-bottom:1px solid #d8d4cc;height:20px;margin-bottom:5px;}
+/* RUBRIC STRIP */
+.rubric{background:#0a1628;padding:8px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.ri{text-align:center;}
+.rv{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;color:#00d4c8;line-height:1;}
+.rl{font-size:8px;color:rgba(255,255,255,.4);letter-spacing:1px;margin-top:1px;}
+.rdiv{width:1px;height:26px;background:rgba(255,255,255,.1);}
+.rnote{font-size:10px;color:rgba(255,255,255,.45);flex:1;line-height:1.5;}
+
+/* SCORE GRID */
+.score-sec{padding:8px 18px 10px;}
+.score-table{width:100%;border-collapse:collapse;font-size:10px;}
+.score-table th{background:#f7f4ef;border-bottom:2px solid #e0dcd4;border-right:1px solid #e0dcd4;padding:5px 6px;font-weight:700;letter-spacing:1px;color:#666;text-align:center;}
+.score-table th:first-child{text-align:left;}
+.score-table td{border-right:1px solid #eae6de;border-bottom:1px solid #eae6de;padding:5px 6px;font-weight:600;color:#1a1612;}
+.score-table td:first-child{font-size:11px;}
+.score-table tr:nth-child(even) td{background:#faf8f5;}
+.score-table tr:last-child td{border-bottom:none;}
+
+/* NOTES */
+.notes-sec{padding:4px 18px 10px;}
+.notes-line{border-bottom:1px solid #d8d4cc;height:18px;margin-bottom:4px;}
 
 /* FOOTER */
-.card-foot{background:#f7f4ef;border-top:1.5px solid #e0dcd4;padding:8px 20px;display:flex;align-items:center;justify-content:space-between;font-size:10px;color:#aaa;letter-spacing:.5px;}
+.foot{background:#f7f4ef;border-top:1.5px solid #e0dcd4;padding:7px 18px;display:flex;align-items:center;justify-content:space-between;font-size:9px;color:#aaa;letter-spacing:.5px;flex-wrap:wrap;gap:4px;}
+.foot strong{color:#777;}
 
 /* PRINT */
 @media print{
-  @page{size:letter portrait;margin:0.45in 0.45in 0.4in 0.45in;}
+  @page{size:letter portrait;margin:0.4in 0.4in 0.35in 0.4in;}
   body{background:#fff;}
-  .screen-header{display:none!important;}
   .wrap{max-width:100%;margin:0;padding:0;}
-  .card{box-shadow:none;border-radius:0;page-break-after:avoid;}
+  .card{box-shadow:none;border-radius:0;}
 }
 </style>
 </head>
@@ -131,9 +139,9 @@ html,body{font-family:'Barlow',sans-serif;background:#f0ece3;color:#1a1612;}
 <div class="screen-header screen-only">
   <div>
     <div class="sh-title">🐋 <span>ORCAS</span> TRYOUT ROTATION CARD</div>
-    <div class="sh-sub">Coach Sideline Reference · Print Ready</div>
+    <div class="sh-sub">One Court · 8 min stations · 6v6 eval · Print Ready</div>
   </div>
-  <button class="btn-print" onclick="window.print()">🖨️ Print This Sheet</button>
+  <button class="btn-print" onclick="window.print()">🖨️ Print</button>
 </div>
 
 <div class="wrap">
@@ -141,270 +149,264 @@ html,body{font-family:'Barlow',sans-serif;background:#f0ece3;color:#1a1612;}
 
   <!-- TOP -->
   <div class="card-top">
-    <div class="ct-left">
+    <div>
       <div class="ct-logo">🐋 <span>FIERCE ORCAS</span></div>
-      <div class="ct-sub">Tryout Session · <span id="session-date"></span></div>
+      <div class="ct-sub">Tryout Session · <span id="sdate"></span></div>
+      <div class="one-court-badge">ONE COURT</div>
     </div>
     <div class="ct-right">
       <div class="ct-title">STATION ROTATION CARD</div>
-      <div class="ct-pts">5 Stations · 13 Players · 60 Minutes</div>
+      <div class="ct-detail">5 Groups · 4 Stations · 8 Min Each · 6v6 Eval</div>
     </div>
   </div>
 
   <!-- SCHEDULE STRIP -->
-  <div class="schedule-strip">
-    <div class="sched-block">
+  <div class="sched">
+    <div class="sb">
       <div class="sb-time">0:00</div>
       <div class="sb-name">Warm-Up</div>
       <div class="sb-dur">8 min</div>
     </div>
-    <div class="sched-block">
+    <div class="sb highlight">
       <div class="sb-time">0:08</div>
       <div class="sb-name">Round 1</div>
-      <div class="sb-dur">11 min</div>
+      <div class="sb-dur">8 min</div>
     </div>
-    <div class="sched-block">
-      <div class="sb-time">0:20</div>
+    <div class="sb highlight">
+      <div class="sb-time">0:17</div>
       <div class="sb-name">Round 2</div>
-      <div class="sb-dur">11 min</div>
+      <div class="sb-dur">8 min</div>
     </div>
-    <div class="sched-block">
-      <div class="sb-time">0:32</div>
+    <div class="sb highlight">
+      <div class="sb-time">0:26</div>
       <div class="sb-name">Round 3</div>
-      <div class="sb-dur">11 min</div>
+      <div class="sb-dur">8 min</div>
     </div>
-    <div class="sched-block">
-      <div class="sb-time">0:44</div>
+    <div class="sb highlight">
+      <div class="sb-time">0:35</div>
       <div class="sb-name">Round 4</div>
-      <div class="sb-dur">11 min</div>
+      <div class="sb-dur">8 min</div>
     </div>
-    <div class="sched-block">
-      <div class="sb-time">0:55</div>
-      <div class="sb-name sb-name eval">6v6 / 3v3</div>
-      <div class="sb-dur">5 min</div>
+    <div class="sb">
+      <div class="sb-time">0:43</div>
+      <div class="sb-name">Water</div>
+      <div class="sb-dur">2 min</div>
+    </div>
+    <div class="sb game-col">
+      <div class="sb-time">0:45</div>
+      <div class="sb-name eval">6v6 Game</div>
+      <div class="sb-dur">15 min</div>
+    </div>
+    <div class="sb game-col">
+      <div class="sb-time">1:00</div>
+      <div class="sb-name eval">Done ✓</div>
+      <div class="sb-dur">60 min</div>
     </div>
   </div>
 
   <!-- GROUPS -->
-  <div class="groups-section">
-    <div class="gs-label">Player Groups — rotate together each round</div>
+  <div class="groups-sec">
+    <div class="sec-lbl">Player Groups — all 5 rotate together each round</div>
     <div class="groups-row">
-
-      <div class="group-pill gc-A">
-        <div class="gp-head gph-A">GRP A</div>
-        <div class="gp-players">
-          <span class="gp-name">Korbynn Abraham</span>
-          <span class="gp-name">Aubriella Adams</span>
-          <span class="gp-name">Kara Coder</span>
+      <div class="gp gc-A">
+        <div class="gp-h gph-A">GRP A</div>
+        <div class="gp-ps">
+          <span class="gp-p">Korbynn Abraham</span>
+          <span class="gp-p">Aubriella Adams</span>
+          <span class="gp-p">Kara Coder</span>
         </div>
       </div>
-
-      <div class="group-pill gc-B">
-        <div class="gp-head gph-B">GRP B</div>
-        <div class="gp-players">
-          <span class="gp-name">Itzabel Colmenero</span>
-          <span class="gp-name">Nevaeh Cooks</span>
-          <span class="gp-name">Avani Hobbs</span>
+      <div class="gp gc-B">
+        <div class="gp-h gph-B">GRP B</div>
+        <div class="gp-ps">
+          <span class="gp-p">Itzabel Colmenero</span>
+          <span class="gp-p">Nevaeh Cooks</span>
+          <span class="gp-p">Avani Hobbs</span>
         </div>
       </div>
-
-      <div class="group-pill gc-C">
-        <div class="gp-head gph-C">GRP C</div>
-        <div class="gp-players">
-          <span class="gp-name">Jessa Hobbs</span>
-          <span class="gp-name">Lily Israel</span>
-          <span class="gp-name">Olivia Lemanski</span>
+      <div class="gp gc-C">
+        <div class="gp-h gph-C">GRP C</div>
+        <div class="gp-ps">
+          <span class="gp-p">Jessa Hobbs</span>
+          <span class="gp-p">Lily Israel</span>
+          <span class="gp-p">Olivia Lemanski</span>
         </div>
       </div>
-
-      <div class="group-pill gc-D">
-        <div class="gp-head gph-D">GRP D</div>
-        <div class="gp-players">
-          <span class="gp-name">Ruby Okafor</span>
-          <span class="gp-name">Jewel Purdy</span>
+      <div class="gp gc-D">
+        <div class="gp-h gph-D">GRP D</div>
+        <div class="gp-ps">
+          <span class="gp-p">Ruby Okafor</span>
+          <span class="gp-p">Jewel Purdy</span>
         </div>
       </div>
-
-      <div class="group-pill gc-E">
-        <div class="gp-head gph-E">GRP E</div>
-        <div class="gp-players">
-          <span class="gp-name">Aubriella Ramirez</span>
-          <span class="gp-name">Audrianna Rogers</span>
+      <div class="gp gc-E">
+        <div class="gp-h gph-E">GRP E</div>
+        <div class="gp-ps">
+          <span class="gp-p">Aubriella Ramirez</span>
+          <span class="gp-p">Audrianna Rogers</span>
         </div>
       </div>
-
     </div>
   </div>
 
   <!-- ROTATION TABLE -->
-  <div class="rot-section">
-    <div class="rot-label">Who goes where each round — whistle every 11 minutes</div>
+  <div class="rot-sec">
+    <div class="sec-lbl" style="margin-bottom:6px;">Who goes where — blow whistle every 8 minutes</div>
     <table class="rot-table">
       <thead>
         <tr>
           <th>TIME</th>
-          <th>S1<br><span style="font-size:10px;font-weight:500;color:#888;">Serve Receive</span></th>
-          <th>S2<br><span style="font-size:10px;font-weight:500;color:#888;">Zone Serving</span></th>
-          <th>S3<br><span style="font-size:10px;font-weight:500;color:#888;">Setting Acc.</span></th>
-          <th>S5<br><span style="font-size:10px;font-weight:500;color:#888;">Read &amp; Dig</span></th>
+          <th>S1<span class="s-sub">Serve Receive<br>Back half court</span></th>
+          <th>S2<span class="s-sub">Zone Serving<br>Far endline</span></th>
+          <th>S3<span class="s-sub">Setting Acc.<br>Center court</span></th>
+          <th>S5<span class="s-sub">Read &amp; Dig<br>Front half court</span></th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>0:08 – 0:19<br><span style="font-size:10px;color:#aaa;">Round 1</span></td>
-          <td><span class="grp-badge gb-A">A</span><br><span class="grp-badge gb-E" style="margin-top:4px;">E</span></td>
-          <td><span class="grp-badge gb-B">B</span></td>
-          <td><span class="grp-badge gb-C">C</span></td>
-          <td><span class="grp-badge gb-D">D</span></td>
+          <td>0:08–0:16<br>Round 1</td>
+          <td><span class="gb gb-A">A</span>&nbsp;<span class="gb gb-E">E</span></td>
+          <td><span class="gb gb-B">B</span></td>
+          <td><span class="gb gb-C">C</span></td>
+          <td><span class="gb gb-D">D</span></td>
         </tr>
-        <tr class="whistle-row">
-          <td colspan="5">🔔 &nbsp;WHISTLE — all groups rotate clockwise &nbsp;→</td>
-        </tr>
+        <tr class="whistle-row"><td colspan="5">🔔 WHISTLE — rotate clockwise →</td></tr>
         <tr>
-          <td>0:20 – 0:31<br><span style="font-size:10px;color:#aaa;">Round 2</span></td>
-          <td><span class="grp-badge gb-D">D</span></td>
-          <td><span class="grp-badge gb-A">A</span><br><span class="grp-badge gb-E" style="margin-top:4px;">E</span></td>
-          <td><span class="grp-badge gb-B">B</span></td>
-          <td><span class="grp-badge gb-C">C</span></td>
+          <td>0:17–0:25<br>Round 2</td>
+          <td><span class="gb gb-D">D</span></td>
+          <td><span class="gb gb-A">A</span>&nbsp;<span class="gb gb-E">E</span></td>
+          <td><span class="gb gb-B">B</span></td>
+          <td><span class="gb gb-C">C</span></td>
         </tr>
-        <tr class="whistle-row">
-          <td colspan="5">🔔 &nbsp;WHISTLE — all groups rotate clockwise &nbsp;→</td>
-        </tr>
+        <tr class="whistle-row"><td colspan="5">🔔 WHISTLE — rotate clockwise →</td></tr>
         <tr>
-          <td>0:32 – 0:43<br><span style="font-size:10px;color:#aaa;">Round 3</span></td>
-          <td><span class="grp-badge gb-C">C</span></td>
-          <td><span class="grp-badge gb-D">D</span></td>
-          <td><span class="grp-badge gb-A">A</span><br><span class="grp-badge gb-E" style="margin-top:4px;">E</span></td>
-          <td><span class="grp-badge gb-B">B</span></td>
+          <td>0:26–0:34<br>Round 3</td>
+          <td><span class="gb gb-C">C</span></td>
+          <td><span class="gb gb-D">D</span></td>
+          <td><span class="gb gb-A">A</span>&nbsp;<span class="gb gb-E">E</span></td>
+          <td><span class="gb gb-B">B</span></td>
         </tr>
-        <tr class="whistle-row">
-          <td colspan="5">🔔 &nbsp;WHISTLE — all groups rotate clockwise &nbsp;→</td>
-        </tr>
+        <tr class="whistle-row"><td colspan="5">🔔 WHISTLE — rotate clockwise →</td></tr>
         <tr>
-          <td>0:44 – 0:55<br><span style="font-size:10px;color:#aaa;">Round 4</span></td>
-          <td><span class="grp-badge gb-B">B</span></td>
-          <td><span class="grp-badge gb-C">C</span></td>
-          <td><span class="grp-badge gb-D">D</span></td>
-          <td><span class="grp-badge gb-A">A</span><br><span class="grp-badge gb-E" style="margin-top:4px;">E</span></td>
+          <td>0:35–0:43<br>Round 4</td>
+          <td><span class="gb gb-B">B</span></td>
+          <td><span class="gb gb-C">C</span></td>
+          <td><span class="gb gb-D">D</span></td>
+          <td><span class="gb gb-A">A</span>&nbsp;<span class="gb gb-E">E</span></td>
         </tr>
-        <tr class="whistle-row">
-          <td colspan="5">🔔 &nbsp;WHISTLE — water break + line up for eval game</td>
-        </tr>
+        <tr class="whistle-row"><td colspan="5">🔔 WHISTLE — water break, everyone to center court</td></tr>
         <tr class="eval-row">
-          <td colspan="5">0:55 – 1:00 &nbsp;→&nbsp; 🏐 &nbsp;<strong>ALL PLAYERS: 6v6 or 3v3 Chemistry Eval — Play to 7, Rally Score</strong></td>
+          <td colspan="5">0:45 – 1:00 &nbsp;·&nbsp; 🏐 &nbsp;<strong>6v6 EVAL GAME — Play to 7, Rally Score · 1 player sits out each round · Score in Chemistry Tracker</strong></td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <!-- STATION KEY -->
-  <div class="key-section">
-    <div class="key-label">Station Guide</div>
-    <div class="key-grid">
-
-      <div class="key-row">
-        <div class="key-code">S1</div>
-        <div class="key-desc">
-          <strong>Serve Receive</strong>
-          <span>Coach or feeder attacks serves from the endline. Player passes to target zone. Score 1–5 on platform control, footwork, and target accuracy.</span>
-        </div>
-      </div>
-
-      <div class="key-row">
-        <div class="key-code">S2</div>
-        <div class="key-desc">
-          <strong>Zone Serving</strong>
-          <span>Player serves 5 balls to called zones (1–6). Score 1–5 on consistency, pace, and placement. Aces = 5, net/out = 1.</span>
-        </div>
-      </div>
-
-      <div class="key-row">
-        <div class="key-code">S3</div>
-        <div class="key-desc">
-          <strong>Setting Accuracy</strong>
-          <span>Tosses or passed balls fed to setter position. Player sets to zone 4 and zone 2 alternating. Score on height, location, and consistency.</span>
-        </div>
-      </div>
-
-      <div class="key-row">
-        <div class="key-code">S5</div>
-        <div class="key-desc">
-          <strong>Read &amp; React Digging</strong>
-          <span>Coach or hitter attacks at varying angles. Player reads, moves, and digs. Score 1–5 on read speed, platform angle, and control.</span>
-        </div>
-      </div>
-
+  <!-- ONE COURT LAYOUT NOTE -->
+  <div class="court-layout">
+    <div class="cl-title">ONE COURT — STATION ZONES</div>
+    <div class="cl-grid">
+      <div class="cl-zone"><strong>S1 — Serve Receive</strong>Back half court. Feeder/coach tosses or serves from 10ft line. Passer targets zone 3.</div>
+      <div class="cl-zone"><strong>S2 — Zone Serving</strong>Far endline. Players serve to called zones. Others shag and return balls.</div>
+      <div class="cl-zone"><strong>S3 — Setting Accuracy</strong>Center court. Ball tossed to setter position. Sets to zone 4 and zone 2 targets (cones).</div>
+      <div class="cl-zone"><strong>S5 — Read &amp; React Digging</strong>Front half court. Coach or partner tips/hits from the net. Player reads and digs.</div>
     </div>
   </div>
 
-  <!-- SCORING RUBRIC STRIP -->
-  <div class="scoring-strip">
-    <div class="score-item"><div class="si-val">1</div><div class="si-lbl">Poor</div></div>
-    <div class="score-div"></div>
-    <div class="score-item"><div class="si-val">2</div><div class="si-lbl">Below Avg</div></div>
-    <div class="score-div"></div>
-    <div class="score-item"><div class="si-val">3</div><div class="si-lbl">Average</div></div>
-    <div class="score-div"></div>
-    <div class="score-item"><div class="si-val">4</div><div class="si-lbl">Above Avg</div></div>
-    <div class="score-div"></div>
-    <div class="score-item"><div class="si-val">5</div><div class="si-lbl">Elite</div></div>
-    <div class="score-div"></div>
-    <div class="rubric-note">Score each player individually as they rotate through. Enter scores in the Tryout Drill System app after the session. Groups A&amp;E share S1 in Round 1 — score them separately.</div>
+  <!-- ONE COURT NOTE -->
+  <div class="court-note">
+    <strong>⚠️ Groups A + E share a station each round</strong> — 5 groups, 4 stations. Whichever station A and E share, split them to opposite sides of that zone and score them separately. Takes about the same time since groups D and E only have 2 players each.
+  </div>
+
+  <!-- STATION KEY -->
+  <div class="key-sec">
+    <div class="sec-lbl" style="margin-bottom:6px;">Scoring Guide — 1 to 5 per player per station</div>
+    <div class="key-grid">
+      <div class="key-row">
+        <div class="key-code">S1</div>
+        <div class="key-desc"><strong>Serve Receive</strong><span>Platform control, footwork, passes to target. 5=perfect platform every time, 1=ball not playable.</span></div>
+      </div>
+      <div class="key-row">
+        <div class="key-code">S2</div>
+        <div class="key-desc"><strong>Zone Serving</strong><span>5 serves to called zones. 5=ace or perfect placement, 3=in but off-zone, 1=net or out.</span></div>
+      </div>
+      <div class="key-row">
+        <div class="key-code">S3</div>
+        <div class="key-desc"><strong>Setting Accuracy</strong><span>Height, location, consistency. 5=hittable every time to both zones, 1=un-hittable.</span></div>
+      </div>
+      <div class="key-row">
+        <div class="key-code">S5</div>
+        <div class="key-desc"><strong>Read &amp; React Digging</strong><span>Read speed, platform angle, control. 5=digs cleanly to setter every time, 1=can't dig it.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RUBRIC -->
+  <div class="rubric">
+    <div class="ri"><div class="rv">1</div><div class="rl">Poor</div></div>
+    <div class="rdiv"></div>
+    <div class="ri"><div class="rv">2</div><div class="rl">Below Avg</div></div>
+    <div class="rdiv"></div>
+    <div class="ri"><div class="rv">3</div><div class="rl">Average</div></div>
+    <div class="rdiv"></div>
+    <div class="ri"><div class="rv">4</div><div class="rl">Above Avg</div></div>
+    <div class="rdiv"></div>
+    <div class="ri"><div class="rv">5</div><div class="rl">Elite</div></div>
+    <div class="rdiv"></div>
+    <div class="rnote">Score each player in their group as they work. Jot scores below — enter into the Tryout Drill System app after practice. 6v6 game scores go into the Chemistry Tracker.</div>
   </div>
 
   <!-- SCORE SCRATCH PAD -->
-  <div class="notes-section">
-    <div class="notes-label">Score Scratch Pad — transfer to app after session</div>
-    <table style="width:100%;border-collapse:collapse;font-size:11px;margin-bottom:10px;">
+  <div class="score-sec">
+    <div class="sec-lbl" style="margin-bottom:6px;">Score Scratch Pad — transfer to app after session</div>
+    <table class="score-table">
       <thead>
-        <tr style="background:#f7f4ef;border-bottom:2px solid #e0dcd4;">
-          <th style="padding:6px 8px;text-align:left;font-weight:700;letter-spacing:1px;color:#555;border-right:1px solid #e0dcd4;">PLAYER</th>
-          <th style="padding:6px 8px;text-align:center;font-weight:700;letter-spacing:1px;color:#555;border-right:1px solid #e0dcd4;">S1<br>Srv Rcv</th>
-          <th style="padding:6px 8px;text-align:center;font-weight:700;letter-spacing:1px;color:#555;border-right:1px solid #e0dcd4;">S2<br>Serving</th>
-          <th style="padding:6px 8px;text-align:center;font-weight:700;letter-spacing:1px;color:#555;border-right:1px solid #e0dcd4;">S3<br>Setting</th>
-          <th style="padding:6px 8px;text-align:center;font-weight:700;letter-spacing:1px;color:#555;border-right:1px solid #e0dcd4;">S5<br>Digging</th>
-          <th style="padding:6px 8px;text-align:center;font-weight:700;letter-spacing:1px;color:#555;">NOTES</th>
+        <tr>
+          <th style="width:34%;">Player</th>
+          <th>S1<br>Rcv</th>
+          <th>S2<br>Srv</th>
+          <th>S3<br>Set</th>
+          <th>S5<br>Dig</th>
+          <th style="width:28%;">Notes</th>
         </tr>
       </thead>
       <tbody>
-        <!-- 13 players -->
-        <tr style="border-bottom:1px solid #e8e4dc;"><td style="padding:6px 8px;font-weight:600;border-right:1px solid #e8e4dc;">Korbynn Abraham</td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td></td></tr>
-        <tr style="border-bottom:1px solid #e8e4dc;background:#faf8f5;"><td style="padding:6px 8px;font-weight:600;border-right:1px solid #e8e4dc;">Aubriella Adams</td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td></td></tr>
-        <tr style="border-bottom:1px solid #e8e4dc;"><td style="padding:6px 8px;font-weight:600;border-right:1px solid #e8e4dc;">Kara Coder</td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td></td></tr>
-        <tr style="border-bottom:1px solid #e8e4dc;background:#faf8f5;"><td style="padding:6px 8px;font-weight:600;border-right:1px solid #e8e4dc;">Itzabel Colmenero</td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td></td></tr>
-        <tr style="border-bottom:1px solid #e8e4dc;"><td style="padding:6px 8px;font-weight:600;border-right:1px solid #e8e4dc;">Nevaeh Cooks</td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td></td></tr>
-        <tr style="border-bottom:1px solid #e8e4dc;background:#faf8f5;"><td style="padding:6px 8px;font-weight:600;border-right:1px solid #e8e4dc;">Avani Hobbs</td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td></td></tr>
-        <tr style="border-bottom:1px solid #e8e4dc;"><td style="padding:6px 8px;font-weight:600;border-right:1px solid #e8e4dc;">Jessa Hobbs</td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td></td></tr>
-        <tr style="border-bottom:1px solid #e8e4dc;background:#faf8f5;"><td style="padding:6px 8px;font-weight:600;border-right:1px solid #e8e4dc;">Lily Israel</td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td></td></tr>
-        <tr style="border-bottom:1px solid #e8e4dc;"><td style="padding:6px 8px;font-weight:600;border-right:1px solid #e8e4dc;">Olivia Lemanski</td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td></td></tr>
-        <tr style="border-bottom:1px solid #e8e4dc;background:#faf8f5;"><td style="padding:6px 8px;font-weight:600;border-right:1px solid #e8e4dc;">Ruby Okafor</td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td></td></tr>
-        <tr style="border-bottom:1px solid #e8e4dc;"><td style="padding:6px 8px;font-weight:600;border-right:1px solid #e8e4dc;">Jewel Purdy</td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td></td></tr>
-        <tr style="border-bottom:1px solid #e8e4dc;background:#faf8f5;"><td style="padding:6px 8px;font-weight:600;border-right:1px solid #e8e4dc;">Aubriella Ramirez</td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td></td></tr>
-        <tr><td style="padding:6px 8px;font-weight:600;border-right:1px solid #e8e4dc;">Audrianna Rogers</td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td style="border-right:1px solid #e8e4dc;"></td><td></td></tr>
+        <tr><td>Korbynn Abraham</td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Aubriella Adams</td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Kara Coder</td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Itzabel Colmenero</td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Nevaeh Cooks</td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Avani Hobbs</td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Jessa Hobbs</td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Lily Israel</td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Olivia Lemanski</td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Ruby Okafor</td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Jewel Purdy</td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Aubriella Ramirez</td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Audrianna Rogers</td><td></td><td></td><td></td><td></td><td></td></tr>
       </tbody>
     </table>
   </div>
 
   <!-- NOTES -->
-  <div class="notes-section" style="padding-top:0;">
-    <div class="notes-label">Coach Notes</div>
+  <div class="notes-sec">
+    <div class="sec-lbl">Coach Notes</div>
     <div class="notes-line"></div>
     <div class="notes-line"></div>
   </div>
 
   <!-- FOOTER -->
-  <div class="card-foot">
+  <div class="foot">
     <div>Fierce Orcas Volleyball · Tryout Session</div>
-    <div style="font-weight:700;color:#555;">Whistle every 11 min · Groups rotate clockwise</div>
-    <div>Enter scores in Tryout Drill System app</div>
+    <div><strong>Whistle every 8 min · Groups rotate clockwise · 6v6 to 7 pts rally score</strong></div>
+    <div>Enter scores into Tryout Drill System + Chemistry Tracker</div>
   </div>
 
-</div><!-- /card -->
-</div><!-- /wrap -->
+</div>
+</div>
 
 <script>
-const today = new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
-document.getElementById('session-date').textContent = today;
+document.getElementById('sdate').textContent = new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
 </script>
 </body>
 </html>
