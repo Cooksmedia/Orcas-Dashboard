@@ -513,6 +513,89 @@ canvas#radarChart { max-width: 260px; }
 }
 .suggestion-box strong { color: var(--green); }
 
+/* ── LINEUP SUGGESTION PAGE ── */
+.lineup-hero{background:linear-gradient(135deg,#1a2535,#0f1e30);border:1px solid var(--border);border-radius:14px;padding:24px 26px;margin-bottom:24px;position:relative;overflow:hidden;}
+.lineup-hero::before{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(240,180,40,.08) 0%,transparent 70%);pointer-events:none;}
+.lh-eyebrow{font-size:10px;font-weight:700;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:6px;}
+.lh-title{font-family:var(--font-head);font-size:clamp(22px,4vw,34px);letter-spacing:2px;margin-bottom:6px;}
+.lh-desc{font-size:13px;color:var(--text-muted);line-height:1.65;max-width:560px;}
+.btn-suggest{font-family:var(--font-head);font-size:18px;letter-spacing:2px;padding:12px 32px;background:var(--gold);color:#0a0c14;border:none;border-radius:10px;cursor:pointer;transition:all .2s;margin-top:16px;display:inline-block;}
+.btn-suggest:hover{background:#ffc820;transform:translateY(-2px);}
+
+.lineup-out{display:none;}
+.lineup-out.show{display:block;}
+
+.lineup-section-head{display:flex;align-items:center;gap:12px;margin:24px 0 14px;}
+.lsh-title{font-family:var(--font-head);font-size:20px;letter-spacing:2px;color:var(--text);}
+.lsh-line{flex:1;height:1px;background:var(--border);}
+.lsh-badge{font-size:10px;font-weight:700;letter-spacing:2px;padding:4px 12px;border-radius:100px;background:rgba(240,180,40,.12);color:var(--gold);border:1px solid rgba(240,180,40,.25);}
+
+/* Starting 6 cards */
+.starting-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:28px;}
+.start-card{background:#1a2535;border:1.5px solid var(--border);border-radius:13px;overflow:hidden;position:relative;}
+.start-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.sc-setter::before{background:#f0b429;}
+.sc-oh::before{background:#3ecf8e;}
+.sc-mb::before{background:#60a5fa;}
+.sc-opp::before{background:#f06060;}
+.sc-lib::before{background:#c084fc;}
+.sc-ds::before{background:#fb923c;}
+
+.sc-head{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.sc-pos-badge{font-family:var(--font-head);font-size:11px;font-weight:700;letter-spacing:2px;padding:4px 10px;border-radius:100px;}
+.scpb-setter{background:rgba(240,180,40,.15);color:var(--gold);}
+.scpb-oh{background:rgba(62,207,142,.12);color:#3ecf8e;}
+.scpb-mb{background:rgba(96,165,250,.12);color:#60a5fa;}
+.scpb-opp{background:rgba(240,96,96,.12);color:#f06060;}
+.scpb-lib{background:rgba(192,132,252,.12);color:#c084fc;}
+.scpb-ds{background:rgba(251,146,60,.12);color:#fb923c;}
+
+.sc-score{font-family:var(--font-head);font-size:22px;letter-spacing:1px;color:var(--gold);}
+.sc-score-lbl{font-size:9px;color:var(--text-muted);letter-spacing:1px;margin-top:1px;text-align:right;}
+.sc-name{font-family:var(--font-head);font-size:20px;letter-spacing:.5px;padding:0 16px 6px;}
+.sc-sub{font-size:11px;color:var(--text-muted);padding:0 16px 10px;}
+
+/* Skill breakdown bars inside card */
+.sc-bars{padding:10px 16px 14px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:6px;}
+.sc-bar-row{display:flex;align-items:center;gap:8px;}
+.sc-bar-lbl{font-size:10px;color:var(--text-muted);width:80px;flex-shrink:0;}
+.sc-bar-track{flex:1;height:5px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden;}
+.sc-bar-fill{height:100%;border-radius:3px;transition:width .6s ease;}
+.sc-bar-val{font-size:10px;font-weight:700;color:var(--text);min-width:22px;text-align:right;}
+
+/* Reason box */
+.sc-reason{padding:10px 14px;margin:0 12px 14px;background:rgba(255,255,255,.04);border-left:3px solid var(--gold);border-radius:0 7px 7px 0;font-size:12px;color:var(--text-muted);line-height:1.55;}
+.sc-reason strong{color:var(--text);}
+
+/* Alternates section */
+.alt-table{width:100%;border-collapse:collapse;margin-bottom:24px;}
+.alt-table th{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--text-muted);padding:8px 12px;border-bottom:1px solid var(--border);text-align:left;}
+.alt-table td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px;vertical-align:middle;}
+.alt-table tr:last-child td{border-bottom:none;}
+.alt-table tr:hover td{background:rgba(255,255,255,.03);}
+.alt-name{font-weight:700;color:var(--text);}
+.alt-pos{font-family:var(--font-head);font-size:12px;letter-spacing:1px;}
+.alt-overall{font-family:var(--font-head);font-size:18px;color:var(--gold);}
+.alt-note{font-size:11px;color:var(--text-muted);line-height:1.4;}
+
+/* Rotation order preview */
+.rot-order-wrap{background:#1a2535;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:24px;}
+.ro-head{background:#141e2e;padding:12px 18px;font-family:var(--font-head);font-size:16px;letter-spacing:2px;color:var(--gold);border-bottom:1px solid var(--border);}
+.ro-rows{padding:12px 18px;}
+.ro-row{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.ro-row:last-child{border-bottom:none;}
+.ro-num{font-family:var(--font-head);font-size:22px;color:var(--gold);min-width:28px;}
+.ro-players{display:flex;gap:8px;flex-wrap:wrap;flex:1;}
+.ro-chip{font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px;background:rgba(255,255,255,.07);color:var(--text);}
+.ro-chip.server{background:rgba(240,180,40,.15);color:var(--gold);}
+.ro-server-lbl{font-size:10px;color:var(--text-muted);white-space:nowrap;}
+
+/* Warnings / notes */
+.lineup-warning{background:rgba(240,96,96,.08);border:1px solid rgba(240,96,96,.25);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#f09090;line-height:1.6;}
+.lineup-warning strong{color:#f06060;}
+.lineup-tip{background:rgba(62,207,142,.06);border:1px solid rgba(62,207,142,.2);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#90d8b0;line-height:1.6;}
+.lineup-tip strong{color:#3ecf8e;}
+
 .save-rotation-bar { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: 18px; }
 .rotation-summary {
   background: var(--surface);
@@ -567,9 +650,60 @@ canvas#radarChart { max-width: 260px; }
   <button class="nav-tab" onclick="showPage('evaluate')">Evaluate</button>
   <button class="nav-tab" onclick="showPage('overview')">Scores</button>
   <button class="nav-tab" onclick="showPage('rotation')">Rotation Builder</button>
+  <button class="nav-tab" onclick="showPage('lineup')">⭐ Lineup Suggestion</button>
 </div>
 
-<!-- ===================== ROSTER PAGE ===================== -->
+<!-- ===================== LINEUP SUGGESTION PAGE ===================== -->
+<div class="page" id="page-lineup">
+  <div class="lineup-hero">
+    <div class="lh-eyebrow">AI-Powered · Based on Your Evaluation Scores</div>
+    <div class="lh-title">SMART LINEUP SUGGESTION</div>
+    <div class="lh-desc">Analyzes every player's scores across all skill categories, weights them by position requirements, and recommends your strongest starting 6 with reasoning for each pick — plus who's next in line if someone can't go.</div>
+    <button class="btn-suggest" onclick="generateLineup()">⚡ GENERATE LINEUP</button>
+  </div>
+
+  <div class="lineup-out" id="lineup-out">
+
+    <div id="lineup-warning-area"></div>
+    <div id="lineup-tip-area"></div>
+
+    <!-- Starting 6 -->
+    <div class="lineup-section-head">
+      <div class="lsh-title">RECOMMENDED STARTING 6</div>
+      <div class="lsh-line"></div>
+      <div class="lsh-badge" id="lsh-system-badge">6-2 SYSTEM</div>
+    </div>
+    <div class="starting-grid" id="starting-grid"></div>
+
+    <!-- Rotation Order -->
+    <div class="lineup-section-head">
+      <div class="lsh-title">SUGGESTED SERVE ORDER</div>
+      <div class="lsh-line"></div>
+    </div>
+    <div class="rot-order-wrap">
+      <div class="ro-head">🏐 Starting Rotation — Position 1 Serves First</div>
+      <div class="ro-rows" id="ro-rows"></div>
+    </div>
+
+    <!-- Alternates -->
+    <div class="lineup-section-head">
+      <div class="lsh-title">ALTERNATES & DEPTH CHART</div>
+      <div class="lsh-line"></div>
+    </div>
+    <table class="alt-table">
+      <thead>
+        <tr>
+          <th>PLAYER</th>
+          <th>BEST FIT</th>
+          <th>SCORE</th>
+          <th>ROLE & NOTES</th>
+        </tr>
+      </thead>
+      <tbody id="alt-tbody"></tbody>
+    </table>
+
+  </div>
+</div>
 <div class="page active" id="page-roster">
   <div class="page-title">Team <span>Roster</span></div>
   <div class="page-sub">Add all your players before running evaluations.</div>
@@ -1225,6 +1359,344 @@ function renderRotationSummary() {
   }).join('');
 }
 
+// ============================================================
+//  LINEUP SUGGESTION ENGINE
+// ============================================================
+
+// Position-specific skill weights — how much each skill category
+// matters for each position (weights sum to 1.0 per position)
+const POS_WEIGHTS = {
+  S: {   // Setter — setting accuracy and decision speed are everything
+    'SETTING':            0.40,
+    'ATHLETICISM & IQ':   0.20,
+    'PASSING & RECEPTION':0.18,
+    'SERVING':            0.12,
+    'ATTACKING':          0.06,
+    'DEFENSE & BLOCKING': 0.04,
+  },
+  OH: {  // Outside Hitter — balanced passer AND attacker
+    'PASSING & RECEPTION':0.28,
+    'ATTACKING':          0.28,
+    'ATHLETICISM & IQ':   0.16,
+    'SERVING':            0.14,
+    'DEFENSE & BLOCKING': 0.10,
+    'SETTING':            0.04,
+  },
+  MB: {  // Middle Blocker — blocking first, attacking second
+    'DEFENSE & BLOCKING': 0.32,
+    'ATTACKING':          0.28,
+    'ATHLETICISM & IQ':   0.20,
+    'SERVING':            0.10,
+    'PASSING & RECEPTION':0.06,
+    'SETTING':            0.04,
+  },
+  OPP: { // Opposite / Right Side — powerful attacker, less passing
+    'ATTACKING':          0.36,
+    'DEFENSE & BLOCKING': 0.20,
+    'ATHLETICISM & IQ':   0.18,
+    'SERVING':            0.14,
+    'PASSING & RECEPTION':0.08,
+    'SETTING':            0.04,
+  },
+  L: {   // Libero — elite passer and defender
+    'PASSING & RECEPTION':0.42,
+    'DEFENSE & BLOCKING': 0.30,
+    'ATHLETICISM & IQ':   0.18,
+    'SERVING':            0.08,
+    'ATTACKING':          0.01,
+    'SETTING':            0.01,
+  },
+  DS: {  // Defensive Specialist — passer, digger
+    'PASSING & RECEPTION':0.38,
+    'DEFENSE & BLOCKING': 0.28,
+    'ATHLETICISM & IQ':   0.18,
+    'SERVING':            0.14,
+    'ATTACKING':          0.01,
+    'SETTING':            0.01,
+  },
+};
+
+function getPositionScore(playerId, posKey) {
+  const e = evals[playerId];
+  if (!e) return 0;
+  const weights = POS_WEIGHTS[posKey] || POS_WEIGHTS['OH'];
+  let total = 0;
+  SKILL_CATEGORIES.forEach(cat => {
+    const catAvg = cat.skills
+      .map(s => e[s.key] || 0)
+      .filter(v => v > 0);
+    if (!catAvg.length) return;
+    const avg = catAvg.reduce((a, b) => a + b, 0) / catAvg.length;
+    total += avg * (weights[cat.title] || 0);
+  });
+  return Math.round(total * 10) / 10;
+}
+
+function getCategoryAvg(playerId, catTitle) {
+  const e = evals[playerId];
+  if (!e) return 0;
+  const cat = SKILL_CATEGORIES.find(c => c.title === catTitle);
+  if (!cat) return 0;
+  const vals = cat.skills.map(s => e[s.key] || 0).filter(v => v > 0);
+  if (!vals.length) return 0;
+  return Math.round((vals.reduce((a, b) => a + b, 0) / vals.length) * 10) / 10;
+}
+
+// Best position fit for a player based on their scores vs all positions
+function bestPositionFit(playerId) {
+  const posKeys = ['S','OH','MB','OPP','L','DS'];
+  let best = 'OH', bestScore = 0;
+  posKeys.forEach(pos => {
+    const sc = getPositionScore(playerId, pos);
+    if (sc > bestScore) { bestScore = sc; best = pos; }
+  });
+  return { pos: best, score: bestScore };
+}
+
+const POS_LABELS = { S:'Setter', OH:'Outside Hitter', MB:'Middle Blocker', OPP:'Opposite/RS', L:'Libero', DS:'Def. Specialist' };
+const POS_CSS   = { S:'setter', OH:'oh', MB:'mb', OPP:'opp', L:'lib', DS:'ds' };
+const POS_COLORS= { S:'#f0b429', OH:'#3ecf8e', MB:'#60a5fa', OPP:'#f06060', L:'#c084fc', DS:'#fb923c' };
+
+// Key skills to highlight per position in the card
+const POS_KEY_CATS = {
+  S:   ['SETTING','ATHLETICISM & IQ','PASSING & RECEPTION'],
+  OH:  ['PASSING & RECEPTION','ATTACKING','ATHLETICISM & IQ'],
+  MB:  ['DEFENSE & BLOCKING','ATTACKING','ATHLETICISM & IQ'],
+  OPP: ['ATTACKING','DEFENSE & BLOCKING','SERVING'],
+  L:   ['PASSING & RECEPTION','DEFENSE & BLOCKING','ATHLETICISM & IQ'],
+  DS:  ['PASSING & RECEPTION','DEFENSE & BLOCKING','SERVING'],
+};
+
+function generateLineup() {
+  const evalledPlayers = players.filter(p => evals[p.id]);
+
+  const warnArea = document.getElementById('lineup-warning-area');
+  const tipArea  = document.getElementById('lineup-tip-area');
+  warnArea.innerHTML = '';
+  tipArea.innerHTML  = '';
+
+  if (evalledPlayers.length < 6) {
+    warnArea.innerHTML = `<div class="lineup-warning"><strong>Not enough evaluated players.</strong> You need at least 6 players with evaluation scores to generate a lineup. Currently ${evalledPlayers.length} player${evalledPlayers.length!==1?'s have':' has'} been evaluated.</div>`;
+    document.getElementById('lineup-out').classList.add('show');
+    document.getElementById('starting-grid').innerHTML = '';
+    document.getElementById('alt-tbody').innerHTML = '';
+    document.getElementById('ro-rows').innerHTML = '';
+    return;
+  }
+
+  // ── ASSIGN POSITIONS ──
+  // For each roster position we need to fill in a 6-2:
+  // Setter × 2, OH × 2, MB × 2, OPP × 1, L/DS × 1 (or fill with best remaining)
+  // Strategy: assign players to the position where they score highest,
+  // resolving conflicts by awarding the better-scoring player their preferred slot.
+
+  const needs = [
+    { posKey:'S',   label:'Setter 1',         needed:1 },
+    { posKey:'S',   label:'Setter 2',         needed:1 },
+    { posKey:'OH',  label:'Outside Hitter 1', needed:1 },
+    { posKey:'OH',  label:'Outside Hitter 2', needed:1 },
+    { posKey:'MB',  label:'Middle Blocker 1', needed:1 },
+    { posKey:'MB',  label:'Middle Blocker 2', needed:1 },
+  ];
+
+  // Score every player at every position
+  const scored = evalledPlayers.map(p => {
+    const posScores = {};
+    ['S','OH','MB','OPP','L','DS'].forEach(pos => {
+      posScores[pos] = getPositionScore(p.id, pos);
+    });
+    const bf = bestPositionFit(p.id);
+    return { ...p, posScores, bestPos: bf.pos, bestScore: bf.score };
+  }).sort((a, b) => b.bestScore - a.bestScore);
+
+  const assigned = {}; // slot label → player
+  const usedIds  = new Set();
+
+  // Greedy assignment: for each slot, find best available player
+  // We do 2 passes — first honours declared position, then fills by score
+  const slots = [
+    { key:'S',  label:'Setter 1' },
+    { key:'S',  label:'Setter 2' },
+    { key:'OH', label:'Outside Hitter 1' },
+    { key:'OH', label:'Outside Hitter 2' },
+    { key:'MB', label:'Middle Blocker 1' },
+    { key:'MB', label:'Middle Blocker 2' },
+  ];
+
+  // Pass 1: assign players whose declared position matches the slot
+  slots.forEach(slot => {
+    if (assigned[slot.label]) return;
+    const candidate = scored.find(p =>
+      !usedIds.has(p.id) &&
+      p.position === slot.key
+    );
+    if (candidate) {
+      assigned[slot.label] = candidate;
+      usedIds.add(candidate.id);
+    }
+  });
+
+  // Pass 2: fill remaining slots with best position-scored available player
+  slots.forEach(slot => {
+    if (assigned[slot.label]) return;
+    const candidate = scored
+      .filter(p => !usedIds.has(p.id))
+      .sort((a, b) => (b.posScores[slot.key]||0) - (a.posScores[slot.key]||0))[0];
+    if (candidate) {
+      assigned[slot.label] = candidate;
+      usedIds.add(candidate.id);
+    }
+  });
+
+  // Build starting 6 array
+  const starting6 = slots.map(slot => ({
+    slot: slot.label,
+    posKey: slot.key,
+    player: assigned[slot.label] || null,
+  }));
+
+  // Alternates = everyone not in starting 6
+  const alternates = scored.filter(p => !usedIds.has(p.id));
+
+  // ── TIPS / WARNINGS ──
+  const setters = starting6.filter(s => s.posKey === 'S' && s.player);
+  const hasLibero = evalledPlayers.some(p => p.position === 'L' || p.position === 'DS');
+  if (!hasLibero) {
+    tipArea.innerHTML += `<div class="lineup-tip"><strong>💡 No Libero/DS identified.</strong> Consider designating your strongest passer as Libero for serve receive. Look at the Outside Hitter with the highest Passing & Reception score.</div>`;
+  }
+  if (setters.length < 2) {
+    warnArea.innerHTML += `<div class="lineup-warning"><strong>⚠️ Only 1 Setter found.</strong> The 6-2 system needs 2 setters. Consider training a second setter or switch to a 5-1 system.</div>`;
+  }
+  const lowEval = starting6.filter(s => s.player && getOverall(s.player.id) < 3);
+  if (lowEval.length > 0) {
+    tipArea.innerHTML += `<div class="lineup-tip"><strong>💡 Some starters have low overall scores</strong> — this lineup is based on the best available evaluated data. Complete more evaluations for a stronger recommendation.</div>`;
+  }
+
+  // ── RENDER STARTING 6 ──
+  document.getElementById('lsh-system-badge').textContent = '6-2 SYSTEM';
+  const grid = document.getElementById('starting-grid');
+  grid.innerHTML = starting6.map(({ slot, posKey, player }) => {
+    if (!player) return `<div class="start-card sc-${POS_CSS[posKey]||'oh'}" style="padding:20px;color:var(--text-muted);font-size:13px;">No player available for ${slot}</div>`;
+
+    const posScore = Math.round(player.posScores[posKey] * 10) / 10;
+    const keyCats = POS_KEY_CATS[posKey] || POS_KEY_CATS['OH'];
+
+    const bars = keyCats.map(catTitle => {
+      const val = getCategoryAvg(player.id, catTitle);
+      const shortName = catTitle.split(' ')[0];
+      const pct = Math.round((val / 5) * 100);
+      return `<div class="sc-bar-row">
+        <div class="sc-bar-lbl">${shortName}</div>
+        <div class="sc-bar-track"><div class="sc-bar-fill" style="width:${pct}%;background:${POS_COLORS[posKey]||'#f0b429'}"></div></div>
+        <div class="sc-bar-val">${val || '—'}</div>
+      </div>`;
+    }).join('');
+
+    const reason = buildReason(player, posKey, posScore);
+
+    return `<div class="start-card sc-${POS_CSS[posKey]||'oh'}">
+      <div class="sc-head">
+        <div>
+          <div class="sc-pos-badge scpb-${POS_CSS[posKey]||'oh'}">${POS_LABELS[posKey]||posKey}</div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:3px;letter-spacing:1px;">${slot.includes('1')||slot.includes('2')?slot.split(' ').pop()+' of 2':''}</div>
+        </div>
+        <div>
+          <div class="sc-score">${posScore}</div>
+          <div class="sc-score-lbl">pos. score</div>
+        </div>
+      </div>
+      <div class="sc-name">${player.name}</div>
+      <div class="sc-sub">${player.grade} · #${player.jersey} · Overall: ${getOverall(player.id)||'—'}</div>
+      <div class="sc-bars">${bars}</div>
+      <div class="sc-reason">${reason}</div>
+    </div>`;
+  }).join('');
+
+  // ── RENDER SERVE ORDER ──
+  // In a 6-2: rotation positions 1-6 around the court
+  // Position 1 = back right (serves), Position 6 = front right
+  // Our assignment: S1 & S2 in back row, OHs in left side, MBs in middle
+  const rotPlayers = [
+    assigned['Setter 1'],      // pos 1 — back right (serves)
+    assigned['Middle Blocker 1'], // pos 2 — front right
+    assigned['Outside Hitter 1'], // pos 3 — front middle
+    assigned['Setter 2'],      // pos 4 — front left
+    assigned['Middle Blocker 2'], // pos 5 — back middle
+    assigned['Outside Hitter 2'], // pos 6 — back left
+  ];
+
+  const rotPosKeys = ['S','MB','OH','S','MB','OH'];
+  const roRows = document.getElementById('ro-rows');
+  roRows.innerHTML = rotPlayers.map((p, i) => {
+    if (!p) return '';
+    const isServer = i === 0;
+    return `<div class="ro-row">
+      <div class="ro-num">${i+1}</div>
+      <div class="ro-players">
+        <span class="ro-chip ${isServer?'server':''}">${p.name.split(' ')[0]}${isServer?' 🏐':''}</span>
+        <span style="font-size:11px;color:var(--text-muted);">${POS_LABELS[rotPosKeys[i]]||''} · Zone ${[1,2,3,4,5,6][i]}</span>
+      </div>
+      ${isServer?'<div class="ro-server-lbl">SERVES FIRST</div>':''}
+    </div>`;
+  }).join('');
+
+  // ── RENDER ALTERNATES ──
+  const tbody = document.getElementById('alt-tbody');
+  if (!alternates.length) {
+    tbody.innerHTML = '<tr><td colspan="4" style="color:var(--text-muted);font-size:13px;padding:16px;">All evaluated players are in the starting lineup.</td></tr>';
+  } else {
+    tbody.innerHTML = alternates.map(p => {
+      const overall = getOverall(p.id) || '—';
+      const bf = bestPositionFit(p.id);
+      const note = buildAlternateNote(p, bf.pos, starting6);
+      return `<tr>
+        <td><div class="alt-name">${p.name}</div><div style="font-size:11px;color:var(--text-muted);">${p.grade} · #${p.jersey}</div></td>
+        <td><div class="alt-pos" style="color:${POS_COLORS[bf.pos]||'#f0b429'}">${POS_LABELS[bf.pos]||bf.pos}</div><div style="font-size:10px;color:var(--text-muted);">score: ${bf.score}</div></td>
+        <td class="alt-overall">${overall}</td>
+        <td class="alt-note">${note}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  document.getElementById('lineup-out').classList.add('show');
+  document.getElementById('lineup-out').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function buildReason(player, posKey, posScore) {
+  const e = evals[player.id];
+  if (!e) return 'No evaluation data yet.';
+
+  const keyCats = POS_KEY_CATS[posKey] || POS_KEY_CATS['OH'];
+  const topCat = keyCats[0];
+  const topVal = getCategoryAvg(player.id, topCat);
+
+  const reasons = {
+    S:  `<strong>${player.name.split(' ')[0]}</strong> leads your roster in Setting scores (${getCategoryAvg(player.id,'SETTING')}/5). Setting accuracy and decision speed are her strongest skills — exactly what a 6-2 setter needs.`,
+    OH: `<strong>${player.name.split(' ')[0]}</strong> scores highest as an Outside Hitter — strong passer and attacker. Passing score: ${getCategoryAvg(player.id,'PASSING & RECEPTION')}/5. Attacking score: ${getCategoryAvg(player.id,'ATTACKING')}/5.`,
+    MB: `<strong>${player.name.split(' ')[0]}</strong> is your best fit at Middle Blocker. Defense & Blocking: ${getCategoryAvg(player.id,'DEFENSE & BLOCKING')}/5. Athleticism score: ${getCategoryAvg(player.id,'ATHLETICISM & IQ')}/5 gives her the speed to run middles.`,
+    OPP:`<strong>${player.name.split(' ')[0]}</strong> earns the Opposite spot on attacking power. Attacking score: ${getCategoryAvg(player.id,'ATTACKING')}/5 — your right-side weapon.`,
+    L:  `<strong>${player.name.split(' ')[0]}</strong> is your defensive anchor. Passing: ${getCategoryAvg(player.id,'PASSING & RECEPTION')}/5 · Defense: ${getCategoryAvg(player.id,'DEFENSE & BLOCKING')}/5 — the floor for your serve receive.`,
+    DS: `<strong>${player.name.split(' ')[0]}</strong> is your best back-row option. Passing: ${getCategoryAvg(player.id,'PASSING & RECEPTION')}/5 — reliable serve receive specialist.`,
+  };
+  return reasons[posKey] || `Position score ${posScore}/5. Best available at this position based on evaluation data.`;
+}
+
+function buildAlternateNote(player, posKey, starting6) {
+  const starterAtPos = starting6.filter(s => s.posKey === posKey && s.player).map(s => s.player.name.split(' ')[0]);
+  const overall = getOverall(player.id);
+
+  let note = `Backup ${POS_LABELS[posKey]||posKey}.`;
+  if (starterAtPos.length) {
+    note += ` Ready to sub in for ${starterAtPos.join(' or ')}.`;
+  }
+  if (overall && parseFloat(overall) >= 4) {
+    note += ' <strong style="color:var(--green)">High scorer — strong rotation option.</strong>';
+  } else if (player.position && player.position !== posKey) {
+    note += ` Declared position: ${POS_LABELS[player.position]||player.position}.`;
+  }
+  return note;
+}
+
 // ============ UTILS ============
 function save() {
   localStorage.setItem('vb_players', JSON.stringify(players));
@@ -1238,6 +1710,7 @@ function showPage(name) {
   document.getElementById('page-'+name).classList.add('active');
   event.target.classList.add('active');
   if(name==='overview') renderOverview();
+  if(name==='lineup'){ /* generated on demand */ }
   if(name==='evaluate') updateAllSelects();
   if(name==='rotation'){ renderRotTabs(); loadRotation(currentRot); renderRotationSummary(); }
 }
