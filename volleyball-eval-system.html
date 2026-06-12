@@ -643,6 +643,25 @@ canvas#radarChart { max-width: 260px; }
 </style>
 </head>
 <body>
+<!-- DASHBOARD HOME LINK -->
+<a href="dashboard.html" id="dash-home-link" title="Back to Dashboard" style="
+  position:fixed;top:14px;left:14px;z-index:9999;
+  display:flex;align-items:center;gap:7px;
+  background:rgba(10,22,40,0.92);color:#00d4c8;
+  font-family:'Barlow Condensed','Exo 2',sans-serif;
+  font-size:13px;font-weight:700;letter-spacing:1px;
+  padding:8px 14px;border-radius:100px;
+  border:1px solid rgba(0,212,200,0.3);
+  text-decoration:none;backdrop-filter:blur(6px);
+  box-shadow:0 2px 12px rgba(0,0,0,0.25);
+  transition:all 0.2s;
+" onmouseover="this.style.background='rgba(0,212,200,0.18)';this.style.borderColor='rgba(0,212,200,0.6)'" onmouseout="this.style.background='rgba(10,22,40,0.92)';this.style.borderColor='rgba(0,212,200,0.3)'">
+  <span style="font-size:15px;">🐋</span> Dashboard
+</a>
+<style>
+@media print { #dash-home-link { display:none !important; } }
+</style>
+
 
 <div class="app-header">
   <div class="app-logo">🏐 EVALVB</div>

@@ -30,6 +30,81 @@ body{background:var(--navy);color:var(--orca-white);font-family:var(--body);min-
 .tab-btn:hover{color:var(--orca-white);}
 .tab-btn.on{color:var(--teal);border-bottom-color:var(--teal);}
 
+/* ── DASHBOARD LINK IN TOPBAR ── */
+.tb-dash-link{
+  font-family:var(--head);font-size:13px;font-weight:800;letter-spacing:1px;
+  color:var(--teal);text-decoration:none;
+  padding:6px 12px;border-radius:8px;border:1px solid var(--rim);
+  transition:all .2s;white-space:nowrap;
+}
+.tb-dash-link:hover{background:var(--teal-d);border-color:var(--teal);}
+
+/* ── EDIT CONTROLS ── */
+.tb-edit-controls{display:flex;align-items:center;gap:8px;}
+.edit-mode-btn{
+  font-family:var(--head);font-size:13px;font-weight:700;letter-spacing:1px;
+  padding:8px 16px;border-radius:8px;border:1px solid var(--rim);
+  background:var(--panel);color:var(--orca-white);cursor:pointer;transition:all .2s;
+  white-space:nowrap;
+}
+.edit-mode-btn:hover{border-color:var(--teal);color:var(--teal);}
+.edit-mode-btn.on{background:var(--teal);color:var(--navy);border-color:var(--teal);}
+.reset-lineup-btn{
+  font-family:var(--head);font-size:12px;font-weight:700;letter-spacing:1px;
+  padding:8px 12px;border-radius:8px;border:1px solid var(--rim);
+  background:none;color:var(--orca-gray);cursor:pointer;transition:all .2s;
+}
+.reset-lineup-btn:hover{border-color:var(--red);color:var(--red);}
+
+/* ── EDIT MODE — DRAGGABLE PILLS ── */
+.edit-pill{
+  cursor:grab;position:relative;
+  border-style:dashed!important;
+  transition:all .15s;
+}
+.edit-pill:hover{background:var(--panel2);border-color:var(--teal)!important;}
+.edit-pill:active{cursor:grabbing;opacity:.6;}
+.edit-pill .drag-handle{
+  margin-left:auto;color:var(--orca-gray);font-size:12px;letter-spacing:-2px;
+}
+.edit-target{transition:all .15s;}
+body.edit-mode-active .edit-target{
+  outline:2px dashed rgba(0,200,190,.0);
+}
+.edit-target.drag-hover, .edit-target[ondragover]:hover{
+  outline:2px dashed var(--teal);outline-offset:-2px;
+}
+
+/* Sitout bar in edit mode */
+.sitout-pills{display:inline-flex;gap:6px;flex-wrap:wrap;vertical-align:middle;}
+.sit-pill{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:12px;font-weight:700;color:var(--orange);
+  background:rgba(255,159,67,.1);border:1px dashed var(--orange);
+  border-radius:6px;padding:3px 9px;cursor:grab;transition:all .15s;
+}
+.sit-pill:hover{background:rgba(255,159,67,.22);}
+.sit-pill:active{cursor:grabbing;opacity:.6;}
+body.edit-mode-active .sitout-bar{
+  border-color:var(--teal);border-style:dashed;
+}
+
+/* Edit mode hint banner */
+.edit-hint{
+  display:none;
+  background:rgba(0,200,190,.08);border:1px solid rgba(0,200,190,.3);
+  border-radius:10px;padding:10px 16px;margin-bottom:16px;
+  font-size:12px;color:var(--teal);line-height:1.6;
+}
+body.edit-mode-active .edit-hint{display:block;}
+.edit-hint strong{color:var(--orca-white);}
+
+@media(max-width:720px){
+  .topbar{flex-wrap:wrap;height:auto;padding:10px 14px;gap:8px;}
+  .tab-row{order:3;width:100%;justify-content:center;}
+  .tb-edit-controls{order:2;}
+}
+
 /* ── PAGES ── */
 .pg{display:none;max-width:1100px;margin:0 auto;padding:28px 20px 64px;}
 .pg.on{display:block;}
@@ -187,11 +262,13 @@ body{background:var(--navy);color:var(--orca-white);font-family:var(--body);min-
 </head>
 <body>
 
+
 <!-- TOPBAR -->
 <header class="topbar">
   <div class="tb-brand">
+    <a href="dashboard.html" class="tb-dash-link" title="Back to Dashboard">🐋 ORCAS</a>
     <div>
-      <div class="tb-title">🐋 <span>ORCAS</span> CHEMISTRY TRACKER</div>
+      <div class="tb-title">CHEMISTRY TRACKER</div>
       <div class="tb-sub">Who plays best together?</div>
     </div>
   </div>
@@ -199,6 +276,10 @@ body{background:var(--navy);color:var(--orca-white);font-family:var(--body);min-
     <button class="tab-btn on" id="tab-6v6" onclick="goTab('6v6')">6v6 ROUNDS</button>
     <button class="tab-btn" id="tab-3v3" onclick="goTab('3v3')">3v3 ROUNDS</button>
     <button class="tab-btn" id="tab-chemistry" onclick="goTab('chemistry')">🔬 CHEMISTRY</button>
+  </div>
+  <div class="tb-edit-controls">
+    <button class="edit-mode-btn" onclick="toggleEditMode()">✏️ Edit Lineups</button>
+    <button class="reset-lineup-btn" onclick="resetLineups()" title="Reset all lineups to original schedule">↺ Reset</button>
   </div>
 </header>
 
@@ -236,6 +317,8 @@ body{background:var(--navy);color:var(--orca-white);font-family:var(--body);min-
     <div><div class="prog-count" id="prog-count-6v6">0/72</div><div class="prog-pct" id="prog-pct-6v6">of unique pairs in 6v6</div></div>
   </div>
 
+  <div class="edit-hint">✏️ <strong>Edit Mode ON</strong> — drag any player onto another player to swap them, drag onto a team to move them there (bumps a player out), or drag onto the bench to sit them out. Changes save automatically.</div>
+
   <div class="round-grid" id="rounds-6v6"></div>
 </div>
 
@@ -252,6 +335,8 @@ body{background:var(--navy);color:var(--orca-white);font-family:var(--body);min-
     <div class="prog-bar-track"><div class="prog-bar-fill" id="prog-fill-3v3" style="width:0%"></div></div>
     <div><div class="prog-count" id="prog-count-3v3">0/35</div><div class="prog-pct" id="prog-pct-3v3">of unique pairs in 3v3</div></div>
   </div>
+
+  <div class="edit-hint">✏️ <strong>Edit Mode ON</strong> — drag any player onto another player to swap them, drag onto a team to move them there (bumps a player out), or drag onto the bench to sit them out. Changes save automatically.</div>
 
   <div class="round-grid" id="rounds-3v3"></div>
 </div>
@@ -290,17 +375,23 @@ body{background:var(--navy);color:var(--orca-white);font-family:var(--body);min-
 // ═══════════════════════════════════════════
 const PLAYERS = ["Korbynn Abraham", "Aubriella Adams", "Kara Coder", "Itzabel Colmenero", "Nevaeh Cooks", "Avani Hobbs", "Jessa Hobbs", "Lily Israel", "Olivia Lemanski", "Ruby Okafor", "Jewel Purdy", "Aubriella Ramirez", "Audrianna Rogers"];
 
-const ROUNDS_6V6 = [{"round": 1, "teamA": [0, 1, 2, 3, 4, 5], "teamB": [12, 11, 10, 9, 8, 7], "sitOut": [6]}, {"round": 2, "teamA": [0, 1, 2, 3, 4, 5], "teamB": [12, 11, 10, 9, 8, 7], "sitOut": [6]}, {"round": 3, "teamA": [0, 12, 1, 2, 3, 4], "teamB": [11, 10, 9, 8, 7, 6], "sitOut": [5]}, {"round": 4, "teamA": [0, 11, 12, 1, 2, 3], "teamB": [10, 9, 8, 7, 6, 5], "sitOut": [4]}, {"round": 5, "teamA": [0, 10, 11, 12, 1, 2], "teamB": [9, 8, 7, 6, 5, 4], "sitOut": [3]}, {"round": 6, "teamA": [0, 9, 10, 11, 12, 1], "teamB": [8, 7, 6, 5, 4, 3], "sitOut": [2]}, {"round": 7, "teamA": [0, 8, 9, 10, 11, 12], "teamB": [7, 6, 5, 4, 3, 2], "sitOut": [1]}, {"round": 8, "teamA": [0, 7, 8, 9, 10, 11], "teamB": [6, 5, 4, 3, 2, 1], "sitOut": [12]}, {"round": 9, "teamA": [0, 6, 7, 8, 9, 10], "teamB": [5, 4, 3, 2, 1, 12], "sitOut": [11]}, {"round": 10, "teamA": [0, 5, 6, 7, 8, 9], "teamB": [4, 3, 2, 1, 12, 11], "sitOut": [10]}, {"round": 11, "teamA": [0, 4, 5, 6, 7, 8], "teamB": [3, 2, 1, 12, 11, 10], "sitOut": [9]}, {"round": 12, "teamA": [0, 3, 4, 5, 6, 7], "teamB": [2, 1, 12, 11, 10, 9], "sitOut": [8]}, {"round": 13, "teamA": [0, 2, 3, 4, 5, 6], "teamB": [1, 12, 11, 10, 9, 8], "sitOut": [7]}];
+const ROUNDS_6V6 = [{"round": 1, "teamA": [1, 2, 3, 4, 5, 6], "teamB": [12, 11, 10, 9, 8, 7], "sitOut": [0]}, {"round": 2, "teamA": [0, 1, 2, 3, 4, 5], "teamB": [12, 10, 9, 8, 7, 6], "sitOut": [11]}, {"round": 3, "teamA": [0, 12, 1, 2, 3, 4], "teamB": [11, 10, 8, 7, 6, 5], "sitOut": [9]}, {"round": 4, "teamA": [0, 11, 12, 1, 2, 3], "teamB": [10, 9, 8, 6, 5, 4], "sitOut": [7]}, {"round": 5, "teamA": [0, 10, 11, 12, 1, 2], "teamB": [9, 8, 7, 6, 4, 3], "sitOut": [5]}, {"round": 6, "teamA": [0, 9, 10, 11, 12, 1], "teamB": [8, 7, 6, 5, 4, 2], "sitOut": [3]}, {"round": 7, "teamA": [0, 8, 9, 10, 11, 12], "teamB": [7, 6, 5, 4, 3, 2], "sitOut": [1]}, {"round": 8, "teamA": [0, 7, 8, 9, 10, 11], "teamB": [6, 5, 4, 3, 2, 1], "sitOut": [12]}, {"round": 9, "teamA": [0, 6, 7, 8, 9, 11], "teamB": [5, 4, 3, 2, 1, 12], "sitOut": [10]}, {"round": 10, "teamA": [0, 5, 6, 7, 9, 10], "teamB": [4, 3, 2, 1, 12, 11], "sitOut": [8]}, {"round": 11, "teamA": [0, 4, 5, 7, 8, 9], "teamB": [3, 2, 1, 12, 11, 10], "sitOut": [6]}, {"round": 12, "teamA": [0, 3, 5, 6, 7, 8], "teamB": [2, 1, 12, 11, 10, 9], "sitOut": [4]}, {"round": 13, "teamA": [0, 3, 4, 5, 6, 7], "teamB": [1, 12, 11, 10, 9, 8], "sitOut": [2]}];
 const ROUNDS_3V3 = [{"round": 1, "teams": [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12]], "sitOut": [0]}, {"round": 2, "teams": [[0, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12]], "sitOut": [1]}, {"round": 3, "teams": [[0, 1, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12]], "sitOut": [2]}, {"round": 4, "teams": [[0, 1, 2], [4, 5, 6], [7, 8, 9], [10, 11, 12]], "sitOut": [3]}, {"round": 5, "teams": [[0, 1, 2], [3, 5, 6], [7, 8, 9], [10, 11, 12]], "sitOut": [4]}, {"round": 6, "teams": [[0, 1, 2], [3, 4, 6], [7, 8, 9], [10, 11, 12]], "sitOut": [5]}, {"round": 7, "teams": [[0, 1, 2], [3, 4, 5], [7, 8, 9], [10, 11, 12]], "sitOut": [6]}, {"round": 8, "teams": [[0, 1, 2], [3, 4, 5], [6, 8, 9], [10, 11, 12]], "sitOut": [7]}, {"round": 9, "teams": [[0, 1, 2], [3, 4, 5], [6, 7, 9], [10, 11, 12]], "sitOut": [8]}, {"round": 10, "teams": [[0, 1, 2], [3, 4, 5], [6, 7, 8], [10, 11, 12]], "sitOut": [9]}, {"round": 11, "teams": [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 11, 12]], "sitOut": [10]}, {"round": 12, "teams": [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 10, 12]], "sitOut": [11]}, {"round": 13, "teams": [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 10, 11]], "sitOut": [12]}, {"round": 14, "teams": [[6, 7, 8], [9, 10, 11], [1, 2, 12], [3, 4, 5]], "sitOut": [0]}, {"round": 15, "teams": [[6, 7, 8], [9, 10, 11], [0, 2, 12], [3, 4, 5]], "sitOut": [1]}, {"round": 16, "teams": [[6, 7, 8], [9, 10, 11], [0, 1, 12], [3, 4, 5]], "sitOut": [2]}, {"round": 17, "teams": [[6, 7, 8], [9, 10, 11], [0, 1, 12], [2, 4, 5]], "sitOut": [3]}, {"round": 18, "teams": [[6, 7, 8], [9, 10, 11], [0, 1, 12], [2, 3, 5]], "sitOut": [4]}, {"round": 19, "teams": [[6, 7, 8], [9, 10, 11], [0, 1, 12], [2, 3, 4]], "sitOut": [5]}, {"round": 20, "teams": [[5, 7, 8], [9, 10, 11], [0, 1, 12], [2, 3, 4]], "sitOut": [6]}, {"round": 21, "teams": [[5, 6, 8], [9, 10, 11], [0, 1, 12], [2, 3, 4]], "sitOut": [7]}, {"round": 22, "teams": [[5, 6, 7], [9, 10, 11], [0, 1, 12], [2, 3, 4]], "sitOut": [8]}, {"round": 23, "teams": [[5, 6, 7], [8, 10, 11], [0, 1, 12], [2, 3, 4]], "sitOut": [9]}, {"round": 24, "teams": [[5, 6, 7], [8, 9, 11], [0, 1, 12], [2, 3, 4]], "sitOut": [10]}, {"round": 25, "teams": [[5, 6, 7], [8, 9, 10], [0, 1, 12], [2, 3, 4]], "sitOut": [11]}, {"round": 26, "teams": [[5, 6, 7], [8, 9, 10], [0, 1, 11], [2, 3, 4]], "sitOut": [12]}];
 
 // Scores stored as: scores6[roundIdx][teamKey] = number
 // teamKey: 'A' or 'B' for 6v6; '0','1','2','3' for 3v3
 let scores6 = {}, scores3 = {};
 
+// Editable lineups — start as deep copy of generated schedule, can be modified
+let liveRounds6 = null, liveRounds3 = null;
+let editMode = false;
+
 function save(){
   try{
     localStorage.setItem('orca_chem_6', JSON.stringify(scores6));
     localStorage.setItem('orca_chem_3', JSON.stringify(scores3));
+    localStorage.setItem('orca_chem_live6', JSON.stringify(liveRounds6));
+    localStorage.setItem('orca_chem_live3', JSON.stringify(liveRounds3));
   }catch(e){}
 }
 function load(){
@@ -309,7 +400,39 @@ function load(){
     const s3 = localStorage.getItem('orca_chem_3');
     if(s6) scores6 = JSON.parse(s6);
     if(s3) scores3 = JSON.parse(s3);
-  }catch(e){}
+
+    const l6 = localStorage.getItem('orca_chem_live6');
+    const l3 = localStorage.getItem('orca_chem_live3');
+    liveRounds6 = l6 ? JSON.parse(l6) : JSON.parse(JSON.stringify(ROUNDS_6V6));
+    liveRounds3 = l3 ? JSON.parse(l3) : JSON.parse(JSON.stringify(ROUNDS_3V3));
+  }catch(e){
+    liveRounds6 = JSON.parse(JSON.stringify(ROUNDS_6V6));
+    liveRounds3 = JSON.parse(JSON.stringify(ROUNDS_3V3));
+  }
+}
+
+// ═══════════════════════════════════════════
+//  EDIT MODE TOGGLE
+// ═══════════════════════════════════════════
+function toggleEditMode(){
+  editMode = !editMode;
+  document.querySelectorAll('.edit-mode-btn').forEach(b=>{
+    b.classList.toggle('on', editMode);
+    b.textContent = editMode ? '✓ Done Editing' : '✏️ Edit Lineups';
+  });
+  document.body.classList.toggle('edit-mode-active', editMode);
+  render6v6();
+  render3v3();
+}
+
+function resetLineups(){
+  if(!confirm('Reset all lineups back to the original schedule? Your scores will NOT be affected.')) return;
+  liveRounds6 = JSON.parse(JSON.stringify(ROUNDS_6V6));
+  liveRounds3 = JSON.parse(JSON.stringify(ROUNDS_3V3));
+  save();
+  render6v6();
+  render3v3();
+  showToast('↺ Lineups reset to original schedule');
 }
 
 // ═══════════════════════════════════════════
@@ -329,7 +452,7 @@ function goTab(id){
 // ═══════════════════════════════════════════
 function render6v6(){
   const wrap = document.getElementById('rounds-6v6');
-  wrap.innerHTML = ROUNDS_6V6.map((r,ri)=>{
+  wrap.innerHTML = liveRounds6.map((r,ri)=>{
     const rKey = String(ri);
     const scoreA = scores6[rKey]?.A ?? '';
     const scoreB = scores6[rKey]?.B ?? '';
@@ -351,7 +474,9 @@ function render6v6(){
           ${teamCard6('A', r.teamA, ri, scoreA, 'tc-a')}
           ${teamCard6('B', r.teamB, ri, scoreB, 'tc-b')}
         </div>
-        <div class="sitout-bar">🪑 Sitting out this round: <span>${r.sitOut.map(i=>PLAYERS[i]).join(', ')}</span></div>
+        <div class="sitout-bar" id="sitout6-${ri}" ${editMode?`ondragover="onDragOver(event)" ondrop="onDropSitout(event, ${ri}, '6')"`:''}>
+          🪑 Sitting out this round: <span class="sitout-pills">${r.sitOut.map(i=>sitoutPillHTML(i, ri, '6')).join('')}</span>
+        </div>
         <div class="score-ctrl">
           <span class="saved-badge ${isDone?'show':''}" id="saved-6-${ri}">✓ Scores saved</span>
           <button class="btn-clear-round" onclick="clearRound6(${ri})">Clear</button>
@@ -362,17 +487,22 @@ function render6v6(){
   }).join('');
 }
 
+function sitoutPillHTML(playerIdx, ri, mode){
+  if(!editMode) return PLAYERS[playerIdx];
+  return `<span class="sit-pill" draggable="true"
+    ondragstart="onDragStart(event,${playerIdx},${ri},'${mode}','sitout')"
+    title="Drag onto a team to sub them in">${PLAYERS[playerIdx]}</span>`;
+}
+
 function teamCard6(side, playerIdxs, ri, score, colorClass){
-  const players = playerIdxs.map(i=>`
-    <div class="player-pill">
-      <span class="pill-num">${i+1}</span>
-      <span>${PLAYERS[i]}</span>
-    </div>`).join('');
+  const players = playerIdxs.map(i=>playerPillHTML(i, ri, '6', side)).join('');
   const winClass = score !== '' && scores6[String(ri)] ?
     (side==='A' && score > (scores6[String(ri)]?.B??-1) ? 'winner' :
      side==='B' && score > (scores6[String(ri)]?.A??-1) ? 'winner' : '') : '';
 
-  return `<div class="team-card ${colorClass}">
+  const dragAttrs = editMode ? `ondragover="onDragOver(event)" ondrop="onDropTeam(event, ${ri}, '6', '${side}')"` : '';
+
+  return `<div class="team-card ${colorClass} ${editMode?'edit-target':''}" ${dragAttrs}>
     <div class="team-header">
       <div class="team-name">TEAM ${side}</div>
       <div class="team-score-wrap">
@@ -387,6 +517,24 @@ function teamCard6(side, playerIdxs, ri, score, colorClass){
   </div>`;
 }
 
+// Render a player pill — draggable in edit mode, plain otherwise
+function playerPillHTML(playerIdx, ri, mode, teamKey){
+  if(!editMode){
+    return `<div class="player-pill">
+      <span class="pill-num">${playerIdx+1}</span>
+      <span>${PLAYERS[playerIdx]}</span>
+    </div>`;
+  }
+  return `<div class="player-pill edit-pill" draggable="true"
+    ondragstart="onDragStart(event,${playerIdx},${ri},'${mode}','${teamKey}')"
+    ondragover="onDragOver(event)"
+    ondrop="onDropSwap(event,${ri},'${mode}','${teamKey}',${playerIdx})">
+    <span class="pill-num">${playerIdx+1}</span>
+    <span>${PLAYERS[playerIdx]}</span>
+    <span class="drag-handle">⋮⋮</span>
+  </div>`;
+}
+
 // ═══════════════════════════════════════════
 //  RENDER 3v3 ROUNDS
 // ═══════════════════════════════════════════
@@ -395,7 +543,7 @@ const TEAM_NAMES_3  = ['GOLD','SILVER','GREEN','ORANGE'];
 
 function render3v3(){
   const wrap = document.getElementById('rounds-3v3');
-  wrap.innerHTML = ROUNDS_3V3.map((r,ri)=>{
+  wrap.innerHTML = liveRounds3.map((r,ri)=>{
     const rKey = String(ri);
     const isDone = scores3[rKey]?.done;
     const sitNames = r.sitOut.map(i=>firstName(PLAYERS[i])).join(', ');
@@ -417,7 +565,9 @@ function render3v3(){
       </div>
       <div class="round-body">
         <div class="teams-grid-3">${teamCards}</div>
-        <div class="sitout-bar">🪑 Sitting out: <span>${r.sitOut.map(i=>PLAYERS[i]).join(', ')}</span></div>
+        <div class="sitout-bar" id="sitout3-${ri}" ${editMode?`ondragover="onDragOver(event)" ondrop="onDropSitout(event, ${ri}, '3')"`:''}>
+          🪑 Sitting out: <span class="sitout-pills">${r.sitOut.map(i=>sitoutPillHTML(i, ri, '3')).join('')}</span>
+        </div>
         <div class="score-ctrl">
           <span class="saved-badge ${isDone?'show':''}" id="saved-3-${ri}">✓ Scores saved</span>
           <button class="btn-clear-round" onclick="clearRound3(${ri})">Clear</button>
@@ -429,13 +579,10 @@ function render3v3(){
 }
 
 function teamCard3(ti, playerIdxs, ri, score, colorClass, teamName){
-  const players = playerIdxs.map(i=>`
-    <div class="player-pill">
-      <span class="pill-num">${i+1}</span>
-      <span>${PLAYERS[i]}</span>
-    </div>`).join('');
+  const players = playerIdxs.map(i=>playerPillHTML(i, ri, '3', String(ti))).join('');
+  const dragAttrs = editMode ? `ondragover="onDragOver(event)" ondrop="onDropTeam(event, ${ri}, '3', '${ti}')"` : '';
 
-  return `<div class="team-card ${colorClass}">
+  return `<div class="team-card ${colorClass} ${editMode?'edit-target':''}" ${dragAttrs}>
     <div class="team-header">
       <div class="team-name">${teamName}</div>
       <div class="team-score-wrap">
@@ -463,7 +610,7 @@ function saveRound6(ri){
   card?.querySelector('.round-status')?.classList.replace('rs-pending','rs-done');
   card?.querySelector('.round-status') && (card.querySelector('.round-status').textContent='✓ SCORED');
   updateProgress();
-  showToast('✓ Round '+ROUNDS_6V6[ri].round+' saved!');
+  showToast('✓ Round '+liveRounds6[ri].round+' saved!');
 }
 
 function clearRound6(ri){
@@ -495,7 +642,7 @@ function saveRound3(ri){
   card?.querySelector('.round-status')?.classList.replace('rs-pending','rs-done');
   card?.querySelector('.round-status') && (card.querySelector('.round-status').textContent='✓ SCORED');
   updateProgress();
-  showToast('✓ Round '+ROUNDS_3V3[ri].round+' saved!');
+  showToast('✓ Round '+liveRounds3[ri].round+' saved!');
 }
 
 function clearRound3(ri){
@@ -521,6 +668,133 @@ function toggleRound(id){
 }
 
 // ═══════════════════════════════════════════
+//  DRAG & DROP — manual lineup editing
+// ═══════════════════════════════════════════
+let dragData = null; // { playerIdx, ri, mode, fromKey }
+
+function onDragStart(e, playerIdx, ri, mode, fromKey){
+  dragData = { playerIdx, ri, mode, fromKey };
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', String(playerIdx));
+}
+
+function onDragOver(e){
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+}
+
+// Helper: get the round object + locate a player's current location
+function getRoundData(ri, mode){
+  return mode === '6' ? liveRounds6[ri] : liveRounds3[ri];
+}
+
+function findPlayerLocation(round, mode, playerIdx){
+  if(mode === '6'){
+    if(round.teamA.includes(playerIdx)) return {key:'A', list:round.teamA};
+    if(round.teamB.includes(playerIdx)) return {key:'B', list:round.teamB};
+    if(round.sitOut.includes(playerIdx)) return {key:'sitout', list:round.sitOut};
+  } else {
+    for(let ti=0; ti<round.teams.length; ti++){
+      if(round.teams[ti].includes(playerIdx)) return {key:String(ti), list:round.teams[ti]};
+    }
+    if(round.sitOut.includes(playerIdx)) return {key:'sitout', list:round.sitOut};
+  }
+  return null;
+}
+
+function removeFromList(list, val){
+  const idx = list.indexOf(val);
+  if(idx > -1) list.splice(idx,1);
+}
+
+// Drop onto a team card — swap dragged player with a player already there (or move if team has space)
+function onDropTeam(e, ri, mode, targetKey){
+  e.preventDefault();
+  if(!dragData || dragData.ri !== ri || dragData.mode !== mode) return;
+  const round = getRoundData(ri, mode);
+  const { playerIdx, fromKey } = dragData;
+  if(fromKey === targetKey){ dragData=null; return; }
+
+  const fromLoc = findPlayerLocation(round, mode, playerIdx);
+  if(!fromLoc) return;
+
+  const targetList = mode==='6'
+    ? (targetKey==='A'?round.teamA:round.teamB)
+    : round.teams[Number(targetKey)];
+
+  // Remove dragged player from origin
+  removeFromList(fromLoc.list, playerIdx);
+
+  // If target team is now "full" relative to original size, swap: pull one player out to origin
+  const maxSize = mode==='6' ? 6 : 3;
+  if(targetList.length >= maxSize){
+    // pop the last player from target and put them where dragged player came from
+    const displaced = targetList.pop();
+    fromLoc.list.push(displaced);
+  }
+  targetList.push(playerIdx);
+
+  save();
+  render6v6();
+  render3v3();
+  showToast('🔄 Lineup updated');
+}
+
+// Drop directly onto another player pill — direct 1:1 swap
+function onDropSwap(e, ri, mode, targetKey, targetPlayerIdx){
+  e.preventDefault();
+  e.stopPropagation();
+  if(!dragData || dragData.ri !== ri || dragData.mode !== mode) return;
+  const round = getRoundData(ri, mode);
+  const { playerIdx } = dragData;
+  if(playerIdx === targetPlayerIdx){ dragData=null; return; }
+
+  const fromLoc = findPlayerLocation(round, mode, playerIdx);
+  const toLoc   = findPlayerLocation(round, mode, targetPlayerIdx);
+  if(!fromLoc || !toLoc) return;
+
+  // Swap positions in their respective lists
+  const fromIdx = fromLoc.list.indexOf(playerIdx);
+  const toIdx   = toLoc.list.indexOf(targetPlayerIdx);
+  fromLoc.list[fromIdx] = targetPlayerIdx;
+  toLoc.list[toIdx] = playerIdx;
+
+  save();
+  render6v6();
+  render3v3();
+  showToast('🔄 Players swapped');
+  dragData = null;
+}
+
+// Drop onto the sit-out bar — bench the dragged player, pull sitting player onto their team
+function onDropSitout(e, ri, mode){
+  e.preventDefault();
+  if(!dragData || dragData.ri !== ri || dragData.mode !== mode) return;
+  const round = getRoundData(ri, mode);
+  const { playerIdx, fromKey } = dragData;
+  if(fromKey === 'sitout'){ dragData=null; return; }
+
+  const fromLoc = findPlayerLocation(round, mode, playerIdx);
+  if(!fromLoc) return;
+
+  // Remove dragged player from their team, send to bench
+  removeFromList(fromLoc.list, playerIdx);
+
+  // Pull the first sitting player into the now-open slot
+  if(round.sitOut.length){
+    const incoming = round.sitOut.shift();
+    fromLoc.list.push(incoming);
+  }
+  round.sitOut.push(playerIdx);
+
+  save();
+  render6v6();
+  render3v3();
+  showToast('🔄 Lineup updated — bench swap');
+  dragData = null;
+}
+
+// ═══════════════════════════════════════════
 //  PROGRESS
 // ═══════════════════════════════════════════
 function updateProgress(){
@@ -530,7 +804,7 @@ function updateProgress(){
 
   // Count pairs covered by scored rounds
   const pairs6 = new Set();
-  ROUNDS_6V6.forEach((r,ri)=>{
+  liveRounds6.forEach((r,ri)=>{
     if(!scores6[String(ri)]?.done) return;
     [r.teamA, r.teamB].forEach(t=>{
       for(let i=0;i<t.length;i++) for(let j=i+1;j<t.length;j++)
@@ -544,7 +818,7 @@ function updateProgress(){
   const done3 = Object.values(scores3).filter(s=>s.done).length;
   document.getElementById('badge-3v3').textContent = `${done3}/26 Scored`;
   const pairs3 = new Set();
-  ROUNDS_3V3.forEach((r,ri)=>{
+  liveRounds3.forEach((r,ri)=>{
     if(!scores3[String(ri)]?.done) return;
     r.teams.forEach(t=>{
       for(let i=0;i<t.length;i++) for(let j=i+1;j<t.length;j++)
@@ -565,7 +839,7 @@ function buildPairMap(){
   for(let i=0;i<n;i++) for(let j=i+1;j<n;j++) map[i+'-'+j] = {total:0, count:0};
 
   // 6v6
-  ROUNDS_6V6.forEach((r,ri)=>{
+  liveRounds6.forEach((r,ri)=>{
     const sc = scores6[String(ri)];
     if(!sc?.done) return;
     [{team:r.teamA, score:sc.A},{team:r.teamB, score:sc.B}].forEach(({team,score})=>{
@@ -578,7 +852,7 @@ function buildPairMap(){
   });
 
   // 3v3
-  ROUNDS_3V3.forEach((r,ri)=>{
+  liveRounds3.forEach((r,ri)=>{
     const sc = scores3[String(ri)];
     if(!sc?.done) return;
     r.teams.forEach((team,ti)=>{
@@ -632,7 +906,7 @@ function renderChemistry(){
   // ── INDIVIDUAL AVERAGES ──
   const indivMap = {};
   PLAYERS.forEach((_,i)=>{ indivMap[i]={total:0,count:0}; });
-  ROUNDS_6V6.forEach((r,ri)=>{
+  liveRounds6.forEach((r,ri)=>{
     const sc = scores6[String(ri)];
     if(!sc?.done) return;
     [{team:r.teamA,score:sc.A},{team:r.teamB,score:sc.B}].forEach(({team,score})=>{
@@ -640,7 +914,7 @@ function renderChemistry(){
       team.forEach(pi=>{ indivMap[pi].total+=score; indivMap[pi].count++; });
     });
   });
-  ROUNDS_3V3.forEach((r,ri)=>{
+  liveRounds3.forEach((r,ri)=>{
     const sc = scores3[String(ri)];
     if(!sc?.done) return;
     r.teams.forEach((team,ti)=>{
