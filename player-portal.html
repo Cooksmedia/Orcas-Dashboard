@@ -137,6 +137,7 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
 .vb-serving{background:var(--coral-light);color:var(--coral-d);}
 .vb-passing{background:var(--teal-light);color:#0D9488;}
 .vb-setting{background:#FDE9F3;color:#BE185D;}
+.vb-basics{background:#DBEAFE;color:#1D4ED8;}
 .vb-hitting{background:var(--gold-light);color:#B8860B;}
 .vb-footwork{background:#E0E7FF;color:#4F46E5;}
 .video-title{font-family:var(--head);font-size:15px;font-weight:700;color:var(--navy);line-height:1.35;margin-bottom:4px;}
@@ -287,11 +288,25 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
       <button class="cat-tab" onclick="filterVideos('serving',this)">🏐 Serving</button>
       <button class="cat-tab" onclick="filterVideos('passing',this)">🙌 Passing</button>
       <button class="cat-tab" onclick="filterVideos('setting',this)">🤲 Setting</button>
+      <button class="cat-tab" onclick="filterVideos('basics',this)">📖 Game Basics</button>
       <button class="cat-tab" onclick="filterVideos('hitting',this)">💥 Hitting</button>
       <button class="cat-tab" onclick="filterVideos('footwork',this)">👟 Footwork</button>
     </div>
 
     <div class="video-grid" id="video-grid">
+
+      <div class="video-card" data-cat="basics">
+        <div class="video-thumb-link" onclick="playVideo(this,'C-sH0rXl9vo')" role="button" tabindex="0">
+          <img src="https://img.youtube.com/vi/C-sH0rXl9vo/hqdefault.jpg" alt="" class="video-thumb" loading="lazy">
+          <div class="video-play-overlay">▶</div>
+        </div>
+        <div class="video-body">
+          <span class="video-cat-badge vb-basics">Game Basics</span>
+          <div class="video-title">Basic Volleyball Terms to Know</div>
+          <div class="video-source">The Art of Coaching Volleyball</div>
+          <br><a href="https://www.youtube.com/watch?v=C-sH0rXl9vo" target="_blank" class="video-fallback">Open on YouTube ↗</a>
+        </div>
+      </div>
 
       <div class="video-card" data-cat="serving" id="serving-video">
         <div class="video-thumb-link" onclick="playVideo(this,'4-4mlKF4Jzg')" role="button" tabindex="0">
