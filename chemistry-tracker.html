@@ -168,8 +168,43 @@ body.edit-mode-active .edit-hint{display:block;}
 .team-score-input:focus{border-color:var(--teal);}
 .team-score-input.winner{border-color:var(--green);background:rgba(61,220,132,.08);}
 .team-players{padding:10px 14px 14px;display:flex;flex-direction:column;gap:5px;border-top:1px solid var(--rim);}
-.player-pill{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;padding:5px 10px;background:var(--panel);border-radius:7px;border:1px solid var(--rim);}
+.player-pill{display:flex;flex-direction:column;gap:0;font-size:13px;font-weight:500;padding:5px 10px;background:var(--panel);border-radius:7px;border:1px solid var(--rim);}
 .player-pill .pill-num{font-family:var(--head);font-size:14px;color:var(--orca-gray);min-width:18px;}
+.pp-main{display:flex;align-items:center;gap:8px;}
+.player-pill.has-stats{padding:6px 10px 7px;gap:6px;}
+.player-pill.has-stats .pp-main{padding-bottom:5px;border-bottom:1px solid var(--rim);}
+
+/* ── PLAYER STAT INPUTS ── */
+.pp-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;}
+.pstat-cell{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.pstat-input{
+  width:100%;max-width:38px;
+  font-family:var(--head);font-size:15px;font-weight:800;
+  text-align:center;background:var(--navy2);border:1px solid var(--rim);
+  border-radius:5px;padding:3px 2px;outline:none;transition:border-color .15s;
+}
+.pstat-input:focus{border-color:var(--teal);}
+.pstat-lbl{font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+
+/* ── STATS MODE BUTTON ── */
+.stats-mode-btn{
+  font-family:var(--head);font-size:13px;font-weight:700;letter-spacing:1px;
+  padding:8px 16px;border-radius:8px;border:1px solid var(--rim);
+  background:var(--panel);color:var(--orca-white);cursor:pointer;transition:all .2s;
+  white-space:nowrap;
+}
+.stats-mode-btn:hover{border-color:var(--yellow);color:var(--yellow);}
+.stats-mode-btn.on{background:var(--yellow);color:var(--navy);border-color:var(--yellow);}
+
+/* Stats mode hint */
+.stats-hint{
+  display:none;
+  background:rgba(255,224,64,.08);border:1px solid rgba(255,224,64,.3);
+  border-radius:10px;padding:10px 16px;margin-bottom:16px;
+  font-size:12px;color:var(--yellow);line-height:1.6;
+}
+body.stats-mode-active .stats-hint{display:block;}
+.stats-hint strong{color:var(--orca-white);}
 .sitout-bar{background:rgba(255,255,255,.04);border:1px dashed var(--rim);border-radius:10px;padding:10px 16px;font-size:12px;color:var(--orca-gray);text-align:center;margin-bottom:14px;}
 .sitout-bar span{color:var(--orange);font-weight:700;}
 
@@ -229,6 +264,25 @@ body.edit-mode-active .edit-hint{display:block;}
 .pair-card.bronze{border-color:rgba(200,140,60,.3);}
 
 /* ── INDIVIDUAL STATS ── */
+/* ── STAT LEADERBOARD TABLE ── */
+.stat-table-wrap{overflow-x:auto;border:1px solid var(--rim);border-radius:14px;background:var(--panel);margin-bottom:28px;}
+.stat-table{border-collapse:collapse;width:100%;min-width:560px;}
+.stat-table th{font-family:var(--head);font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--orca-gray);padding:11px 14px;border-bottom:2px solid var(--rim);text-align:center;background:var(--panel2);}
+.stat-table th:first-child{text-align:left;min-width:160px;}
+.stat-table th.sortable{cursor:pointer;transition:color .15s;}
+.stat-table th.sortable:hover{color:var(--teal);}
+.stat-table th.sort-active{color:var(--teal);}
+.stat-table td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.05);text-align:center;font-size:14px;}
+.stat-table td:first-child{text-align:left;font-weight:700;font-size:13px;}
+.stat-table tr:last-child td{border-bottom:none;}
+.stat-table tr:hover td{background:rgba(255,255,255,.03);}
+.stat-table .stat-num{font-family:var(--head);font-size:18px;font-weight:800;}
+.stat-rank{font-family:var(--head);font-size:13px;color:var(--orca-gray);width:32px;}
+.stat-rank.r1{color:var(--yellow);}
+.stat-rank.r2{color:#c0c8d8;}
+.stat-rank.r3{color:#cc8844;}
+.stat-empty{padding:40px;text-align:center;color:var(--orca-gray);font-size:13px;}
+
 .player-stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
 .pstat-card{background:var(--panel);border:1px solid var(--rim);border-radius:12px;padding:16px 18px;}
 .pstat-name{font-family:var(--head);font-size:17px;font-weight:800;letter-spacing:.5px;margin-bottom:2px;}
@@ -278,6 +332,7 @@ body.edit-mode-active .edit-hint{display:block;}
     <button class="tab-btn" id="tab-chemistry" onclick="goTab('chemistry')">🔬 CHEMISTRY</button>
   </div>
   <div class="tb-edit-controls">
+    <button class="stats-mode-btn" onclick="toggleStatsMode()">📊 Show Stats</button>
     <button class="edit-mode-btn" onclick="toggleEditMode()">✏️ Edit Lineups</button>
     <button class="reset-lineup-btn" onclick="resetLineups()" title="Reset all lineups to original schedule">↺ Reset</button>
   </div>
@@ -318,6 +373,7 @@ body.edit-mode-active .edit-hint{display:block;}
   </div>
 
   <div class="edit-hint">✏️ <strong>Edit Mode ON</strong> — drag any player onto another player to swap them, drag onto a team to move them there (bumps a player out), or drag onto the bench to sit them out. Changes save automatically.</div>
+  <div class="stats-hint">📊 <strong>Stats Mode ON</strong> — enter Points, Sets, Kills, and Blocks for each player as the round is played. Totals appear on the Chemistry tab leaderboards.</div>
 
   <div class="round-grid" id="rounds-6v6"></div>
 </div>
@@ -337,6 +393,7 @@ body.edit-mode-active .edit-hint{display:block;}
   </div>
 
   <div class="edit-hint">✏️ <strong>Edit Mode ON</strong> — drag any player onto another player to swap them, drag onto a team to move them there (bumps a player out), or drag onto the bench to sit them out. Changes save automatically.</div>
+  <div class="stats-hint">📊 <strong>Stats Mode ON</strong> — enter Points, Sets, Kills, and Blocks for each player as the round is played. Totals appear on the Chemistry tab leaderboards.</div>
 
   <div class="round-grid" id="rounds-3v3"></div>
 </div>
@@ -352,6 +409,14 @@ body.edit-mode-active .edit-hint{display:block;}
   <!-- Top Pairs -->
   <div style="font-family:var(--head);font-size:13px;font-weight:700;letter-spacing:3px;color:var(--orca-gray);text-transform:uppercase;margin-bottom:12px;">⭐ Top Chemistry Pairs</div>
   <div class="pairs-grid" id="top-pairs"></div>
+
+  <!-- Player Stat Totals -->
+  <div class="sec-head">
+    <div class="sec-title">📊 Player <em>Stat Totals</em></div>
+    <div class="sec-line"></div>
+    <div class="sec-badge" id="stats-rounds-badge">0 rounds tracked</div>
+  </div>
+  <div class="stat-table-wrap" id="stat-leaderboard"></div>
 
   <!-- Individual Averages -->
   <div class="sec-head">
@@ -386,12 +451,18 @@ let scores6 = {}, scores3 = {};
 let liveRounds6 = null, liveRounds3 = null;
 let editMode = false;
 
+// Player stats per round: playerStats6[ri][playerIdx] = {pts, sets, kills, blocks}
+let playerStats6 = {}, playerStats3 = {};
+let statsMode = false; // toggle for showing stat inputs on player pills
+
 function save(){
   try{
     localStorage.setItem('orca_chem_6', JSON.stringify(scores6));
     localStorage.setItem('orca_chem_3', JSON.stringify(scores3));
     localStorage.setItem('orca_chem_live6', JSON.stringify(liveRounds6));
     localStorage.setItem('orca_chem_live3', JSON.stringify(liveRounds3));
+    localStorage.setItem('orca_chem_pstats6', JSON.stringify(playerStats6));
+    localStorage.setItem('orca_chem_pstats3', JSON.stringify(playerStats3));
   }catch(e){}
 }
 function load(){
@@ -405,10 +476,42 @@ function load(){
     const l3 = localStorage.getItem('orca_chem_live3');
     liveRounds6 = l6 ? JSON.parse(l6) : JSON.parse(JSON.stringify(ROUNDS_6V6));
     liveRounds3 = l3 ? JSON.parse(l3) : JSON.parse(JSON.stringify(ROUNDS_3V3));
+
+    const p6 = localStorage.getItem('orca_chem_pstats6');
+    const p3 = localStorage.getItem('orca_chem_pstats3');
+    if(p6) playerStats6 = JSON.parse(p6);
+    if(p3) playerStats3 = JSON.parse(p3);
   }catch(e){
     liveRounds6 = JSON.parse(JSON.stringify(ROUNDS_6V6));
     liveRounds3 = JSON.parse(JSON.stringify(ROUNDS_3V3));
   }
+}
+
+// Get a player's stat object for a given round, creating if missing
+function getPlayerStat(statsObj, ri, playerIdx){
+  const rKey = String(ri);
+  if(!statsObj[rKey]) statsObj[rKey] = {};
+  if(!statsObj[rKey][playerIdx]) statsObj[rKey][playerIdx] = {pts:0, sets:0, kills:0, blocks:0};
+  return statsObj[rKey][playerIdx];
+}
+
+// Update a single stat field for a player in a round
+function updatePlayerStat(ri, mode, playerIdx, field, value){
+  const statsObj = mode==='6' ? playerStats6 : playerStats3;
+  const stat = getPlayerStat(statsObj, ri, playerIdx);
+  stat[field] = Math.max(0, Number(value) || 0);
+  save();
+}
+
+function toggleStatsMode(){
+  statsMode = !statsMode;
+  document.querySelectorAll('.stats-mode-btn').forEach(b=>{
+    b.classList.toggle('on', statsMode);
+    b.textContent = statsMode ? '✓ Hide Stats' : '📊 Show Stats';
+  });
+  document.body.classList.toggle('stats-mode-active', statsMode);
+  render6v6();
+  render3v3();
 }
 
 // ═══════════════════════════════════════════
@@ -517,21 +620,55 @@ function teamCard6(side, playerIdxs, ri, score, colorClass){
   </div>`;
 }
 
-// Render a player pill — draggable in edit mode, plain otherwise
+// Render a player pill — draggable in edit mode, plain otherwise, with optional stat inputs
 function playerPillHTML(playerIdx, ri, mode, teamKey){
+  const statsObj = mode==='6' ? playerStats6 : playerStats3;
+  const stat = getPlayerStat(statsObj, ri, playerIdx);
+  const statsHTML = statsMode ? statRowHTML(playerIdx, ri, mode, stat) : '';
+
   if(!editMode){
-    return `<div class="player-pill">
-      <span class="pill-num">${playerIdx+1}</span>
-      <span>${PLAYERS[playerIdx]}</span>
+    return `<div class="player-pill ${statsMode?'has-stats':''}">
+      <div class="pp-main">
+        <span class="pill-num">${playerIdx+1}</span>
+        <span>${PLAYERS[playerIdx]}</span>
+      </div>
+      ${statsHTML}
     </div>`;
   }
-  return `<div class="player-pill edit-pill" draggable="true"
+  return `<div class="player-pill edit-pill ${statsMode?'has-stats':''}" draggable="true"
     ondragstart="onDragStart(event,${playerIdx},${ri},'${mode}','${teamKey}')"
     ondragover="onDragOver(event)"
     ondrop="onDropSwap(event,${ri},'${mode}','${teamKey}',${playerIdx})">
-    <span class="pill-num">${playerIdx+1}</span>
-    <span>${PLAYERS[playerIdx]}</span>
-    <span class="drag-handle">⋮⋮</span>
+    <div class="pp-main">
+      <span class="pill-num">${playerIdx+1}</span>
+      <span>${PLAYERS[playerIdx]}</span>
+      <span class="drag-handle">⋮⋮</span>
+    </div>
+    ${statsHTML}
+  </div>`;
+}
+
+// Render the 4-stat input row (Pts, Sets, Kills, Blocks) for a player
+function statRowHTML(playerIdx, ri, mode, stat){
+  return `<div class="pp-stats" draggable="false" ondragstart="event.preventDefault();event.stopPropagation();" onclick="event.stopPropagation()">
+    ${statInputHTML('PTS','pts',playerIdx,ri,mode,stat.pts,'var(--yellow)')}
+    ${statInputHTML('SET','sets',playerIdx,ri,mode,stat.sets,'var(--teal)')}
+    ${statInputHTML('KILL','kills',playerIdx,ri,mode,stat.kills,'var(--green)')}
+    ${statInputHTML('BLK','blocks',playerIdx,ri,mode,stat.blocks,'var(--orange)')}
+  </div>`;
+}
+
+function statInputHTML(label, field, playerIdx, ri, mode, value, color){
+  const id = `pstat-${mode}-${ri}-${playerIdx}-${field}`;
+  return `<div class="pstat-cell">
+    <input type="number" class="pstat-input" id="${id}" value="${value||''}" min="0" max="99" placeholder="0"
+      style="color:${color};"
+      draggable="false"
+      onclick="event.stopPropagation()"
+      onmousedown="event.stopPropagation()"
+      ontouchstart="event.stopPropagation()"
+      onchange="updatePlayerStat(${ri},'${mode}',${playerIdx},'${field}',this.value)">
+    <div class="pstat-lbl" style="color:${color};">${label}</div>
   </div>`;
 }
 
@@ -868,7 +1005,115 @@ function buildPairMap(){
   return map;
 }
 
+// ═══════════════════════════════════════════
+//  PLAYER STAT LEADERBOARD
+// ═══════════════════════════════════════════
+let statSortKey = 'pts';
+let statSortDir = 'desc';
+
+function aggregatePlayerStats(){
+  const totals = {};
+  PLAYERS.forEach((_,i)=>{ totals[i] = {pts:0, sets:0, kills:0, blocks:0, rounds:0}; });
+
+  let roundsTracked = 0;
+
+  [playerStats6, playerStats3].forEach(statsObj=>{
+    Object.entries(statsObj).forEach(([rKey, playerMap])=>{
+      let hasAny = false;
+      Object.entries(playerMap).forEach(([pIdx, stat])=>{
+        const i = Number(pIdx);
+        if(!totals[i]) return;
+        const sum = (stat.pts||0)+(stat.sets||0)+(stat.kills||0)+(stat.blocks||0);
+        if(sum > 0){
+          totals[i].pts    += stat.pts||0;
+          totals[i].sets   += stat.sets||0;
+          totals[i].kills  += stat.kills||0;
+          totals[i].blocks += stat.blocks||0;
+          totals[i].rounds += 1;
+          hasAny = true;
+        }
+      });
+      if(hasAny) roundsTracked++;
+    });
+  });
+
+  return { totals, roundsTracked };
+}
+
+function sortStatTable(key){
+  if(statSortKey === key){
+    statSortDir = statSortDir === 'desc' ? 'asc' : 'desc';
+  } else {
+    statSortKey = key;
+    statSortDir = 'desc';
+  }
+  renderStatLeaderboard();
+}
+
+function renderStatLeaderboard(){
+  const { totals, roundsTracked } = aggregatePlayerStats();
+  const badge = document.getElementById('stats-rounds-badge');
+  if(badge) badge.textContent = `${roundsTracked} round${roundsTracked!==1?'s':''} tracked`;
+
+  const wrap = document.getElementById('stat-leaderboard');
+  if(!wrap) return;
+
+  const hasAnyData = Object.values(totals).some(t => t.pts+t.sets+t.kills+t.blocks > 0);
+  if(!hasAnyData){
+    wrap.innerHTML = `<div class="stat-empty">📊 No stats recorded yet. Turn on <strong style="color:var(--yellow)">Show Stats</strong> on the 6v6 or 3v3 tab and enter Points, Sets, Kills, and Blocks for each player after a round.</div>`;
+    return;
+  }
+
+  // Build sortable array
+  let arr = PLAYERS.map((name,i)=>({
+    i, name,
+    pts: totals[i].pts, sets: totals[i].sets,
+    kills: totals[i].kills, blocks: totals[i].blocks,
+    total: totals[i].pts+totals[i].sets+totals[i].kills+totals[i].blocks,
+    rounds: totals[i].rounds,
+  }));
+
+  arr.sort((a,b)=>{
+    const dir = statSortDir==='desc' ? -1 : 1;
+    return (a[statSortKey] - b[statSortKey]) * dir;
+  });
+
+  const cols = [
+    {key:'pts',    lbl:'PTS',   color:'var(--yellow)'},
+    {key:'sets',   lbl:'SET',   color:'var(--teal)'},
+    {key:'kills',  lbl:'KILL',  color:'var(--green)'},
+    {key:'blocks', lbl:'BLK',   color:'var(--orange)'},
+    {key:'total',  lbl:'TOTAL', color:'var(--orca-white)'},
+  ];
+
+  let html = '<table class="stat-table"><thead><tr><th>PLAYER</th>';
+  cols.forEach(c=>{
+    const active = statSortKey===c.key ? 'sort-active' : '';
+    const arrow = statSortKey===c.key ? (statSortDir==='desc'?' ▼':' ▲') : '';
+    html += `<th class="sortable ${active}" onclick="sortStatTable('${c.key}')" style="color:${active?c.color:''}">${c.lbl}${arrow}</th>`;
+  });
+  html += '<th>ROUNDS</th></tr></thead><tbody>';
+
+  arr.forEach((p,idx)=>{
+    const rankClass = idx===0?'r1':idx===1?'r2':idx===2?'r3':'';
+    html += `<tr>
+      <td><span class="stat-rank ${rankClass}">${idx+1}</span> ${firstName(p.name)}</td>
+      <td><span class="stat-num" style="color:var(--yellow)">${p.pts}</span></td>
+      <td><span class="stat-num" style="color:var(--teal)">${p.sets}</span></td>
+      <td><span class="stat-num" style="color:var(--green)">${p.kills}</span></td>
+      <td><span class="stat-num" style="color:var(--orange)">${p.blocks}</span></td>
+      <td><span class="stat-num">${p.total}</span></td>
+      <td style="color:var(--orca-gray);font-size:12px;">${p.rounds}</td>
+    </tr>`;
+  });
+
+  html += '</tbody></table>';
+  wrap.innerHTML = html;
+}
+
 function renderChemistry(){
+  renderStatLeaderboard();
+
   const map = buildPairMap();
   const n = PLAYERS.length;
 
