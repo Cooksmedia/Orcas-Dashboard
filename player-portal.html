@@ -108,8 +108,9 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
   border:1px solid var(--cream2);
 }
 .video-card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(30,42,69,.12);}
-.video-thumb-link{position:relative;display:block;width:100%;padding-top:56.25%;background:var(--navy);overflow:hidden;}
-.video-thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .3s;}
+.video-thumb-link{position:relative;display:block;width:100%;padding-top:56.25%;background:var(--navy);overflow:hidden;cursor:pointer;}
+.video-thumb-link.playing{cursor:default;}
+.video-thumb-link iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
 .video-thumb-link:hover .video-thumb{transform:scale(1.05);}
 .video-play-overlay{
   position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
@@ -121,6 +122,11 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
 }
 .video-thumb-link:hover .video-play-overlay{background:rgba(30,42,69,.25);}
 .video-thumb-link:hover .video-play-overlay::after{transform:scale(1.1);}
+.video-fallback{
+  display:inline-block;margin-top:6px;font-family:var(--head);font-size:10px;
+  font-weight:700;letter-spacing:.5px;color:var(--muted);text-decoration:none;
+}
+.video-fallback:hover{color:var(--coral-d);}
 .video-title{font-family:var(--head);font-size:15px;font-weight:700;color:var(--navy);line-height:1.35;margin-bottom:4px;}
 .video-body{padding:16px 18px;}
 .video-cat-badge{
@@ -285,98 +291,106 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
     <div class="video-grid" id="video-grid">
 
       <div class="video-card" data-cat="serving" id="serving-video">
-        <a href="https://www.youtube.com/watch?v=4-4mlKF4Jzg" target="_blank" class="video-thumb-link">
+        <div class="video-thumb-link" onclick="playVideo(this,'4-4mlKF4Jzg')" role="button" tabindex="0">
           <img src="https://img.youtube.com/vi/4-4mlKF4Jzg/hqdefault.jpg" alt="" class="video-thumb" loading="lazy">
           <div class="video-play-overlay">▶</div>
-        </a>
+        </div>
         <div class="video-body">
           <span class="video-cat-badge vb-serving">Serving</span>
           <div class="video-title">Volleyball How To: Standing Float Serve</div>
           <div class="video-source">Top Flight Volleyball Club</div>
+          <br><a href="https://www.youtube.com/watch?v=4-4mlKF4Jzg" target="_blank" class="video-fallback">Open on YouTube ↗</a>
         </div>
       </div>
 
       <div class="video-card" data-cat="serving">
-        <a href="https://www.youtube.com/watch?v=E7_vBUkQ7xs" target="_blank" class="video-thumb-link">
+        <div class="video-thumb-link" onclick="playVideo(this,'E7_vBUkQ7xs')" role="button" tabindex="0">
           <img src="https://img.youtube.com/vi/E7_vBUkQ7xs/hqdefault.jpg" alt="" class="video-thumb" loading="lazy">
           <div class="video-play-overlay">▶</div>
-        </a>
+        </div>
         <div class="video-body">
           <span class="video-cat-badge vb-serving">Serving</span>
           <div class="video-title">Learning the 1-Handed Jump Float Serve</div>
           <div class="video-source">Gold Medal Squared · Next Step After Standing Serve</div>
+          <br><a href="https://www.youtube.com/watch?v=E7_vBUkQ7xs" target="_blank" class="video-fallback">Open on YouTube ↗</a>
         </div>
       </div>
 
       <div class="video-card" data-cat="passing">
-        <a href="https://www.youtube.com/watch?v=yx4FHaNbGMc" target="_blank" class="video-thumb-link">
+        <div class="video-thumb-link" onclick="playVideo(this,'yx4FHaNbGMc')" role="button" tabindex="0">
           <img src="https://img.youtube.com/vi/yx4FHaNbGMc/hqdefault.jpg" alt="" class="video-thumb" loading="lazy">
           <div class="video-play-overlay">▶</div>
-        </a>
+        </div>
         <div class="video-body">
           <span class="video-cat-badge vb-passing">Passing</span>
           <div class="video-title">Volleyball Passing Keys</div>
           <div class="video-source">Gold Medal Squared · Chris McGown</div>
+          <br><a href="https://www.youtube.com/watch?v=yx4FHaNbGMc" target="_blank" class="video-fallback">Open on YouTube ↗</a>
         </div>
       </div>
 
       <div class="video-card" data-cat="passing">
-        <a href="https://www.youtube.com/watch?v=EJHj3PQ6738" target="_blank" class="video-thumb-link">
+        <div class="video-thumb-link" onclick="playVideo(this,'EJHj3PQ6738')" role="button" tabindex="0">
           <img src="https://img.youtube.com/vi/EJHj3PQ6738/hqdefault.jpg" alt="" class="video-thumb" loading="lazy">
           <div class="video-play-overlay">▶</div>
-        </a>
+        </div>
         <div class="video-body">
           <span class="video-cat-badge vb-passing">Passing</span>
           <div class="video-title">How to Angle Your Platform — Passing Key #3</div>
           <div class="video-source">Gold Medal Squared · "Face the Ball, Angle the Platform"</div>
+          <br><a href="https://www.youtube.com/watch?v=EJHj3PQ6738" target="_blank" class="video-fallback">Open on YouTube ↗</a>
         </div>
       </div>
 
       <div class="video-card" data-cat="passing">
-        <a href="https://www.youtube.com/watch?v=lVusJUTFr3w" target="_blank" class="video-thumb-link">
+        <div class="video-thumb-link" onclick="playVideo(this,'lVusJUTFr3w')" role="button" tabindex="0">
           <img src="https://img.youtube.com/vi/lVusJUTFr3w/hqdefault.jpg" alt="" class="video-thumb" loading="lazy">
           <div class="video-play-overlay">▶</div>
-        </a>
+        </div>
         <div class="video-body">
           <span class="video-cat-badge vb-passing">Passing</span>
           <div class="video-title">Passing Principles</div>
           <div class="video-source">Gold Medal Squared</div>
+          <br><a href="https://www.youtube.com/watch?v=lVusJUTFr3w" target="_blank" class="video-fallback">Open on YouTube ↗</a>
         </div>
       </div>
 
       <div class="video-card" data-cat="hitting">
-        <a href="https://www.youtube.com/watch?v=5UjM1d8UPxc" target="_blank" class="video-thumb-link">
+        <div class="video-thumb-link" onclick="playVideo(this,'5UjM1d8UPxc')" role="button" tabindex="0">
           <img src="https://img.youtube.com/vi/5UjM1d8UPxc/hqdefault.jpg" alt="" class="video-thumb" loading="lazy">
           <div class="video-play-overlay">▶</div>
-        </a>
+        </div>
         <div class="video-body">
           <span class="video-cat-badge vb-hitting">Hitting</span>
           <div class="video-title">The Keys to Spiking</div>
           <div class="video-source">Jim McLaughlin · Approach &amp; Arm Swing</div>
+          <br><a href="https://www.youtube.com/watch?v=5UjM1d8UPxc" target="_blank" class="video-fallback">Open on YouTube ↗</a>
         </div>
       </div>
 
       <div class="video-card" data-cat="footwork">
-        <a href="https://www.youtube.com/watch?v=dJYJQ7EJVSU" target="_blank" class="video-thumb-link">
+        <div class="video-thumb-link" onclick="playVideo(this,'dJYJQ7EJVSU')" role="button" tabindex="0">
           <img src="https://img.youtube.com/vi/dJYJQ7EJVSU/hqdefault.jpg" alt="" class="video-thumb" loading="lazy">
           <div class="video-play-overlay">▶</div>
-        </a>
+        </div>
         <div class="video-body">
           <span class="video-cat-badge vb-footwork">Footwork</span>
           <div class="video-title">Transition Footwork</div>
           <div class="video-source">Gold Medal Squared Camps &amp; Clinics</div>
+          <br><a href="https://www.youtube.com/watch?v=dJYJQ7EJVSU" target="_blank" class="video-fallback">Open on YouTube ↗</a>
         </div>
       </div>
 
       <div class="video-card" data-cat="footwork">
-        <a href="https://www.youtube.com/watch?v=jJpKLyf3NfE" target="_blank" class="video-thumb-link">
+        <div class="video-thumb-link" onclick="playVideo(this,'jJpKLyf3NfE')" role="button" tabindex="0">
           <img src="https://img.youtube.com/vi/jJpKLyf3NfE/hqdefault.jpg" alt="" class="video-thumb" loading="lazy">
           <div class="video-play-overlay">▶</div>
-        </a>
+        </div>
         <div class="video-body">
           <span class="video-cat-badge vb-footwork">Footwork</span>
           <div class="video-title">Transition Footwork Explained</div>
           <div class="video-source">Jim McLaughlin · 50% of volleyball is played in transition</div>
+          <br><a href="https://www.youtube.com/watch?v=jJpKLyf3NfE" target="_blank" class="video-fallback">Open on YouTube ↗</a>
         </div>
       </div>
 
@@ -616,6 +630,14 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
 </footer>
 
 <script>
+function playVideo(el, videoId){
+  if(el.classList.contains('playing')) return;
+  el.classList.add('playing');
+  el.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0"
+    title="Video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen loading="lazy"></iframe>`;
+}
+
 function filterVideos(cat, btn){
   document.querySelectorAll('.cat-tab').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
