@@ -296,6 +296,20 @@ label{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--muted);displ
   <div class="pg-title">Build Your <em>Roster</em></div>
   <div class="pg-sub">Add every player with their primary position. You'll score each player in Step 2.</div>
 
+  <div class="card" style="margin-bottom:20px; border-color:rgba(0,212,200,.25);">
+    <div class="card-head">
+      <div class="card-head-title">🔄 SYNC FROM EVALUATION SYSTEM</div>
+    </div>
+    <div class="card-body">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px;line-height:1.6;">
+        Pull your roster directly from the <strong>Player Evaluation System</strong> — names, jersey numbers, grades, and positions will be imported.
+        Existing players already on this roster won't be duplicated.
+      </p>
+      <button class="btn btn-gold" onclick="syncFromEvalSystem()">🔄 Sync Roster Now</button>
+      <span id="sync-status" style="margin-left:12px;font-size:13px;color:var(--muted);"></span>
+    </div>
+  </div>
+
   <div class="card" style="margin-bottom:20px;">
     <div class="card-head"><div class="card-head-title">➕ ADD PLAYER</div></div>
     <div class="card-body">
@@ -599,6 +613,74 @@ function removePlayer(id){
   players=players.filter(p=>p.id!==id);
   delete scores[id];save();renderRoster();
 }
+
+// ═══════════════════════════════════════════
+//  SYNC ROSTER FROM EVALUATION SYSTEM
+// ═══════════════════════════════════════════
+// Maps eval-system position codes to rotation-iq codes
+const EVAL_POS_MAP = { S:'S', OH:'OH', MB:'MB', OPP:'OPP', RS:'OPP', L:'L', DS:'L' };
+
+function syncFromEvalSystem(){
+  const statusEl = document.getElementById('sync-status');
+  let evalPlayers;
+  try{
+    evalPlayers = JSON.parse(localStorage.getItem('vb_players') || '[]');
+  }catch(e){
+    evalPlayers = [];
+  }
+
+  if(!evalPlayers.length){
+    statusEl.textContent = '⚠️ No roster found in the Evaluation System yet.';
+    statusEl.style.color = 'var(--orange)';
+    return;
+  }
+
+  // Match existing rotation-iq players by name (case-insensitive) to avoid duplicates
+  const existingNames = new Set(players.map(p => p.name.trim().toLowerCase()));
+
+  let added = 0, updated = 0;
+
+  evalPlayers.forEach(ep => {
+    const mappedPos = EVAL_POS_MAP[ep.position] || 'OH';
+    const key = ep.name.trim().toLowerCase();
+
+    if(existingNames.has(key)){
+      // Update existing player's jersey/grade/position to match eval system
+      const existing = players.find(p => p.name.trim().toLowerCase() === key);
+      if(existing){
+        existing.num = ep.jersey || existing.num;
+        existing.grade = ep.grade || existing.grade;
+        existing.pos = mappedPos;
+        updated++;
+      }
+    } else {
+      // Add new player
+      players.push({
+        id: Date.now().toString() + Math.random().toString(36).slice(2,7),
+        name: ep.name,
+        num: ep.jersey || '—',
+        grade: ep.grade || '7th',
+        pos: mappedPos,
+      });
+      existingNames.add(key);
+      added++;
+    }
+  });
+
+  save();
+  renderRoster();
+
+  statusEl.style.color = 'var(--teal)';
+  if(added===0 && updated===0){
+    statusEl.textContent = '✓ Already up to date — no changes needed.';
+  } else {
+    const parts = [];
+    if(added) parts.push(`${added} added`);
+    if(updated) parts.push(`${updated} updated`);
+    statusEl.textContent = `✓ Synced! ${parts.join(', ')}.`;
+  }
+}
+
 function renderRoster(){
   const el=document.getElementById('roster-list');
   document.getElementById('roster-count').textContent=players.length+' player'+(players.length!==1?'s':'');
