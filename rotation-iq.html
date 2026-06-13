@@ -84,6 +84,32 @@ body{background:var(--bg);color:var(--text);font-family:var(--body);min-height:1
 .btn-sm{padding:7px 14px;font-size:12px;}
 .btn-green{background:var(--green);color:#000;}
 .btn-green:hover{filter:brightness(1.1);}
+.btn-teal{background:var(--teal);color:#06231f;}
+.btn-teal:hover{filter:brightness(1.1);}
+.btn-danger{background:rgba(255,80,80,.12);color:#ff6b6b;border:1px solid rgba(255,80,80,.3);}
+.btn-danger:hover{background:rgba(255,80,80,.2);}
+
+/* ── MATCH LINEUPS ── */
+.match-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
+.match-card{background:var(--panel);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;}
+.match-card.has-lineup{border-color:rgba(240,180,40,.3);}
+.match-card-head{padding:14px 18px;border-bottom:1px solid var(--border);background:var(--panel2);}
+.match-card-title{font-family:var(--head);font-size:18px;font-weight:800;letter-spacing:1px;color:var(--gold);}
+.match-card-sub{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+.match-card-body{padding:16px 18px;}
+.match-saved-date{font-size:11px;color:var(--muted);margin-bottom:10px;}
+.match-starters{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;}
+.match-starter-row{display:flex;align-items:center;gap:10px;font-size:13px;}
+.match-pos-badge{font-family:var(--head);font-size:11px;font-weight:700;color:var(--teal);min-width:32px;background:rgba(0,212,200,.1);border-radius:5px;padding:2px 6px;text-align:center;}
+.match-starter-name{flex:1;color:var(--text);}
+.match-starter-score{font-family:var(--head);font-size:13px;color:var(--gold);}
+.match-sub-section{border-top:1px solid var(--border);padding-top:10px;margin-bottom:14px;}
+.match-sub-label{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--muted);margin-bottom:6px;}
+.match-sub-row{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);padding:2px 0;}
+.match-sub-wave{font-family:var(--head);font-size:11px;color:var(--teal);min-width:16px;}
+.match-actions{display:flex;gap:8px;}
+.match-actions .btn{flex:1;}
+.match-actions .btn-danger{flex:0 0 auto;padding:8px 12px;}
 
 /* FORM ELEMENTS */
 input,select,textarea{
@@ -305,6 +331,7 @@ label{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--muted);displ
     <button class="tab" onclick="go('rotations',this)">④ Rotations</button>
     <button class="tab" onclick="go('analysis',this)">⑤ Analysis</button>
     <button class="tab" onclick="go('subs',this)">⑥ Sub Order</button>
+    <button class="tab" onclick="go('match',this)">⑦ Match Lineups</button>
   </div>
 </div>
 
@@ -580,6 +607,13 @@ label{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--muted);displ
   <div id="subs-body"><div class="empty">Complete Steps 1–3 first (build your Starting 6) to generate a sub order.</div></div>
 </div>
 
+<div class="pg" id="pg-match">
+  <div class="pg-title">Match <em>Lineups</em></div>
+  <div class="pg-sub">Save up to 3 complete lineups — one per set. Build Set 1 to feel out the match, save it, adjust for Set 2, and save your strongest "win it now" lineup for a deciding Set 3.</div>
+
+  <div id="match-body"></div>
+</div>
+
 
 <script>
 // ══ STATE ══
@@ -588,6 +622,8 @@ let scores  = JSON.parse(localStorage.getItem('riq_scores')||'{}');
 let rotData = JSON.parse(localStorage.getItem('riq_rots')||'{}');
 let starters= JSON.parse(localStorage.getItem('riq_starters')||'{}');
 let curRot  = 1;
+// Match Lineups — up to 3 saved lineup presets (one per set)
+let matchLineups = JSON.parse(localStorage.getItem('riq_match_lineups')||'{}');
 
 const POS_LABELS = {S:'Setter',OH:'Outside Hitter',MB:'Middle Blocker',OPP:'Opposite/Right Side',L:'Libero'};
 const ROSTER_SLOTS = [
@@ -621,6 +657,7 @@ function go(id,btn){
   if(id==='rotations'){renderRotTabs();renderRotAssigns();renderCourtView();renderRotSummary();}
   if(id==='analysis')renderAnalysis();
   if(id==='subs')renderSubOrder();
+  if(id==='match')renderMatchLineups();
 }
 
 // ══ ROSTER ══
@@ -1032,6 +1069,160 @@ function renderRotSummary(){
 // ═══════════════════════════════════════════
 //  SUBSTITUTION ORDER — round-robin, enters at Position 6 (middle back)
 // ═══════════════════════════════════════════
+// ═══════════════════════════════════════════
+//  MATCH LINEUPS — save/load up to 3 named lineup presets
+// ═══════════════════════════════════════════
+const MATCH_SETS = [
+  {key:'set1', label:'Set 1', sub:'Feel It Out'},
+  {key:'set2', label:'Set 2', sub:'Adjust'},
+  {key:'set3', label:'Set 3', sub:'Win It Now'},
+];
+
+function buildSubOrderFor(starterIds){
+  const starterSet=new Set(starterIds);
+  const bench=players.filter(p=>!starterSet.has(p.id));
+  return [...bench].sort((a,b)=>{
+    const sa=scores[a.id]?overallScore(a.id):-1;
+    const sb=scores[b.id]?overallScore(b.id):-1;
+    return sb-sa;
+  }).map(p=>p.id);
+}
+
+function saveMatchLineup(setKey){
+  const s6=getStarterList();
+  if(s6.length<6){
+    alert('Build a complete Starting 6 first (Step 3), then save it here.');
+    return;
+  }
+  matchLineups[setKey]={
+    starters:JSON.parse(JSON.stringify(starters)),
+    rotData:JSON.parse(JSON.stringify(rotData)),
+    subOrder:buildSubOrderFor(s6.map(p=>p.id)),
+    savedAt:Date.now(),
+  };
+  save();
+  renderMatchLineups();
+  showToast(`✓ Saved current lineup to ${MATCH_SETS.find(s=>s.key===setKey).label}`);
+}
+
+function loadMatchLineup(setKey){
+  const ml=matchLineups[setKey];
+  if(!ml)return;
+  if(!confirm(`Load ${MATCH_SETS.find(s=>s.key===setKey).label} into the Starting 6 / Rotations editor? This will replace your current working lineup (your other saved sets are unaffected).`))return;
+  starters=JSON.parse(JSON.stringify(ml.starters));
+  rotData=JSON.parse(JSON.stringify(ml.rotData));
+  save();
+  renderMatchLineups();
+  showToast(`✓ Loaded ${MATCH_SETS.find(s=>s.key===setKey).label} — check Starting 6 and Rotations tabs`);
+}
+
+function clearMatchLineup(setKey){
+  if(!confirm(`Clear the saved lineup for ${MATCH_SETS.find(s=>s.key===setKey).label}?`))return;
+  delete matchLineups[setKey];
+  save();
+  renderMatchLineups();
+}
+
+function showToast(msg){
+  let t=document.getElementById('riq-toast');
+  if(!t){
+    t=document.createElement('div');
+    t.id='riq-toast';
+    t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--teal);color:var(--bg);font-family:var(--head);font-size:13px;font-weight:700;letter-spacing:1px;padding:12px 24px;border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,.3);z-index:9999;transition:opacity .3s;';
+    document.body.appendChild(t);
+  }
+  t.textContent=msg;
+  t.style.opacity='1';
+  clearTimeout(t._hideTimer);
+  t._hideTimer=setTimeout(()=>{t.style.opacity='0';},2400);
+}
+
+function renderMatchLineups(){
+  const body=document.getElementById('match-body');
+  const currentS6=getStarterList();
+  const hasCurrent=currentS6.length>=6;
+
+  const cards=MATCH_SETS.map(set=>{
+    const ml=matchLineups[set.key];
+
+    if(!ml){
+      return `<div class="match-card">
+        <div class="match-card-head">
+          <div class="match-card-title">${set.label}</div>
+          <div class="match-card-sub">${set.sub}</div>
+        </div>
+        <div class="match-card-body">
+          <div class="empty" style="padding:24px 0;">Nothing saved yet.</div>
+          <button class="btn btn-gold" style="width:100%;" onclick="saveMatchLineup('${set.key}')" ${hasCurrent?'':'disabled'}>
+            💾 Save Current Lineup as ${set.label}
+          </button>
+          ${!hasCurrent?'<div style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center;">Build a Starting 6 first (Step 3)</div>':''}
+        </div>
+      </div>`;
+    }
+
+    // Build starting 6 preview from saved starters
+    const rows=ROSTER_SLOTS.flatMap(slot=>
+      Array.from({length:slot.count},(_,i)=>{
+        const id=ml.starters[slot.pos+i];
+        const p=players.find(x=>x.id===id);
+        return p?{p,slot}:null;
+      })
+    ).filter(Boolean);
+
+    const subRows=(ml.subOrder||[]).slice(0,3).map((id,i)=>{
+      const p=players.find(x=>x.id===id);
+      return p?`<div class="match-sub-row"><span class="match-sub-wave">${i+1}</span>${p.name}</div>`:'';
+    }).join('');
+
+    const savedDate=new Date(ml.savedAt).toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+
+    return `<div class="match-card has-lineup">
+      <div class="match-card-head">
+        <div class="match-card-title">${set.label}</div>
+        <div class="match-card-sub">${set.sub}</div>
+      </div>
+      <div class="match-card-body">
+        <div class="match-saved-date">Saved ${savedDate}</div>
+        <div class="match-starters">
+          ${rows.map(r=>`<div class="match-starter-row">
+            <span class="match-pos-badge">${r.slot.pos}</span>
+            <span class="match-starter-name">${r.p.name}</span>
+            <span class="match-starter-score">${scores[r.p.id]?overallScore(r.p.id).toFixed(1):'—'}</span>
+          </div>`).join('')}
+        </div>
+        ${subRows?`<div class="match-sub-section">
+          <div class="match-sub-label">FIRST SUBS</div>
+          ${subRows}
+        </div>`:''}
+        <div class="match-actions">
+          <button class="btn btn-teal" onclick="loadMatchLineup('${set.key}')" ${hasCurrent?'':''}>📂 Load</button>
+          <button class="btn btn-gold" onclick="saveMatchLineup('${set.key}')" ${hasCurrent?'':'disabled'}>💾 Overwrite</button>
+          <button class="btn btn-danger" onclick="clearMatchLineup('${set.key}')">🗑️</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  body.innerHTML=`
+    <div class="card" style="margin-bottom:20px; border-color:rgba(0,212,200,.25);">
+      <div class="card-head"><div class="card-head-title">📋 HOW THIS WORKS</div></div>
+      <div class="card-body" style="font-size:13px;color:var(--muted);line-height:1.7;">
+        Build your <strong style="color:var(--text)">Starting 6</strong> (Step 3) and set the rotation order (Step 4),
+        then come here and click <strong style="color:var(--gold)">"Save Current Lineup"</strong> into Set 1, Set 2, or Set 3.
+        <br><br>
+        Each save captures your full starting 6, rotation order, AND sub order at that moment — so you can build a
+        balanced lineup for Set 1, tweak it for Set 2, and save your <strong style="color:var(--text)">best-of-the-best "must win" lineup</strong>
+        for a deciding Set 3.
+        <br><br>
+        Click <strong style="color:var(--teal)">"Load"</strong> on any saved set to bring that exact lineup back into the
+        Starting 6 / Rotations / Sub Order tabs — useful for reviewing or making final tweaks before the match.
+      </div>
+    </div>
+    <div class="match-grid">${cards}</div>
+  `;
+}
+
 function renderSubOrder(){
   const body=document.getElementById('subs-body');
   const s6=getStarterList();
@@ -1203,6 +1394,7 @@ function save(){
   localStorage.setItem('riq_scores',JSON.stringify(scores));
   localStorage.setItem('riq_rots',JSON.stringify(rotData));
   localStorage.setItem('riq_starters',JSON.stringify(starters));
+  localStorage.setItem('riq_match_lineups',JSON.stringify(matchLineups));
 }
 
 // ══ INIT ══
