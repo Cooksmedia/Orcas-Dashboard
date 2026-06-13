@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6-3 Rotation Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --court-green: #2d5a1b;
+  --court-line: #ffffff;
+  --net: #e8d5a0;
+  --bg: #0f1923;
+  --panel: #162030;
+  --panel2: #1e2d40;
+  --panel3: #253347;
+  --border: #2d4060;
+  --accent: #00e5ff;
+  --accent2: #00b8cc;
+  --accent-dim: rgba(0,229,255,0.1);
+  --gold: #ffd700;
+  --gold-dim: rgba(255,215,0,0.12);
+  --green: #00e676;
+  --green-dim: rgba(0,230,118,0.1);
+  --red: #ff5252;
+  --red-dim: rgba(255,82,82,0.1);
+  --orange: #ff9800;
+  --text: #e8f0fe;
+  --muted: #607d9b;
+  --head: 'Russo One', sans-serif;
+  --body: 'Nunito', sans-serif;
+
+  /* Position colors */
+  --s-color: #ffd700;
+  --oh-color: #00e5ff;
+  --mb-color: #00e676;
+  --opp-color: #ff5252;
+  --lib-color: #ce93d8;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── SCREEN MANAGER ─── */
+.screen { display: none; }
+.screen.active { display: flex; flex-direction: column; min-height: 100vh; }
+
+/* ─── HEADER ─── */
+.game-header {
+  background: var(--panel);
+  border-bottom: 2px solid var(--border);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.game-logo {
+  font-family: var(--head);
+  font-size: 20px;
+  color: var(--accent);
+  letter-spacing: 1px;
+}
+.game-logo span { color: var(--gold); }
+.progress-bar-wrap {
+  flex: 1;
+  height: 8px;
+  background: var(--panel3);
+  border-radius: 4px;
+  overflow: hidden;
+  max-width: 300px;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--gold));
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+.progress-label { font-size: 12px; color: var(--muted); font-weight: 700; }
+.score-display {
+  font-family: var(--head);
+  font-size: 18px;
+  color: var(--gold);
+  background: var(--gold-dim);
+  border: 1px solid rgba(255,215,0,0.3);
+  padding: 6px 16px;
+  border-radius: 100px;
+}
+
+/* ─── WELCOME SCREEN ─── */
+#screen-welcome {
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 30% 40%, rgba(0,229,255,0.06) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 70%, rgba(255,215,0,0.05) 0%, transparent 60%),
+              var(--bg);
+  padding: 40px 20px;
+  text-align: center;
+}
+.welcome-badge {
+  display: inline-block;
+  background: var(--accent-dim);
+  border: 1px solid rgba(0,229,255,0.3);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  padding: 7px 20px;
+  border-radius: 100px;
+  margin-bottom: 24px;
+}
+.welcome-title {
+  font-family: var(--head);
+  font-size: clamp(42px, 9vw, 90px);
+  line-height: 0.9;
+  margin-bottom: 16px;
+}
+.welcome-title .t1 { color: var(--text); display: block; }
+.welcome-title .t2 { color: var(--accent); display: block; }
+.welcome-title .t3 { color: var(--gold); display: block; font-size: 0.6em; }
+.welcome-desc {
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 500px;
+  margin: 0 auto 36px;
+  line-height: 1.7;
+}
+.welcome-features {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+.feat-chip {
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  min-width: 110px;
+}
+.feat-chip .fi { font-size: 22px; display: block; margin-bottom: 4px; }
+.btn-start {
+  font-family: var(--head);
+  font-size: 20px;
+  letter-spacing: 2px;
+  padding: 18px 56px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: var(--bg);
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 0 40px rgba(0,229,255,0.3);
+}
+.btn-start:hover { transform: translateY(-3px); box-shadow: 0 8px 50px rgba(0,229,255,0.4); }
+
+/* ─── LESSON SCREEN ─── */
+#screen-lesson {
+  background: var(--bg);
+}
+.lesson-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px;
+  gap: 24px;
+  width: 100%;
+}
+@media(max-width:750px){ .lesson-body { grid-template-columns: 1fr; } }
+
+.lesson-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+}
+.lesson-phase {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.lesson-title {
+  font-family: var(--head);
+  font-size: clamp(20px, 3vw, 30px);
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+.lesson-title span { color: var(--accent); }
+.lesson-text {
+  font-size: 14px;
+  color: #a0b4cc;
+  line-height: 1.75;
+  margin-bottom: 16px;
+}
+.key-rules { list-style: none; margin-bottom: 20px; }
+.key-rules li {
+  display: flex;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  align-items: flex-start;
+  line-height: 1.5;
+}
+.key-rules li:last-child { border-bottom: none; }
+.rule-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+/* ─── MINI COURT (lesson visual) ─── */
+.mini-court-wrap { display: flex; flex-direction: column; align-items: center; }
+.mini-court {
+  background: var(--court-green);
+  border: 3px solid var(--court-line);
+  border-radius: 8px;
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  aspect-ratio: 0.75;
+  margin: 0 auto;
+}
+.mini-court-half {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  height: 50%;
+  padding: 8px;
+  gap: 4px;
+}
+.mini-net {
+  height: 6px;
+  background: var(--net);
+  border-top: 2px solid rgba(255,255,255,0.3);
+  border-bottom: 2px solid rgba(255,255,255,0.3);
+  margin: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+.mini-pos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: 1px dashed rgba(255,255,255,0.15);
+  font-size: 10px;
+  font-weight: 800;
+  min-height: 44px;
+  cursor: default;
+  transition: all 0.2s;
+  position: relative;
+}
+.mini-player {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 900;
+  border: 2px solid rgba(255,255,255,0.4);
+  flex-direction: column;
+  line-height: 1;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+  position: relative;
+}
+.mini-player .pnum { font-size: 14px; }
+.mini-player .prole { font-size: 8px; opacity: 0.85; }
+.player-S { background: var(--s-color); color: #000; }
+.player-OH { background: var(--oh-color); color: #000; }
+.player-MB { background: var(--mb-color); color: #000; }
+.player-OPP { background: var(--opp-color); color: #fff; }
+.player-L { background: var(--lib-color); color: #000; }
+
+.pos-label-corner {
+  position: absolute;
+  top: 2px; left: 4px;
+  font-size: 9px;
+  color: rgba(255,255,255,0.3);
+  font-weight: 700;
+}
+
+/* ─── POSITION LEGEND ─── */
+.pos-legend {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  justify-content: center;
+}
+.leg-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.leg-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+
+/* ─── QUIZ / DRAG-DROP SCREEN ─── */
+#screen-quiz {
+  background: var(--bg);
+}
+.quiz-layout {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px;
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.quiz-question-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 24px;
+  width: 100%;
+  text-align: center;
+}
+.q-number { font-size: 11px; font-weight: 800; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; }
+.q-text { font-family: var(--head); font-size: clamp(15px, 2.5vw, 22px); line-height: 1.3; }
+.q-text span { color: var(--accent); }
+.q-hint { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+
+/* ─── DRAG DROP COURT ─── */
+.dd-layout {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 20px;
+  width: 100%;
+  align-items: start;
+}
+@media(max-width:680px){
+  .dd-layout { grid-template-columns: 1fr; }
+}
+
+/* Player bench */
+.player-bench {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+}
+.bench-title {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  text-align: center;
+}
+.bench-players {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 200px;
+}
+
+/* Draggable player token */
+.player-token {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--panel2);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: grab;
+  transition: all 0.2s;
+  user-select: none;
+  touch-action: none;
+}
+.player-token:hover { border-color: var(--accent); transform: translateX(3px); }
+.player-token.dragging { opacity: 0.4; cursor: grabbing; }
+.player-token.placed { opacity: 0.35; cursor: not-allowed; border-style: dashed; }
+.token-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 900;
+  flex-shrink: 0;
+  border: 2px solid rgba(255,255,255,0.3);
+}
+.token-info { flex: 1; min-width: 0; }
+.token-name { font-size: 13px; font-weight: 800; }
+.token-role { font-size: 11px; color: var(--muted); }
+
+/* Interactive court */
+.dd-court-wrap { display: flex; flex-direction: column; align-items: center; }
+.dd-court {
+  background: var(--court-green);
+  border: 3px solid var(--court-line);
+  border-radius: 10px;
+  overflow: visible;
+  position: relative;
+  width: 280px;
+}
+.dd-court-half {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 8px;
+  gap: 6px;
+}
+.dd-net {
+  height: 8px;
+  background: var(--net);
+  border-top: 2px solid rgba(255,255,255,0.4);
+  border-bottom: 2px solid rgba(255,255,255,0.4);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 3px;
+  font-weight: 800;
+}
+
+/* Drop zone */
+.drop-zone {
+  min-height: 68px;
+  border: 2px dashed rgba(255,255,255,0.2);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  position: relative;
+  background: rgba(255,255,255,0.03);
+  cursor: default;
+}
+.drop-zone.drag-over {
+  border-color: var(--accent);
+  background: rgba(0,229,255,0.1);
+  transform: scale(1.05);
+}
+.drop-zone.correct {
+  border-color: var(--green);
+  background: rgba(0,230,118,0.12);
+  animation: correctPulse 0.4s ease;
+}
+.drop-zone.incorrect {
+  border-color: var(--red);
+  background: rgba(255,82,82,0.12);
+  animation: shake 0.3s ease;
+}
+.drop-zone.locked { cursor: default; }
+.dz-pos-label {
+  font-size: 9px;
+  color: rgba(255,255,255,0.25);
+  font-weight: 800;
+  position: absolute;
+  top: 3px; left: 5px;
+  letter-spacing: 1px;
+}
+.dz-hint {
+  font-size: 10px;
+  color: rgba(255,255,255,0.2);
+  text-align: center;
+  padding: 0 4px;
+  line-height: 1.3;
+}
+.dz-player {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 900;
+  border: 2px solid rgba(255,255,255,0.4);
+  flex-direction: column;
+  line-height: 1.1;
+  cursor: grab;
+  transition: transform 0.15s;
+}
+.dz-player:hover { transform: scale(1.1); }
+.dz-player .pn { font-size: 15px; font-weight: 900; }
+.dz-player .pr { font-size: 8px; opacity: 0.85; }
+.dz-check {
+  position: absolute;
+  top: -6px; right: -6px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  font-size: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900;
+}
+.dz-check.ok { background: var(--green); color: #000; }
+.dz-check.bad { background: var(--red); color: #fff; }
+
+@keyframes correctPulse {
+  0%{transform:scale(1)} 50%{transform:scale(1.08)} 100%{transform:scale(1)}
+}
+@keyframes shake {
+  0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)}
+}
+
+/* Court direction labels */
+.court-opp-label {
+  font-size: 9px;
+  color: rgba(255,255,255,0.3);
+  text-align: center;
+  letter-spacing: 2px;
+  padding: 4px;
+  font-weight: 700;
+}
+
+/* ─── FEEDBACK BAR ─── */
+.feedback-bar {
+  width: 100%;
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  transition: all 0.3s;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.feedback-bar.idle { background: var(--panel2); color: var(--muted); border: 1px solid var(--border); }
+.feedback-bar.correct { background: var(--green-dim); color: var(--green); border: 1px solid rgba(0,230,118,0.3); }
+.feedback-bar.wrong { background: var(--red-dim); color: var(--red); border: 1px solid rgba(255,82,82,0.3); }
+.feedback-bar.info { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(0,229,255,0.3); }
+
+/* ─── BUTTONS ─── */
+.btn {
+  font-family: var(--body);
+  font-size: 14px;
+  font-weight: 800;
+  padding: 12px 28px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.18s;
+  letter-spacing: 0.5px;
+}
+.btn-accent { background: var(--accent); color: var(--bg); }
+.btn-accent:hover { background: var(--accent2); transform: translateY(-2px); }
+.btn-gold { background: var(--gold); color: var(--bg); }
+.btn-gold:hover { filter: brightness(1.1); transform: translateY(-2px); }
+.btn-outline { background: transparent; color: var(--text); border: 2px solid var(--border); }
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+.btn-green { background: var(--green); color: var(--bg); }
+.btn-green:hover { filter: brightness(0.9); }
+.btn-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+/* ─── QUIZ ACTIONS ─── */
+.quiz-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ─── MC QUIZ ─── */
+.mc-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+  max-width: 600px;
+}
+@media(max-width:500px){ .mc-options { grid-template-columns: 1fr; } }
+.mc-option {
+  background: var(--panel2);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  color: var(--text);
+  font-family: var(--body);
+}
+.mc-option:hover { border-color: var(--accent); background: var(--accent-dim); }
+.mc-option.selected-correct { border-color: var(--green); background: var(--green-dim); color: var(--green); }
+.mc-option.selected-wrong { border-color: var(--red); background: var(--red-dim); color: var(--red); }
+.mc-option.reveal-correct { border-color: var(--green); background: var(--green-dim); color: var(--green); }
+.mc-option.disabled { pointer-events: none; opacity: 0.5; }
+.mc-option.reveal-correct.disabled { opacity: 1; }
+
+/* ─── RESULTS SCREEN ─── */
+#screen-results {
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 50% 30%, rgba(255,215,0,0.08) 0%, transparent 60%), var(--bg);
+  padding: 40px 20px;
+  text-align: center;
+}
+.results-trophy { font-size: 80px; animation: bounce 1s ease infinite alternate; margin-bottom: 16px; }
+@keyframes bounce { 0%{transform:translateY(0)} 100%{transform:translateY(-12px)} }
+.results-title { font-family: var(--head); font-size: clamp(32px, 6vw, 60px); margin-bottom: 8px; }
+.results-title span { color: var(--gold); }
+.results-score {
+  font-family: var(--head);
+  font-size: clamp(48px, 10vw, 90px);
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.results-max { font-size: 16px; color: var(--muted); margin-bottom: 24px; }
+.results-grade {
+  display: inline-block;
+  font-family: var(--head);
+  font-size: 28px;
+  padding: 10px 32px;
+  border-radius: 100px;
+  margin-bottom: 28px;
+}
+.results-breakdown {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto 28px;
+}
+.rb-title { font-size: 11px; font-weight: 800; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; margin-bottom: 16px; }
+.rb-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+.rb-row:last-child { border-bottom: none; }
+.rb-pts { font-family: var(--head); font-size: 18px; color: var(--gold); }
+
+/* ─── ROTATION SELECTOR (for lessons) ─── */
+.rot-selector {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.rot-btn {
+  font-family: var(--head);
+  font-size: 13px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 2px solid var(--border);
+  background: var(--panel2);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.rot-btn.on { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+.rot-btn:hover:not(.on) { border-color: var(--border); color: var(--text); }
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* ─── CONFETTI ─── */
+.confetti-piece {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  animation: confettiFall linear forwards;
+  pointer-events: none;
+  z-index: 9999;
+}
+@keyframes confettiFall {
+  0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* TOUCH DRAG GHOST */
+#drag-ghost {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.85;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+</style>
+</head>
+<body>
+<!-- DASHBOARD HOME LINK -->
+<a href="player-portal.html" id="dash-home-link" title="Back to Player Hub" style="
+  position:fixed;top:14px;left:14px;z-index:9999;
+  display:flex;align-items:center;gap:7px;
+  background:rgba(10,22,40,0.92);color:#00d4c8;
+  font-family:'Barlow Condensed','Exo 2',sans-serif;
+  font-size:13px;font-weight:700;letter-spacing:1px;
+  padding:8px 14px;border-radius:100px;
+  border:1px solid rgba(0,212,200,0.3);
+  text-decoration:none;backdrop-filter:blur(6px);
+  box-shadow:0 2px 12px rgba(0,0,0,0.25);
+  transition:all 0.2s;
+" onmouseover="this.style.background='rgba(0,212,200,0.18)';this.style.borderColor='rgba(0,212,200,0.6)'" onmouseout="this.style.background='rgba(10,22,40,0.92)';this.style.borderColor='rgba(0,212,200,0.3)'">
+  <span style="font-size:15px;">🐋</span> Player Hub
+</a>
+<style>
+@media print { #dash-home-link { display:none !important; } }
+</style>
+
+
+<!-- ══════════ DRAG GHOST ══════════ -->
+<div id="drag-ghost"></div>
+
+<!-- ══════════ WELCOME SCREEN ══════════ -->
+<div class="screen active" id="screen-welcome">
+  <div class="welcome-badge">🏐 Interactive Volleyball Training</div>
+  <div class="welcome-title">
+    <span class="t1">MASTER THE</span>
+    <span class="t2">6-3 ROTATION</span>
+    <span class="t3">ACADEMY</span>
+  </div>
+  <p class="welcome-desc">Learn every rotation of the 6-3 system through lessons, drag-and-drop challenges, and quick-fire quizzes. Earn points for every correct answer!</p>
+  <div class="welcome-features">
+    <div class="feat-chip"><span class="fi">📚</span>6 Lessons</div>
+    <div class="feat-chip"><span class="fi">🎯</span>Drag & Drop</div>
+    <div class="feat-chip"><span class="fi">❓</span>12 Questions</div>
+    <div class="feat-chip"><span class="fi">🏆</span>Score & Grade</div>
+  </div>
+  <button class="btn-start" onclick="startGame()">START TRAINING →</button>
+</div>
+
+<!-- ══════════ LESSON SCREEN ══════════ -->
+<div class="screen" id="screen-lesson">
+  <div class="game-header">
+    <div class="game-logo">6-3 <span>ACADEMY</span></div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="prog-fill" style="width:0%"></div></div>
+    <div class="progress-label" id="prog-label">Lesson 0/6</div>
+    <div class="score-display">⭐ <span id="header-score">0</span></div>
+  </div>
+
+  <div class="lesson-body">
+    <div class="lesson-card" id="lesson-text-panel"></div>
+    <div class="lesson-card" style="display:flex;flex-direction:column;align-items:center;">
+      <div class="rot-selector" id="lesson-rot-selector"></div>
+      <div class="mini-court-wrap" id="lesson-court-wrap"></div>
+      <div class="pos-legend" style="margin-top:12px;">
+        <div class="leg-item"><div class="leg-dot" style="background:var(--s-color)"></div>Hybrid (Set + Attack)</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--oh-color)"></div>Attacker Only</div>
+      </div>
+    </div>
+  </div>
+  <div style="padding:0 28px 28px;text-align:center;">
+    <button class="btn btn-accent" id="lesson-next-btn" onclick="nextLesson()">GOT IT — NEXT →</button>
+  </div>
+</div>
+
+<!-- ══════════ QUIZ SCREEN ══════════ -->
+<div class="screen" id="screen-quiz">
+  <div class="game-header">
+    <div class="game-logo">6-3 <span>ACADEMY</span></div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="quiz-prog-fill" style="width:0%"></div></div>
+    <div class="progress-label" id="quiz-prog-label">Q 0/12</div>
+    <div class="score-display">⭐ <span id="quiz-header-score">0</span></div>
+  </div>
+
+  <div class="quiz-layout">
+    <div class="quiz-question-card">
+      <div class="q-number" id="q-number">QUESTION 1 OF 12</div>
+      <div class="q-text" id="q-text"></div>
+      <div class="q-hint" id="q-hint"></div>
+    </div>
+
+    <!-- DD layout shown for drag-drop questions -->
+    <div class="dd-layout" id="dd-layout" style="display:none;">
+      <div class="player-bench">
+        <div class="bench-title">PLAYERS — DRAG TO COURT</div>
+        <div class="bench-players" id="bench-players"></div>
+      </div>
+
+      <div class="dd-court-wrap">
+        <div class="court-opp-label">↑ OPPONENT SIDE</div>
+        <div class="dd-court" id="dd-court">
+          <div class="dd-court-half" id="front-row"></div>
+          <div class="dd-net">NET</div>
+          <div class="dd-court-half" id="back-row"></div>
+        </div>
+        <div class="court-opp-label" style="margin-top:4px;">↓ YOUR SIDE · POS 1 SERVES</div>
+      </div>
+
+      <div class="player-bench">
+        <div class="bench-title">POSITION GUIDE</div>
+        <div id="pos-guide" style="font-size:12px;color:var(--muted);line-height:1.8;padding:4px 0;"></div>
+      </div>
+    </div>
+
+    <!-- MC layout for multiple choice questions -->
+    <div id="mc-layout" style="display:none;width:100%;display:flex;flex-direction:column;align-items:center;gap:16px;">
+      <div class="mc-options" id="mc-options"></div>
+    </div>
+
+    <div class="feedback-bar idle" id="feedback-bar">Drag players to their correct positions on the court!</div>
+
+    <div class="quiz-actions" id="quiz-actions"></div>
+  </div>
+</div>
+
+<!-- ══════════ RESULTS SCREEN ══════════ -->
+<div class="screen" id="screen-results">
+  <div class="results-trophy" id="results-trophy">🏆</div>
+  <div class="results-title">ROTATION <span>COMPLETE!</span></div>
+  <div class="results-score" id="final-score">0</div>
+  <div class="results-max" id="final-max">out of 120 points</div>
+  <div class="results-grade" id="final-grade"></div>
+  <div class="results-breakdown" id="results-breakdown"></div>
+  <div class="btn-row">
+    <button class="btn btn-gold" onclick="restartGame()">🔄 PLAY AGAIN</button>
+    <button class="btn btn-accent" onclick="showScreen('screen-welcome')">🏠 HOME</button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+//  DATA
+// ══════════════════════════════════════════════
+
+// 6-3 system: 3 Hybrid setter/attackers + 3 pure Attackers; Hybrid in Zone 1 or 6 sets
+// Positions on court: front row = 4,3,2 (left to right) | back row = 5,6,1 (left to right)
+// Players: H1, H2, H3 (Hybrid setter/attackers), A1, A2, A3 (Attackers only) — 6-3 roster
+
+// Each rotation: who is at each position number
+// pos1=right back, pos2=right front, pos3=middle front, pos4=left front, pos5=left back, pos6=middle back
+// Front row (court display left-right): pos4, pos3, pos2
+// Back row (court display left-right): pos5, pos6, pos1
+
+const PLAYERS = [
+  { id:'H1', name:'Hybrid 1',    role:'H', abbr:'H1', colorClass:'player-S'  },
+  { id:'H2', name:'Hybrid 2',    role:'H', abbr:'H2', colorClass:'player-S'  },
+  { id:'H3', name:'Hybrid 3',    role:'H', abbr:'H3', colorClass:'player-S'  },
+  { id:'A1', name:'Attacker 1',  role:'A', abbr:'A1', colorClass:'player-OH' },
+  { id:'A2', name:'Attacker 2',  role:'A', abbr:'A2', colorClass:'player-OH' },
+  { id:'A3', name:'Attacker 3',  role:'A', abbr:'A3', colorClass:'player-OH' },
+];
+
+// 6-3 rotations — which player is at which position number (1-6)
+// 3 "Hybrid" players (set + attack) alternate with 3 "Attacker" players (attack only).
+// Players do NOT switch positions mid-rally — whoever is in Zone 1 or 6 when the
+// rally starts is the designated setter for that rotation (Option 1: 3 front-row attackers).
+// Layout: {1:playerId, 2:playerId, 3:playerId, 4:playerId, 5:playerId, 6:playerId}
+const ROTATIONS = [
+  { // Rotation 1: H1 at pos1 (serves, sets from Zone 1)
+    num: 1,
+    layout: { 1:'H1', 2:'A1', 3:'H2', 4:'A2', 5:'H3', 6:'A3' },
+    server: 'H1',
+    setter: 'H1',
+    note: 'H1 is in Zone 1 — she serves AND is the designated setter this rotation, because Zone 1 is one of the two setting zones. All three front-row players (A1, H2, A2) are ready to attack.',
+  },
+  { // Rotation 2: H1 moves to pos6 — still sets
+    num: 2,
+    layout: { 1:'A1', 2:'H2', 3:'A2', 4:'H3', 5:'A3', 6:'H1' },
+    server: 'A1',
+    setter: 'H1',
+    note: 'A1 serves from Zone 1. H1 has rotated to Zone 6 — still one of the setting zones, so H1 continues setting for a second straight rotation. This is the "two consecutive rotations" pattern every hybrid follows.',
+  },
+  { // Rotation 3: H2 now at pos1 — H2 takes over setting
+    num: 3,
+    layout: { 1:'H2', 2:'A2', 3:'H3', 4:'A3', 5:'H1', 6:'A1' },
+    server: 'H2',
+    setter: 'H2',
+    note: 'H2 has rotated into Zone 1 and takes over as the designated setter. H1 has rotated to Zone 5 — back row — and is now purely an attacker/defender, no setting duties.',
+  },
+  { // Rotation 4: H2 moves to pos6 — still sets
+    num: 4,
+    layout: { 1:'A2', 2:'H3', 3:'A3', 4:'H1', 5:'A1', 6:'H2' },
+    server: 'A2',
+    setter: 'H2',
+    note: 'A2 serves from Zone 1. H2 has rotated to Zone 6 and continues setting for her second rotation in a row. H1 is now in Zone 4 — a front-row attacker.',
+  },
+  { // Rotation 5: H3 now at pos1 — H3 takes over setting
+    num: 5,
+    layout: { 1:'H3', 2:'A3', 3:'H1', 4:'A1', 5:'H2', 6:'A2' },
+    server: 'H3',
+    setter: 'H3',
+    note: 'H3 rotates into Zone 1 and becomes the designated setter. H2 has rotated to Zone 5 — back row — done setting after her two rotations.',
+  },
+  { // Rotation 6: H3 moves to pos6 — still sets
+    num: 6,
+    layout: { 1:'A3', 2:'H1', 3:'A1', 4:'H2', 5:'A2', 6:'H3' },
+    server: 'A3',
+    setter: 'H3',
+    note: 'A3 serves from Zone 1. H3 has rotated to Zone 6 and finishes her second consecutive rotation as setter. After this rotation, the cycle repeats — H1 returns to Zone 1 and the pattern starts over.',
+  },
+];
+
+const LESSONS = [
+  {
+    title: 'What Is the 6-3 System?',
+    phase: 'Lesson 1 of 6',
+    text: `The <strong style="color:var(--accent)">6-3 system</strong> is designed for developing teams. The "6" means all 6 players rotate through every position — just like other systems. The "3" means you have <strong style="color:var(--gold)">3 Hybrid players</strong> who both set AND attack, alternating with <strong style="color:var(--gold)">3 pure Attackers</strong>.`,
+    rules: [
+      { icon: '🔁', text: 'Hybrids and Attackers <strong>alternate around the rotation</strong> — two Hybrids are never next to each other, and neither are two Attackers.' },
+      { icon: '🚫', text: 'Players do <strong>NOT switch positions</strong> during a rally — everyone stays where they start the point and does whatever job that spot calls for.' },
+      { icon: '⭐', text: 'Whichever Hybrid is in <strong>Zone 1 or Zone 6</strong> is the designated setter for that rotation — giving you 3 front-row attackers every time.' },
+      { icon: '📈', text: 'This system <strong>develops 3 setters</strong> at once while letting everyone practice passing, attacking, and defending.' },
+    ],
+    rotationToShow: 0
+  },
+  {
+    title: 'Rotation 1 — H1 Sets From Zone 1',
+    phase: 'Lesson 2 of 6',
+    text: `In <strong style="color:var(--accent)">Rotation 1</strong>, H1 is in <strong style="color:var(--gold)">Zone 1</strong> — she serves first, and because Zone 1 is a setting zone, she's also the designated setter this rotation.`,
+    rules: [
+      { icon: '📍', text: '<strong>Zone 1</strong> always serves first, no matter the system.' },
+      { icon: '🏐', text: 'H1 serves, then sets every ball for the team this rotation — she is the only setter on the court right now.' },
+      { icon: '⚔️', text: 'Front-row attackers this rotation: <strong>A1 (Zone 2), H2 (Zone 3), A2 (Zone 4)</strong> — all three are ready to swing.' },
+      { icon: '💡', text: 'H3 and A3 are in the back row (Zones 5 and 6) — pure defense and serve receive this rotation.' },
+    ],
+    rotationToShow: 0
+  },
+  {
+    title: 'Rotation 2 — H1 Sets Again (2nd Time)',
+    phase: 'Lesson 3 of 6',
+    text: `Every Hybrid sets for <strong style="color:var(--accent)">two consecutive rotations</strong>. After rotating clockwise, H1 is now in <strong style="color:var(--gold)">Zone 6</strong> — still a setting zone — so she keeps setting.`,
+    rules: [
+      { icon: '🔄', text: 'Players rotate <strong>clockwise</strong> every time the team wins the serve. Zone 1 always serves.' },
+      { icon: '🥇', text: '<strong>GOLDEN RULE:</strong> the Hybrid in Zone 1 OR Zone 6 sets. Both zones count — that\'s why each Hybrid gets 2 rotations in a row.' },
+      { icon: '⚔️', text: 'Front-row attackers this rotation: <strong>H2 (Zone 2), A2 (Zone 3), H3 (Zone 4)</strong> — notice H2 and H3 are attacking here, not setting!' },
+      { icon: '✅', text: 'Every player gets reps at <strong>passing, attacking, AND defending</strong> — that\'s the whole point of 6-3 for development.' },
+    ],
+    rotationToShow: 1
+  },
+  {
+    title: 'Rotation 3 — The Setter Switch!',
+    phase: 'Lesson 4 of 6',
+    text: `Now <strong style="color:var(--accent)">H2 rotates into Zone 1</strong> and takes over as the designated setter for her 2 rotations. H1 has rotated to Zone 5 (back row) and is done setting — now she\'s just attacking and defending.`,
+    rules: [
+      { icon: '🔁', text: 'H2 serves from Zone 1 and becomes the setter — same job H1 just finished doing.' },
+      { icon: '🛡️', text: 'H1, now in Zone 5, is purely a <strong>back-row attacker/defender</strong> — no setting duties until her turn comes around again.' },
+      { icon: '⚔️', text: 'Front-row attackers: <strong>A2 (Zone 2), H3 (Zone 3), A3 (Zone 4)</strong>.' },
+      { icon: '📋', text: 'This is the same pattern as Rotation 1 — just shifted over. Each Hybrid takes a turn being "the setter" for exactly 2 rotations.' },
+    ],
+    rotationToShow: 2
+  },
+  {
+    title: 'Rotation 4 — H2 Sets Again (2nd Time)',
+    phase: 'Lesson 5 of 6',
+    text: `Just like H1 did, <strong style="color:var(--accent)">H2 rotates to Zone 6</strong> and continues setting for her second rotation in a row. H1 is now in Zone 4 — a front-row attacker.`,
+    rules: [
+      { icon: '🔄', text: 'H2 has now set for <strong>2 rotations total</strong> (Rotations 3 and 4) — exactly like H1 did in Rotations 1 and 2.' },
+      { icon: '⚔️', text: 'Front-row attackers this rotation: <strong>H3 (Zone 2), A3 (Zone 3), H1 (Zone 4)</strong>.' },
+      { icon: '💡', text: 'Notice the pattern repeating: each Hybrid gets exactly <strong>2 rotations as setter</strong>, then hands off to the next Hybrid.' },
+      { icon: '🛡️', text: 'A2 (Zone 5) and H2 herself (Zone 6) are in the back row this rotation, with H2 setting from there.' },
+    ],
+    rotationToShow: 3
+  },
+  {
+    title: 'Rotations 5 & 6 — H3 Finishes the Cycle',
+    phase: 'Lesson 6 of 6',
+    text: `<strong style="color:var(--accent)">H3 takes her turn</strong> in Rotations 5 and 6, setting from Zone 1 then Zone 6 — just like H1 and H2 did. After Rotation 6, the cycle repeats and H1 returns to Zone 1.`,
+    rules: [
+      { icon: '🥇', text: '<strong>SETTER PATTERN:</strong> H1 sets Rotations 1-2, H2 sets Rotations 3-4, H3 sets Rotations 5-6. Then it repeats!' },
+      { icon: '🥈', text: '<strong>NO SUBS NEEDED:</strong> all 6 players stay on the court the whole time — no substitutions required for this system.' },
+      { icon: '🥉', text: '<strong>ALWAYS 3 FRONT-ROW ATTACKERS:</strong> because the setter is always in Zone 1 or 6 (back row positions), the front row always has 3 hitters.' },
+      { icon: '⚡', text: '<strong>NO POSITION SWITCHING:</strong> everyone stays in their starting spot for the whole rally — simple and easy to teach.' },
+      { icon: '🔄', text: '<strong>CLOCKWISE ROTATION:</strong> when your team wins the serve, everyone rotates one position clockwise.' },
+      { icon: '🚫', text: '<strong>NO DESIGNATED OUTSIDE HITTER:</strong> because roles rotate through everyone, there\'s no single "OH" — that\'s a tradeoff of this system.' },
+    ],
+    rotationToShow: 0
+  },
+];
+
+// QUIZ QUESTIONS — mix of drag-drop and multiple choice
+const QUESTIONS = [
+  // Q1: drag-drop Rotation 1
+  { type:'dd', rotation:0, points:10,
+    text:'Set up <span>Rotation 1</span>. Drag each player to their correct position on the court.',
+    hint:'H1 serves from Zone 1 and sets — Zone 1 is one of the two setting zones.',
+    guide:'Pos 1 (back right): H1 serves & sets\nPos 2 (front right): A1 attacks\nPos 3 (middle front): H2 attacks\nPos 4 (front left): A2 attacks\nPos 5 (back left): H3\nPos 6 (middle back): A3'
+  },
+  // Q2: MC
+  { type:'mc', points:10,
+    text:'In the 6-3 system, what do the 3 "Hybrid" players do?',
+    hint:'Think about their dual responsibility.',
+    options:['They only play defense','They both set AND attack, depending on rotation','They never rotate positions','They are substitutes who never start'],
+    correct:1, explanation:'The 3 Hybrid players (H1, H2, H3) both set and attack. Whether a Hybrid is setting or attacking on a given rotation depends on which zone they\'re in.'
+  },
+  // Q3: MC
+  { type:'mc', points:10,
+    text:'How is the designated setter determined in a 6-3 system (Option 1)?',
+    hint:'Two specific zones decide who sets.',
+    options:['Whichever Hybrid is in Zone 1 or Zone 6','Whichever player is tallest','The coach calls it out every play','Whoever served last'],
+    correct:0, explanation:'In Option 1 of the 6-3 system, the Hybrid player in Zone 1 or Zone 6 is the designated setter for that rotation — this keeps 3 attackers in the front row at all times.'
+  },
+  // Q4: drag-drop Rotation 2
+  { type:'dd', rotation:1, points:10,
+    text:'Set up <span>Rotation 2</span>. A1 now serves from Zone 1 — but H1 is STILL the setter.',
+    hint:'H1 has rotated to Zone 6, which is also a setting zone, so she keeps setting.',
+    guide:'Pos 1: A1 serves\nPos 2: H2 attacks front\nPos 3: A2 attacks front\nPos 4: H3 attacks front\nPos 5: A3 back row\nPos 6: H1 — still setting from here'
+  },
+  // Q5: MC
+  { type:'mc', points:10,
+    text:'How many consecutive rotations does each Hybrid player set for?',
+    hint:'Think about Zone 1 AND Zone 6 — both are setting zones.',
+    options:['1 rotation only','2 rotations in a row','3 rotations in a row','Every rotation, no breaks'],
+    correct:1, explanation:'Each Hybrid sets for 2 consecutive rotations — once from Zone 1, then again from Zone 6 after rotating. Then the next Hybrid takes over.'
+  },
+  // Q6: MC
+  { type:'mc', points:10,
+    text:'After H1 finishes her 2 rotations as setter, who becomes the next designated setter?',
+    hint:'Look at the order the Hybrids rotate through Zone 1.',
+    options:['H1 again — she repeats immediately','H2 — the next Hybrid to reach Zone 1','A1 — an Attacker takes over','The coach picks a new setter'],
+    correct:1, explanation:'H2 rotates into Zone 1 next and becomes the new designated setter for her 2 rotations, while H1 moves to the back row as a pure attacker/defender.'
+  },
+  // Q7: drag-drop Rotation 3
+  { type:'dd', rotation:2, points:10,
+    text:'The setter switches! Set up <span>Rotation 3</span> — H2 now serves from Zone 1 and becomes the setter.',
+    hint:'H1 has rotated to Zone 5 and is done setting for now.',
+    guide:'Pos 1: H2 serves & sets\nPos 2: A2 attacks front\nPos 3: H3 attacks front\nPos 4: A3 attacks front\nPos 5: H1 — back row, no longer setting\nPos 6: A1'
+  },
+  // Q8: MC
+  { type:'mc', points:10,
+    text:'Why is over-specialization a concern for young volleyball teams?',
+    hint:'Think about what players miss out on if they only ever do one job.',
+    options:['It makes practices too short','It limits players\' overall understanding of the game and other positions','It is against the rules','It makes the team too fast'],
+    correct:1, explanation:'If players only ever practice one skill (e.g. middles never pass, liberos never attack), they miss out on understanding other roles — which limits their overall growth as volleyball players.'
+  },
+  // Q9: MC
+  { type:'mc', points:10,
+    text:'How many front-row attackers does the 6-3 system (Option 1) provide every rotation?',
+    hint:'Since the setter is always in Zone 1 or 6 — both back-row zones — what does that leave up front?',
+    options:['1','2','3','It varies every rotation'],
+    correct:2, explanation:'Because the designated setter is always in Zone 1 or Zone 6 (back row), the front row (Zones 2, 3, 4) always has 3 attackers ready to hit.'
+  },
+  // Q10: drag-drop Rotation 4
+  { type:'dd', rotation:3, points:10,
+    text:'Keep going! Place everyone correctly for <span>Rotation 4</span>.',
+    hint:'A2 serves from Zone 1. H2 is now in Zone 6 — still setting for her 2nd rotation.',
+    guide:'Pos 1: A2 serves\nPos 2: H3 attacks front\nPos 3: A3 attacks front\nPos 4: H1 attacks front\nPos 5: A1 back row\nPos 6: H2 — still setting from here'
+  },
+  // Q11: MC
+  { type:'mc', points:10,
+    text:'What is one key advantage of the 6-3 system for a coach evaluating players?',
+    hint:'Think about what a coach can observe over a season.',
+    options:['It hides weak players on the bench','It lets the coach see attackers from multiple positions to plan future specialization','It requires fewer practices','It eliminates the need for serving'],
+    correct:1, explanation:'Since attackers hit from all three front-row positions across different rotations, coaches get to see where each player is most comfortable — helpful information for future position specialization.'
+  },
+  // Q12: drag-drop Rotation 6
+  { type:'dd', rotation:5, points:10,
+    text:'Final challenge! Complete <span>Rotation 6</span> — the last rotation before the cycle repeats back to Rotation 1.',
+    hint:'A3 serves from Zone 1. H3 is in Zone 6, finishing her 2nd rotation as setter.',
+    guide:'Pos 1: A3 serves\nPos 2: H1 attacks front\nPos 3: A1 attacks front\nPos 4: H2 attacks front\nPos 5: A2 back row\nPos 6: H3 — still setting from here'
+  },
+];
+
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
+let currentLesson = 0;
+let currentRotationView = 0;
+let currentQuestion = 0;
+let score = 0;
+let questionScores = [];
+let ddState = {}; // position -> playerId placed
+let ddLocked = false;
+let dragPlayerId = null;
+let touchDragToken = null;
+
+// ══════════════════════════════════════════════
+//  SCREEN MANAGEMENT
+// ══════════════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function startGame() {
+  currentLesson = 0;
+  score = 0;
+  questionScores = [];
+  showScreen('screen-lesson');
+  renderLesson(0);
+}
+
+// ══════════════════════════════════════════════
+//  LESSONS
+// ══════════════════════════════════════════════
+function renderLesson(idx) {
+  const L = LESSONS[idx];
+  updateProgress('lesson', idx, LESSONS.length);
+
+  // Text panel
+  document.getElementById('lesson-text-panel').innerHTML = `
+    <div class="lesson-phase">${L.phase}</div>
+    <div class="lesson-title">${L.title}</div>
+    <div class="lesson-text">${L.text}</div>
+    <ul class="key-rules">
+      ${L.rules.map(r => `<li><span class="rule-icon">${r.icon}</span><span>${r.text}</span></li>`).join('')}
+    </ul>
+  `;
+
+  // Rotation selector
+  const sel = document.getElementById('lesson-rot-selector');
+  // Determine which rotations to show
+  const showRots = idx <= 1 ? [0] :
+                   idx === 2 ? [1,2] :
+                   idx === 3 ? [3] :
+                   idx === 4 ? [4,5] : [0,1,2,3,4,5];
+
+  sel.innerHTML = showRots.map(r =>
+    `<button class="rot-btn ${r===L.rotationToShow?'on':''}" onclick="switchLessonRot(${r},this)">Rot ${r+1}</button>`
+  ).join('');
+
+  currentRotationView = L.rotationToShow;
+  renderMiniCourt(L.rotationToShow);
+
+  document.getElementById('lesson-next-btn').textContent =
+    idx < LESSONS.length - 1 ? 'GOT IT — NEXT LESSON →' : 'START THE CHALLENGE! 🎯';
+}
+
+function switchLessonRot(rotIdx, btn) {
+  currentRotationView = rotIdx;
+  document.querySelectorAll('.rot-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  renderMiniCourt(rotIdx);
+}
+
+function renderMiniCourt(rotIdx) {
+  const rot = ROTATIONS[rotIdx];
+  const wrap = document.getElementById('lesson-court-wrap');
+
+  // Front row: positions 4,3,2 | Back row: 5,6,1
+  const frontPositions = [4,3,2];
+  const backPositions = [5,6,1];
+
+  function playerHTML(posNum) {
+    const pid = rot.layout[posNum];
+    const p = PLAYERS.find(x => x.id === pid);
+    const isServer = posNum === 1;
+    return `<div class="mini-pos">
+      <span class="pos-label-corner">${posNum}</span>
+      <div class="mini-player ${p.colorClass}">
+        <span class="pnum">${p.abbr}</span>
+        ${isServer ? '<span class="prole">SERVES</span>' : ''}
+      </div>
+    </div>`;
+  }
+
+  wrap.innerHTML = `
+    <div style="font-size:10px;color:rgba(255,255,255,0.3);letter-spacing:2px;text-align:center;margin-bottom:4px;">OPPONENT SIDE ↑</div>
+    <div class="mini-court" style="width:240px;">
+      <div class="mini-court-half">${frontPositions.map(playerHTML).join('')}</div>
+      <div class="mini-net">NET</div>
+      <div class="mini-court-half">${backPositions.map(playerHTML).join('')}</div>
+    </div>
+    <div style="font-size:11px;color:var(--accent);text-align:center;margin-top:8px;font-weight:700;">
+      ${rot.note.substring(0,60)}...
+    </div>
+  `;
+}
+
+function nextLesson() {
+  if (currentLesson < LESSONS.length - 1) {
+    currentLesson++;
+    renderLesson(currentLesson);
+  } else {
+    // Start quiz
+    currentQuestion = 0;
+    score = 0;
+    questionScores = [];
+    showScreen('screen-quiz');
+    renderQuestion(0);
+  }
+}
+
+function updateProgress(type, current, total) {
+  const pct = (current / total) * 100;
+  if (type === 'lesson') {
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-label').textContent = `Lesson ${current}/${total}`;
+    document.getElementById('header-score').textContent = score;
+  } else {
+    document.getElementById('quiz-prog-fill').style.width = pct + '%';
+    document.getElementById('quiz-prog-label').textContent = `Q ${current}/${total}`;
+    document.getElementById('quiz-header-score').textContent = score;
+  }
+}
+
+// ══════════════════════════════════════════════
+//  QUIZ
+// ══════════════════════════════════════════════
+function renderQuestion(idx) {
+  const Q = QUESTIONS[idx];
+  updateProgress('quiz', idx, QUESTIONS.length);
+
+  document.getElementById('q-number').textContent = `QUESTION ${idx+1} OF ${QUESTIONS.length}`;
+  document.getElementById('q-text').innerHTML = Q.text;
+  document.getElementById('q-hint').textContent = Q.hint || '';
+
+  const feedback = document.getElementById('feedback-bar');
+  feedback.className = 'feedback-bar idle';
+  feedback.textContent = Q.type === 'dd' ? 'Drag players to their correct positions!' : 'Choose the correct answer.';
+
+  document.getElementById('quiz-actions').innerHTML = '';
+
+  if (Q.type === 'dd') {
+    renderDragDrop(Q);
+  } else {
+    renderMultipleChoice(Q);
+  }
+}
+
+// ─── DRAG & DROP ───
+function renderDragDrop(Q) {
+  document.getElementById('dd-layout').style.display = 'grid';
+  document.getElementById('mc-layout').style.display = 'none';
+
+  const rot = ROTATIONS[Q.rotation];
+  ddState = {};
+  ddLocked = false;
+
+  // Build bench players — shuffle for fairness
+  const playerIds = Object.values(rot.layout);
+  const shuffled = [...playerIds].sort(() => Math.random() - 0.5);
+
+  document.getElementById('bench-players').innerHTML = shuffled.map(pid => {
+    const p = PLAYERS.find(x => x.id === pid);
+    return `<div class="player-token" id="token-${p.id}"
+      draggable="true"
+      ondragstart="onDragStart(event,'${p.id}')"
+      ondragend="onDragEnd(event)"
+      ontouchstart="onTouchStart(event,'${p.id}')"
+      ontouchmove="onTouchMove(event)"
+      ontouchend="onTouchEnd(event)">
+      <div class="token-avatar ${p.colorClass}">${p.abbr}</div>
+      <div class="token-info">
+        <div class="token-name">${p.name}</div>
+        <div class="token-role">${roleLabel(p.role)}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Position guide
+  document.getElementById('pos-guide').innerHTML = Q.guide.split('\n').map(line =>
+    `<div style="padding:3px 0;border-bottom:1px solid var(--border);">${line}</div>`
+  ).join('');
+
+  // Build court drop zones
+  // Front row: pos 4,3,2 | Back row: pos 5,6,1
+  const front = [4,3,2], back = [5,6,1];
+  document.getElementById('front-row').innerHTML = front.map(pos => dropZoneHTML(pos)).join('');
+  document.getElementById('back-row').innerHTML = back.map(pos => dropZoneHTML(pos)).join('');
+
+  // Add drag events to drop zones
+  document.querySelectorAll('.drop-zone').forEach(dz => {
+    dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
+    dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+    dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag-over'); onDrop(dz.dataset.pos); });
+  });
+
+  // Actions
+  document.getElementById('quiz-actions').innerHTML = `
+    <button class="btn btn-accent" onclick="checkDragDrop()">✅ CHECK MY ANSWER</button>
+    <button class="btn btn-outline" onclick="clearBoard()">🔄 CLEAR BOARD</button>
+  `;
+}
+
+function dropZoneHTML(pos) {
+  return `<div class="drop-zone" data-pos="${pos}" id="dz-${pos}">
+    <span class="dz-pos-label">POS ${pos}</span>
+    <span class="dz-hint">${posHint(pos)}</span>
+  </div>`;
+}
+
+function posHint(pos) {
+  const hints = { 1:'Right Back', 2:'Right Front', 3:'Middle Front', 4:'Left Front', 5:'Left Back', 6:'Middle Back' };
+  return hints[pos] || '';
+}
+
+function roleLabel(role) {
+  return { H:'Hybrid (Set + Attack)', A:'Attacker' }[role] || role;
+}
+
+// ─── MOUSE DRAG ───
+function onDragStart(e, pid) {
+  dragPlayerId = pid;
+  setTimeout(() => document.getElementById('token-'+pid)?.classList.add('dragging'), 0);
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+function onDragEnd(e) {
+  document.querySelectorAll('.player-token').forEach(t => t.classList.remove('dragging'));
+}
+
+function onDrop(pos) {
+  if (!dragPlayerId || ddLocked) return;
+  placePlayer(pos, dragPlayerId);
+  dragPlayerId = null;
+}
+
+// ─── TOUCH DRAG ───
+let touchOffsetX = 0, touchOffsetY = 0;
+
+function onTouchStart(e, pid) {
+  if (ddLocked) return;
+  touchDragToken = pid;
+  const token = document.getElementById('token-'+pid);
+  const rect = token.getBoundingClientRect();
+  const touch = e.touches[0];
+  touchOffsetX = touch.clientX - rect.left - rect.width/2;
+  touchOffsetY = touch.clientY - rect.top - rect.height/2;
+
+  const ghost = document.getElementById('drag-ghost');
+  const p = PLAYERS.find(x => x.id === pid);
+  ghost.innerHTML = `<div class="token-avatar ${p.colorClass}" style="width:52px;height:52px;font-size:16px;font-weight:900;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid rgba(255,255,255,0.4);">${p.abbr}</div>`;
+  ghost.style.display = 'block';
+  ghost.style.left = touch.clientX + 'px';
+  ghost.style.top = touch.clientY + 'px';
+  token.classList.add('dragging');
+  e.preventDefault();
+}
+
+function onTouchMove(e) {
+  if (!touchDragToken) return;
+  const touch = e.touches[0];
+  const ghost = document.getElementById('drag-ghost');
+  ghost.style.left = touch.clientX + 'px';
+  ghost.style.top = touch.clientY + 'px';
+
+  // Highlight drop zone under finger
+  document.querySelectorAll('.drop-zone').forEach(dz => dz.classList.remove('drag-over'));
+  const el = document.elementFromPoint(touch.clientX, touch.clientY);
+  const dz = el?.closest('.drop-zone');
+  if (dz) dz.classList.add('drag-over');
+  e.preventDefault();
+}
+
+function onTouchEnd(e) {
+  if (!touchDragToken) return;
+  const touch = e.changedTouches[0];
+  const ghost = document.getElementById('drag-ghost');
+  ghost.style.display = 'none';
+
+  const el = document.elementFromPoint(touch.clientX, touch.clientY);
+  const dz = el?.closest('.drop-zone');
+  if (dz) {
+    dz.classList.remove('drag-over');
+    placePlayer(dz.dataset.pos, touchDragToken);
+  }
+
+  document.getElementById('token-'+touchDragToken)?.classList.remove('dragging');
+  touchDragToken = null;
+  e.preventDefault();
+}
+
+function placePlayer(pos, pid) {
+  if (ddLocked) return;
+
+  // If another player is already here, return them to bench
+  if (ddState[pos]) {
+    const oldPid = ddState[pos];
+    document.getElementById('token-'+oldPid)?.classList.remove('placed');
+  }
+
+  // If this player is already somewhere, clear that spot
+  Object.keys(ddState).forEach(p => {
+    if (ddState[p] === pid) delete ddState[p];
+  });
+
+  ddState[pos] = pid;
+
+  // Mark token as placed
+  document.querySelectorAll('.player-token').forEach(t => t.classList.remove('placed'));
+  Object.values(ddState).forEach(id => document.getElementById('token-'+id)?.classList.add('placed'));
+
+  // Render player in drop zone
+  const dz = document.getElementById('dz-'+pos);
+  const p = PLAYERS.find(x => x.id === pid);
+  dz.innerHTML = `
+    <span class="dz-pos-label">POS ${pos}</span>
+    <div class="dz-player ${p.colorClass}"
+      draggable="true"
+      ondragstart="onDragStartFromZone(event,'${pid}',${pos})"
+      ontouchstart="onTouchStartFromZone(event,'${pid}',${pos})">
+      <span class="pn">${p.abbr}</span>
+    </div>
+  `;
+}
+
+function onDragStartFromZone(e, pid, pos) {
+  if (ddLocked) return;
+  delete ddState[pos];
+  document.getElementById('token-'+pid)?.classList.remove('placed');
+  // Restore the drop zone
+  const dz = document.getElementById('dz-'+pos);
+  dz.innerHTML = `<span class="dz-pos-label">POS ${pos}</span><span class="dz-hint">${posHint(pos)}</span>`;
+  dragPlayerId = pid;
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+function onTouchStartFromZone(e, pid, pos) {
+  if (ddLocked) return;
+  delete ddState[pos];
+  document.getElementById('token-'+pid)?.classList.remove('placed');
+  const dz = document.getElementById('dz-'+pos);
+  dz.innerHTML = `<span class="dz-pos-label">POS ${pos}</span><span class="dz-hint">${posHint(pos)}</span>`;
+  onTouchStart(e, pid);
+}
+
+function clearBoard() {
+  ddState = {};
+  document.querySelectorAll('.player-token').forEach(t => t.classList.remove('placed'));
+  [1,2,3,4,5,6].forEach(pos => {
+    const dz = document.getElementById('dz-'+pos);
+    if (dz) dz.innerHTML = `<span class="dz-pos-label">POS ${pos}</span><span class="dz-hint">${posHint(pos)}</span>`;
+  });
+  const fb = document.getElementById('feedback-bar');
+  fb.className = 'feedback-bar idle';
+  fb.textContent = 'Board cleared — drag again!';
+}
+
+function checkDragDrop() {
+  if (ddLocked) return;
+  const Q = QUESTIONS[currentQuestion];
+  const rot = ROTATIONS[Q.rotation];
+  const placed = Object.keys(ddState).length;
+
+  if (placed < 6) {
+    const fb = document.getElementById('feedback-bar');
+    fb.className = 'feedback-bar info';
+    fb.textContent = `⚠️ Place all 6 players before checking! (${placed}/6 placed)`;
+    return;
+  }
+
+  ddLocked = true;
+  let correct = 0;
+  const totalPos = 6;
+
+  [1,2,3,4,5,6].forEach(pos => {
+    const dz = document.getElementById('dz-'+pos);
+    const placed = ddState[pos];
+    const expected = rot.layout[pos];
+    const isCorrect = placed === expected;
+    if (isCorrect) correct++;
+
+    dz.classList.add(isCorrect ? 'correct' : 'incorrect');
+    // Add check mark
+    const check = document.createElement('div');
+    check.className = 'dz-check ' + (isCorrect ? 'ok' : 'bad');
+    check.textContent = isCorrect ? '✓' : '✗';
+    dz.appendChild(check);
+
+    // Show correct answer if wrong
+    if (!isCorrect) {
+      const corrP = PLAYERS.find(x => x.id === expected);
+      const wrongLabel = document.createElement('div');
+      wrongLabel.style.cssText = 'font-size:9px;color:var(--green);margin-top:2px;font-weight:700;';
+      wrongLabel.textContent = '→' + corrP.abbr;
+      dz.appendChild(wrongLabel);
+    }
+  });
+
+  const pts = correct === totalPos ? Q.points : correct >= 4 ? Math.floor(Q.points * 0.5) : 0;
+  score += pts;
+  questionScores.push({ q: currentQuestion+1, type:'dd', correct, total:totalPos, pts });
+
+  const fb = document.getElementById('feedback-bar');
+  if (correct === 6) {
+    fb.className = 'feedback-bar correct';
+    fb.textContent = `🎉 PERFECT! All 6 positions correct! +${pts} points!`;
+    launchConfetti();
+  } else if (correct >= 4) {
+    fb.className = 'feedback-bar info';
+    fb.textContent = `👍 Almost! ${correct}/6 correct. +${pts} points. Check the highlighted positions.`;
+  } else {
+    fb.className = 'feedback-bar wrong';
+    fb.textContent = `❌ ${correct}/6 correct. Study the correct positions above, then keep going!`;
+  }
+
+  updateProgress('quiz', currentQuestion+1, QUESTIONS.length);
+  document.getElementById('quiz-header-score').textContent = score;
+
+  document.getElementById('quiz-actions').innerHTML = `
+    <button class="btn btn-gold" onclick="advanceQuestion()">${currentQuestion < QUESTIONS.length-1 ? 'NEXT QUESTION →' : 'SEE RESULTS 🏆'}</button>
+  `;
+}
+
+// ─── MULTIPLE CHOICE ───
+function renderMultipleChoice(Q) {
+  document.getElementById('dd-layout').style.display = 'none';
+  document.getElementById('mc-layout').style.removeProperty('display');
+
+  document.getElementById('mc-options').innerHTML = Q.options.map((opt, i) =>
+    `<button class="mc-option" id="mc-opt-${i}" onclick="selectMC(${i})">${opt}</button>`
+  ).join('');
+
+  document.getElementById('quiz-actions').innerHTML = '';
+}
+
+function selectMC(idx) {
+  const Q = QUESTIONS[currentQuestion];
+  const opts = document.querySelectorAll('.mc-option');
+  opts.forEach(o => { o.classList.add('disabled'); });
+
+  const isCorrect = idx === Q.correct;
+  opts[idx].classList.add(isCorrect ? 'selected-correct' : 'selected-wrong');
+  opts[Q.correct].classList.add('reveal-correct');
+
+  const pts = isCorrect ? Q.points : 0;
+  score += pts;
+  questionScores.push({ q: currentQuestion+1, type:'mc', correct: isCorrect?1:0, total:1, pts });
+
+  const fb = document.getElementById('feedback-bar');
+  if (isCorrect) {
+    fb.className = 'feedback-bar correct';
+    fb.textContent = `✅ CORRECT! ${Q.explanation} +${pts} points!`;
+    launchConfetti();
+  } else {
+    fb.className = 'feedback-bar wrong';
+    fb.textContent = `❌ Not quite. ${Q.explanation}`;
+  }
+
+  updateProgress('quiz', currentQuestion+1, QUESTIONS.length);
+  document.getElementById('quiz-header-score').textContent = score;
+
+  document.getElementById('quiz-actions').innerHTML = `
+    <button class="btn btn-gold" onclick="advanceQuestion()">${currentQuestion < QUESTIONS.length-1 ? 'NEXT QUESTION →' : 'SEE RESULTS 🏆'}</button>
+  `;
+}
+
+function advanceQuestion() {
+  currentQuestion++;
+  if (currentQuestion >= QUESTIONS.length) {
+    showResults();
+  } else {
+    renderQuestion(currentQuestion);
+  }
+}
+
+// ══════════════════════════════════════════════
+//  RESULTS
+// ══════════════════════════════════════════════
+function showResults() {
+  showScreen('screen-results');
+  const maxScore = QUESTIONS.reduce((a,q) => a + q.points, 0);
+  const pct = (score / maxScore) * 100;
+
+  let grade, gradeColor, trophy;
+  if (pct >= 90) { grade='A+ — ROTATION MASTER! 🏆'; gradeColor='background:var(--gold);color:#000;'; trophy='🏆'; }
+  else if (pct >= 75) { grade='B — Great Understanding!'; gradeColor='background:var(--green);color:#000;'; trophy='🥇'; }
+  else if (pct >= 60) { grade='C — Getting There!'; gradeColor='background:var(--accent);color:#000;'; trophy='🥈'; }
+  else { grade='D — Keep Studying!'; gradeColor='background:var(--orange);color:#000;'; trophy='📚'; }
+
+  document.getElementById('results-trophy').textContent = trophy;
+  document.getElementById('final-score').textContent = score;
+  document.getElementById('final-max').textContent = `out of ${maxScore} points`;
+  const gradeEl = document.getElementById('final-grade');
+  gradeEl.textContent = grade;
+  gradeEl.style.cssText = gradeColor + 'border-radius:100px;';
+
+  const breakdown = document.getElementById('results-breakdown');
+  const ddQ = questionScores.filter(q => QUESTIONS[q.q-1].type==='dd');
+  const mcQ = questionScores.filter(q => QUESTIONS[q.q-1].type==='mc');
+  const ddPts = ddQ.reduce((a,q) => a+q.pts, 0);
+  const mcPts = mcQ.reduce((a,q) => a+q.pts, 0);
+  const ddMax = ddQ.length * 10;
+  const mcMax = mcQ.length * 10;
+
+  breakdown.innerHTML = `
+    <div class="rb-title">SCORE BREAKDOWN</div>
+    <div class="rb-row"><span>🎯 Drag & Drop Challenges</span><span class="rb-pts">${ddPts}/${ddMax}</span></div>
+    <div class="rb-row"><span>❓ Multiple Choice Questions</span><span class="rb-pts">${mcPts}/${mcMax}</span></div>
+    <div class="rb-row"><span>⭐ Rotations Mastered</span><span class="rb-pts">${ddQ.filter(q=>q.pts===10).length}/${ddQ.length}</span></div>
+    <div class="rb-row" style="font-weight:800;font-size:16px;"><span>TOTAL SCORE</span><span class="rb-pts" style="color:var(--gold);font-size:22px;">${score}</span></div>
+  `;
+
+  if (pct >= 75) launchConfetti(80);
+}
+
+function restartGame() {
+  currentLesson = 0;
+  currentQuestion = 0;
+  score = 0;
+  questionScores = [];
+  ddState = {};
+  ddLocked = false;
+  showScreen('screen-lesson');
+  renderLesson(0);
+}
+
+// ══════════════════════════════════════════════
+//  CONFETTI
+// ══════════════════════════════════════════════
+function launchConfetti(count = 30) {
+  const colors = ['#ffd700','#00e5ff','#00e676','#ff5252','#ce93d8','#ff9800'];
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.top = '-10px';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      el.style.width = (6 + Math.random() * 8) + 'px';
+      el.style.height = (6 + Math.random() * 8) + 'px';
+      el.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+      el.style.animationDelay = (Math.random() * 0.5) + 's';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 4000);
+    }, i * 30);
+  }
+}
+
+// ══════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  // pre-warm nothing — welcome screen shows on load
+});
+</script>
+</body>
+</html>
