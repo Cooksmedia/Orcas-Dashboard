@@ -345,7 +345,7 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
         <div class="sotw-title">Standing Float Serve</div>
         <div class="sotw-desc">Focus on a clean toss and a flat hand at contact — watch the video and practice the wall drill below.</div>
       </div>
-      <a href="#serving-video" class="sotw-link">Watch Now →</a>
+      <a href="#serving-video" class="sotw-link" onclick="showSotwVideo(event)">Watch Now →</a>
     </div>
   </div>
 </div>
@@ -1059,6 +1059,22 @@ function playVideo(el, videoId){
   el.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0"
     title="Video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen loading="lazy"></iframe>`;
+}
+
+function showSotwVideo(e){
+  e.preventDefault();
+  // Reset filter to All so the card is visible
+  const allBtn = document.querySelector('.cat-tab');
+  if(allBtn) filterVideos('all', allBtn);
+  // Scroll to videos section then to the specific card
+  const card = document.getElementById('serving-video');
+  if(card){
+    card.scrollIntoView({behavior:'smooth', block:'center'});
+    // Highlight it briefly
+    card.style.outline = '3px solid var(--coral)';
+    card.style.outlineOffset = '4px';
+    setTimeout(()=>{ card.style.outline=''; card.style.outlineOffset=''; }, 2000);
+  }
 }
 
 function flipCard(el){
