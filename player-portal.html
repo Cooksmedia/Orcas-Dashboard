@@ -182,6 +182,38 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
 }
 .academy-feature:hover .academy-cta{background:var(--coral-d);}
 
+/* ── VOLLEYBALL IQ ── */
+.iq-pdf-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:24px;}
+.iq-pdf-card{
+  display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit;
+  background:#fff;border:1.5px solid var(--cream2);border-radius:14px;
+  padding:16px 20px;flex:1;min-width:220px;transition:all .2s;
+}
+.iq-pdf-card:hover{border-color:var(--coral-light);box-shadow:0 8px 22px rgba(30,42,69,.08);transform:translateY(-2px);}
+.iq-pdf-icon{font-size:26px;width:48px;height:48px;border-radius:12px;background:var(--coral-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.iq-pdf-text{flex:1;}
+.iq-pdf-title{font-family:var(--head);font-size:14px;font-weight:700;color:var(--navy);margin-bottom:2px;}
+.iq-pdf-sub{font-size:11px;color:var(--muted);}
+.iq-pdf-arrow{font-size:18px;color:var(--coral);flex-shrink:0;}
+
+.iq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;}
+.iq-card{
+  background:#fff;border-radius:14px;padding:18px 20px;border:1px solid var(--cream2);
+  border-left:4px solid var(--coral);transition:all .2s;
+}
+.iq-card:hover{box-shadow:0 8px 22px rgba(30,42,69,.08);transform:translateY(-2px);}
+.iq-name{font-family:var(--head);font-size:20px;font-weight:800;color:var(--navy);letter-spacing:.5px;margin-bottom:8px;}
+.iq-meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.iq-tag{
+  font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  padding:3px 10px;border-radius:100px;background:var(--cream2);color:var(--muted);
+}
+.iq-tag-fast{background:var(--coral-light);color:var(--coral-d);}
+.iq-tag-mid{background:var(--gold-light);color:#B8860B;}
+.iq-tag-slow{background:var(--teal-light);color:#0D9488;}
+.iq-desc{font-size:13px;color:var(--muted);line-height:1.6;}
+.iq-desc strong{color:var(--text);}
+
 /* ── RESOURCE LINKS ── */
 .resource-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;}
 .resource-card{
@@ -250,6 +282,7 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
     <a href="#drills" class="tb-link">At-Home Drills</a>
     <a href="#positions" class="tb-link">Position Guides</a>
     <a href="#systems" class="tb-link">Team Systems</a>
+    <a href="#iq" class="tb-link">Volleyball IQ</a>
     <a href="#resources" class="tb-link">Resources</a>
   </nav>
 </header>
@@ -655,6 +688,116 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
       </div>
       <div class="academy-cta">Play Now →</div>
     </a>
+  </section>
+
+  <!-- VOLLEYBALL IQ -->
+  <section class="sec" id="iq">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Speak The Language</div>
+      <h2 class="sec-title">Volleyball IQ — Attack Call Glossary</h2>
+      <p class="sec-desc">Every attack has a name and a timing — coaches, setters, and hitters all need to know these calls to communicate before and during a rally. Different teams sometimes use different names, but these are the most common calls you'll hear.</p>
+    </div>
+
+    <div class="iq-pdf-row">
+      <a href="https://cdn.prod.website-files.com/673b03a9d9f374dfe3cd45ec/69e25fb4c7debdfa9f570e76_00_GMS_Attack-Calls.pdf" target="_blank" class="iq-pdf-card">
+        <div class="iq-pdf-icon">📄</div>
+        <div class="iq-pdf-text">
+          <div class="iq-pdf-title">Attack Names Reference Sheet</div>
+          <div class="iq-pdf-sub">Labeled diagram — print &amp; bring to practice</div>
+        </div>
+        <div class="iq-pdf-arrow">↓</div>
+      </a>
+      <a href="https://cdn.prod.website-files.com/673b03a9d9f374dfe3cd45ec/69e2600065d736df8a882d60_Attack%20Names%20Blank.jpg" target="_blank" class="iq-pdf-card">
+        <div class="iq-pdf-icon">📝</div>
+        <div class="iq-pdf-text">
+          <div class="iq-pdf-title">Blank Version</div>
+          <div class="iq-pdf-sub">Fill in your own team's calls</div>
+        </div>
+        <div class="iq-pdf-arrow">↓</div>
+      </a>
+    </div>
+
+    <div class="iq-grid">
+
+      <div class="iq-card">
+        <div class="iq-name">GO</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-fast">2nd-step · Fast</span><span class="iq-tag">Left Side (OH)</span></div>
+        <div class="iq-desc">A quick, in-system set to the outside hitter on the left. The hitter is already on the <strong>second step</strong> of her approach by the time the setter contacts the ball — one of the most common calls in the game.</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">HUT</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-slow">1st-step · High</span><span class="iq-tag">Left Side (OH)</span></div>
+        <div class="iq-desc">A higher, slower out-of-system set to the left-side hitter. The hitter is only on her <strong>first step</strong> (or hasn't started) when the ball is set — gives her time to adjust to an off-target pass.</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">RED</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-fast">2nd-step · Fast</span><span class="iq-tag">Right Side (Opp)</span></div>
+        <div class="iq-desc">The right-side mirror of a "Go" — a quick, in-system set to the opposite hitter. Same second-step timing, just on the other side of the court.</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">5</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-slow">1st-step · High</span><span class="iq-tag">Right Side (Opp)</span></div>
+        <div class="iq-desc">The right-side mirror of a "Hut" — a high, slower out-of-system set to the opposite hitter when the pass isn't perfect.</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">GAP / 31</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-mid">3rd-step</span><span class="iq-tag">Middle</span></div>
+        <div class="iq-desc">An in-system set to the middle attacker, landing between the left sideline and the middle of the court. The hitter is on her <strong>third step</strong> as the setter contacts the ball — a bit slower than a true quick.</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">1 / QUICK</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-fast">3rd–4th Step</span><span class="iq-tag">Middle</span></div>
+        <div class="iq-desc">The classic quick attack — set to the middle hitter directly in front of the setter. Some teams run it on the 3rd step (slower), others on the 4th (faster). Often just called "Quick."</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">BACK-1</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-fast">3rd–4th Step</span><span class="iq-tag">Middle (Behind Setter)</span></div>
+        <div class="iq-desc">Same quick timing as a "1," but set to the middle attacker running directly <strong>behind</strong> the setter instead of in front.</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">2</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-mid">2nd-step · Higher</span><span class="iq-tag">Middle</span></div>
+        <div class="iq-desc">A higher set to a middle-of-the-court attacker. Can go to the middle blocker, or to a pin hitter running a combination play with the middle.</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">SLIDE</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-mid">2nd–3rd Step</span><span class="iq-tag">Right Side (Middle)</span></div>
+        <div class="iq-desc">A back set to a middle attacker who takes off on <strong>one foot</strong> along the right side of the net. The exact timing shifts slightly depending on where the setter contacts the ball.</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">BIC</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-mid">2nd–3rd Step</span><span class="iq-tag">Back Row · Middle</span></div>
+        <div class="iq-desc">An in-system back-row attack through the middle of the court — gives teams another scoring option beyond the front row.</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">D</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-mid">1st–2nd Step</span><span class="iq-tag">Back Row · Right Side</span></div>
+        <div class="iq-desc">A back-row attack on the right side. An <strong>in-system D</strong> is set on the 2nd step (faster); an <strong>out-of-system D</strong> is set on the 1st step (slower, higher).</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">SETTER DUMP</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-fast">2nd Contact</span><span class="iq-tag">Setter Attack</span></div>
+        <div class="iq-desc">Instead of setting the ball to a hitter, the front-row setter attacks it herself with one hand on the second contact — catching the defense off guard.</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">SET-OVER</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-fast">2nd Contact</span><span class="iq-tag">Setter Attack</span></div>
+        <div class="iq-desc">The setter sends the 2nd contact straight over the net (instead of setting a hitter), aiming for an open spot on the opponent's court to score directly.</div>
+      </div>
+
+    </div>
   </section>
 
   <!-- RESOURCES -->
