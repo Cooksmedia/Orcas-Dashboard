@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fierce Orcas — Match Stat Sheet</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a1628; --navy2:#141e30;
+  --teal:#00d4c8; --gold:#f0b429;
+  --red:#e53e3e; --green:#38a169;
+  --border:rgba(255,255,255,.1);
+  --head:'Barlow Condensed',sans-serif;
+  --body:'Barlow',sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--body);background:#f0ece3;color:#1a1612;min-height:100vh;}
+
+/* ── SCREEN CONTROLS ── */
+.screen-bar{
+  background:var(--navy);color:#fff;padding:12px 20px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
+}
+.sb-brand{font-family:var(--head);font-size:17px;font-weight:800;letter-spacing:2px;}
+.sb-brand span{color:var(--teal);}
+.sb-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.btn{
+  font-family:var(--head);font-size:14px;font-weight:700;letter-spacing:1px;
+  padding:9px 20px;border-radius:8px;border:none;cursor:pointer;transition:all .2s;
+}
+.btn-teal{background:var(--teal);color:var(--navy);}
+.btn-teal:hover{background:#00f0e2;}
+.btn-gold{background:var(--gold);color:#0a0c14;}
+.btn-gold:hover{background:#ffc820;}
+.btn-outline{background:none;color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.25);}
+.btn-outline:hover{border-color:var(--teal);color:var(--teal);}
+
+.match-info-bar{
+  background:var(--navy2);padding:10px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  border-bottom:2px solid var(--gold);
+}
+.mib-field{display:flex;align-items:center;gap:8px;}
+.mib-label{font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.4);text-transform:uppercase;}
+.mib-input{
+  background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.25);
+  color:#fff;font-family:var(--head);font-size:14px;font-weight:600;letter-spacing:.5px;
+  padding:2px 4px;width:140px;outline:none;
+}
+.mib-input:focus{border-color:var(--teal);}
+.mib-input.short{width:80px;}
+
+/* ── MAIN WRAP ── */
+.wrap{max-width:960px;margin:0 auto;padding:20px 16px 60px;}
+
+/* ── SET TABS ── */
+.set-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
+.set-tab{
+  font-family:var(--head);font-size:14px;font-weight:700;letter-spacing:1px;
+  padding:9px 22px;border-radius:8px;border:2px solid rgba(255,255,255,.1);
+  background:#fff;color:#999;cursor:pointer;transition:all .2s;
+}
+.set-tab:hover{border-color:var(--gold);color:#1a1612;}
+.set-tab.on{background:var(--navy);color:var(--gold);border-color:var(--gold);}
+
+/* ── STAT TABLE ── */
+.stat-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08);}
+.stat-table{width:100%;border-collapse:collapse;}
+.stat-table thead tr{background:var(--navy);}
+.stat-table th{
+  font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:2px;
+  color:rgba(255,255,255,.6);padding:11px 12px;text-align:center;border-right:1px solid rgba(255,255,255,.07);
+}
+.stat-table th:first-child{text-align:left;min-width:160px;color:rgba(255,255,255,.4);}
+.stat-table th.kills-h{color:var(--teal);}
+.stat-table th.aces-h{color:var(--gold);}
+.stat-table th.errors-h{color:#fc8181;}
+.stat-table th.total-h{color:rgba(255,255,255,.9);}
+
+/* subheader row */
+.stat-table .sub-head th{
+  background:#1a2535;font-size:9px;letter-spacing:3px;color:rgba(255,255,255,.3);padding:5px 12px;
+}
+
+.stat-table tbody tr{border-bottom:1px solid #f0ece3;}
+.stat-table tbody tr:last-child{border-bottom:none;}
+.stat-table tbody tr:nth-child(even){background:#faf8f5;}
+.stat-table tbody tr:hover{background:#f7f2e8;}
+
+.stat-table td{padding:8px 10px;text-align:center;border-right:1px solid #eae6de;}
+.stat-table td:first-child{text-align:left;border-right:2px solid #ddd;}
+.player-name{font-weight:700;font-size:14px;color:#1a1612;display:block;}
+.player-pos{font-size:10px;color:#999;font-weight:600;letter-spacing:1px;text-transform:uppercase;}
+
+/* tally cells */
+.tally-input{
+  width:40px;font-family:var(--head);font-size:16px;font-weight:700;
+  text-align:center;background:transparent;border:none;outline:none;
+  color:#1a1612;border-bottom:1.5px solid #ddd;
+  transition:border-color .15s;
+}
+.tally-input:focus{border-color:var(--teal);}
+.tally-input.kills{color:#0D9488;}
+.tally-input.aces{color:#B8860B;}
+.tally-input.errors{color:#e53e3e;}
+
+/* total cell auto-calculates */
+.total-cell{
+  font-family:var(--head);font-size:18px;font-weight:800;color:var(--navy);
+  background:rgba(240,180,40,.06);
+}
+.set-score-row{background:var(--navy)!important;}
+.set-score-row td{color:#fff;font-family:var(--head);font-size:13px;font-weight:700;letter-spacing:1px;}
+
+/* ── TOTALS FOOTER ── */
+.totals-row td{
+  background:#0a1628;color:#fff;font-family:var(--head);font-size:14px;font-weight:800;
+  letter-spacing:1px;padding:10px 10px;
+}
+.totals-row td:first-child{color:var(--gold);}
+
+/* ── SET SCORE STRIP ── */
+.score-strip{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+.score-box{background:#fff;border-radius:10px;padding:14px 18px;flex:1;min-width:140px;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.score-box-label{font-family:var(--head);font-size:10px;font-weight:700;letter-spacing:2px;color:#999;text-transform:uppercase;margin-bottom:6px;}
+.score-box-inputs{display:flex;align-items:center;gap:10px;}
+.score-box-team{font-family:var(--head);font-size:12px;font-weight:700;color:#555;}
+.score-input{
+  font-family:var(--head);font-size:26px;font-weight:900;color:var(--navy);
+  width:52px;text-align:center;background:transparent;border:none;border-bottom:2px solid #ddd;
+  outline:none;transition:border-color .2s;
+}
+.score-input:focus{border-color:var(--teal);}
+.score-dash{font-family:var(--head);font-size:22px;color:#ccc;}
+
+/* ── NOTES AREA ── */
+.notes-wrap{background:#fff;border-radius:12px;padding:18px 20px;margin-top:20px;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.notes-label{font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:2px;color:#999;text-transform:uppercase;margin-bottom:10px;}
+.notes-lines{display:flex;flex-direction:column;gap:12px;}
+.notes-line{border-bottom:1px solid #e0dcd4;height:22px;}
+
+/* ── PRINT ── */
+@media print{
+  @page{size:letter landscape;margin:.35in .35in .3in .35in;}
+  body{background:#fff;}
+  .screen-bar,.match-info-bar,.set-tabs,.notes-wrap .screen-only,
+  .btn,.print-hide{display:none!important;}
+  .match-info-bar{display:flex!important;background:#fff;border-bottom:2px solid #000;padding:8px 0;}
+  .mib-label{color:#555!important;}
+  .mib-input{color:#000!important;border-bottom:1px solid #999!important;}
+  .wrap{padding:0;max-width:100%;}
+  .score-strip{break-inside:avoid;}
+  .stat-card{box-shadow:none;border:1px solid #ccc;}
+  .stat-table{font-size:12px;}
+  .stat-table th{font-size:10px;padding:7px 8px;}
+  .stat-table td{padding:6px 7px;}
+  .tally-input{border-bottom:1px solid #bbb;font-size:14px;}
+  .score-input{border-bottom:1px solid #bbb;}
+  .notes-wrap{border:1px solid #ccc;box-shadow:none;}
+}
+
+.screen-only{display:block;}
+@media print{.screen-only{display:none!important;}}
+</style>
+</head>
+<body>
+
+<!-- SCREEN BAR -->
+<div class="screen-bar screen-only">
+  <div class="sb-brand">🐋 <span>FIERCE ORCAS</span> — Match Stat Sheet</div>
+  <div class="sb-controls">
+    <button class="btn btn-outline" onclick="loadRoster()">🔄 Load Roster</button>
+    <button class="btn btn-teal" onclick="window.print()">🖨️ Print</button>
+    <a href="dashboard.html" class="btn btn-outline">← Dashboard</a>
+  </div>
+</div>
+
+<!-- MATCH INFO BAR -->
+<div class="match-info-bar">
+  <div class="mib-field">
+    <span class="mib-label">vs.</span>
+    <input class="mib-input" id="opponent" placeholder="Opponent name" />
+  </div>
+  <div class="mib-field">
+    <span class="mib-label">Date</span>
+    <input class="mib-input short" id="match-date" placeholder="mm/dd" />
+  </div>
+  <div class="mib-field">
+    <span class="mib-label">Location</span>
+    <input class="mib-input" id="match-loc" placeholder="Gym / Tournament" />
+  </div>
+  <div class="mib-field">
+    <span class="mib-label">Scorer</span>
+    <input class="mib-input short" id="scorer" placeholder="Your name" />
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- SET SCORE STRIP -->
+  <div class="score-strip">
+    <div class="score-box">
+      <div class="score-box-label">Set 1 Score</div>
+      <div class="score-box-inputs">
+        <span class="score-box-team">Orcas</span>
+        <input class="score-input" type="number" min="0" max="50" placeholder="—" />
+        <span class="score-dash">–</span>
+        <input class="score-input" type="number" min="0" max="50" placeholder="—" />
+        <span class="score-box-team" id="opp-s1">Opp</span>
+      </div>
+    </div>
+    <div class="score-box">
+      <div class="score-box-label">Set 2 Score</div>
+      <div class="score-box-inputs">
+        <span class="score-box-team">Orcas</span>
+        <input class="score-input" type="number" min="0" max="50" placeholder="—" />
+        <span class="score-dash">–</span>
+        <input class="score-input" type="number" min="0" max="50" placeholder="—" />
+        <span class="score-box-team" id="opp-s2">Opp</span>
+      </div>
+    </div>
+    <div class="score-box">
+      <div class="score-box-label">Set 3 Score</div>
+      <div class="score-box-inputs">
+        <span class="score-box-team">Orcas</span>
+        <input class="score-input" type="number" min="0" max="50" placeholder="—" />
+        <span class="score-dash">–</span>
+        <input class="score-input" type="number" min="0" max="50" placeholder="—" />
+        <span class="score-box-team" id="opp-s3">Opp</span>
+      </div>
+    </div>
+    <div class="score-box">
+      <div class="score-box-label">Match Result</div>
+      <div class="score-box-inputs" style="gap:8px;">
+        <input class="score-input" style="width:44px;font-size:22px;" placeholder="W" id="match-result" />
+        <span class="score-dash" style="font-size:16px;">sets:</span>
+        <input class="score-input" style="width:40px;font-size:22px;" type="number" placeholder="0" />
+        <span class="score-dash">–</span>
+        <input class="score-input" style="width:40px;font-size:22px;" type="number" placeholder="0" />
+      </div>
+    </div>
+  </div>
+
+  <!-- SET SELECTOR -->
+  <div class="set-tabs">
+    <button class="set-tab on" onclick="switchSet(1,this)">Set 1</button>
+    <button class="set-tab" onclick="switchSet(2,this)">Set 2</button>
+    <button class="set-tab" onclick="switchSet(3,this)">Set 3</button>
+    <button class="set-tab" onclick="switchSet('all',this)">📊 Match Totals</button>
+  </div>
+
+  <!-- STAT TABLE -->
+  <div class="stat-card">
+    <table class="stat-table" id="stat-table">
+      <thead>
+        <tr>
+          <th rowspan="2">PLAYER</th>
+          <th colspan="3" class="kills-h">⚡ KILLS</th>
+          <th colspan="2" class="aces-h">🎯 ACES</th>
+          <th colspan="2" class="errors-h">❌ ERRORS</th>
+          <th colspan="2" class="total-h">🛡️ BLOCKS</th>
+          <th colspan="2" class="total-h">✅ DIGS</th>
+          <th class="total-h">TOTAL +</th>
+        </tr>
+        <tr class="sub-head">
+          <th class="kills-h">S1</th><th class="kills-h">S2</th><th class="kills-h">S3</th>
+          <th class="aces-h">S1</th><th class="aces-h">S2</th>
+          <th class="errors-h">S1</th><th class="errors-h">S2</th>
+          <th>S1</th><th>S2</th>
+          <th>S1</th><th>S2</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="stat-tbody">
+        <!-- Populated by JS -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- NOTES -->
+  <div class="notes-wrap">
+    <div class="notes-label">Coach Notes</div>
+    <div class="notes-lines">
+      <div class="notes-line"></div>
+      <div class="notes-line"></div>
+      <div class="notes-line"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── ROSTER ──
+const POS_LABELS = {S:'S', OH:'OH', MB:'MB', OPP:'OPP', RS:'RS', L:'L', DS:'DS'};
+
+const DEFAULT_ROSTER = [
+  {name:'Korbynn Abraham',   jersey:'—', position:'OH'},
+  {name:'Aubriella Adams',   jersey:'—', position:'OH'},
+  {name:'Kara Coder',        jersey:'—', position:'OH'},
+  {name:'Itzabel Colmenero', jersey:'—', position:'MB'},
+  {name:'Nevaeh Cooks',      jersey:'—', position:'MB'},
+  {name:'Avani Hobbs',       jersey:'—', position:'S'},
+  {name:'Jessa Hobbs',       jersey:'—', position:'S'},
+  {name:'Lily Israel',       jersey:'—', position:'OH'},
+  {name:'Olivia Lemanski',   jersey:'—', position:'MB'},
+  {name:'Ruby Okafor',       jersey:'—', position:'OH'},
+  {name:'Jewel Purdy',       jersey:'—', position:'L'},
+  {name:'Aubriella Ramirez', jersey:'—', position:'OH'},
+  {name:'Audrianna Rogers',  jersey:'—', position:'OH'},
+];
+
+let roster = [];
+let currentSet = 1;
+
+function loadRoster(){
+  try{
+    const stored = JSON.parse(localStorage.getItem('vb_players') || '[]');
+    if(stored.length){
+      roster = stored.map(p=>({ name:p.name, jersey:p.jersey||'—', position:p.position||'OH' }));
+    } else {
+      roster = DEFAULT_ROSTER;
+    }
+  }catch(e){
+    roster = DEFAULT_ROSTER;
+  }
+  renderTable();
+  showStatus(`✓ Loaded ${roster.length} players`);
+}
+
+function showStatus(msg){
+  let el = document.getElementById('status-toast');
+  if(!el){
+    el = document.createElement('div');
+    el.id='status-toast';
+    el.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0a1628;color:#00d4c8;font-family:"Barlow Condensed",sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;padding:10px 22px;border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.25);z-index:9999;transition:opacity .3s;';
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.style.opacity = '1';
+  setTimeout(()=>{ el.style.opacity='0'; }, 2200);
+}
+
+// ── OPPONENT NAME SYNC ──
+document.getElementById('opponent').addEventListener('input', function(){
+  ['opp-s1','opp-s2','opp-s3'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.textContent = this.value || 'Opp';
+  });
+});
+
+// ── SET SWITCH ──
+function switchSet(set, btn){
+  currentSet = set;
+  document.querySelectorAll('.set-tab').forEach(t=>t.classList.remove('on'));
+  btn.classList.add('on');
+  renderTable();
+}
+
+// ── RENDER TABLE ──
+function renderTable(){
+  const tbody = document.getElementById('stat-tbody');
+  if(!roster.length){
+    tbody.innerHTML = `<tr><td colspan="13" style="padding:30px;text-align:center;color:#999;">Click "Load Roster" above to pull your players in.</td></tr>`;
+    return;
+  }
+
+  const isTotals = currentSet === 'all';
+
+  tbody.innerHTML = roster.map((p,idx)=>{
+    const pos = POS_LABELS[p.position] || p.position || '—';
+    const key = `p${idx}`;
+
+    if(isTotals){
+      // Totals view — show sum cells across all sets
+      return `<tr class="${idx%2===0?'':''}">
+        <td>
+          <span class="player-name">#${p.jersey} ${p.name}</span>
+          <span class="player-pos">${pos}</span>
+        </td>
+        <td colspan="3" class="total-cell" id="${key}-kills-total">—</td>
+        <td colspan="2" class="total-cell" id="${key}-aces-total">—</td>
+        <td colspan="2" style="color:#e53e3e;" id="${key}-errors-total">—</td>
+        <td colspan="2" id="${key}-blocks-total">—</td>
+        <td colspan="2" id="${key}-digs-total">—</td>
+        <td class="total-cell" id="${key}-grand-total">—</td>
+      </tr>`;
+    }
+
+    const s = currentSet;
+    return `<tr>
+      <td>
+        <span class="player-name">#${p.jersey} ${p.name}</span>
+        <span class="player-pos">${pos}</span>
+      </td>
+      <td>${tallyInput(key,'kills',s)}</td>
+      <td>${s===1?'&nbsp;':tallyInput(key,'kills2',s)}</td>
+      <td>${s<=2?'&nbsp;':tallyInput(key,'kills3',s)}</td>
+      <td>${tallyInput(key,'aces',s)}</td>
+      <td>${s===1?'&nbsp;':tallyInput(key,'aces2',s)}</td>
+      <td>${tallyInput(key,'errors',s)}</td>
+      <td>${s===1?'&nbsp;':tallyInput(key,'errors2',s)}</td>
+      <td>${tallyInput(key,'blocks',s)}</td>
+      <td>${s===1?'&nbsp;':tallyInput(key,'blocks2',s)}</td>
+      <td>${tallyInput(key,'digs',s)}</td>
+      <td>${s===1?'&nbsp;':tallyInput(key,'digs2',s)}</td>
+      <td class="total-cell" id="${key}-s${s}-total">0</td>
+    </tr>`;
+  }).join('') +
+  `<tr class="totals-row">
+    <td>TEAM TOTALS</td>
+    ${isTotals
+      ? `<td colspan="3" id="team-kills-t">—</td><td colspan="2" id="team-aces-t">—</td><td colspan="2" id="team-err-t">—</td><td colspan="2">—</td><td colspan="2">—</td><td id="team-grand-t">—</td>`
+      : `<td colspan="3" id="team-kills">0</td><td colspan="2" id="team-aces">0</td><td colspan="2" id="team-err">0</td><td colspan="2" id="team-blk">0</td><td colspan="2" id="team-dig">0</td><td id="team-total">0</td>`
+    }
+  </tr>`;
+
+  if(!isTotals) attachListeners();
+}
+
+function tallyInput(key, stat, set){
+  const storedKey = `stat_${key}_${stat}_set${set}`;
+  const val = sessionStorage.getItem(storedKey) || '';
+  return `<input class="tally-input ${statColor(stat)}" type="number" min="0" max="99"
+    data-key="${key}" data-stat="${stat}" data-set="${set}" data-store="${storedKey}"
+    value="${val}" placeholder="·"
+    oninput="updateTotals()" onchange="sessionStorage.setItem(this.dataset.store, this.value||'')">`;
+}
+
+function statColor(stat){
+  if(stat.startsWith('kills')) return 'kills';
+  if(stat.startsWith('aces')) return 'aces';
+  if(stat.startsWith('errors')) return 'errors';
+  return '';
+}
+
+function attachListeners(){
+  document.querySelectorAll('.tally-input').forEach(inp=>{
+    inp.addEventListener('input', updateTotals);
+  });
+  updateTotals();
+}
+
+function getVal(el){ return parseInt(el.value)||0; }
+
+function updateTotals(){
+  const s = currentSet;
+  let teamKills=0, teamAces=0, teamErr=0, teamBlk=0, teamDig=0;
+
+  roster.forEach((_,idx)=>{
+    const key=`p${idx}`;
+    const inputs = document.querySelectorAll(`input[data-key="${key}"]`);
+    let kills=0, aces=0, err=0, blk=0, dig=0;
+    inputs.forEach(inp=>{
+      const v = getVal(inp);
+      const st = inp.dataset.stat;
+      if(st.startsWith('kills')) kills+=v;
+      else if(st.startsWith('aces')) aces+=v;
+      else if(st.startsWith('errors')) err+=v;
+      else if(st.startsWith('blocks')) blk+=v;
+      else if(st.startsWith('digs')) dig+=v;
+    });
+    const rowTotal = kills+aces+blk;
+    const rowEl = document.getElementById(`${key}-s${s}-total`);
+    if(rowEl) rowEl.textContent = rowTotal||'0';
+    teamKills+=kills; teamAces+=aces; teamErr+=err; teamBlk+=blk; teamDig+=dig;
+  });
+
+  const set = (id,v)=>{ const el=document.getElementById(id); if(el) el.textContent=v; };
+  set('team-kills', teamKills);
+  set('team-aces', teamAces);
+  set('team-err', teamErr);
+  set('team-blk', teamBlk);
+  set('team-dig', teamDig);
+  set('team-total', teamKills+teamAces+teamBlk);
+}
+
+// ── INIT ──
+window.addEventListener('load', ()=>{
+  const today = new Date();
+  document.getElementById('match-date').value =
+    `${today.getMonth()+1}/${today.getDate()}`;
+  loadRoster();
+});
+</script>
+</body>
+</html>
