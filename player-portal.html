@@ -214,6 +214,50 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
 .iq-desc{font-size:13px;color:var(--muted);line-height:1.6;}
 .iq-desc strong{color:var(--text);}
 
+/* ── RULES OF VOLLEYBALL — FLIP CARDS ── */
+.rules-intro{margin:36px 0 18px;text-align:center;}
+.rules-intro-badge{
+  display:inline-block;font-family:var(--head);font-size:11px;font-weight:800;letter-spacing:2px;
+  text-transform:uppercase;background:var(--teal-light);color:#0D9488;
+  padding:5px 14px;border-radius:100px;margin-bottom:10px;
+}
+.rules-intro-title{font-family:var(--head);font-size:22px;font-weight:800;color:var(--navy);margin-bottom:6px;}
+.rules-intro-desc{font-size:13px;color:var(--muted);max-width:480px;margin:0 auto;}
+
+.tf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:28px;}
+.tf-card{
+  position:relative;height:160px;cursor:pointer;perspective:1000px;
+}
+.tf-front, .tf-back{
+  position:absolute;inset:0;border-radius:14px;padding:18px 20px;
+  display:flex;flex-direction:column;justify-content:center;
+  backface-visibility:hidden;transition:transform .5s;
+  box-shadow:0 2px 10px rgba(30,42,69,.06);
+}
+.tf-front{
+  background:#fff;border:1.5px solid var(--cream2);
+}
+.tf-back{
+  transform:rotateY(180deg);color:#fff;
+}
+.tf-back.tf-true{background:linear-gradient(135deg,#10B981,#0D9488);}
+.tf-back.tf-false{background:linear-gradient(135deg,#F43F5E,#E11D48);}
+.tf-card.flipped .tf-front{transform:rotateY(180deg);}
+.tf-card.flipped .tf-back{transform:rotateY(0deg);}
+.tf-q{font-family:var(--head);font-size:15px;font-weight:700;color:var(--navy);line-height:1.4;margin-bottom:10px;}
+.tf-tap{font-size:11px;color:var(--coral);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:auto;}
+.tf-result{font-family:var(--head);font-size:20px;font-weight:900;letter-spacing:1px;margin-bottom:8px;}
+.tf-explain{font-size:13px;line-height:1.55;}
+
+/* ── RULES CHEAT SHEET ── */
+.rules-cheat-wrap{background:#fff;border:1px solid var(--cream2);border-radius:16px;padding:22px 24px;margin-bottom:8px;}
+.rules-cheat-head{font-family:var(--head);font-size:14px;font-weight:800;letter-spacing:1px;color:var(--navy);margin-bottom:16px;}
+.rules-cheat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;}
+.rc-item{display:flex;gap:12px;align-items:flex-start;}
+.rc-icon{font-size:22px;flex-shrink:0;line-height:1.3;}
+.rc-item strong{font-family:var(--head);font-size:13px;color:var(--navy);}
+.rc-item div{font-size:12px;color:var(--muted);line-height:1.6;}
+
 /* ── RESOURCE LINKS ── */
 .resource-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;}
 .resource-card{
@@ -808,6 +852,119 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
       </div>
 
     </div>
+
+    <!-- RULES OF VOLLEYBALL — TRUE OR FALSE GAME -->
+    <div class="rules-intro">
+      <div class="rules-intro-badge">🎮 Quick Game</div>
+      <h3 class="rules-intro-title">True or False? Test Your Rules Knowledge</h3>
+      <p class="rules-intro-desc">Tap a card to flip it and see if you got it right. Some of these trip up even experienced players!</p>
+    </div>
+
+    <div class="tf-grid" id="tf-grid">
+
+      <div class="tf-card" onclick="flipCard(this)">
+        <div class="tf-front">
+          <div class="tf-q">A serve that touches the net and goes over is still in play.</div>
+          <div class="tf-tap">Tap to flip</div>
+        </div>
+        <div class="tf-back tf-true">
+          <div class="tf-result">✅ TRUE</div>
+          <div class="tf-explain">Unlike old-school rules, a serve that clips the net and lands in bounds is completely legal — keep playing!</div>
+        </div>
+      </div>
+
+      <div class="tf-card" onclick="flipCard(this)">
+        <div class="tf-front">
+          <div class="tf-q">A team gets 3 touches max before sending the ball back over the net.</div>
+          <div class="tf-tap">Tap to flip</div>
+        </div>
+        <div class="tf-back tf-true">
+          <div class="tf-result">✅ TRUE</div>
+          <div class="tf-explain">3 touches per side — usually pass, set, hit. A block doesn't count as one of your 3 touches!</div>
+        </div>
+      </div>
+
+      <div class="tf-card" onclick="flipCard(this)">
+        <div class="tf-front">
+          <div class="tf-q">The same player can hit the ball twice in a row (two separate touches).</div>
+          <div class="tf-tap">Tap to flip</div>
+        </div>
+        <div class="tf-back tf-false">
+          <div class="tf-result">❌ FALSE</div>
+          <div class="tf-explain">One player can't touch the ball twice in a row — except right after a block, which doesn't count as a touch for that player.</div>
+        </div>
+      </div>
+
+      <div class="tf-card" onclick="flipCard(this)">
+        <div class="tf-front">
+          <div class="tf-q">Back-row players are allowed to spike the ball from anywhere on the court.</div>
+          <div class="tf-tap">Tap to flip</div>
+        </div>
+        <div class="tf-back tf-false">
+          <div class="tf-result">❌ FALSE</div>
+          <div class="tf-explain">Back-row players can only attack from behind the 10-foot line (the attack line). Jump from in front of it and it's a fault!</div>
+        </div>
+      </div>
+
+      <div class="tf-card" onclick="flipCard(this)">
+        <div class="tf-front">
+          <div class="tf-q">Games are played to 25 points, win by 2.</div>
+          <div class="tf-tap">Tap to flip</div>
+        </div>
+        <div class="tf-back tf-true">
+          <div class="tf-result">✅ TRUE</div>
+          <div class="tf-explain">Sets go to 25, win by 2 (so 26-24, 27-25, etc.) — except a deciding 5th set, which only goes to 15.</div>
+        </div>
+      </div>
+
+      <div class="tf-card" onclick="flipCard(this)">
+        <div class="tf-front">
+          <div class="tf-q">You only score a point when your team is serving.</div>
+          <div class="tf-tap">Tap to flip</div>
+        </div>
+        <div class="tf-back tf-false">
+          <div class="tf-result">❌ FALSE</div>
+          <div class="tf-explain">Every rally is a point for someone — this is called "rally scoring." Win the rally, win the point, whether you served or not.</div>
+        </div>
+      </div>
+
+      <div class="tf-card" onclick="flipCard(this)">
+        <div class="tf-front">
+          <div class="tf-q">A ball that lands on the boundary line is OUT.</div>
+          <div class="tf-tap">Tap to flip</div>
+        </div>
+        <div class="tf-back tf-false">
+          <div class="tf-result">❌ FALSE</div>
+          <div class="tf-explain">If any part of the ball touches the line, it's IN. The line is part of the court — just like in tennis!</div>
+        </div>
+      </div>
+
+      <div class="tf-card" onclick="flipCard(this)">
+        <div class="tf-front">
+          <div class="tf-q">The Libero can serve.</div>
+          <div class="tf-tap">Tap to flip</div>
+        </div>
+        <div class="tf-back tf-true">
+          <div class="tf-result">✅ TRUE</div>
+          <div class="tf-explain">In most leagues, the Libero can serve — usually in one rotation spot. (Check your league's specific rule, since this varies!)</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- QUICK RULES CHEAT SHEET -->
+    <div class="rules-cheat-wrap">
+      <div class="rules-cheat-head">⚡ Quick Reference — Know This Before Game Day</div>
+      <div class="rules-cheat-grid">
+        <div class="rc-item"><span class="rc-icon">🏐</span><div><strong>Rotation</strong><br>Every time your team wins back the serve, everyone rotates one spot clockwise.</div></div>
+        <div class="rc-item"><span class="rc-icon">🙌</span><div><strong>3 Touches</strong><br>Pass, set, hit — that's your team's max before the ball must cross the net.</div></div>
+        <div class="rc-item"><span class="rc-icon">🚫</span><div><strong>No Catching</strong><br>The ball must be hit cleanly, not caught, lifted, or thrown.</div></div>
+        <div class="rc-item"><span class="rc-icon">📏</span><div><strong>Attack Line</strong><br>Back-row players must jump from behind this line to attack — or it's a fault.</div></div>
+        <div class="rc-item"><span class="rc-icon">🔁</span><div><strong>Side Out</strong><br>If the receiving team wins the rally, they get the point AND the serve.</div></div>
+        <div class="rc-item"><span class="rc-icon">🏆</span><div><strong>Match Format</strong><br>Best of 5 sets — first to 25 (15 for set 5), win by 2.</div></div>
+      </div>
+    </div>
+
   </section>
 
   <!-- RESOURCES -->
@@ -902,6 +1059,10 @@ function playVideo(el, videoId){
   el.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0"
     title="Video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen loading="lazy"></iframe>`;
+}
+
+function flipCard(el){
+  el.classList.toggle('flipped');
 }
 
 function filterVideos(cat, btn){
