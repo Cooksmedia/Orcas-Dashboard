@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fierce Orcas — Player Portal QR Code</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Barlow',sans-serif;background:#0a1628;color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 16px;}
+
+.card{background:#fff;color:#1a2535;border-radius:24px;padding:40px 44px;max-width:480px;width:100%;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.4);}
+
+.orca{font-size:48px;margin-bottom:8px;}
+.team-name{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;color:#2DD4BF;text-transform:uppercase;margin-bottom:4px;}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;letter-spacing:1px;color:#1E2A45;margin-bottom:4px;}
+.card-sub{font-size:13px;color:#6B7689;margin-bottom:28px;line-height:1.5;}
+
+#qr-wrap{display:flex;justify-content:center;align-items:center;margin-bottom:24px;}
+#qr-code canvas, #qr-code img{border-radius:12px;border:6px solid #F4EEE3;}
+
+.url-pill{
+  background:#F4EEE3;border-radius:100px;padding:10px 20px;
+  font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;
+  color:#1E2A45;letter-spacing:.5px;margin-bottom:28px;
+  display:inline-block;word-break:break-all;
+}
+
+.divider{border:none;border-top:1px solid #EEE9DF;margin-bottom:24px;}
+
+.steps-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:#2DD4BF;text-transform:uppercase;margin-bottom:12px;}
+.steps{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:28px;}
+.step{text-align:center;}
+.step-icon{font-size:24px;margin-bottom:4px;}
+.step-text{font-size:11px;color:#6B7689;font-weight:600;line-height:1.4;}
+
+.coral-bar{background:linear-gradient(135deg,#FF6B4A,#E5562F);border-radius:12px;padding:14px 20px;margin-bottom:0;}
+.coral-bar-text{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;color:#fff;}
+
+/* Screen controls */
+.controls{display:flex;gap:10px;margin-top:28px;flex-wrap:wrap;justify-content:center;}
+.btn{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:1px;padding:11px 26px;border-radius:10px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block;}
+.btn-teal{background:#2DD4BF;color:#0a1628;}
+.btn-teal:hover{background:#00f0e2;}
+.btn-outline{background:none;color:rgba(255,255,255,.7);border:2px solid rgba(255,255,255,.2);}
+.btn-outline:hover{border-color:#2DD4BF;color:#2DD4BF;}
+
+@media print{
+  body{background:#fff;justify-content:flex-start;padding:0;}
+  .controls{display:none;}
+  .card{box-shadow:none;border:1px solid #ddd;margin:0 auto;}
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="orca">🐋</div>
+  <div class="team-name">Fierce Orcas Volleyball</div>
+  <div class="card-title">Player &amp; Parent Hub</div>
+  <div class="card-sub">Skill videos, at-home drills, rotation academies,<br>attack call glossary, and volleyball rules.</div>
+
+  <div id="qr-wrap">
+    <div id="qr-code"></div>
+  </div>
+
+  <div class="url-pill">cooksmedia.github.io/Orcas-Dashboard/player-portal.html</div>
+
+  <hr class="divider">
+
+  <div class="steps-label">How to access</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-icon">📱</div>
+      <div class="step-text">Open your<br>camera app</div>
+    </div>
+    <div class="step">
+      <div class="step-icon">🎯</div>
+      <div class="step-text">Point it at<br>the QR code</div>
+    </div>
+    <div class="step">
+      <div class="step-icon">🔗</div>
+      <div class="step-text">Tap the link<br>that appears</div>
+    </div>
+    <div class="step">
+      <div class="step-icon">🏐</div>
+      <div class="step-text">Start learning<br>& get better!</div>
+    </div>
+  </div>
+
+  <div class="coral-bar">
+    <div class="coral-bar-text">🔒 This is a players &amp; parents page only — no practice data or eval scores visible here.</div>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="btn btn-teal" onclick="window.print()">🖨️ Print QR Card</button>
+  <a href="dashboard.html" class="btn btn-outline">← Dashboard</a>
+</div>
+
+<script>
+new QRCode(document.getElementById('qr-code'), {
+  text: 'https://cooksmedia.github.io/Orcas-Dashboard/player-portal.html',
+  width: 220,
+  height: 220,
+  colorDark: '#1E2A45',
+  colorLight: '#ffffff',
+  correctLevel: QRCode.CorrectLevel.H,
+});
+</script>
+</body>
+</html>
