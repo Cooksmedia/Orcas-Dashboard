@@ -1647,23 +1647,24 @@ function ck(el) {
   el.textContent = el.classList.contains('on') ? '✓' : '';
 }
 
-// ── PLAYER VIEW — hide coach-only content when ?view=player ──
+// ── PLAYER VIEW — hide Drills + 4-Week Plan when ?view=player ──
 (function(){
   const isPlayer = new URLSearchParams(window.location.search).get("view") === "player";
   if(!isPlayer) return;
-  // Hide drills tab and page
-  const drillBtn = document.getElementById("t-drills");
-  const drillPage = document.getElementById("pg-drills");
-  if(drillBtn) drillBtn.style.display = "none";
-  if(drillPage) drillPage.style.display = "none";
+
+  // IDs to hide: Drills tab + page, 4-Week Plan tab + page
+  const hideTabIds  = ["t-drills","t-plan"];
+  const hidePageIds = ["pg-drills","pg-plan"];
+  hideTabIds.forEach(id  => { const el=document.getElementById(id);  if(el) el.style.display="none"; });
+  hidePageIds.forEach(id => { const el=document.getElementById(id);  if(el) el.style.display="none"; });
+
   // Swap dashboard link to player portal
   const homeLink = document.getElementById("dash-home-link");
-  if(homeLink){ homeLink.href = "player-portal.html"; homeLink.title = "Back to Player Hub"; homeLink.innerHTML = homeLink.innerHTML.replace("Dashboard","Player Hub"); }
-  // Banner at top so players know what this is
-  const banner = document.createElement("div");
-  banner.style.cssText = "background:linear-gradient(135deg,#FF6B4A,#E5562F);color:#fff;font-family:Barlow Condensed,sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;padding:10px 20px;text-align:center;";
-  banner.textContent = "🏐 Orcas Player & Parent Hub — Teaching Blocking Guide";
-  document.body.insertBefore(banner, document.body.firstChild);
+  if(homeLink){
+    homeLink.href = "player-portal.html";
+    homeLink.title = "Back to Player Hub";
+    homeLink.innerHTML = homeLink.innerHTML.replace("Dashboard","Player Hub");
+  }
 })();
 
 </script>
