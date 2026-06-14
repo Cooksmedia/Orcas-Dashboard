@@ -1476,6 +1476,26 @@ function toggleCheck(box) {
   box.classList.toggle('checked');
   box.textContent = box.classList.contains('checked') ? '✓' : '';
 }
+
+// ── PLAYER VIEW — hide coach-only content when ?view=player ──
+(function(){
+  const isPlayer = new URLSearchParams(window.location.search).get("view") === "player";
+  if(!isPlayer) return;
+  // Hide drills tab and page
+  const drillBtn = document.getElementById("tab-drills");
+  const drillPage = document.getElementById("pg-drills");
+  if(drillBtn) drillBtn.style.display = "none";
+  if(drillPage) drillPage.style.display = "none";
+  // Swap dashboard link to player portal
+  const homeLink = document.getElementById("dash-home-link");
+  if(homeLink){ homeLink.href = "player-portal.html"; homeLink.title = "Back to Player Hub"; homeLink.innerHTML = homeLink.innerHTML.replace("Dashboard","Player Hub"); }
+  // Banner
+  const banner = document.createElement("div");
+  banner.style.cssText = "background:linear-gradient(135deg,#FF6B4A,#E5562F);color:#fff;font-family:Barlow Condensed,sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;padding:10px 20px;text-align:center;";
+  banner.textContent = "🏐 Orcas Player & Parent Hub — Coaching Transitions Guide";
+  document.body.insertBefore(banner, document.body.firstChild);
+})();
+
 </script>
 </body>
 </html>
