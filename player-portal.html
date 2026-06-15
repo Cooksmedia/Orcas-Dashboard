@@ -7,21 +7,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --navy:#1E2A45; --navy2:#2A3B5C;
-  --cream:#FBF7F0; --cream2:#F4EEE3;
-  --coral:#FF6B4A; --coral-d:#E5562F; --coral-light:#FFE4DB;
-  --teal:#2DD4BF; --teal-light:#D6F9F4;
-  --gold:#FFC857; --gold-light:#FFF3D6;
-  --text:#2D3548; --muted:#6B7689;
-  --head:'Poppins',sans-serif; --body:'Inter',sans-serif;
+  --navy:#0B1B2D; --navy2:#112240;
+  --blue:#1E4FA3; --blue2:#2860CC;
+  --cyan:#00D4C8; --cyan-light:rgba(0,212,200,.12);
+  --cream:#F0F4FF; --cream2:#E8EEF8;
+  --coral:#1E4FA3; --coral-d:#2860CC; --coral-light:rgba(30,79,163,.12);
+  --teal:#00D4C8; --teal-light:rgba(0,212,200,.12);
+  --gold:#F0B429; --gold-light:rgba(240,180,41,.12);
+  --text:#0B1B2D; --muted:#4A5568;
+  --panel:#fff; --border:#D6E0F5;
+  --head:'Barlow Condensed',sans-serif; --body:'Inter',sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{background:var(--cream);color:var(--text);font-family:var(--body);min-height:100vh;line-height:1.6;}
+body{background:#F0F4FF;color:var(--text);font-family:var(--body);min-height:100vh;line-height:1.6;}
 
 /* ── TOPBAR ── */
 .topbar{
-  background:var(--navy);color:#fff;
+  background:var(--navy);color:#fff;border-bottom:3px solid var(--cyan);
   padding:14px 24px;display:flex;align-items:center;justify-content:space-between;
   position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:10px;
   box-shadow:0 2px 12px rgba(0,0,0,.08);
@@ -86,8 +89,8 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
 /* ── SECTION HEADERS ── */
 .sec{margin-bottom:48px;}
 .sec-head{margin-bottom:20px;}
-.sec-eyebrow{font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:3px;color:var(--coral);text-transform:uppercase;margin-bottom:6px;}
-.sec-title{font-family:var(--head);font-size:clamp(24px,4vw,32px);font-weight:800;color:var(--navy);}
+.sec-eyebrow{font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:3px;color:var(--blue);text-transform:uppercase;margin-bottom:6px;}
+.sec-title{font-family:var(--head);font-size:clamp(26px,4vw,36px);font-weight:900;color:var(--navy);letter-spacing:.5px;}
 .sec-desc{font-size:14px;color:var(--muted);margin-top:6px;max-width:620px;}
 
 /* ── CATEGORY TABS ── */
@@ -98,7 +101,7 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
   background:#fff;color:var(--muted);cursor:pointer;transition:all .2s;
 }
 .cat-tab:hover{border-color:var(--coral-light);color:var(--coral-d);}
-.cat-tab.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+.cat-tab.on{background:var(--blue);color:#fff;border-color:var(--blue);}
 
 /* ── VIDEO GRID ── */
 .video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;}
@@ -150,7 +153,7 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
   background:#fff;border-radius:16px;padding:20px 22px;border:1px solid var(--cream2);
   transition:all .2s;
 }
-.drill-card:hover{box-shadow:0 8px 24px rgba(30,42,69,.08);border-color:var(--coral-light);}
+.drill-card:hover{box-shadow:0 8px 24px rgba(0,212,200,.12);border-color:var(--cyan);}
 .drill-icon{font-size:28px;margin-bottom:10px;display:block;}
 .drill-title{font-family:var(--head);font-size:16px;font-weight:700;color:var(--navy);margin-bottom:6px;}
 .drill-meta{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
@@ -177,10 +180,10 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
 .academy-desc{font-size:13px;color:rgba(255,255,255,.7);line-height:1.65;max-width:480px;}
 .academy-cta{
   font-family:var(--head);font-size:14px;font-weight:700;letter-spacing:1px;
-  background:var(--coral);color:#fff;padding:12px 24px;border-radius:10px;
+  background:var(--blue);color:#fff;padding:12px 24px;border-radius:10px;
   white-space:nowrap;z-index:2;transition:all .2s;flex-shrink:0;
 }
-.academy-feature:hover .academy-cta{background:var(--coral-d);}
+.academy-feature:hover .academy-cta{background:var(--blue2);}
 
 /* ── VOLLEYBALL IQ ── */
 .iq-pdf-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:24px;}
@@ -189,17 +192,17 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
   background:#fff;border:1.5px solid var(--cream2);border-radius:14px;
   padding:16px 20px;flex:1;min-width:220px;transition:all .2s;
 }
-.iq-pdf-card:hover{border-color:var(--coral-light);box-shadow:0 8px 22px rgba(30,42,69,.08);transform:translateY(-2px);}
-.iq-pdf-icon{font-size:26px;width:48px;height:48px;border-radius:12px;background:var(--coral-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.iq-pdf-card:hover{border-color:var(--cyan);box-shadow:0 8px 22px rgba(0,212,200,.12);transform:translateY(-2px);}
+.iq-pdf-icon{font-size:26px;width:48px;height:48px;border-radius:12px;background:var(--cyan-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .iq-pdf-text{flex:1;}
 .iq-pdf-title{font-family:var(--head);font-size:14px;font-weight:700;color:var(--navy);margin-bottom:2px;}
 .iq-pdf-sub{font-size:11px;color:var(--muted);}
-.iq-pdf-arrow{font-size:18px;color:var(--coral);flex-shrink:0;}
+.iq-pdf-arrow{font-size:18px;color:var(--blue);flex-shrink:0;}
 
 .iq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;}
 .iq-card{
   background:#fff;border-radius:14px;padding:18px 20px;border:1px solid var(--cream2);
-  border-left:4px solid var(--coral);transition:all .2s;
+  border-left:4px solid var(--blue);transition:all .2s;
 }
 .iq-card:hover{box-shadow:0 8px 22px rgba(30,42,69,.08);transform:translateY(-2px);}
 .iq-name{font-family:var(--head);font-size:20px;font-weight:800;color:var(--navy);letter-spacing:.5px;margin-bottom:8px;}
@@ -208,7 +211,7 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
   font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
   padding:3px 10px;border-radius:100px;background:var(--cream2);color:var(--muted);
 }
-.iq-tag-fast{background:var(--coral-light);color:var(--coral-d);}
+.iq-tag-fast{background:var(--cyan-light);color:#0D9488;}
 .iq-tag-mid{background:var(--gold-light);color:#B8860B;}
 .iq-tag-slow{background:var(--teal-light);color:#0D9488;}
 .iq-desc{font-size:13px;color:var(--muted);line-height:1.6;}
@@ -218,7 +221,7 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
 .rules-intro{margin:36px 0 18px;text-align:center;}
 .rules-intro-badge{
   display:inline-block;font-family:var(--head);font-size:11px;font-weight:800;letter-spacing:2px;
-  text-transform:uppercase;background:var(--teal-light);color:#0D9488;
+  text-transform:uppercase;background:var(--cyan-light);color:#0D9488;
   padding:5px 14px;border-radius:100px;margin-bottom:10px;
 }
 .rules-intro-title{font-family:var(--head);font-size:22px;font-weight:800;color:var(--navy);margin-bottom:6px;}
@@ -245,7 +248,7 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
 .tf-card.flipped .tf-front{transform:rotateY(180deg);}
 .tf-card.flipped .tf-back{transform:rotateY(0deg);}
 .tf-q{font-family:var(--head);font-size:15px;font-weight:700;color:var(--navy);line-height:1.4;margin-bottom:10px;}
-.tf-tap{font-size:11px;color:var(--coral);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:auto;}
+.tf-tap{font-size:11px;color:var(--blue);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:auto;}
 .tf-result{font-family:var(--head);font-size:20px;font-weight:900;letter-spacing:1px;margin-bottom:8px;}
 .tf-explain{font-size:13px;line-height:1.55;}
 
@@ -265,7 +268,7 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
   display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit;
   transition:all .2s;
 }
-.resource-card:hover{border-color:var(--coral-light);box-shadow:0 6px 18px rgba(30,42,69,.08);transform:translateY(-2px);}
+.resource-card:hover{border-color:var(--cyan);box-shadow:0 6px 24px rgba(0,212,200,.15);transform:translateY(-2px);}
 .resource-icon{
   font-size:24px;width:48px;height:48px;border-radius:12px;
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
@@ -274,7 +277,7 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
 .resource-text{flex:1;}
 .resource-title{font-family:var(--head);font-size:14px;font-weight:700;color:var(--navy);margin-bottom:2px;}
 .resource-sub{font-size:11px;color:var(--muted);}
-.resource-arrow{color:var(--coral);font-size:18px;flex-shrink:0;}
+.resource-arrow{color:var(--blue);font-size:18px;flex-shrink:0;}
 
 /* ── POSITION GUIDE ── */
 .pos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;}
@@ -282,7 +285,7 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
   background:#fff;border-radius:14px;padding:18px 20px;border:1px solid var(--cream2);
   border-left:4px solid var(--coral);
 }
-.pos-card.pos-mb{border-left-color:var(--teal);}
+.pos-card.pos-mb{border-left-color:var(--cyan);}
 .pos-card.pos-s{border-left-color:var(--gold);}
 .pos-card.pos-l{border-left-color:#8B5CF6;}
 .pos-title{font-family:var(--head);font-size:15px;font-weight:800;color:var(--navy);margin-bottom:6px;}
@@ -295,7 +298,7 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
   text-align:center;font-size:12px;line-height:1.8;
 }
 .footer strong{color:#fff;}
-.footer a{color:var(--teal);text-decoration:none;}
+.footer a{color:var(--cyan);text-decoration:none;}
 
 /* ── HIDE/SHOW BY CATEGORY ── */
 .video-card[data-cat]{display:block;}
@@ -334,28 +337,49 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
 </header>
 
 <!-- HERO -->
-<div class="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow"><span class="dot"></span> Orcas Volleyball · Grades 7–9</div>
-    <div class="hero-h1">Get Better <em>Between</em><br>Practices</div>
-    <p class="hero-desc">A library of skill videos, at-home drills, and position guides — everything you need to keep improving on your own time. No equipment? No problem. Most drills only need a ball and a wall.</p>
+<section class="hero" style="background:linear-gradient(160deg,#0B1B2D 0%,#0D2444 40%,#1E4FA3 100%);position:relative;overflow:hidden;min-height:420px;display:flex;align-items:center;">
+  <!-- Banner image as background -->
+  <div style="position:absolute;inset:0;background:url('orcas-banner.png') center/cover no-repeat;opacity:.18;"></div>
+  <!-- Blue glow effects -->
+  <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(0,212,200,.12) 0%,transparent 70%);top:-200px;right:-100px;pointer-events:none;"></div>
+  <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(30,79,163,.25) 0%,transparent 70%);bottom:-150px;left:-100px;pointer-events:none;"></div>
 
-    <div class="sotw">
-      <div class="sotw-icon">⭐</div>
-      <div class="sotw-text">
-        <div class="sotw-label">Skill of the Week</div>
-        <div class="sotw-title">Standing Float Serve</div>
-        <div class="sotw-desc">Focus on a clean toss and a flat hand at contact — watch the video and practice the wall drill below.</div>
+  <div class="hero-inner" style="max-width:1100px;margin:0 auto;padding:60px 36px;position:relative;z-index:2;display:flex;align-items:center;gap:48px;width:100%;">
+
+    <!-- Text side -->
+    <div style="flex:1;min-width:0;">
+      <div style="font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:4px;color:var(--cyan);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--cyan);display:inline-block;animation:pulse 2s infinite;"></span>
+        ORCAS VOLLEYBALL · GRADES 7–9
       </div>
-      <a href="#serving-video" class="sotw-link" onclick="showSotwVideo(event)">Watch Now →</a>
+      <h1 style="font-family:var(--head);font-size:clamp(38px,6vw,68px);font-weight:900;line-height:1;color:#fff;margin-bottom:16px;letter-spacing:1px;">
+        Get Better<br><em style="color:var(--cyan);font-style:normal;">Between</em><br>Practices
+      </h1>
+      <p style="font-size:15px;color:rgba(255,255,255,.7);line-height:1.7;max-width:480px;margin-bottom:28px;">
+        A library of skill videos, at-home drills, and position guides — everything you need to keep improving on your own time. No equipment? No problem. Most drills only need a ball and a wall.
+      </p>
+      <!-- SOTW banner -->
+      <div style="background:linear-gradient(135deg,#1E4FA3 0%,#2860CC 100%);border-radius:14px;padding:16px 20px;display:flex;align-items:center;gap:16px;max-width:440px;border:1px solid rgba(0,212,200,.3);">
+        <div style="font-size:28px;">🏐</div>
+        <div style="flex:1;">
+          <div style="font-family:var(--head);font-size:10px;font-weight:800;letter-spacing:3px;color:rgba(255,255,255,.7);text-transform:uppercase;margin-bottom:4px;">Skill of the Week</div>
+          <div style="font-family:var(--head);font-size:20px;font-weight:800;color:#fff;margin-bottom:2px;">Standing Float Serve</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.6);">Freeze the wrist → create movement</div>
+        </div>
+        <a class="sotw-link" onclick="showSotwVideo(event)" href="#serving-video" style="font-family:var(--head);font-size:13px;font-weight:700;letter-spacing:1px;background:var(--cyan);color:var(--navy);padding:10px 18px;border-radius:10px;text-decoration:none;white-space:nowrap;cursor:pointer;">Watch Now →</a>
+      </div>
     </div>
+
+    <!-- Mascot side -->
+    <div style="flex-shrink:0;width:280px;display:flex;align-items:center;justify-content:center;">
+      <img src="orcas-mascot.png" alt="Orcas Volleyball Mascot"
+        style="width:100%;max-width:280px;filter:drop-shadow(0 8px 32px rgba(0,212,200,.3));animation:float 4s ease-in-out infinite;">
+    </div>
+
   </div>
-</div>
+</section>
 
-<!-- MAIN -->
-<main class="main">
-
-  <!-- SKILL VIDEOS -->
+<!-- SKILL VIDEOS -->
   <section class="sec" id="videos">
     <div class="sec-head">
       <div class="sec-eyebrow">Watch &amp; Learn</div>
@@ -561,6 +585,8 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
     </div>
   </section>
 
+  </div>
+  <div class="sec-wrap alt">
   <!-- AT-HOME DRILLS -->
   <section class="sec" id="drills">
     <div class="sec-head">
@@ -654,6 +680,8 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
     </div>
   </section>
 
+  </div>
+  <div class="sec-wrap">
   <!-- POSITION GUIDES -->
   <section class="sec" id="positions">
     <div class="sec-head">
@@ -707,6 +735,8 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
     </div>
   </section>
 
+  </div>
+  <div class="sec-wrap alt">
   <!-- SKILL GUIDES -->
   <section class="sec" id="guides">
     <div class="sec-head">
@@ -792,6 +822,8 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
     </div>
   </section>
 
+  </div>
+  <div class="sec-wrap">
   <!-- TEAM SYSTEMS -->
   <section class="sec" id="systems">
     <div class="sec-head">
@@ -831,6 +863,8 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
     </a>
   </section>
 
+  </div>
+  <div class="sec-wrap alt">
   <!-- VOLLEYBALL IQ -->
   <section class="sec" id="iq">
     <div class="sec-head">
@@ -1054,6 +1088,8 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
 
   </section>
 
+  </div>
+  <div class="sec-wrap">
   <!-- GAME FILM -->
   <section class="sec" id="film">
     <div class="sec-head">
@@ -1094,6 +1130,8 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
     </div>
   </section>
 
+  </div>
+  <div class="sec-wrap alt">
   <!-- RESOURCES -->
   <section class="sec" id="resources">
     <div class="sec-head">
@@ -1173,6 +1211,7 @@ body{background:var(--cream);color:var(--text);font-family:var(--body);min-heigh
 </main>
 
 <!-- FOOTER -->
+  </div>
 <footer class="footer">
   🐋 <strong>Orcas Volleyball</strong> · Grades 7–9 · Player &amp; Family Resource Hub<br>
   Questions about practice or this page? Talk to Coach Greg.<br>
@@ -1198,7 +1237,7 @@ function showSotwVideo(e){
   if(card){
     card.scrollIntoView({behavior:'smooth', block:'center'});
     // Highlight it briefly
-    card.style.outline = '3px solid var(--coral)';
+    card.style.outline = '3px solid var(--cyan)';
     card.style.outlineOffset = '4px';
     setTimeout(()=>{ card.style.outline=''; card.style.outlineOffset=''; }, 2000);
   }
