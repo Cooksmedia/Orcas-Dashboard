@@ -305,11 +305,58 @@ body{background:#F0F4FF;color:var(--text);font-family:var(--body);min-height:100
 .video-card.hidden{display:none;}
 
 @media(max-width:640px){
-  .topbar{padding:12px 16px;}
-  .hero{padding:32px 16px 40px;}
-  .main{padding:28px 14px 50px;}
-  .sotw{padding:18px 20px;flex-direction:column;text-align:center;}
-  .sotw-link{width:100%;text-align:center;}
+  /* Topbar */
+  .topbar{padding:10px 14px;gap:6px;}
+  .tb-title{font-size:16px;}
+  .tb-nav{gap:3px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px;}
+  .tb-link{font-size:11px;padding:5px 10px;white-space:nowrap;}
+
+  /* Hero */
+  .hero{min-height:unset!important;}
+  .hero-inner{flex-direction:column!important;padding:36px 18px 40px!important;gap:24px!important;}
+  .hero-inner h1{font-size:clamp(32px,10vw,48px)!important;}
+  .hero-inner p{font-size:14px!important;}
+  .hero-inner > div:first-child{width:100%!important;}
+
+  /* SOTW card */
+  .sotw{flex-direction:column;text-align:center;}
+  .sotw-link{width:100%;text-align:center;display:block;}
+  div[style*="max-width:440px"]{max-width:100%!important;flex-direction:column!important;text-align:center!important;}
+
+  /* Sections */
+  .sec{padding:40px 16px;}
+  .main{padding:24px 14px 50px;}
+
+  /* Grids → single column on mobile */
+  .video-grid{grid-template-columns:1fr!important;}
+  .drill-grid{grid-template-columns:1fr!important;}
+  .pos-grid{grid-template-columns:1fr!important;}
+  .resource-grid{grid-template-columns:1fr!important;}
+  .iq-grid{grid-template-columns:1fr!important;}
+  .tf-grid{grid-template-columns:1fr 1fr!important;}
+  .rules-cheat-grid{grid-template-columns:1fr!important;}
+
+  /* Academy cards */
+  .academy-feature{flex-direction:column;padding:24px 18px;}
+  .academy-text{min-width:unset;}
+
+  /* IQ PDF row */
+  .iq-pdf-row{flex-direction:column;}
+
+  /* Rotation academy cards */
+  .sec-wrap .sec div[style*="grid-template-columns"]{grid-template-columns:1fr!important;}
+}
+
+@media(max-width:400px){
+  .tb-title{font-size:14px;}
+  .tf-grid{grid-template-columns:1fr!important;}
+  .hero-inner h1{font-size:30px!important;}
+}
+
+@media(min-width:641px) and (max-width:900px){
+  .video-grid{grid-template-columns:repeat(2,1fr)!important;}
+  .drill-grid{grid-template-columns:repeat(2,1fr)!important;}
+  .hero-inner{padding:48px 28px!important;gap:28px!important;}
 }
 </style>
 </head>
