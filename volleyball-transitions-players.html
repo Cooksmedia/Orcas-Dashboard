@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Coaching Volleyball Transition</title>
+<title>Volleyball Transitions — Orcas Volleyball</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -488,7 +488,7 @@ body { background: var(--bg); color: var(--ink); font-family: var(--body); }
 </head>
 <body>
 <!-- DASHBOARD HOME LINK -->
-<a href="dashboard.html" id="dash-home-link" title="Back to Dashboard" style="
+<a href="player-portal.html" id="dash-home-link" title="Back to Player Hub" style="
   position:fixed;top:14px;left:14px;z-index:9999;
   display:flex;align-items:center;gap:7px;
   background:rgba(10,22,40,0.92);color:#00d4c8;
@@ -500,7 +500,7 @@ body { background: var(--bg); color: var(--ink); font-family: var(--body); }
   box-shadow:0 2px 12px rgba(0,0,0,0.25);
   transition:all 0.2s;
 " onmouseover="this.style.background='rgba(0,212,200,0.18)';this.style.borderColor='rgba(0,212,200,0.6)'" onmouseout="this.style.background='rgba(10,22,40,0.92)';this.style.borderColor='rgba(0,212,200,0.3)'">
-  <span style="font-size:15px;">🐋</span> Dashboard
+  <span style="font-size:15px;">🐋</span> Player Hub
 </a>
 <style>
 @media print { #dash-home-link { display:none !important; } }
@@ -509,17 +509,14 @@ body { background: var(--bg); color: var(--ink); font-family: var(--body); }
 
 <!-- MASTHEAD -->
 <div class="masthead">
-  <div class="masthead-label">Complete Coaching Guide · 7th–9th Grade</div>
-  <div class="masthead-title">COACHING<br><em>VOLLEYBALL</em><br>TRANSITION</div>
+  <div class="masthead-label">Player &amp; Parent Guide · Orcas Volleyball</div>
+  <div class="masthead-title">VOLLEYBALL<br><em>TRANSITIONS</em></div>
   <div class="masthead-subtitle">Turn every defense into a kill opportunity</div>
   <p class="masthead-intro">Transition is the most undercoached skill in youth volleyball. A spectacular dig means nothing if your team can't convert it. This guide covers every phase — defense to offense, offense to defense, footwork, systems, drills, and coaching cues — so your players stop just surviving rallies and start winning them.</p>
   <div class="masthead-chips">
     <span class="masthead-chip">5 Transition Phases</span>
-    <span class="masthead-chip">8 Targeted Drills</span>
     <span class="masthead-chip">Common Mistakes Fixed</span>
-    <span class="masthead-chip">4-Week Practice Plan</span>
-    <span class="masthead-chip">Coaching Cues Included</span>
-  </div>
+    </div>
 </div>
 
 <!-- NAV -->
@@ -527,9 +524,9 @@ body { background: var(--bg); color: var(--ink); font-family: var(--body); }
   <button class="cnav-btn on" id="tab-fundamentals" onclick="go('fundamentals','tab-fundamentals')">What Is Transition?</button>
   <button class="cnav-btn" id="tab-phases" onclick="go('phases','tab-phases')">The 5 Phases</button>
   <button class="cnav-btn" id="tab-footwork" onclick="go('footwork','tab-footwork')">Footwork & Positioning</button>
-  <button class="cnav-btn" id="tab-drills" onclick="go('drills','tab-drills')">Transition Drills</button>
+  
   <button class="cnav-btn" id="tab-mistakes" onclick="go('mistakes','tab-mistakes')">Common Mistakes</button>
-  <button class="cnav-btn" id="tab-plan" onclick="go('plan','tab-plan')">4-Week Plan</button>
+  
 </div>
 
 <!-- ══════ FUNDAMENTALS ══════ -->
@@ -989,315 +986,6 @@ body { background: var(--bg); color: var(--ink); font-family: var(--body); }
   </div>
 </div>
 
-<!-- ══════ DRILLS ══════ -->
-<div class="pg" id="pg-drills">
-  <div class="content">
-    <div class="ch-eyebrow">Chapter 4</div>
-    <div class="ch-title">8 <em>Transition</em> Drills</div>
-    <div class="ch-desc">These drills isolate each phase of transition and build the full chain. Start with Phase 1-2 drills in the first 2 weeks, then combine them in Weeks 3-4.</div>
-
-    <div class="drill-cards">
-
-      <!-- DRILL 1 -->
-      <div class="drill-card open" id="drill1">
-        <div class="drill-card-top" onclick="toggleDrill('drill1')">
-          <div class="drill-color-bar" style="background:var(--red)"></div>
-          <div class="drill-top-content">
-            <div class="drill-cat">Phase 1 — Reading</div>
-            <div class="drill-name">Shoulder Read Drill</div>
-            <div class="drill-meta">
-              <span class="drill-meta-pill">⏱ 6 min</span>
-              <span class="drill-meta-pill">👥 Pairs</span>
-              <span class="drill-meta-pill">No ball needed</span>
-            </div>
-          </div>
-          <div class="drill-toggle2">▼</div>
-        </div>
-        <div class="drill-body">
-          <div class="drill-goal">🎯 Trains defenders to read hitter shoulder before ball contact — the most important pre-contact cue.</div>
-          <div class="two-col">
-            <ul class="step-list">
-              <li><span class="sn red">1</span>Player A simulates a hitting motion at the net — no ball.</li>
-              <li><span class="sn red">2</span>Player B stands at zone 6 in base position.</li>
-              <li><span class="sn red">3</span>A loads the swing — B calls "LINE" or "CROSS" based on shoulder read.</li>
-              <li><span class="sn red">4</span>A reveals which shot they intended. Did B read correctly?</li>
-              <li><span class="sn red">5</span>Run 15 reps, then switch. Track accuracy percentage.</li>
-            </ul>
-            <div class="cue-box red">
-              <div class="cue-title">Key Coaching Points</div>
-              <ul class="cue-list">
-                <li>Call before A's hand contacts the imaginary ball</li>
-                <li>Closed shoulder = line. Open shoulder = cross.</li>
-                <li>Track: aim for 70%+ accuracy by Week 2</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- DRILL 2 -->
-      <div class="drill-card" id="drill2">
-        <div class="drill-card-top" onclick="toggleDrill('drill2')">
-          <div class="drill-color-bar" style="background:var(--orange)"></div>
-          <div class="drill-top-content">
-            <div class="drill-cat">Phase 2 — Setter Transition</div>
-            <div class="drill-name">Setter First Step Drill</div>
-            <div class="drill-meta">
-              <span class="drill-meta-pill">⏱ 7 min</span>
-              <span class="drill-meta-pill">👥 3 players</span>
-              <span class="drill-meta-pill">1 ball</span>
-            </div>
-          </div>
-          <div class="drill-toggle2">▼</div>
-        </div>
-        <div class="drill-body">
-          <div class="drill-goal">🎯 Forces the setter to move before the dig arrives — training the early first step that drives the whole transition chain.</div>
-          <div class="two-col">
-            <ul class="step-list">
-              <li><span class="sn orange">1</span>Setter starts at zone 5 (back left). Coach is on the box.</li>
-              <li><span class="sn orange">2</span>Coach attacks to zone 6. Setter must move to zone 3 before ball is dug.</li>
-              <li><span class="sn orange">3</span>Digger passes to setter. Setter sets to zone 4.</li>
-              <li><span class="sn orange">4</span>If setter arrives late (after the dig lands), rep doesn't count.</li>
-              <li><span class="sn orange">5</span>10 reps, track how many the setter arrives on time.</li>
-            </ul>
-            <div class="cue-box orange">
-              <div class="cue-title">Key Coaching Points</div>
-              <ul class="cue-list">
-                <li>Setter must call out loud on every rep</li>
-                <li>Penalize late arrivals — rep doesn't count</li>
-                <li>Vary coach attack direction to force reading</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- DRILL 3 -->
-      <div class="drill-card" id="drill3">
-        <div class="drill-card-top" onclick="toggleDrill('drill3')">
-          <div class="drill-color-bar" style="background:var(--teal)"></div>
-          <div class="drill-top-content">
-            <div class="drill-cat">Phase 3 — Net Exit</div>
-            <div class="drill-name">Drop Step + Approach Drill</div>
-            <div class="drill-meta">
-              <span class="drill-meta-pill">⏱ 8 min</span>
-              <span class="drill-meta-pill">👥 Individual</span>
-              <span class="drill-meta-pill">No ball — footwork only</span>
-            </div>
-          </div>
-          <div class="drill-toggle2">▼</div>
-        </div>
-        <div class="drill-body">
-          <div class="drill-goal">🎯 Automates the drop step footwork pattern so blockers exit the net without thinking — freeing mental bandwidth for court reading.</div>
-          <div class="two-col">
-            <ul class="step-list">
-              <li><span class="sn teal">1</span>Player stands at zone 3, hands above the net (simulating a block).</li>
-              <li><span class="sn teal">2</span>On whistle: jump, land, immediately drop step with outside foot.</li>
-              <li><span class="sn teal">3</span>Hips open to court. Eyes go to zone 3 (setter position).</li>
-              <li><span class="sn teal">4</span>Run full 4-step approach to zone 4 or 2 (coach calls direction).</li>
-              <li><span class="sn teal">5</span>8 reps each player. Coach calls left or right randomly.</li>
-            </ul>
-            <div class="cue-box teal">
-              <div class="cue-title">Key Coaching Points</div>
-              <ul class="cue-list">
-                <li>Drop step must happen before they look — muscle memory</li>
-                <li>Hips must fully open — if not, stop and redo</li>
-                <li>Time from landing to approach start — goal under 0.5 seconds</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- DRILL 4 -->
-      <div class="drill-card" id="drill4">
-        <div class="drill-card-top" onclick="toggleDrill('drill4')">
-          <div class="drill-color-bar" style="background:var(--blue)"></div>
-          <div class="drill-top-content">
-            <div class="drill-cat">Phase 4 — Transition Attack</div>
-            <div class="drill-name">Dig–Set–Attack Chain</div>
-            <div class="drill-meta">
-              <span class="drill-meta-pill">⏱ 10 min</span>
-              <span class="drill-meta-pill">👥 6 players</span>
-              <span class="drill-meta-pill">Full chain</span>
-            </div>
-          </div>
-          <div class="drill-toggle2">▼</div>
-        </div>
-        <div class="drill-body">
-          <div class="drill-goal">🎯 Runs the complete transition chain — dig to set to attack — at game speed with accountability for each phase.</div>
-          <div class="two-col">
-            <ul class="step-list">
-              <li><span class="sn blue">1</span>Coach attacks a ball to the defensive team's back row.</li>
-              <li><span class="sn blue">2</span>Digger digs, setter (already moving) sets to a hitter.</li>
-              <li><span class="sn blue">3</span>Hitter (having begun approach at first contact) attacks.</li>
-              <li><span class="sn blue">4</span>Coach immediately attacks another ball — no dead time.</li>
-              <li><span class="sn blue">5</span>Run 10 consecutive attacks. Track: kills, errors, in-play.</li>
-            </ul>
-            <div class="cue-box blue">
-              <div class="cue-title">Key Coaching Points</div>
-              <ul class="cue-list">
-                <li>Stop and correct if setter arrives after the dig</li>
-                <li>Hitter must call which shot before each swing</li>
-                <li>No acceptable free balls — tip it if you cannot swing it</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- DRILL 5 -->
-      <div class="drill-card" id="drill5">
-        <div class="drill-card-top" onclick="toggleDrill('drill5')">
-          <div class="drill-color-bar" style="background:var(--purple)"></div>
-          <div class="drill-top-content">
-            <div class="drill-cat">Full Chain — Competition</div>
-            <div class="drill-name">Wash Drill — Transition Focus</div>
-            <div class="drill-meta">
-              <span class="drill-meta-pill">⏱ 15 min</span>
-              <span class="drill-meta-pill">👥 12 players</span>
-              <span class="drill-meta-pill">6v6 competitive</span>
-            </div>
-          </div>
-          <div class="drill-toggle2">▼</div>
-        </div>
-        <div class="drill-body">
-          <div class="drill-goal">🎯 Creates game-speed transition pressure in a competitive format. Teams must execute the full transition chain to earn points — survival alone doesn't score.</div>
-          <div class="two-col">
-            <ul class="step-list">
-              <li><span class="sn" style="background:var(--purple)">1</span>Coach attacks Ball 1 to Team A. Team A must dig → set → attack to earn the rally.</li>
-              <li><span class="sn" style="background:var(--purple)">2</span>If Team A wins Rally 1 AND Rally 2 (serve), they earn a wash point.</li>
-              <li><span class="sn" style="background:var(--purple)">3</span>Splitting the two rallies earns nothing — replay. Losing both = point to Team B.</li>
-              <li><span class="sn" style="background:var(--purple)">4</span>Coach adds rule: transition kill = 2 points. Free ball kill = 0 points.</li>
-              <li><span class="sn" style="background:var(--purple)">5</span>First team to 7 wash points wins. Focus coaching on transition phase timing.</li>
-            </ul>
-            <div class="cue-box purple">
-              <div class="cue-title">Key Coaching Points</div>
-              <ul class="cue-list">
-                <li>Pause after failed transitions — identify which phase broke down</li>
-                <li>Reward transition kills loudly and publicly</li>
-                <li>No coaching during play — observe and debrief after</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- DRILL 6 -->
-      <div class="drill-card" id="drill6">
-        <div class="drill-card-top" onclick="toggleDrill('drill6')">
-          <div class="drill-color-bar" style="background:var(--gold)"></div>
-          <div class="drill-top-content">
-            <div class="drill-cat">Communication</div>
-            <div class="drill-name">Silent Court — Then Loud Court</div>
-            <div class="drill-meta">
-              <span class="drill-meta-pill">⏱ 10 min</span>
-              <span class="drill-meta-pill">👥 6–12</span>
-              <span class="drill-meta-pill">Contrast drill</span>
-            </div>
-          </div>
-          <div class="drill-toggle2">▼</div>
-        </div>
-        <div class="drill-body">
-          <div class="drill-goal">🎯 Dramatically demonstrates how communication affects transition quality by contrasting two rounds: one silent, one required loud.</div>
-          <div class="two-col">
-            <ul class="step-list">
-              <li><span class="sn" style="background:var(--gold)">1</span>Round 1: Play 5 minutes of normal rally scoring — no talking allowed.</li>
-              <li><span class="sn" style="background:var(--gold)">2</span>Coach tracks transition breakdowns — digs with no setter, hitters who miss approach.</li>
-              <li><span class="sn" style="background:var(--gold)">3</span>Brief break: show players the breakdown count.</li>
-              <li><span class="sn" style="background:var(--gold)">4</span>Round 2: Required to call "mine!", "setter!", and attack direction on every touch.</li>
-              <li><span class="sn" style="background:var(--gold)">5</span>Silence = point deducted. Track breakdown count again and compare.</li>
-            </ul>
-            <div class="cue-box gold">
-              <div class="cue-title">Key Coaching Points</div>
-              <ul class="cue-list">
-                <li>The difference in breakdown count will be dramatic — use it</li>
-                <li>Communication is a trainable skill, not a personality trait</li>
-                <li>Run this drill once per week for 3 weeks in a row</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- DRILL 7 -->
-      <div class="drill-card" id="drill7">
-        <div class="drill-card-top" onclick="toggleDrill('drill7')">
-          <div class="drill-color-bar" style="background:var(--red)"></div>
-          <div class="drill-top-content">
-            <div class="drill-cat">Defense to Offense Speed</div>
-            <div class="drill-name">5-Second Transition Game</div>
-            <div class="drill-meta">
-              <span class="drill-meta-pill">⏱ 8 min</span>
-              <span class="drill-meta-pill">👥 6 players</span>
-              <span class="drill-meta-pill">Time pressure drill</span>
-            </div>
-          </div>
-          <div class="drill-toggle2">▼</div>
-        </div>
-        <div class="drill-body">
-          <div class="drill-goal">🎯 Puts a time constraint on the transition chain — forcing players to start earlier because they know a clock is running.</div>
-          <div class="two-col">
-            <ul class="step-list">
-              <li><span class="sn red">1</span>Coach attacks a ball to the defense.</li>
-              <li><span class="sn red">2</span>Coach starts counting loudly: "One… two… three…"</li>
-              <li><span class="sn red">3</span>Team must complete dig → set → attack contact before coach says "five."</li>
-              <li><span class="sn red">4</span>If they hit on time: +1. Late = no point. Error = no point.</li>
-              <li><span class="sn red">5</span>Team goal: 10 on-time transition attacks in a row.</li>
-            </ul>
-            <div class="cue-box red">
-              <div class="cue-title">Key Coaching Points</div>
-              <ul class="cue-list">
-                <li>5 seconds sounds easy — it is not when movement is late</li>
-                <li>If they fail: identify which second they were late on</li>
-                <li>Reduce to 4 seconds as teams improve over weeks</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- DRILL 8 -->
-      <div class="drill-card" id="drill8">
-        <div class="drill-card-top" onclick="toggleDrill('drill8')">
-          <div class="drill-color-bar" style="background:var(--teal)"></div>
-          <div class="drill-top-content">
-            <div class="drill-cat">Live Scrimmage Integration</div>
-            <div class="drill-name">Transition Kill Challenge</div>
-            <div class="drill-meta">
-              <span class="drill-meta-pill">⏱ 12 min</span>
-              <span class="drill-meta-pill">👥 12 players</span>
-              <span class="drill-meta-pill">Game speed</span>
-            </div>
-          </div>
-          <div class="drill-toggle2">▼</div>
-        </div>
-        <div class="drill-body">
-          <div class="drill-goal">🎯 Rewards transition kills specifically — retraining the culture of the practice from "just get it over" to "turn every dig into a kill."</div>
-          <div class="two-col">
-            <ul class="step-list">
-              <li><span class="sn teal">1</span>Full 6v6 scrimmage, rally scoring.</li>
-              <li><span class="sn teal">2</span>Normal rally win = 1 point. Transition kill (off a dig) = 3 points.</li>
-              <li><span class="sn teal">3</span>Free ball kill = 0 bonus (normal 1 point). Coach calls which balls count as transition.</li>
-              <li><span class="sn teal">4</span>After each transition kill — pause and recognize it loudly in front of the team.</li>
-              <li><span class="sn teal">5</span>Play to 15 points. Track transition kill count on a whiteboard.</li>
-            </ul>
-            <div class="cue-box teal">
-              <div class="cue-title">Key Coaching Points</div>
-              <ul class="cue-list">
-                <li>Culture shift: celebrate transition kills more than serve-receive kills</li>
-                <li>Track weekly — teams should improve their transition kill count each week</li>
-                <li>Make the team cheer every transition kill — it reinforces the behavior</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
 <!-- ══════ MISTAKES ══════ -->
 <div class="pg" id="pg-mistakes">
   <div class="content">
@@ -1345,110 +1033,7 @@ body { background: var(--bg); color: var(--ink); font-family: var(--body); }
   </div>
 </div>
 
-<!-- ══════ 4-WEEK PLAN ══════ -->
-<div class="pg" id="pg-plan">
-  <div class="content">
-    <div class="ch-eyebrow">Chapter 6</div>
-    <div class="ch-title">4-Week <em>Transition</em><br>Practice Plan</div>
-    <div class="ch-desc">One focused chunk of each practice — 15–20 minutes — dedicated to transition. Layer each phase week over week so the full chain is automatic by Week 4.</div>
 
-    <div class="callout gold">
-      <div class="callout-title">📋 How to Use This Plan</div>
-      <div class="callout-text">Slot the listed drills into your existing 60-minute practice plan in the "skill work" window (minutes 18–38). You don't need to restructure everything — just replace one skill block per practice with the transition focus. By Week 4, your players will be running transition chains automatically in live play.</div>
-    </div>
-
-    <div class="week-table-wrap">
-      <table class="week-table">
-        <thead>
-          <tr>
-            <th>WEEK</th>
-            <th>FOCUS</th>
-            <th>DRILLS</th>
-            <th>COACHING EMPHASIS</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="wk-num">1</td>
-            <td>
-              <strong>Reading & Individual Phase Work</strong><br>
-              <span style="font-size:12px;color:var(--muted);">Teach each phase in isolation before combining</span>
-            </td>
-            <td>
-              <span class="tag-pill tp-red">Shoulder Read Drill</span>
-              <span class="tag-pill tp-orange">Setter First Step</span>
-              <span class="tag-pill tp-teal">Drop Step Footwork (no ball)</span>
-            </td>
-            <td style="font-size:13px;color:var(--ink2);">Correct every late setter arrival. Stop practice to point out stuck-under-net blockers. No live scrimmage this week.</td>
-          </tr>
-          <tr>
-            <td class="wk-num">2</td>
-            <td>
-              <strong>Chain Building</strong><br>
-              <span style="font-size:12px;color:var(--muted);">Connect Phase 1+2+3 into one sequence</span>
-            </td>
-            <td>
-              <span class="tag-pill tp-blue">Dig-Set-Attack Chain</span>
-              <span class="tag-pill tp-gold">Silent Court Contrast Drill</span>
-              <span class="tag-pill tp-red">Setter First Step (add hitters)</span>
-            </td>
-            <td style="font-size:13px;color:var(--ink2);">Introduce the communication requirement. Point out free balls immediately — replace with a tip before moving on.</td>
-          </tr>
-          <tr>
-            <td class="wk-num">3</td>
-            <td>
-              <strong>Speed & Pressure</strong><br>
-              <span style="font-size:12px;color:var(--muted);">Add time pressure and competitive stakes</span>
-            </td>
-            <td>
-              <span class="tag-pill tp-red">5-Second Transition Game</span>
-              <span class="tag-pill tp-teal">Transition Wash Drill</span>
-              <span class="tag-pill tp-blue">Dig-Set-Attack (increased pace)</span>
-            </td>
-            <td style="font-size:13px;color:var(--ink2);">The 5-second countdown creates urgency. Track which second they miss it on — this tells you which phase needs more work.</td>
-          </tr>
-          <tr>
-            <td class="wk-num">4</td>
-            <td>
-              <strong>Full Integration & Competition</strong><br>
-              <span style="font-size:12px;color:var(--muted);">Live play with transition-specific scoring</span>
-            </td>
-            <td>
-              <span class="tag-pill tp-teal">Transition Kill Challenge</span>
-              <span class="tag-pill tp-orange">Wash Drill — Transition Focus</span>
-              <span class="tag-pill tp-gold">Full scrimmage (count transition kills)</span>
-            </td>
-            <td style="font-size:13px;color:var(--ink2);">Track and celebrate transition kills. Keep a running total on the whiteboard. Teams compete to have the highest transition kill count by end of week.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="sec-divider"><div class="sd-num">—</div><div class="sd-title">Practice Transition Checklist</div><div class="sd-line"></div></div>
-    <div class="checklist-grid">
-      <div class="checklist-card">
-        <div class="cl-title">⚡ Every Practice</div>
-        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>Drop step footwork — 5 min, no ball</div>
-        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>Setter verbally calls every transition set</div>
-        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>No free balls allowed — tip or roll instead</div>
-        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>Every transition kill is celebrated out loud</div>
-      </div>
-      <div class="checklist-card">
-        <div class="cl-title">📅 Weekly Check</div>
-        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>Count transition kills in scrimmage</div>
-        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>Review which phase breaks down most</div>
-        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>Run the Silent Court drill once per week</div>
-        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>Track setter arrival time improvement</div>
-      </div>
-      <div class="checklist-card">
-        <div class="cl-title">🏆 Game Day</div>
-        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>Remind blockers: land → drop step → read</div>
-        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>Setter communication emphasized in warm-up</div>
-        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>Celebrate first transition kill of the match</div>
-        <div class="cl-item"><div class="cl-box" onclick="toggleCheck(this)"></div>Timeout focus: identify transition breakdown</div>
-      </div>
-    </div>
-  </div>
 </div>
 
 <script>

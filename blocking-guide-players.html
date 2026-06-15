@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Teaching Volleyball Blocking</title>
+<title>Understanding Blocking — Orcas Volleyball</title>
 <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -489,7 +489,7 @@ body { background: var(--void); color: var(--white); font-family: var(--body); m
 </head>
 <body>
 <!-- DASHBOARD HOME LINK -->
-<a href="dashboard.html" id="dash-home-link" title="Back to Dashboard" style="
+<a href="player-portal.html" id="dash-home-link" title="Back to Player Hub" style="
   position:fixed;top:14px;left:14px;z-index:9999;
   display:flex;align-items:center;gap:7px;
   background:rgba(10,22,40,0.92);color:#00d4c8;
@@ -501,7 +501,7 @@ body { background: var(--void); color: var(--white); font-family: var(--body); m
   box-shadow:0 2px 12px rgba(0,0,0,0.25);
   transition:all 0.2s;
 " onmouseover="this.style.background='rgba(0,212,200,0.18)';this.style.borderColor='rgba(0,212,200,0.6)'" onmouseout="this.style.background='rgba(10,22,40,0.92)';this.style.borderColor='rgba(0,212,200,0.3)'">
-  <span style="font-size:15px;">🐋</span> Dashboard
+  <span style="font-size:15px;">🐋</span> Player Hub
 </a>
 <style>
 @media print { #dash-home-link { display:none !important; } }
@@ -538,9 +538,9 @@ body { background: var(--void); color: var(--white); font-family: var(--body); m
   <button class="sn-btn" id="t-foot" onclick="go('pg-foot','t-foot')">Footwork</button>
   <button class="sn-btn" id="t-read" onclick="go('pg-read','t-read')">Reading the Hitter</button>
   <button class="sn-btn" id="t-team" onclick="go('pg-team','t-team')">Team Blocking</button>
-  <button class="sn-btn" id="t-drills" onclick="go('pg-drills','t-drills')">Drills</button>
+  
   <button class="sn-btn" id="t-mistakes" onclick="go('pg-mistakes','t-mistakes')">Mistakes</button>
-  <button class="sn-btn" id="t-plan" onclick="go('pg-plan','t-plan')">4-Week Plan</button>
+  
 </div>
 
 <!-- ══════ WHY BLOCKING ══════ -->
@@ -1204,273 +1204,6 @@ body { background: var(--void); color: var(--white); font-family: var(--body); m
   </div>
 </div>
 
-<!-- ══════ DRILLS ══════ -->
-<div class="pg" id="pg-drills">
-  <div class="s-eyebrow">Chapter 6</div>
-  <div class="s-title">8 <em>Blocking</em> Drills</div>
-  <div class="s-desc">These drills build blocking from mechanics to live play. Run them in order — don't skip to live blocking before mechanics are correct. A player who practices bad mechanics gets faster at doing it wrong.</div>
-
-  <div class="drill-stack">
-
-    <div class="dc open" id="bd1">
-      <div class="dc-hd" onclick="toggleDrill('bd1')">
-        <div class="dc-bar" style="background:var(--lime)"></div>
-        <div class="dc-hd-content">
-          <div class="dc-cat">Mechanics — Week 1</div>
-          <div class="dc-name">The Hand Check Drill</div>
-          <div class="dc-pills"><span class="dc-pill">⏱ 3 min</span><span class="dc-pill">👥 Full Team</span><span class="dc-pill">No ball</span></div>
-        </div>
-        <div class="dc-chev">▼</div>
-      </div>
-      <div class="dc-bd">
-        <div class="dc-goal">🎯 Builds muscle memory for correct hand position before any ball is involved. Run this at the start of every blocking session — 3 minutes, huge payoff.</div>
-        <div class="g2">
-          <ul class="steps">
-            <li><span class="snum" style="background:var(--lime)">1</span>All players stand at the net in ready position</li>
-            <li><span class="snum" style="background:var(--lime)">2</span>On whistle: jump and push hands over the net into block position — hold for 2 seconds</li>
-            <li><span class="snum" style="background:var(--lime)">3</span>Coach walks the line: fingers spread? Wrists firm? Thumbs up? Penetrating?</li>
-            <li><span class="snum" style="background:var(--lime)">4</span>Any player with bent wrists or hands below net = redo the rep</li>
-            <li><span class="snum" style="background:var(--lime)">5</span>Run 8 reps. Fast. Correct every error immediately.</li>
-          </ul>
-          <div class="cuebox cu-lime">
-            <div class="cu-title">Coaching Points</div>
-            <ul class="cu-list">
-              <li>This is the foundation — do not skip it</li>
-              <li>Correct wrist flexion immediately — it becomes a habit in days</li>
-              <li>Add: eyes forward, not down at the ground</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="dc" id="bd2">
-      <div class="dc-hd" onclick="toggleDrill('bd2')">
-        <div class="dc-bar" style="background:var(--sky)"></div>
-        <div class="dc-hd-content">
-          <div class="dc-cat">Timing — Week 1</div>
-          <div class="dc-name">Box Jump Block Timing</div>
-          <div class="dc-pills"><span class="dc-pill">⏱ 8 min</span><span class="dc-pill">👥 Pairs</span><span class="dc-pill">Box or platform needed</span></div>
-        </div>
-        <div class="dc-chev">▼</div>
-      </div>
-      <div class="dc-bd">
-        <div class="dc-goal">🎯 Coach stands on a box holding a ball at a fixed height. Blocker practices jumping and pressing hands forward at the exact right moment. Isolates jump timing completely.</div>
-        <div class="g2">
-          <ul class="steps">
-            <li><span class="snum" style="background:var(--sky)">1</span>Coach stands on a box with ball held at net height + 1 foot</li>
-            <li><span class="snum" style="background:var(--sky)">2</span>Player stands in ready position at the net, hands up</li>
-            <li><span class="snum" style="background:var(--sky)">3</span>Coach counts: "ONE" (pause) — player jumps. At peak: hands press forward to contact ball</li>
-            <li><span class="snum" style="background:var(--sky)">4</span>Focus on: did both hands contact the ball simultaneously? Did they penetrate over?</li>
-            <li><span class="snum" style="background:var(--sky)">5</span>10 reps each player. Coach varies height to adjust difficulty.</li>
-          </ul>
-          <div class="cuebox cu-sky">
-            <div class="cu-title">Coaching Points</div>
-            <ul class="cu-list">
-              <li>The ball should be pressed toward the floor — not just touched</li>
-              <li>If player misses: did they jump too early, too late, or too far from the net?</li>
-              <li>Track: number of clean two-hand contacts per 10 attempts</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="dc" id="bd3">
-      <div class="dc-hd" onclick="toggleDrill('bd3')">
-        <div class="dc-bar" style="background:var(--orange)"></div>
-        <div class="dc-hd-content">
-          <div class="dc-cat">Footwork — Week 2</div>
-          <div class="dc-name">Mirror Blocking Footwork</div>
-          <div class="dc-pills"><span class="dc-pill">⏱ 7 min</span><span class="dc-pill">👥 Pairs at net</span><span class="dc-pill">No ball</span></div>
-        </div>
-        <div class="dc-chev">▼</div>
-      </div>
-      <div class="dc-bd">
-        <div class="dc-goal">🎯 Two players mirror each other at the net — one moves, the other follows. Trains lateral footwork and net presence without the pressure of a live ball.</div>
-        <div class="g2">
-          <ul class="steps">
-            <li><span class="snum" style="background:var(--orange)">1</span>Two players face each other across the net in ready position</li>
-            <li><span class="snum" style="background:var(--orange)">2</span>Player A shuffles or slides laterally — Player B mirrors exactly on the opposite side</li>
-            <li><span class="snum" style="background:var(--orange)">3</span>Player A then stops and jumps — Player B simultaneously jumps and penetrates hands</li>
-            <li><span class="snum" style="background:var(--orange)">4</span>Hands should nearly meet at the net on every jump</li>
-            <li><span class="snum" style="background:var(--orange)">5</span>Switch: Player B leads, Player A mirrors. Run 3 minutes each direction.</li>
-          </ul>
-          <div class="cuebox cu-orange">
-            <div class="cu-title">Coaching Points</div>
-            <ul class="cu-list">
-              <li>Footwork should be step-close, not shuffle — correct any shuffling</li>
-              <li>Both players must jump at the same time — work on sync</li>
-              <li>Add: Player B calls "jump!" when they jump to train communication</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="dc" id="bd4">
-      <div class="dc-hd" onclick="toggleDrill('bd4')">
-        <div class="dc-bar" style="background:var(--red)"></div>
-        <div class="dc-hd-content">
-          <div class="dc-cat">Reading — Week 2</div>
-          <div class="dc-name">Eye Progression &amp; Tempo Drill</div>
-          <div class="dc-pills"><span class="dc-pill">⏱ 10 min</span><span class="dc-pill">👥 3 blockers</span><span class="dc-pill">Setters on opposite side</span></div>
-        </div>
-        <div class="dc-chev">▼</div>
-      </div>
-      <div class="dc-bd">
-        <div class="dc-goal">🎯 Trains the full eyework sequence: watch setter → call direction → move to correct position. No hitting — just reading and moving.</div>
-        <div class="g2">
-          <ul class="steps">
-            <li><span class="snum" style="background:var(--red)">1</span>3 blockers at the net. Setter on the opposite side receives a toss from coach</li>
-            <li><span class="snum" style="background:var(--red)">2</span>Setter sets to zone 4, zone 2, or back to the libero (simulating a middle attack)</li>
-            <li><span class="snum" style="background:var(--red)">3</span>Blockers must call out the direction the moment setter's hands release: "Outside!" "Right!" "Back!"</li>
-            <li><span class="snum" style="background:var(--red)">4</span>Blockers move to the correct blocking position — no hitter, no need to jump</li>
-            <li><span class="snum" style="background:var(--red)">5</span>Coach gives feedback: did they call correctly? Did they move before the ball arrived?</li>
-          </ul>
-          <div class="cuebox cu-red">
-            <div class="cu-title">Coaching Points</div>
-            <ul class="cu-list">
-              <li>Silence = failure. Every rep must have a verbal call.</li>
-              <li>Track: what % of sets are called correctly before ball arrives</li>
-              <li>The middle blocker should always call — she has the best sightline</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="dc" id="bd5">
-      <div class="dc-hd" onclick="toggleDrill('bd5')">
-        <div class="dc-bar" style="background:var(--violet)"></div>
-        <div class="dc-hd-content">
-          <div class="dc-cat">Team Blocking — Week 3</div>
-          <div class="dc-name">Seam Closing Drill</div>
-          <div class="dc-pills"><span class="dc-pill">⏱ 10 min</span><span class="dc-pill">👥 2 blockers + setter</span><span class="dc-pill">No hitter initially</span></div>
-        </div>
-        <div class="dc-chev">▼</div>
-      </div>
-      <div class="dc-bd">
-        <div class="dc-goal">🎯 Outside blocker and middle blocker practice closing the seam between them — the most important team blocking skill. Run without a hitter first, then add one.</div>
-        <div class="g2">
-          <ul class="steps">
-            <li><span class="snum" style="background:var(--violet)">1</span>Outside blocker (OB) and middle blocker (MB) at the net in starting positions</li>
-            <li><span class="snum" style="background:var(--violet)">2</span>Coach sets or tosses to zone 4. OB moves immediately to the hitting position.</li>
-            <li><span class="snum" style="background:var(--violet)">3</span>MB closes quickly — plants inside foot next to OB's inside foot. No gap between them.</li>
-            <li><span class="snum" style="background:var(--violet)">4</span>Both jump — coach checks: are inside hands touching? Any gap?</li>
-            <li><span class="snum" style="background:var(--violet)">5</span>10 reps to zone 4, 10 reps to zone 2. Then add a live hitter.</li>
-          </ul>
-          <div class="cuebox cu-violet">
-            <div class="cu-title">Coaching Points</div>
-            <ul class="cu-list">
-              <li>MB must arrive before OB jumps — not after</li>
-              <li>Gap between hands = fail the rep. Redo it.</li>
-              <li>OB calls "go!" when she jumps so MB knows exact timing</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="dc" id="bd6">
-      <div class="dc-hd" onclick="toggleDrill('bd6')">
-        <div class="dc-bar" style="background:var(--mint)"></div>
-        <div class="dc-hd-content">
-          <div class="dc-cat">Live Blocking — Week 3</div>
-          <div class="dc-name">Outside Hitter vs Block</div>
-          <div class="dc-pills"><span class="dc-pill">⏱ 12 min</span><span class="dc-pill">👥 2 blockers + hitter</span><span class="dc-pill">Live attacking</span></div>
-        </div>
-        <div class="dc-chev">▼</div>
-      </div>
-      <div class="dc-bd">
-        <div class="dc-goal">🎯 Two blockers face a live outside hitter attacking at full speed. Trains real reading, real timing, and real seam closing against game-speed attacks.</div>
-        <div class="g2">
-          <ul class="steps">
-            <li><span class="snum" style="background:var(--mint)">1</span>Coach sets from zone 3 to zone 4. Outside hitter attacks against 2 blockers.</li>
-            <li><span class="snum" style="background:var(--mint)">2</span>Blockers must call the set direction, close the seam, and jump with correct timing</li>
-            <li><span class="snum" style="background:var(--mint)">3</span>Run 10 balls. Track: touches, stuffs, balls that escape through the seam</li>
-            <li><span class="snum" style="background:var(--mint)">4</span>After 10: coach gives feedback on timing and seam quality. Run 10 more.</li>
-            <li><span class="snum" style="background:var(--mint)">5</span>Rotate blockers. Keep the hitter constant so blockers can read one hitter's tendencies.</li>
-          </ul>
-          <div class="cuebox cu-mint">
-            <div class="cu-title">Coaching Points</div>
-            <ul class="cu-list">
-              <li>A touch counts — celebrate touches as much as stuffs</li>
-              <li>Pause after seam escapes — identify: timing issue or gap issue?</li>
-              <li>Have hitter call their shot before swinging — trains read skill</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="dc" id="bd7">
-      <div class="dc-hd" onclick="toggleDrill('bd7')">
-        <div class="dc-bar" style="background:var(--gold)"></div>
-        <div class="dc-hd-content">
-          <div class="dc-cat">Competition — Week 4</div>
-          <div class="dc-name">Blockers vs Hitters Tournament</div>
-          <div class="dc-pills"><span class="dc-pill">⏱ 15 min</span><span class="dc-pill">👥 Full Team</span><span class="dc-pill">Competitive scoring</span></div>
-        </div>
-        <div class="dc-chev">▼</div>
-      </div>
-      <div class="dc-bd">
-        <div class="dc-goal">🎯 High-energy competitive drill where blockers try to accumulate touches and stuffs against hitters. Tracks efficiency on both sides — builds blocking confidence through scoreboard accountability.</div>
-        <div class="g2">
-          <ul class="steps">
-            <li><span class="snum" style="background:var(--gold)">1</span>One hitter attacks 10 balls against 2 rotating blockers. Coach sets.</li>
-            <li><span class="snum" style="background:var(--gold)">2</span>Hitter scores: Kill = 2pts. In-play hit = 1pt. Error = 0pts.</li>
-            <li><span class="snum" style="background:var(--gold)">3</span>Blockers score: Stuff = 3pts. Touch = 1pt. No touch = 0pts.</li>
-            <li><span class="snum" style="background:var(--gold)">4</span>After 10 balls: tally scores. Rotate hitter. Keep running blockers to compete.</li>
-            <li><span class="snum" style="background:var(--gold)">5</span>Team with most total points after all rotations wins the tournament.</li>
-          </ul>
-          <div class="cuebox cu-gold">
-            <div class="cu-title">Coaching Points</div>
-            <ul class="cu-list">
-              <li>Track the leaderboard publicly — competition drives intensity</li>
-              <li>A touch that leads to a back-row kill = blocker gets the point too</li>
-              <li>Silence from blockers = deduct a point. Communication is scored.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="dc" id="bd8">
-      <div class="dc-hd" onclick="toggleDrill('bd8')">
-        <div class="dc-bar" style="background:var(--red)"></div>
-        <div class="dc-hd-content">
-          <div class="dc-cat">Full Integration — Week 4</div>
-          <div class="dc-name">Block-Defense System Drill</div>
-          <div class="dc-pills"><span class="dc-pill">⏱ 12 min</span><span class="dc-pill">👥 Full Team</span><span class="dc-pill">6v6 defense</span></div>
-        </div>
-        <div class="dc-chev">▼</div>
-      </div>
-      <div class="dc-bd">
-        <div class="dc-goal">🎯 Full team block and back-row defense working together as a unit. The block takes away one angle, the back row covers the other. This is the end goal of all blocking training.</div>
-        <div class="g2">
-          <ul class="steps">
-            <li><span class="snum" style="background:var(--red)">1</span>Full 6v6. Coaches control the set location — alternate zone 4 and zone 2 sets</li>
-            <li><span class="snum" style="background:var(--red)">2</span>Before each set: blockers call direction. Back row adjusts based on block call (line sealed → back row shifts cross)</li>
-            <li><span class="snum" style="background:var(--red)">3</span>After each rally: coach identifies what the block took away and whether back row covered correctly</li>
-            <li><span class="snum" style="background:var(--red)">4</span>Goal: team stops 50%+ of attacks in 20 balls</li>
-            <li><span class="snum" style="background:var(--red)">5</span>Run 20 balls. Debrief. Adjust. Run 20 more.</li>
-          </ul>
-          <div class="cuebox cu-red">
-            <div class="cu-title">Coaching Points</div>
-            <ul class="cu-list">
-              <li>The block must communicate to the back row what angle they are sealing</li>
-              <li>A dig off a touch block = block gets credit — teach players to value touches</li>
-              <li>If back row is not adjusting to block calls: this is a communication breakdown, not a skill breakdown</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
 <!-- ══════ MISTAKES ══════ -->
 <div class="pg" id="pg-mistakes">
   <div class="s-eyebrow">Chapter 7</div>
@@ -1537,90 +1270,7 @@ body { background: var(--void); color: var(--white); font-family: var(--body); m
   </div>
 </div>
 
-<!-- ══════ 4-WEEK PLAN ══════ -->
-<div class="pg" id="pg-plan">
-  <div class="s-eyebrow">Chapter 8</div>
-  <div class="s-title">4-Week <em>Blocking</em><br>Practice Plan</div>
-  <div class="s-desc">Layer the skills week over week. Never go to live blocking before mechanics are correct — bad mechanics practiced at speed create habits that take months to break.</div>
-
-  <div class="alert al-lime" style="margin-bottom:28px;">
-    <strong>📋 Time Allocation:</strong> Slot 12–18 minutes per practice for blocking focus. Every session starts with the Hand Check Drill (3 min) — no exceptions. Add drills from the list each week. By Week 4 your team will block with confidence and your back row will know how to read the block.
-  </div>
-
-  <div class="week-wrap">
-    <table class="week-table">
-      <thead>
-        <tr><th>WEEK</th><th>FOCUS</th><th>DRILLS</th><th>WHAT TO LOOK FOR</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="wk">1</td>
-          <td><strong style="color:var(--white)">Mechanics Only</strong><br><span style="font-size:12px;color:var(--muted);">No live blocking. Just hands and timing.</span></td>
-          <td>
-            <span class="tag t-lime">Hand Check Drill</span>
-            <span class="tag t-sky">Box Jump Block Timing</span>
-            <span class="tag t-red">Landing Mechanics</span>
-          </td>
-          <td style="font-size:12px;">Are wrists firm? Are hands penetrating? Are they landing on two feet with bent knees? Correct every single rep.</td>
-        </tr>
-        <tr>
-          <td class="wk">2</td>
-          <td><strong style="color:var(--white)">Footwork + Reading</strong><br><span style="font-size:12px;color:var(--muted);">Add lateral movement and eyework</span></td>
-          <td>
-            <span class="tag t-lime">Hand Check Drill</span>
-            <span class="tag t-orange">Mirror Footwork</span>
-            <span class="tag t-red">Eye Progression Drill</span>
-          </td>
-          <td style="font-size:12px;">Are they using step-close? Are they calling the set direction out loud? Are they watching the setter or the ball?</td>
-        </tr>
-        <tr>
-          <td class="wk">3</td>
-          <td><strong style="color:var(--white)">Team Blocking</strong><br><span style="font-size:12px;color:var(--muted);">Seam closing + live hitters</span></td>
-          <td>
-            <span class="tag t-lime">Hand Check Drill</span>
-            <span class="tag t-violet">Seam Closing Drill</span>
-            <span class="tag t-mint">Outside Hitter vs Block</span>
-          </td>
-          <td style="font-size:12px;">Is the seam closed? Is MB arriving before OB jumps? Are there seam gaps? Track touches vs stuffs per 10 balls.</td>
-        </tr>
-        <tr>
-          <td class="wk">4</td>
-          <td><strong style="color:var(--white)">Full System Integration</strong><br><span style="font-size:12px;color:var(--muted);">Block + defense working as one unit</span></td>
-          <td>
-            <span class="tag t-lime">Hand Check Drill</span>
-            <span class="tag t-gold">Blockers vs Hitters Tournament</span>
-            <span class="tag t-red">Block-Defense System Drill</span>
-          </td>
-          <td style="font-size:12px;">Is the back row adjusting to block calls? Are blockers communicating what angle they sealed? Goal: stop 50%+ of attacks.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="divider"><div class="div-label">Game Day Blocking Checklist</div><div class="div-line"></div></div>
-  <div class="cl-grid">
-    <div class="cl-card">
-      <div class="cl-head">⚡ Pre-Match</div>
-      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>Warm up with 5 min of hand check reps at the net</div>
-      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>Remind blockers: jump after the hitter's hip, not with it</div>
-      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>Set communication code: "Line!" or "Cross!" called every block</div>
-      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>Tell back row which angle is being sealed pre-set</div>
-    </div>
-    <div class="cl-card">
-      <div class="cl-head">🏐 During Match</div>
-      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>Celebrate every touch — not just stuffs</div>
-      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>Middle blocker calls direction on every set</div>
-      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>If seam keeps opening — remind MB to close tighter</div>
-      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>Track hitter tendencies and adjust block angle mid-set</div>
-    </div>
-    <div class="cl-card">
-      <div class="cl-head">📋 Timeout Focus</div>
-      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>Identify: is the hitter going line, cross, or tip every time?</div>
-      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>Adjust: tell OB to seal the angle they keep hitting</div>
-      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>If hitter is killing you: slow down their approach — serve at them</div>
-      <div class="cl-item"><div class="cl-chk" onclick="ck(this)"></div>Reinforce: "A touch changes the whole rally. Get your hands up."</div>
-    </div>
-  </div>
+</div>
 </div>
 
 <script>
