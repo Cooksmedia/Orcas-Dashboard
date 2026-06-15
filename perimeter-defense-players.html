@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perimeter Defense — Orcas Volleyball</title>
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--void:#09090b;--panel:#111115;--panel2:#18181d;--panel3:#1e1e25;--rim:#28282f;--rim2:#323240;--white:#f0eee8;--off:#b8b4a8;--muted:#606070;--accent:#40b0f0;--accent-dim:rgba(64,176,240,.08);--accent-glow:rgba(64,176,240,.18);--red:#f04060;--red-dim:rgba(240,64,96,.1);--orange:#f08820;--orange-dim:rgba(240,136,32,.1);--violet:#a060f0;--violet-dim:rgba(160,96,240,.1);--mint:#40d0a0;--mint-dim:rgba(64,208,160,.1);--gold:#e0b030;--gold-dim:rgba(224,176,48,.1);--lime:#b8e840;--lime-dim:rgba(184,232,64,.08);--head:'Teko',sans-serif;--body:'Inter',sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}body{background:var(--void);color:var(--white);font-family:var(--body);min-height:100vh;overflow-x:hidden;}
+.hero{background:var(--void);position:relative;overflow:hidden;border-bottom:1px solid var(--rim);}
+.hero-inner{max-width:1100px;margin:0 auto;padding:64px 36px 52px;position:relative;z-index:2;}
+.hero-bg-text{position:absolute;right:-40px;bottom:-30px;font-family:var(--head);font-size:220px;font-weight:700;color:rgba(64,176,240,.04);line-height:1;pointer-events:none;z-index:1;white-space:nowrap;}
+.hero-bg-glow{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(64,176,240,.06) 0%,transparent 70%);top:-100px;right:-100px;pointer-events:none;}
+.hero-label{font-family:var(--head);font-size:13px;letter-spacing:5px;color:var(--accent);text-transform:uppercase;margin-bottom:14px;font-weight:600;}
+.hero-h1{font-family:var(--head);font-size:clamp(60px,10vw,120px);font-weight:700;line-height:.88;letter-spacing:1px;margin-bottom:18px;}
+.hero-h1 .line1{display:block;color:var(--white)}.hero-h1 .line2{display:block;color:var(--accent)}.hero-h1 .line3{display:block;color:rgba(240,238,232,.25);font-size:.55em;letter-spacing:3px;margin-top:8px;}
+.hero-desc{font-size:15px;color:var(--off);line-height:1.75;max-width:560px;margin-bottom:28px;}
+.hero-pills{display:flex;gap:8px;flex-wrap:wrap;}.hero-pill{font-size:11px;font-weight:600;letter-spacing:1px;padding:6px 16px;border-radius:100px;border:1px solid var(--rim2);color:var(--muted);}.hero-pill.hi{border-color:rgba(64,176,240,.3);color:var(--accent);background:var(--accent-dim);}
+.snav{background:rgba(9,9,11,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--rim);position:sticky;top:0;z-index:200;display:flex;gap:0;overflow-x:auto;padding:0 24px;}.snav::-webkit-scrollbar{height:0;}
+.sn-btn{font-family:var(--head);font-size:15px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:16px 20px;background:none;border:none;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s;}.sn-btn:hover{color:var(--white);}.sn-btn.on{color:var(--accent);border-bottom-color:var(--accent);}
+.pg{display:none;max-width:1100px;margin:0 auto;padding:48px 36px 80px;}.pg.on{display:block;}
+.s-eyebrow{font-family:var(--head);font-size:12px;letter-spacing:5px;color:var(--accent);text-transform:uppercase;margin-bottom:8px;font-weight:600;}
+.s-title{font-family:var(--head);font-size:clamp(44px,7vw,80px);font-weight:700;line-height:.9;margin-bottom:8px;}.s-title em{color:var(--accent);font-style:normal;}
+.s-desc{font-size:15px;color:var(--off);line-height:1.75;max-width:700px;margin-bottom:40px;}
+.content-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:36px;}@media(max-width:720px){.content-grid{grid-template-columns:1fr;}}
+.content-card{background:var(--panel2);border:1px solid var(--rim);border-radius:14px;padding:24px;}.content-card.full{grid-column:1/-1;}.content-card.accent{border-color:rgba(64,176,240,.25);background:var(--accent-dim);}.content-card.warn{border-color:rgba(240,64,96,.25);background:var(--red-dim);}.content-card.gold{border-color:rgba(224,176,48,.25);background:var(--gold-dim);}
+.cc-head{font-family:var(--head);font-size:22px;font-weight:600;letter-spacing:1px;margin-bottom:10px;color:var(--white);}.cc-head .hi{color:var(--accent);}.cc-head .gold{color:var(--gold);}.cc-head .red{color:var(--red);}
+.cc-body{font-size:14px;color:var(--off);line-height:1.75;}.cc-body strong{color:var(--white);}.cc-body ul{padding-left:18px;margin-top:8px;}.cc-body ul li{margin-bottom:6px;}.cc-body ol{padding-left:18px;margin-top:8px;}.cc-body ol li{margin-bottom:6px;}
+
+/* ── COURT DIAGRAM ── */
+.court-wrap{margin-bottom:36px;display:flex;flex-direction:column;align-items:center;gap:20px;}
+.court-diagram{width:100%;max-width:480px;aspect-ratio:1/1.8;background:var(--panel2);border:2px solid var(--rim2);border-radius:14px;position:relative;overflow:hidden;}
+.court-net{position:absolute;top:50%;left:0;right:0;height:4px;background:var(--rim2);}
+.court-net::before{content:'NET';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--head);font-size:10px;letter-spacing:3px;color:var(--muted);background:var(--panel2);padding:0 8px;}
+.court-10ft{position:absolute;top:calc(50% + 16.7%);left:0;right:0;height:1px;background:rgba(255,255,255,.15);border-top:1px dashed rgba(255,255,255,.15);}
+.court-label{font-family:var(--head);font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;text-align:center;margin-bottom:4px;}
+/* player dots */
+.dot{position:absolute;width:40px;height:40px;border-radius:50%;border:2px solid;display:flex;align-items:center;justify-content:center;font-family:var(--head);font-size:13px;font-weight:700;transform:translate(-50%,-50%);}
+.dot.blocker{background:rgba(64,176,240,.15);border-color:var(--accent);color:var(--accent);}
+.dot.defender{background:rgba(64,208,160,.15);border-color:var(--mint);color:var(--mint);}
+.dot.libero{background:rgba(224,176,48,.2);border-color:var(--gold);color:var(--gold);}
+.dot-label{position:absolute;font-size:10px;color:var(--muted);white-space:nowrap;top:calc(100% + 4px);left:50%;transform:translateX(-50%);font-family:var(--head);}
+/* zones */
+.zone-badge{position:absolute;font-family:var(--head);font-size:11px;color:rgba(255,255,255,.15);font-weight:600;letter-spacing:1px;}
+.coverage-area{position:absolute;border-radius:8px;opacity:.12;}
+
+/* ── ZONE ROLE CARDS ── */
+.zone-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:36px;}
+.zone-card{background:var(--panel2);border:1px solid var(--rim);border-radius:14px;padding:18px 20px;border-left:4px solid var(--accent);}
+.zone-card.z1{border-left-color:var(--orange);}
+.zone-card.z5{border-left-color:var(--mint);}
+.zone-card.z6{border-left-color:var(--gold);}
+.zone-card.z4{border-left-color:var(--violet);}
+.zone-card.z2{border-left-color:var(--red);}
+.zc-num{font-family:var(--head);font-size:11px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:4px;}
+.zc-name{font-family:var(--head);font-size:22px;font-weight:700;margin-bottom:10px;}
+.zc-body{font-size:13px;color:var(--off);line-height:1.65;}.zc-body strong{color:var(--white);}
+.zc-resp{margin-top:10px;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:4px;}
+.zc-list{display:flex;flex-direction:column;gap:4px;}.zc-item{font-size:12px;color:var(--off);padding-left:12px;position:relative;}.zc-item::before{content:'▸';position:absolute;left:0;color:var(--accent);}
+
+/* ── VIDEO EMBED ── */
+.video-wrap{position:relative;padding-bottom:56.25%;height:0;border-radius:14px;overflow:hidden;margin-bottom:36px;background:var(--panel2);}
+.video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;}
+
+/* ── PILLAR / MISTAKE / DRILL (reuse from other guides) ── */
+.pillar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:36px;}
+.pillar-card{background:var(--panel2);border:1px solid var(--rim);border-radius:14px;padding:20px 22px;border-left:4px solid var(--accent);}.pillar-card.red{border-left-color:var(--red);}.pillar-card.gold{border-left-color:var(--gold);}.pillar-card.violet{border-left-color:var(--violet);}.pillar-card.orange{border-left-color:var(--orange);}.pillar-card.mint{border-left-color:var(--mint);}
+.pillar-num{font-family:var(--head);font-size:11px;font-weight:600;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:4px;}
+.pillar-name{font-family:var(--head);font-size:22px;font-weight:600;letter-spacing:1px;margin-bottom:8px;}
+.pillar-body{font-size:13px;color:var(--off);line-height:1.65;}.pillar-body strong{color:var(--white);}
+.cue-box{background:var(--panel3);border:1px solid var(--rim2);border-radius:10px;padding:14px 16px;margin-top:12px;}
+.cue-label{font-size:10px;font-weight:700;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:6px;}
+.cue-list{display:flex;flex-direction:column;gap:4px;}.cue-item{font-size:13px;color:var(--off);}.cue-item::before{content:'→ ';color:var(--accent);}
+.mistake-stack{display:flex;flex-direction:column;gap:12px;margin-bottom:36px;}
+.mistake-card{background:var(--panel2);border:1px solid var(--rim);border-radius:12px;overflow:hidden;display:flex;}
+.mc-bar{width:6px;flex-shrink:0;background:var(--red);}.mc-bar.gold{background:var(--gold);}.mc-bar.orange{background:var(--orange);}.mc-bar.sky{background:var(--accent);}
+.mc-content{padding:16px 18px;flex:1;}.mc-top{margin-bottom:8px;}.mc-label{font-size:9px;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;}
+.mc-name{font-family:var(--head);font-size:20px;font-weight:600;letter-spacing:.5px;color:var(--white);}
+.mc-fix{font-size:13px;color:var(--off);line-height:1.6;}.mc-fix strong{color:var(--white);}
+.drill-stack{display:flex;flex-direction:column;gap:12px;margin-bottom:36px;}
+.drill-card{background:var(--panel2);border:1px solid var(--rim);border-radius:12px;overflow:hidden;}
+.drill-card-top{display:flex;align-items:stretch;}.drill-color-bar{width:6px;flex-shrink:0;}
+.drill-top-content{flex:1;padding:16px 18px;}.drill-cat{font-size:9px;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:4px;}
+.drill-name{font-family:var(--head);font-size:20px;font-weight:600;line-height:1.1;}
+.drill-meta{display:flex;gap:10px;margin-top:5px;flex-wrap:wrap;}.drill-meta-pill{font-size:10px;font-weight:600;padding:3px 10px;border-radius:100px;border:1px solid var(--rim2);color:var(--muted);}
+.drill-expand{display:none;padding:14px 18px 18px;border-top:1px solid var(--rim);}.drill-expand.open{display:block;}
+.drill-expand p{font-size:13px;color:var(--off);line-height:1.7;margin-bottom:8px;}.drill-expand p:last-child{margin-bottom:0;}.drill-expand strong{color:var(--white);}
+.drill-toggle{padding:10px 18px 12px;background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:1px;color:var(--muted);text-transform:uppercase;transition:color .15s;width:100%;text-align:left;}.drill-toggle:hover{color:var(--accent);}
+.week-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-bottom:36px;}
+.week-card{background:var(--panel2);border:1px solid var(--rim);border-radius:14px;padding:20px 22px;}
+.week-num{font-family:var(--head);font-size:13px;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:6px;}
+.week-focus{font-family:var(--head);font-size:24px;font-weight:600;letter-spacing:.5px;margin-bottom:12px;}
+.week-list{font-size:13px;color:var(--off);line-height:1.65;padding-left:16px;}.week-list li{margin-bottom:5px;}
+.pull-quote{background:var(--accent-dim);border:1px solid rgba(64,176,240,.2);border-radius:14px;padding:28px 32px;margin-bottom:36px;text-align:center;}
+.pq-stat{font-family:var(--head);font-size:72px;font-weight:700;color:var(--accent);line-height:1;}
+.pq-text{font-size:15px;color:var(--off);margin-top:8px;line-height:1.6;}.pq-text strong{color:var(--white);}
+@media(max-width:600px){.pg{padding:32px 18px 60px;}.hero-inner{padding:40px 20px 36px;}.snav{padding:0 12px;}.court-diagram{max-width:100%;}}
+</style>
+</head>
+<body>
+
+<a href="player-portal.html" id="dash-home-link" title="Back to Player Hub" style="position:fixed;top:14px;left:14px;z-index:9999;display:flex;align-items:center;gap:7px;background:rgba(10,22,40,.92);color:#40b0f0;font-family:'Teko',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;padding:8px 14px;border-radius:100px;border:1px solid rgba(64,176,240,.3);text-decoration:none;backdrop-filter:blur(6px);box-shadow:0 2px 12px rgba(0,0,0,.25);transition:all .2s;" onmouseover="this.style.background='rgba(64,176,240,.18)'" onmouseout="this.style.background='rgba(10,22,40,.92)'"><span style="font-size:15px;">🐋</span> Player Hub</a>
+<style>@media print{#dash-home-link{display:none!important;}}</style>
+
+<div class="hero">
+  <div class="hero-bg-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-label">Player &amp; Parent Guide · Orcas Volleyball</div>
+    <div class="hero-h1">
+      <span class="line1">PERIMETER</span>
+      <span class="line2">DEFENSE</span>
+      <span class="line3">2-0-4 · MAN-BACK · ORCAS BASE SYSTEM</span>
+    </div>
+    <p class="hero-desc">The Perimeter Defense (2-0-4) is the Orcas' base defensive system — two blockers at the net, four defenders protecting the deep court perimeter. It's built to stop hard-driven attacks and is the ideal system for developing defensive instincts in 7th–9th grade players.</p>
+    <div class="hero-pills">
+      <span class="hero-pill hi">🛡️ 2-0-4 Formation</span>
+      <span class="hero-pill hi">📐 Zone Responsibilities</span>
+      <span class="hero-pill hi">🎥 Orcas Film Reference</span>
+      <span class="hero-pill">Left Side Attack</span>
+      <span class="hero-pill">Right Side Attack</span>
+      <span class="hero-pill">Middle Attack</span>
+    </div>
+  </div>
+  <div class="hero-bg-text">PERIM</div>
+</div>
+
+<div class="snav">
+  <button class="sn-btn on"  id="t-overview"  onclick="go('pg-overview','t-overview')">Overview</button>
+  <button class="sn-btn"     id="t-formation" onclick="go('pg-formation','t-formation')">Formation</button>
+  <button class="sn-btn"     id="t-zones"     onclick="go('pg-zones','t-zones')">Zone Roles</button>
+  <button class="sn-btn"     id="t-scenarios" onclick="go('pg-scenarios','t-scenarios')">Attack Scenarios</button>
+  <button class="sn-btn"     id="t-read"      onclick="go('pg-read','t-read')">Reading &amp; Adjusting</button>
+  <button class="sn-btn"     id="t-film"      onclick="go('pg-film','t-film')">Film Reference</button>
+  <button class="sn-btn"     id="t-mistakes"  onclick="go('pg-mistakes','t-mistakes')">Mistakes</button>
+</div>
+
+<!-- ══════ OVERVIEW ══════ -->
+<div class="pg on" id="pg-overview">
+  <div class="s-eyebrow">Chapter 1</div>
+  <div class="s-title">What Is <em>Perimeter Defense</em></div>
+  <p class="s-desc">The Perimeter Defense is the Orcas' base defensive system. Understanding why we run it — and what it's designed to stop — gives every player the context to execute it with intention, not just position.</p>
+
+  <div class="pull-quote">
+    <div class="pq-stat">2-0-4</div>
+    <div class="pq-text"><strong>Two blockers</strong> at the net. <strong>Zero players</strong> behind the block. <strong>Four defenders</strong> spread along the deep court perimeter — protecting the lines, corners, and sidelines where hard-driven attacks land.</div>
+  </div>
+
+  <div class="content-grid">
+    <div class="content-card accent">
+      <div class="cc-head"><span class="hi">The Core Philosophy</span></div>
+      <div class="cc-body">Perimeter defense — also called "man-back" or "6-back" defense — protects the deep court first. <strong>The philosophy: force the opponent to hit a perfect soft shot to score.</strong> We take away the hard swing, the line shot, and the deep cross. If they want to beat the Orcas, they have to tip perfectly over a block into a tight space. That's a low-percentage play.</div>
+    </div>
+    <div class="content-card">
+      <div class="cc-head">Why This System for Orcas</div>
+      <div class="cc-body">
+        <ul>
+          <li><strong>Easy to learn:</strong> four back defenders stay deep and read — no complex rotations to memorize at first</li>
+          <li><strong>Stops power:</strong> at 7th–9th grade, most attacks are hard-driven. We cover what kills us most</li>
+          <li><strong>Builds reading:</strong> deep position gives defenders time to read the hitter's shoulder before moving</li>
+          <li><strong>Strong with a good block:</strong> our blockers take away angles, defenders only cover what's left</li>
+        </ul>
+      </div>
+    </div>
+    <div class="content-card">
+      <div class="cc-head">Strengths</div>
+      <div class="cc-body">
+        <ul>
+          <li>Excellent coverage of hard-driven deep attacks to all four corners</li>
+          <li>Line coverage is automatic — Zone 1 always owns the line</li>
+          <li>Simple starting positions — players learn their base quickly</li>
+          <li>Works regardless of blocker effectiveness — even one blocker helps</li>
+          <li>Defenders face inward = they see court and read hitters clearly</li>
+        </ul>
+      </div>
+    </div>
+    <div class="content-card warn">
+      <div class="cc-head"><span class="red">Known Weakness: The Tip</span></div>
+      <div class="cc-body">The perimeter leaves the center of the court open. <strong>Tips into Zone 3 (middle front) and sharp roll shots behind the block are the vulnerability.</strong> We address this with our front-row non-blockers, Zone 6 forward reads, and a tip-alert adjustment (covered in Attack Scenarios). Understanding the weakness is part of running the system intelligently.</div>
+    </div>
+    <div class="content-card full gold">
+      <div class="cc-head"><span class="gold">How It Fits Our Offense</span></div>
+      <div class="cc-body">Every successful dig in the perimeter defense leads to the same sequence: <strong>dig → Zone 3 setter → attack.</strong> The deep starting position of our defenders means digs go high and toward the setter naturally. Unlike rotation defense (where off-blockers come off the net), perimeter keeps our front row blockers at the net — ready to transition immediately to an offensive approach if the dig is clean. Defense feeds offense in this system.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ FORMATION ══════ -->
+<div class="pg" id="pg-formation">
+  <div class="s-eyebrow">Chapter 2</div>
+  <div class="s-title">The 2-0-4 <em>Formation</em></div>
+  <p class="s-desc">The formation is simple — two blockers at the net, four defenders on the perimeter of the back court. But the exact starting positions within the perimeter matter enormously, and they shift based on where the set is going.</p>
+
+  <!-- SVG COURT DIAGRAM — Left Side Attack -->
+  <div class="court-wrap">
+    <div class="court-label">PERIMETER DEFENSE — LEFT SIDE ATTACK (Zone 4)</div>
+    <div class="court-diagram">
+      <!-- Background zones -->
+      <div style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr 1fr 1fr 1fr 1fr;">
+      </div>
+
+      <!-- Court lines -->
+      <div style="position:absolute;top:0;left:0;right:0;bottom:0;border:2px solid rgba(255,255,255,.1);border-radius:12px;"></div>
+      <!-- Net line (opponent's half = top, our half = bottom) -->
+      <div style="position:absolute;top:50%;left:0;right:0;height:3px;background:rgba(255,255,255,.3);"></div>
+      <div style="position:absolute;top:50%;left:8px;font-family:'Teko',sans-serif;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.3);transform:translateY(-50%);">NET</div>
+      <!-- 10-foot line -->
+      <div style="position:absolute;top:66.6%;left:0;right:0;height:1px;border-top:1px dashed rgba(255,255,255,.15);"></div>
+      <div style="position:absolute;top:66.6%;right:8px;font-family:'Teko',sans-serif;font-size:8px;color:rgba(255,255,255,.2);transform:translateY(-50%);">10FT</div>
+
+      <!-- OUR HALF is bottom 50% (50% to 100%) -->
+      <!-- Zone labels on our side -->
+      <div style="position:absolute;top:56%;left:8%;font-family:'Teko',sans-serif;font-size:11px;color:rgba(255,255,255,.12);letter-spacing:1px;">Z4</div>
+      <div style="position:absolute;top:56%;left:44%;font-family:'Teko',sans-serif;font-size:11px;color:rgba(255,255,255,.12);letter-spacing:1px;">Z3</div>
+      <div style="position:absolute;top:56%;right:8%;font-family:'Teko',sans-serif;font-size:11px;color:rgba(255,255,255,.12);letter-spacing:1px;">Z2</div>
+      <div style="position:absolute;top:80%;left:8%;font-family:'Teko',sans-serif;font-size:11px;color:rgba(255,255,255,.12);letter-spacing:1px;">Z5</div>
+      <div style="position:absolute;top:80%;left:44%;font-family:'Teko',sans-serif;font-size:11px;color:rgba(255,255,255,.12);letter-spacing:1px;">Z6</div>
+      <div style="position:absolute;top:80%;right:8%;font-family:'Teko',sans-serif;font-size:11px;color:rgba(255,255,255,.12);letter-spacing:1px;">Z1</div>
+
+      <!-- BLOCKER 1 (outside blocker Z4) -->
+      <div class="dot blocker" style="left:15%;top:53%;"><span>B</span><span class="dot-label">Outside Blocker</span></div>
+      <!-- BLOCKER 2 (middle blocker Z3) -->
+      <div class="dot blocker" style="left:50%;top:53%;"><span>MB</span><span class="dot-label">Middle Blocker</span></div>
+
+      <!-- DEFENDERS -->
+      <!-- Z4 front left — tip coverage -->
+      <div class="dot defender" style="left:12%;top:68%;"><span>Z4</span><span class="dot-label" style="color:rgba(64,208,160,.8)">Left Front (tip)</span></div>
+      <!-- Z5 left back -->
+      <div class="dot libero" style="left:12%;top:87%;"><span>Z5</span><span class="dot-label" style="color:rgba(224,176,48,.8)">Left Back (cross)</span></div>
+      <!-- Z6 middle back -->
+      <div class="dot defender" style="left:50%;top:90%;"><span>Z6</span><span class="dot-label" style="color:rgba(64,208,160,.8)">Middle Back</span></div>
+      <!-- Z1 right back — LINE -->
+      <div class="dot defender" style="left:88%;top:82%;"><span>Z1</span><span class="dot-label" style="color:rgba(64,208,160,.8)">Right Back (LINE)</span></div>
+
+      <!-- ATTACK ARROW from opponent side -->
+      <div style="position:absolute;top:12%;left:12%;width:3px;height:30%;background:linear-gradient(to bottom,rgba(240,64,96,0),rgba(240,64,96,.8));border-radius:2px;transform:rotate(5deg);"></div>
+      <div style="position:absolute;top:10%;left:10%;font-family:'Teko',sans-serif;font-size:10px;color:rgba(240,64,96,.8);letter-spacing:1px;">ATTACK →</div>
+    </div>
+
+    <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:8px;">
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);"><div style="width:12px;height:12px;border-radius:50%;border:2px solid var(--accent);background:rgba(64,176,240,.15);"></div> Blocker</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);"><div style="width:12px;height:12px;border-radius:50%;border:2px solid var(--mint);background:rgba(64,208,160,.15);"></div> Defender</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);"><div style="width:12px;height:12px;border-radius:50%;border:2px solid var(--gold);background:rgba(224,176,48,.2);"></div> Libero / DS</div>
+    </div>
+  </div>
+
+  <div class="content-grid">
+    <div class="content-card accent">
+      <div class="cc-head"><span class="hi">The Starting Rule</span></div>
+      <div class="cc-body">All four back-row defenders start in their perimeter positions with <strong>one foot near the sideline or end line</strong> — facing inward and facing the hitter. This gives them a read angle on the ball and a clear view of the attack. <strong>Movement is always inward toward the ball</strong> — never backing up.</div>
+    </div>
+    <div class="content-card">
+      <div class="cc-head">Adjust With the Set</div>
+      <div class="cc-body">Starting positions shift based on where the set goes:<br><br>
+        <strong>Set left (Zone 4):</strong> Z1 drops deep to the line, Z5 slides inside for cross, Z6 middle-left<br><br>
+        <strong>Set right (Zone 2):</strong> Z5 drops deep to the line, Z1 slides inside for cross, Z6 middle-right<br><br>
+        <strong>Set middle:</strong> Z1 and Z5 hold, Z6 backs directly behind the block
+      </div>
+    </div>
+    <div class="content-card full">
+      <div class="cc-head">The "Freeze" Rule — Most Important Concept</div>
+      <div class="cc-body"><strong>At the moment the hitter contacts the ball — STOP.</strong> No defender should be moving when the attack is struck. A player caught mid-step cannot change direction quickly enough to react to a ball hit away from them. The sequence is: read the serve → adjust position → <strong>freeze in a low athletic stance at hitter contact</strong> → explode toward the ball. Defenders who are still walking or shuffling when the hitter swings will miss balls they should get.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ ZONE ROLES ══════ -->
+<div class="pg" id="pg-zones">
+  <div class="s-eyebrow">Chapter 3</div>
+  <div class="s-title">Zone <em>Responsibilities</em></div>
+  <p class="s-desc">Every player on the court has a specific zone and responsibility in the perimeter defense. Know your zone, own your zone. No one is a spectator — even the non-blocking front-row players have tip coverage assignments.</p>
+
+  <div class="zone-grid">
+    <div class="zone-card z1">
+      <div class="zc-num">Zone 1 · Right Back</div>
+      <div class="zc-name" style="color:var(--orange)">The Line Owner</div>
+      <div class="zc-body">Zone 1 is responsible for <strong>the line shot</strong> when the set goes left (Zone 4 outside hitter). Drop back to the deep right corner — 6-8 feet from the end line, near the sideline. Face the hitter. On a right-side attack, Zone 1 reads for the cross-court angle.</div>
+      <div class="zc-resp">Primary Responsibilities</div>
+      <div class="zc-list">
+        <div class="zc-item">Deep line shot (left-side attack)</div>
+        <div class="zc-item">Cross-court angle (right-side attack)</div>
+        <div class="zc-item">Any ball to the right sideline or corner</div>
+      </div>
+    </div>
+    <div class="zone-card z5">
+      <div class="zc-num">Zone 5 · Left Back (Libero)</div>
+      <div class="zc-name" style="color:var(--mint)">The Cross-Court Digger</div>
+      <div class="zc-body">Zone 5 — usually the Libero — covers the <strong>deep cross-court</strong> shot from a right-side or outside attack. Slide to the inside of the blocker's hands, 6-8 feet from the end line. On a right-side attack, Zone 5 drops to the line. The Libero's reading ability makes them most valuable in this deep zone.</div>
+      <div class="zc-resp">Primary Responsibilities</div>
+      <div class="zc-list">
+        <div class="zc-item">Deep cross-court (left-side attack)</div>
+        <div class="zc-item">Line shot (right-side attack)</div>
+        <div class="zc-item">Sharp angle attack from Zone 2</div>
+      </div>
+    </div>
+    <div class="zone-card z6">
+      <div class="zc-num">Zone 6 · Middle Back</div>
+      <div class="zc-name" style="color:var(--gold)">The Safety Valve</div>
+      <div class="zc-body">Zone 6 backs to the end line directly behind the block. Covers <strong>shots that split Z1 and Z5</strong> — middle deep, seam balls, and anything that passes through the block. Zone 6 is the last line of defense. <strong>Default rule: if no one else calls it, Zone 6 goes.</strong></div>
+      <div class="zc-resp">Primary Responsibilities</div>
+      <div class="zc-list">
+        <div class="zc-item">Middle deep shots through the block</div>
+        <div class="zc-item">Seam balls between Z1 and Z5</div>
+        <div class="zc-item">Any unclaimed ball deep center</div>
+      </div>
+    </div>
+    <div class="zone-card z4">
+      <div class="zc-num">Zone 4 · Left Front (Non-Blocker)</div>
+      <div class="zc-name" style="color:var(--violet)">The Tip Guard</div>
+      <div class="zc-body">When the outside blocker (Zone 4 front) is NOT in the block, they drop off the net to <strong>cover tips</strong> in the front-left area. Position at the 10-foot line, facing the hitter. On a right-side attack, the Zone 4 player often joins the block — check your assignments each rally.</div>
+      <div class="zc-resp">Primary Responsibilities</div>
+      <div class="zc-list">
+        <div class="zc-item">Tip coverage (left-front area)</div>
+        <div class="zc-item">Short roll shots to Zone 4/5 area</div>
+        <div class="zc-item">Transition to approach after dig</div>
+      </div>
+    </div>
+    <div class="zone-card z2">
+      <div class="zc-num">Zone 2 · Right Front (Non-Blocker)</div>
+      <div class="zc-name" style="color:var(--red)">Right-Side Tip Guard</div>
+      <div class="zc-body">Zone 2 non-blocker covers <strong>tips to the right-front area</strong> when the right-side player is not in the block. Position at the 10-foot line near Zone 2/3 seam. On a left-side attack, the Zone 2 player is typically the setter — they must cover the right tip zone after releasing the set.</div>
+      <div class="zc-resp">Primary Responsibilities</div>
+      <div class="zc-list">
+        <div class="zc-item">Tip coverage (right-front area)</div>
+        <div class="zc-item">Short roll shots near Zone 2/3</div>
+        <div class="zc-item">Setter release after set → tip coverage</div>
+      </div>
+    </div>
+    <div class="zone-card" style="border-left-color:var(--accent);">
+      <div class="zc-num">Communication</div>
+      <div class="zc-name" style="color:var(--accent)">Every Touch Called</div>
+      <div class="zc-body">Every defender must <strong>call "mine!" before contacting every ball.</strong> Seam balls require the player moving toward the ball to call it. Zone 6 calls "help!" if a ball is going to another zone. Any ball touched without a call is a communication error — track these in practice as seriously as a missed dig.</div>
+      <div class="zc-resp">Communication Standards</div>
+      <div class="zc-list">
+        <div class="zc-item">"Mine!" — called before every contact</div>
+        <div class="zc-item">"Help!" — Zone 6 signals ball going to another zone</div>
+        <div class="zc-item">"Tip!" — front-row player alerts to a short ball</div>
+        <div class="zc-item">"Line!" or "Cross!" — call read before hitter contacts</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ ATTACK SCENARIOS ══════ -->
+<div class="pg" id="pg-scenarios">
+  <div class="s-eyebrow">Chapter 4</div>
+  <div class="s-title">Attack <em>Scenarios</em></div>
+  <p class="s-desc">The perimeter defense looks different depending on where the set goes. Here's exactly where everyone should be for each of the three primary attack scenarios — and how to adjust for the tip.</p>
+
+  <div class="content-grid">
+    <div class="content-card accent full">
+      <div class="cc-head"><span class="hi">Scenario 1: Left-Side Attack (Zone 4 Outside Hitter)</span></div>
+      <div class="cc-body">
+        The most common attack at youth level — this is the primary assignment to know cold.<br><br>
+        <strong>Blockers:</strong> Outside blocker (Z4) + Middle blocker (Z3) form a double block at the left pin.<br><br>
+        <strong>Zone 1 (Right Back):</strong> Drop deep to the right corner — 6-8 feet from the end line, near the right sideline. Own the line. Face the hitter.<br><br>
+        <strong>Zone 5 (Left Back / Libero):</strong> Slide to the inside of the left blocker's outside hand — dig the deep cross-court angle.<br><br>
+        <strong>Zone 6 (Middle Back):</strong> Back up to the end line, slightly left of center — cover the ball that splits Z1 and Z5.<br><br>
+        <strong>Zone 2 (Right Front / non-blocker):</strong> Off the net at the 10-foot line — cover tips to right front.<br><br>
+        <strong>Tip adjustment:</strong> If Zone 5 reads "tip" (hitter's elbow drops, arm slows), Zone 5 runs in toward the 10-foot line. Zone 6 fills left-back deep. Zone 1 holds line.
+      </div>
+    </div>
+    <div class="content-card">
+      <div class="cc-head">Scenario 2: Right-Side Attack (Zone 2)</div>
+      <div class="cc-body">
+        <strong>Blockers:</strong> Right-side blocker (Z2) + Middle blocker (Z3) block the right pin.<br><br>
+        <strong>Zone 5 (Left Back):</strong> Drops deep to the left sideline — now Zone 5 owns the LINE (mirrored from Scenario 1).<br><br>
+        <strong>Zone 1 (Right Back):</strong> Slides inside toward center — covers the deep cross-court angle from Zone 2.<br><br>
+        <strong>Zone 6:</strong> Backs up, slightly right of center.<br><br>
+        <strong>Zone 4 (Left Front):</strong> Off the net — covers tips to left front.<br><br>
+        <strong>Key:</strong> Zone 1 and Zone 5 FLIP their responsibilities — this is the most common confusion. Remind players: "Whoever is on the side of the attack owns the line."
+      </div>
+    </div>
+    <div class="content-card">
+      <div class="cc-head">Scenario 3: Middle Attack (Zone 3)</div>
+      <div class="cc-body">
+        <strong>Blockers:</strong> Middle blocker (Z3) + one wing blocker form a double block at Zone 3.<br><br>
+        <strong>Zone 1 and Zone 5:</strong> Both hold wide — split the court evenly, deep sideline positions. The middle attack goes either line-left or line-right; Z1 and Z5 each own their side.<br><br>
+        <strong>Zone 6:</strong> Directly behind the block at the end line — covers any ball that gets through or tips over.<br><br>
+        <strong>Non-blockers:</strong> Both cover tips at the 10-foot line, one left, one right of the block.<br><br>
+        <strong>Read key:</strong> Middle attacks are fast — Zone 6 must be in position BEFORE the quick set, not after it's called.
+      </div>
+    </div>
+    <div class="content-card gold full">
+      <div class="cc-head"><span class="gold">The Tip Adjustment — Adding to the Perimeter</span></div>
+      <div class="cc-body">
+        The perimeter's weakness is tips into the center. Our fix: <strong>read-based tip adjustment without changing the base system.</strong><br><br>
+        <strong>When to run the tip adjustment:</strong> hitter's approach is slow or off-balance, set is tight to the net, hitter's elbow drops during the arm swing, or the score situation calls for taking away the easy tip.<br><br>
+        <strong>The adjustment:</strong> The front-row player nearest the tip zone calls "TIP!" and steps up to the 10-foot line. Zone 6 fills the deep center. No other players move — the perimeter stays intact.<br><br>
+        <strong>What NOT to do:</strong> Don't send Zone 6 forward on every play — this leaves the deep center open and turns a perimeter into something in between two systems. Commit to one adjustment or the other.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ READING & ADJUSTING ══════ -->
+<div class="pg" id="pg-read">
+  <div class="s-eyebrow">Chapter 5</div>
+  <div class="s-title">Reading &amp; <em>Adjusting</em></div>
+  <p class="s-desc">The perimeter defense is not a static formation. Defenders who read the hitter and block actively outperform those who simply stand in their zone. Here's how to train an active, reading-based perimeter.</p>
+
+  <div class="pillar-grid">
+    <div class="pillar-card">
+      <div class="pillar-num">Read 1</div>
+      <div class="pillar-name" style="color:var(--accent)">Read the Set First</div>
+      <div class="pillar-body">Before the hitter contacts the ball, the set's position tells you <strong>what attacks are possible.</strong> Tight set = tip or sharp angle likely. High outside set = full range of attacks. Low set = flat, hard cross likely, less power available. Read the set to pre-position yourself — the best defenders start moving on the set flight, not the swing.
+      <div class="cue-box"><div class="cue-label">Cues</div><div class="cue-list"><div class="cue-item">"Tight set = step forward, not back"</div><div class="cue-item">"High set = back up, cover deep first"</div></div></div></div>
+    </div>
+    <div class="pillar-card orange">
+      <div class="pillar-num">Read 2</div>
+      <div class="pillar-name" style="color:var(--orange)">Read the Hitter's Shoulder</div>
+      <div class="pillar-body">The hitter's hitting shoulder at the peak of the jump predicts shot direction 70% of the time. <strong>Shoulder square to net = cross-court. Shoulder turned to the line = line shot.</strong> Defenders in Z1 and Z5 should call "line!" or "cross!" based on this read — out loud, before contact.
+      <div class="cue-box"><div class="cue-label" style="color:var(--orange)">Cues</div><div class="cue-list"><div class="cue-item">"Shoulders tell you first"</div><div class="cue-item">"Call it before they hit"</div></div></div></div>
+    </div>
+    <div class="pillar-card gold">
+      <div class="pillar-num">Read 3</div>
+      <div class="pillar-name" style="color:var(--gold)">Read the Block</div>
+      <div class="pillar-body">Your blockers are your first line — watch what they're taking away. If the block seals the line, Z1 can shade toward the seam. If the block is split (gap between hands), Z6 must move behind the gap. <strong>Defense and block work together</strong> — communicate.
+      <div class="cue-box"><div class="cue-label" style="color:var(--gold)">Cues</div><div class="cue-list"><div class="cue-item">"If the block seals line — shade seam"</div><div class="cue-item">"Gap in the block — Z6 fills it"</div></div></div></div>
+    </div>
+    <div class="pillar-card violet">
+      <div class="pillar-num">Read 4</div>
+      <div class="pillar-name" style="color:var(--violet)">The Freeze Point</div>
+      <div class="pillar-body"><strong>Stop moving when the hitter contacts the ball.</strong> A defender mid-step at contact is delayed by 0.3–0.5 seconds — enough for a hard ball to beat them. Read, move, freeze, react. The freeze is the most trainable defensive habit and the most ignored.
+      <div class="cue-box"><div class="cue-label" style="color:var(--violet)">Cues</div><div class="cue-list"><div class="cue-item">"Low and still when they hit"</div><div class="cue-item">"Contact = freeze, then explode"</div></div></div></div>
+    </div>
+    <div class="pillar-card mint">
+      <div class="pillar-num">Read 5</div>
+      <div class="pillar-name" style="color:var(--mint)">Hitter Tendencies</div>
+      <div class="pillar-body">In a match, defenders should actively track what each hitter prefers: <strong>Does the #4 always go line? Does their middle always tip?</strong> After 3–4 attacks, defenders should adjust their starting position based on this data. The coach communicates tendencies between sets; defenders apply them in the next set.
+      <div class="cue-box"><div class="cue-label" style="color:var(--mint)">Cues</div><div class="cue-list"><div class="cue-item">"What's she done twice? Expect it again"</div><div class="cue-item">"Cheat one step toward her favorite spot"</div></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ FILM REFERENCE ══════ -->
+<div class="pg" id="pg-film">
+  <div class="s-eyebrow">Chapter 6 · Film Study</div>
+  <div class="s-title">Orcas <em>Film Reference</em></div>
+  <p class="s-desc">Watch the video below — this is the base perimeter defense the Orcas run. Study it alongside the zone responsibilities and attack scenarios in this guide. Use the questions below each view to actively engage with the footage.</p>
+
+  <div class="video-wrap">
+    <iframe src="https://www.youtube.com/embed/IGfj8k9QjwI" title="Orcas Perimeter Defense" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+
+  <div class="content-grid">
+    <div class="content-card accent">
+      <div class="cc-head"><span class="hi">What to Watch For</span></div>
+      <div class="cc-body">
+        <ul>
+          <li><strong>Starting positions:</strong> Are all 4 defenders on the perimeter before the attack? Where exactly are Z1, Z5, Z6?</li>
+          <li><strong>Freeze point:</strong> Do defenders stop when the hitter contacts the ball, or are they still moving?</li>
+          <li><strong>Tip adjustment:</strong> What does the non-blocker do when a tip is hit? Where do they position?</li>
+          <li><strong>Dig direction:</strong> Where do successful digs go? Do they reach Zone 3?</li>
+          <li><strong>Transition:</strong> What happens after the dig — how fast do blockers transition to attack?</li>
+        </ul>
+      </div>
+    </div>
+    <div class="content-card">
+      <div class="cc-head">Coach Study Questions</div>
+      <div class="cc-body">
+        <ol>
+          <li>Which zone picks up the first dig in the first rally?</li>
+          <li>Is there a moment where a tip beats the defense? What would fix it?</li>
+          <li>When the set goes right, do Z1 and Z5 correctly swap their line/cross responsibilities?</li>
+          <li>How does Zone 6 adjust based on set location?</li>
+          <li>What communication signals are visible between defenders?</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ MISTAKES ══════ -->
+<div class="pg" id="pg-mistakes">
+  <div class="s-eyebrow">Chapter 8</div>
+  <div class="s-title">Common <em>Mistakes</em></div>
+  <p class="s-desc">These are the most common perimeter defense errors at the 7th–9th grade level — and the specific corrections that fix each one.</p>
+
+  <div class="mistake-stack">
+    <div class="mistake-card"><div class="mc-bar sky"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">Starting Too Close to the Net</div><div class="mc-fix"><strong>The Fix:</strong> Players drifting toward the net during rally — not holding their perimeter. Remind: "Deep first, always deep." Mark the perimeter starting positions with tape on the court and enforce them during walk-through drills. Hard balls land deep — if you're too close to the net, you'll never reach them. Run the set-and-freeze drill until deep starting positions are automatic.</div></div></div>
+
+    <div class="mistake-card"><div class="mc-bar"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">Zone 1 and Zone 5 Not Swapping on Right-Side Attack</div><div class="mc-fix"><strong>The Fix:</strong> The most common error in the perimeter — Z1 and Z5 forget to flip their line/cross responsibilities when the attack switches sides. Run ghost defense explicitly for right-side attack 3x more than left-side attack until the swap is automatic. Verbal cue: "Whoever is on the attack side owns the LINE." Post this on the bench. Quiz players during practice.</div></div></div>
+
+    <div class="mistake-card"><div class="mc-bar"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">Still Moving When the Hitter Contacts the Ball</div><div class="mc-fix"><strong>The Fix:</strong> The freeze rule is the most violated rule in the perimeter. Players who are mid-step when the attack is struck can't change direction quickly enough. Run the set-and-freeze drill and stop it the moment any player is caught moving at "hit." Make it a team standard: moving at contact = sit out one rep. After two weeks of enforcement, the freeze becomes automatic.</div></div></div>
+
+    <div class="mistake-card"><div class="mc-bar gold"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">Zone 6 Pulling Forward Without a Read</div><div class="mc-fix"><strong>The Fix:</strong> Zone 6 is not a tip guard in the base perimeter — that's the front-row non-blocker's job. A Zone 6 who creeps forward every rally leaves the deep center wide open. Remind: "Zone 6 stays deep until you READ a tip — not just guess." The tip-alert system relies on the front-row player calling it first. Zone 6 responds, not leads.</div></div></div>
+
+    <div class="mistake-card"><div class="mc-bar gold"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">No Verbal Calling — Silent Defense</div><div class="mc-fix"><strong>The Fix:</strong> Run the calling drill — any touch without a verbal "mine" is dead ball, point to opponent. Silence in perimeter defense is a breakdown waiting to happen. Seam balls between Z1 and Z5, or Z5 and Z6, require calling to avoid both players watching the ball drop between them. Enforce calling in every drill for two consecutive weeks — it becomes a habit.</div></div></div>
+
+    <div class="mistake-card"><div class="mc-bar orange"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">Digging Without Direction — Ball Goes Anywhere</div><div class="mc-fix"><strong>The Fix:</strong> Players dig the ball "up" but with no Zone 3 target. Run the coach-hit perimeter drill and track Zone 3 reach percentage separately from dig percentage. Remind: "A dig that doesn't reach the setter is only 50% of the job." Add a setter at Zone 3 in practice to make the target physical and real — the setter jumping for every dig gives defenders immediate feedback on dig quality.</div></div></div>
+  </div>
+</div>
+
+<script>
+function go(pgId,btnId){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.sn-btn').forEach(b=>b.classList.remove('on'));
+  document.getElementById(pgId).classList.add('on');
+  document.getElementById(btnId).classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleDrill(btn){
+  const expand=btn.closest('.drill-card').querySelector('.drill-expand');
+  const open=expand.classList.toggle('open');
+  btn.textContent=open?'▲ Close':'▼ Details';
+}
+</script>
+</body>
+</html>
