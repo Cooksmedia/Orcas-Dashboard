@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teaching Volleyball Passing</title>
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--void:#09090b;--panel:#111115;--panel2:#18181d;--panel3:#1e1e25;--rim:#28282f;--rim2:#323240;--white:#f0eee8;--off:#b8b4a8;--muted:#606070;--accent:#40d0a0;--accent-dim:rgba(64,208,160,.08);--accent-glow:rgba(64,208,160,.18);--red:#f04060;--red-dim:rgba(240,64,96,.1);--orange:#f08820;--orange-dim:rgba(240,136,32,.1);--sky:#40b0f0;--sky-dim:rgba(64,176,240,.1);--violet:#a060f0;--violet-dim:rgba(160,96,240,.1);--gold:#e0b030;--gold-dim:rgba(224,176,48,.1);--lime:#b8e840;--lime-dim:rgba(184,232,64,.08);--head:'Teko',sans-serif;--body:'Inter',sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}body{background:var(--void);color:var(--white);font-family:var(--body);min-height:100vh;overflow-x:hidden;}
+.hero{background:var(--void);position:relative;overflow:hidden;border-bottom:1px solid var(--rim);}
+.hero-inner{max-width:1100px;margin:0 auto;padding:64px 36px 52px;position:relative;z-index:2;}
+.hero-bg-text{position:absolute;right:-40px;bottom:-30px;font-family:var(--head);font-size:220px;font-weight:700;color:rgba(64,208,160,.04);line-height:1;pointer-events:none;z-index:1;white-space:nowrap;}
+.hero-bg-glow{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(64,208,160,.06) 0%,transparent 70%);top:-100px;right:-100px;pointer-events:none;}
+.hero-label{font-family:var(--head);font-size:13px;letter-spacing:5px;color:var(--accent);text-transform:uppercase;margin-bottom:14px;font-weight:600;}
+.hero-h1{font-family:var(--head);font-size:clamp(60px,10vw,120px);font-weight:700;line-height:.88;letter-spacing:1px;margin-bottom:18px;}
+.hero-h1 .line1{display:block;color:var(--white)}.hero-h1 .line2{display:block;color:var(--accent)}.hero-h1 .line3{display:block;color:rgba(240,238,232,.25);font-size:.55em;letter-spacing:3px;margin-top:8px;}
+.hero-desc{font-size:15px;color:var(--off);line-height:1.75;max-width:560px;margin-bottom:28px;}
+.hero-pills{display:flex;gap:8px;flex-wrap:wrap;}.hero-pill{font-size:11px;font-weight:600;letter-spacing:1px;padding:6px 16px;border-radius:100px;border:1px solid var(--rim2);color:var(--muted);}.hero-pill.hi{border-color:rgba(64,208,160,.3);color:var(--accent);background:var(--accent-dim);}
+.snav{background:rgba(9,9,11,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--rim);position:sticky;top:0;z-index:200;display:flex;gap:0;overflow-x:auto;padding:0 24px;}.snav::-webkit-scrollbar{height:0;}
+.sn-btn{font-family:var(--head);font-size:15px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:16px 20px;background:none;border:none;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s;}.sn-btn:hover{color:var(--white);}.sn-btn.on{color:var(--accent);border-bottom-color:var(--accent);}
+.pg{display:none;max-width:1100px;margin:0 auto;padding:48px 36px 80px;}.pg.on{display:block;}
+.s-eyebrow{font-family:var(--head);font-size:12px;letter-spacing:5px;color:var(--accent);text-transform:uppercase;margin-bottom:8px;font-weight:600;}
+.s-title{font-family:var(--head);font-size:clamp(44px,7vw,80px);font-weight:700;line-height:.9;margin-bottom:8px;}.s-title em{color:var(--accent);font-style:normal;}
+.s-desc{font-size:15px;color:var(--off);line-height:1.75;max-width:700px;margin-bottom:40px;}
+.content-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:36px;}@media(max-width:720px){.content-grid{grid-template-columns:1fr;}}
+.content-card{background:var(--panel2);border:1px solid var(--rim);border-radius:14px;padding:24px;}.content-card.full{grid-column:1/-1;}.content-card.accent{border-color:rgba(64,208,160,.25);background:var(--accent-dim);}.content-card.warn{border-color:rgba(240,64,96,.25);background:var(--red-dim);}.content-card.gold{border-color:rgba(224,176,48,.25);background:var(--gold-dim);}
+.cc-head{font-family:var(--head);font-size:22px;font-weight:600;letter-spacing:1px;margin-bottom:10px;color:var(--white);}.cc-head .hi{color:var(--accent);}.cc-head .gold{color:var(--gold);}.cc-head .red{color:var(--red);}
+.cc-body{font-size:14px;color:var(--off);line-height:1.75;}.cc-body strong{color:var(--white);}.cc-body ul{padding-left:18px;margin-top:8px;}.cc-body ul li{margin-bottom:6px;}
+.pillar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:36px;}
+.pillar-card{background:var(--panel2);border:1px solid var(--rim);border-radius:14px;padding:20px 22px;border-left:4px solid var(--accent);}.pillar-card.red{border-left-color:var(--red);}.pillar-card.gold{border-left-color:var(--gold);}.pillar-card.violet{border-left-color:var(--violet);}.pillar-card.orange{border-left-color:var(--orange);}.pillar-card.lime{border-left-color:var(--lime);}
+.pillar-num{font-family:var(--head);font-size:11px;font-weight:600;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:4px;}
+.pillar-name{font-family:var(--head);font-size:22px;font-weight:600;letter-spacing:1px;margin-bottom:8px;}
+.pillar-body{font-size:13px;color:var(--off);line-height:1.65;}.pillar-body strong{color:var(--white);}
+.cue-box{background:var(--panel3);border:1px solid var(--rim2);border-radius:10px;padding:14px 16px;margin-top:12px;}
+.cue-label{font-size:10px;font-weight:700;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:6px;}
+.cue-list{display:flex;flex-direction:column;gap:4px;}.cue-item{font-size:13px;color:var(--off);}.cue-item::before{content:'→ ';color:var(--accent);}
+.mistake-stack{display:flex;flex-direction:column;gap:12px;margin-bottom:36px;}
+.mistake-card{background:var(--panel2);border:1px solid var(--rim);border-radius:12px;overflow:hidden;display:flex;}
+.mc-bar{width:6px;flex-shrink:0;background:var(--red);}.mc-bar.gold{background:var(--gold);}.mc-bar.orange{background:var(--orange);}
+.mc-content{padding:16px 18px;flex:1;}.mc-top{display:flex;align-items:center;gap:12px;margin-bottom:8px;}.mc-label{font-size:9px;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;}
+.mc-name{font-family:var(--head);font-size:20px;font-weight:600;letter-spacing:.5px;color:var(--white);}
+.mc-fix{font-size:13px;color:var(--off);line-height:1.6;}.mc-fix strong{color:var(--white);}
+.drill-stack{display:flex;flex-direction:column;gap:12px;margin-bottom:36px;}
+.drill-card{background:var(--panel2);border:1px solid var(--rim);border-radius:12px;overflow:hidden;}
+.drill-card-top{display:flex;align-items:stretch;}.drill-color-bar{width:6px;flex-shrink:0;}
+.drill-top-content{flex:1;padding:16px 18px;}.drill-cat{font-size:9px;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:4px;}
+.drill-name{font-family:var(--head);font-size:20px;font-weight:600;line-height:1.1;}
+.drill-meta{display:flex;gap:10px;margin-top:5px;flex-wrap:wrap;}.drill-meta-pill{font-size:10px;font-weight:600;padding:3px 10px;border-radius:100px;border:1px solid var(--rim2);color:var(--muted);}
+.drill-expand{display:none;padding:14px 18px 18px;border-top:1px solid var(--rim);}.drill-expand.open{display:block;}
+.drill-expand p{font-size:13px;color:var(--off);line-height:1.7;margin-bottom:8px;}.drill-expand p:last-child{margin-bottom:0;}.drill-expand strong{color:var(--white);}
+.drill-toggle{padding:10px 18px 12px;background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:1px;color:var(--muted);text-transform:uppercase;transition:color .15s;width:100%;text-align:left;}.drill-toggle:hover{color:var(--accent);}
+.week-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-bottom:36px;}
+.week-card{background:var(--panel2);border:1px solid var(--rim);border-radius:14px;padding:20px 22px;}
+.week-num{font-family:var(--head);font-size:13px;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:6px;}
+.week-focus{font-family:var(--head);font-size:24px;font-weight:600;letter-spacing:.5px;margin-bottom:12px;}
+.week-list{font-size:13px;color:var(--off);line-height:1.65;padding-left:16px;}.week-list li{margin-bottom:5px;}
+.pull-quote{background:var(--accent-dim);border:1px solid rgba(64,208,160,.2);border-radius:14px;padding:28px 32px;margin-bottom:36px;text-align:center;}
+.pq-stat{font-family:var(--head);font-size:72px;font-weight:700;color:var(--accent);line-height:1;}
+.pq-text{font-size:15px;color:var(--off);margin-top:8px;line-height:1.6;}.pq-text strong{color:var(--white);}
+@media(max-width:600px){.pg{padding:32px 18px 60px;}.hero-inner{padding:40px 20px 36px;}.snav{padding:0 12px;}}
+</style>
+</head>
+<body>
+<a href="dashboard.html" id="dash-home-link" title="Back to Dashboard" style="position:fixed;top:14px;left:14px;z-index:9999;display:flex;align-items:center;gap:7px;background:rgba(10,22,40,.92);color:#40d0a0;font-family:'Teko',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;padding:8px 14px;border-radius:100px;border:1px solid rgba(64,208,160,.3);text-decoration:none;backdrop-filter:blur(6px);box-shadow:0 2px 12px rgba(0,0,0,.25);transition:all .2s;" onmouseover="this.style.background='rgba(64,208,160,.18)'" onmouseout="this.style.background='rgba(10,22,40,.92)'"><span style="font-size:15px;">🐋</span> Dashboard</a>
+<style>@media print{#dash-home-link{display:none!important;}}</style>
+
+<div class="hero">
+  <div class="hero-bg-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-label">Complete Coaching Guide · 7th–9th Grade</div>
+    <div class="hero-h1"><span class="line1">TEACHING</span><span class="line2">PASSING</span><span class="line3">THE FOUNDATION OF EVERY RALLY</span></div>
+    <p class="hero-desc">Passing is the single most important skill in volleyball — every offensive system depends on it. A team that passes well controls the game. This guide covers platform mechanics, footwork, serve receive formations, and how to build consistent passers under match pressure.</p>
+    <div class="hero-pills">
+      <span class="hero-pill hi">🙌 5 Platform Pillars</span>
+      <span class="hero-pill hi">👟 Serve Receive Footwork</span>
+      <span class="hero-pill hi">📐 Platform Angle Keys</span>
+      <span class="hero-pill">8 Passing Drills</span>
+      <span class="hero-pill">Serve Receive Formations</span>
+      <span class="hero-pill">Common Mistakes Fixed</span>
+      <span class="hero-pill">4-Week Plan</span>
+    </div>
+  </div>
+  <div class="hero-bg-text">PASS</div>
+</div>
+
+<div class="snav">
+  <button class="sn-btn on" id="t-why" onclick="go('pg-why','t-why')">Why Passing</button>
+  <button class="sn-btn" id="t-platform" onclick="go('pg-platform','t-platform')">Platform Mechanics</button>
+  <button class="sn-btn" id="t-footwork" onclick="go('pg-footwork','t-footwork')">Footwork</button>
+  <button class="sn-btn" id="t-angle" onclick="go('pg-angle','t-angle')">Platform Angle</button>
+  <button class="sn-btn" id="t-formations" onclick="go('pg-formations','t-formations')">Serve Receive</button>
+  <button class="sn-btn" id="t-drills" onclick="go('pg-drills','t-drills')">Drills</button>
+  <button class="sn-btn" id="t-mistakes" onclick="go('pg-mistakes','t-mistakes')">Mistakes</button>
+  <button class="sn-btn" id="t-plan" onclick="go('pg-plan','t-plan')">4-Week Plan</button>
+</div>
+
+<!-- WHY PASSING -->
+<div class="pg on" id="pg-why">
+  <div class="s-eyebrow">Chapter 1</div>
+  <div class="s-title">Why <em>Passing</em><br>Controls the Game</div>
+  <p class="s-desc">Every rally in volleyball starts with a pass. The quality of that first touch determines everything that follows — the setter's options, the tempo of the attack, and ultimately whether your team can run an offense at all.</p>
+  <div class="pull-quote"><div class="pq-stat">80%</div><div class="pq-text">of points at the youth level come down to <strong>passing quality.</strong> A team that consistently passes the ball to the setter in system wins far more rallies than a team that relies on athletic plays out of system.</div></div>
+  <div class="content-grid">
+    <div class="content-card accent"><div class="cc-head"><span class="hi">In-System vs. Out-of-System</span></div><div class="cc-body">An "in-system" pass puts the ball in a position where the setter can run any set in the playbook. An "out-of-system" pass forces the setter to scramble and limits options to a high ball to the outside. <strong>The team that passes in-system most consistently runs the best offense</strong> — regardless of how good their hitters are.</div></div>
+    <div class="content-card"><div class="cc-head">The Cascade Effect</div><div class="cc-body">Great pass → setter in position → hitter gets their set → efficient attack. Poor pass → setter off-balance → high ball to outside → defense loaded for it. Passing is the first domino in every rally. Fix the first domino and the rest improves automatically.</div></div>
+    <div class="content-card"><div class="cc-head">Every Player Must Pass</div><div class="cc-body">Unlike hitting or setting, every player on the court is involved in serve receive at some point. Even middles and setters need functional passing ability — a defensive specialist who can't pass a tough float serve in a tight game becomes a liability in the rotation.</div></div>
+    <div class="content-card accent"><div class="cc-head"><span class="hi">Platform Before Everything</span></div><div class="cc-body">The platform — joined arms, flat surface, correct contact point — is the technical foundation. Every other adjustment (angle, footwork, reading the serve) builds on top of a clean platform. Players who skip platform basics and try to compensate with athleticism plateau early.</div></div>
+  </div>
+</div>
+
+<!-- PLATFORM MECHANICS -->
+<div class="pg" id="pg-platform">
+  <div class="s-eyebrow">Chapter 2</div>
+  <div class="s-title">Platform <em>Mechanics</em></div>
+  <p class="s-desc">A correct platform is the foundation of every pass. Before worrying about footwork, reading, or angles — build the platform. A player with a perfect platform and average movement will outpass a player with great movement and a broken platform every time.</p>
+  <div class="pillar-grid">
+    <div class="pillar-card"><div class="pillar-num">Pillar 1</div><div class="pillar-name" style="color:var(--accent)">Arm Connection</div><div class="pillar-body">Hands together, thumbs parallel, arms joined at the forearms. <strong>No interlacing fingers</strong> — fingers clasp over each other with thumbs pointing down and parallel. Arms stay connected through contact — never let them separate.<div class="cue-box"><div class="cue-label">Coaching Cues</div><div class="cue-list"><div class="cue-item">"Thumbs down, side by side — not crossed"</div><div class="cue-item">"Squeeze and hold through the ball"</div><div class="cue-item">"Flat shelf — not a cup"</div></div></div></div></div>
+    <div class="pillar-card red"><div class="pillar-num">Pillar 2</div><div class="pillar-name" style="color:var(--red)">Contact Point</div><div class="pillar-body">Contact on the <strong>flat inner forearm</strong> — 2 to 4 inches above the wrist — not on the wrist bones, not on the hands. The contact surface should feel like a flat shelf. Watch for players who contact on the wrist joint (painful and uncontrollable) or who cup the hands (creates spin).<div class="cue-box"><div class="cue-label" style="color:var(--red)">Coaching Cues</div><div class="cue-list"><div class="cue-item">"Contact above the wrist, not on it"</div><div class="cue-item">"Inner forearm flat — no cup"</div><div class="cue-item">"If it hurts your wrists, too low"</div></div></div></div></div>
+    <div class="pillar-card gold"><div class="pillar-num">Pillar 3</div><div class="pillar-name" style="color:var(--gold)">Body Position</div><div class="pillar-body">Feet wider than shoulder width, knees bent, weight slightly forward on the balls of the feet. <strong>Hips below shoulder height at contact.</strong> The platform angled toward the target — not swinging up at the ball. Arms stay below shoulder height throughout the pass.<div class="cue-box"><div class="cue-label" style="color:var(--gold)">Coaching Cues</div><div class="cue-list"><div class="cue-item">"Knees bent before the ball arrives"</div><div class="cue-item">"Hips down, chest up"</div><div class="cue-item">"Arms up = arms swinging = error"</div></div></div></div></div>
+    <div class="pillar-card violet"><div class="pillar-num">Pillar 4</div><div class="pillar-name" style="color:var(--violet)">Arm Swing</div><div class="pillar-body"><strong>Do not swing the arms.</strong> The platform redirects the ball using the angle of the arms — not momentum from swinging. Swinging arms means the passer is compensating for poor positioning. The arms should move slightly through the ball, not whip upward.<div class="cue-box"><div class="cue-label" style="color:var(--violet)">Coaching Cues</div><div class="cue-list"><div class="cue-item">"Let your legs drive the ball, not your arms"</div><div class="cue-item">"Arms forward, not up"</div><div class="cue-item">"Pass through the ball — don't hit it"</div></div></div></div></div>
+    <div class="pillar-card orange"><div class="pillar-num">Pillar 5</div><div class="pillar-name" style="color:var(--orange)">Posture &amp; Eyes</div><div class="pillar-body">Keep the <strong>chin up and eyes tracking the ball from the moment it's tossed.</strong> Players who drop their head at contact lose track of where the ball is going. Shoulders stay square to the target — not rotating away from the setter at contact.<div class="cue-box"><div class="cue-label" style="color:var(--orange)">Coaching Cues</div><div class="cue-list"><div class="cue-item">"Eyes on the ball all the way to your arms"</div><div class="cue-item">"Shoulders face the setter"</div><div class="cue-item">"Head up through the pass"</div></div></div></div></div>
+  </div>
+</div>
+
+<!-- FOOTWORK -->
+<div class="pg" id="pg-footwork">
+  <div class="s-eyebrow">Chapter 3</div>
+  <div class="s-title">Serve Receive <em>Footwork</em></div>
+  <p class="s-desc">Most passing errors aren't platform errors — they're footwork errors. Players who move their feet first and arrive early to the ball consistently outpass players with better technique who arrive late. Footwork is the most trainable passing skill and the most neglected.</p>
+  <div class="content-grid">
+    <div class="content-card accent"><div class="cc-head"><span class="hi">Move First, Platform Second</span></div><div class="cc-body">The sequence is always: <strong>read the serve → move feet → establish position → present platform → pass.</strong> Players who skip to "present platform" without moving feet first will swing their arms to compensate — the root cause of most arm-swing errors.</div></div>
+    <div class="content-card"><div class="cc-head">Starting Position</div><div class="cc-body">Feet shoulder-width plus, knees bent, weight on balls of feet — ready to push in any direction. <strong>Never flat-footed at serve contact.</strong> The ready position is an athletic stance, not a relaxed stand. Players who stand straight lose half a step of reaction time.</div></div>
+    <div class="content-card full"><div class="cc-head">The 3 Footwork Patterns</div><div class="cc-body">
+      <ul>
+        <li><strong>1. The Step-Through (most common):</strong> Ball coming directly at you or slightly left/right — take one step to get behind the ball, pass through the target. Used for 60-70% of passes in serve receive.</li>
+        <li><strong>2. The Shuffle (moderate movement):</strong> Ball 3–6 feet from starting position — shuffle step laterally without crossing feet, arrive with hips square to target. Keep platform facing the setter throughout the shuffle.</li>
+        <li><strong>3. The Crossover Run (large movement):</strong> Ball 6+ feet away — cross-step and sprint to get under it. Plant the outside foot, open hips to the ball, pass back toward the setter. Most difficult — requires early reading of the serve.</li>
+      </ul>
+    </div></div>
+    <div class="content-card gold"><div class="cc-head"><span class="gold">The Golden Rule of Footwork</span></div><div class="cc-body"><strong>Always try to pass the ball from the inside of your body, not the outside.</strong> A ball to the left side should be passed with the body positioned so the ball contacts the center of the platform. Players who reach outside their body lose platform control. Move the feet so the ball contacts center.</div></div>
+    <div class="content-card"><div class="cc-head">Arriving Early</div><div class="cc-body">The goal is to arrive at the passing position <strong>before the ball does.</strong> A player who arrives at the same time as the ball is always off-balance. Teach players to read the serve early — watch the server's shoulder and toss, not just the ball in flight — so they start moving 0.5 seconds sooner.</div></div>
+  </div>
+</div>
+
+<!-- PLATFORM ANGLE -->
+<div class="pg" id="pg-angle">
+  <div class="s-eyebrow">Chapter 4</div>
+  <div class="s-title">Platform <em>Angle</em></div>
+  <p class="s-desc">The platform angle determines where the ball goes after contact. Understanding and teaching angle is what separates passers who get the ball "up" from passers who get the ball "to the setter." Angle is a skill — and it can be taught.</p>
+  <div class="content-grid">
+    <div class="content-card accent full"><div class="cc-head"><span class="hi">Face the Ball, Angle the Platform</span></div><div class="cc-body">The body faces the ball. The platform angles toward the target. These are two separate things. A serve coming from the right side requires the body to face right (toward the ball) while the platform tilts left (toward the setter at Zone 3). Teaching players to separate "where I face" from "where I point my platform" is the key coaching point for platform angle.<br><br><strong>Simple rule: platform angle = the angle of the ceiling you want the ball to go to.</strong> Want the ball to go left and high? Tilt the platform left and face it upward. Want the ball to go straight ahead? Flat platform, straight ahead.</div></div>
+    <div class="content-card"><div class="cc-head">Ball From the Left</div><div class="cc-body">Serve coming from Zone 5 or the left antenna: body turns left to face the ball. Platform tilts right (toward Zone 3 setter). Without this tilt, the ball follows the angle of the incoming serve and flies wide to the left. <strong>The bigger the serve angle, the more platform tilt is needed.</strong></div></div>
+    <div class="content-card"><div class="cc-head">Ball From the Right</div><div class="cc-body">Serve from Zone 1 or right antenna: body turns right. Platform tilts left toward the setter. Balls coming from sharp angles require significant platform rotation — this feels unnatural at first. Players often keep the platform square and wonder why the ball goes sideways.</div></div>
+    <div class="content-card full gold"><div class="cc-head"><span class="gold">Teaching Tool: The Mirror Drill</span></div><div class="cc-body">Partner A holds a ball at various angles (left, right, high, low). Partner B extends platform to "mirror" the pass — showing what angle would redirect the ball to a target on the wall. No ball contact needed. This drill builds the neural connection between ball position and platform tilt without the distraction of actually passing. Run 5 minutes per practice for two weeks and watch angle errors drop significantly.</div></div>
+  </div>
+</div>
+
+<!-- SERVE RECEIVE FORMATIONS -->
+<div class="pg" id="pg-formations">
+  <div class="s-eyebrow">Chapter 5</div>
+  <div class="s-title">Serve Receive <em>Formations</em></div>
+  <p class="s-desc">How your team lines up to receive serve determines how much of the court each passer covers and how cleanly balls in the seams are handled. For developing teams, simpler is better — one or two formations run well beats three formations run poorly.</p>
+  <div class="content-grid">
+    <div class="content-card accent"><div class="cc-head"><span class="hi">W-Formation (5-Person)</span></div><div class="cc-body">Five players in a W shape across the back two-thirds of the court. Standard for teams learning serve receive. <strong>Advantages:</strong> everyone has a clearly defined zone, seams are manageable. <strong>Disadvantages:</strong> setter must come from Zone 2/3 position — teach setter to release early after the serve is contacted.<br><br>Best for: teams new to serve receive systems, rosters without a dedicated libero.</div></div>
+    <div class="content-card"><div class="cc-head">3-Person Receive</div><div class="cc-body">Three specialized passers handle the entire court — usually the two OHs and the Libero. Three zones each cover roughly 1/3 of the court. <strong>Advantages:</strong> your three best passers always handle the ball, setter is never in serve receive. <strong>Disadvantages:</strong> each passer covers more court, seam communication is critical.<br><br>Best for: teams with 2–3 strong passers and a setter who's needed at the net immediately.</div></div>
+    <div class="content-card"><div class="cc-head">Seam Rules</div><div class="cc-body">Define seam ownership clearly before every match: <ul><li><strong>"Ball in the middle calls yours"</strong> — the passer who calls the ball takes it</li><li><strong>Right-of-way by zone</strong> — Zone 6 (middle back) yields to Zone 1 and Zone 5</li><li><strong>Ball moving toward you = your ball</strong> — if it's moving toward your zone, call it</li></ul>Pick one rule and enforce it consistently every practice.</div></div>
+    <div class="content-card gold full"><div class="cc-head"><span class="gold">Reading the Serve Early</span></div><div class="cc-body">Teach passers to read three things <strong>before the ball crosses the net:</strong><ol style="padding-left:18px;margin-top:8px;"><li style="margin-bottom:6px;"><strong>Server's toss position</strong> — toss in front = float, toss high = jump serve or topspin</li><li style="margin-bottom:6px;"><strong>Server's shoulder angle</strong> — shoulder points where the serve goes 70% of the time</li><li style="margin-bottom:6px;"><strong>Ball spin</strong> — a spinning ball has a predictable arc; no spin means movement late</li></ol>Players who read early start moving 0.3–0.5 seconds sooner — that's the difference between a controlled pass and a scramble.</div></div>
+  </div>
+</div>
+
+<!-- DRILLS -->
+<div class="pg" id="pg-drills">
+  <div class="s-eyebrow">Chapter 6 · Coach Only</div>
+  <div class="s-title">Passing <em>Drills</em></div>
+  <p class="s-desc">These drills progress from solo platform work to full serve receive pressure. Run them in order within a practice session. Platform mechanics must be consistent before introducing serve receive formations — movement amplifies whatever mechanics the player already has.</p>
+  <div class="drill-stack">
+    <div class="drill-card"><div class="drill-card-top"><div class="drill-color-bar" style="background:var(--accent)"></div><div class="drill-top-content"><div class="drill-cat">Solo · Mechanics</div><div class="drill-name">Platform Wall Taps</div><div class="drill-meta"><span class="drill-meta-pill">1 player</span><span class="drill-meta-pill">5 min</span><span class="drill-meta-pill">No court needed</span></div></div><button class="drill-toggle" onclick="toggleDrill(this)">▼ Details</button></div><div class="drill-expand"><p><strong>Setup:</strong> Player stands 5–6 feet from a wall with one ball.</p><p><strong>Drill:</strong> Toss the ball softly off the wall to yourself and pass it back — keeping the platform flat and stationary. Focus entirely on contact point and arm stillness. No swinging. Target: 20 consecutive wall taps without an arm swing. 3 sets.</p><p><strong>Coaching Focus:</strong> Watch for arm swing on every rep. If the player swings, have them hold their finish position after each contact so they see where their arms ended up.</p></div></div>
+    <div class="drill-card"><div class="drill-card-top"><div class="drill-color-bar" style="background:var(--sky)"></div><div class="drill-top-content"><div class="drill-cat">Partner · Footwork</div><div class="drill-name">Partner Toss-and-Pass</div><div class="drill-meta"><span class="drill-meta-pill">2 players</span><span class="drill-meta-pill">8 min</span><span class="drill-meta-pill">Half court</span></div></div><button class="drill-toggle" onclick="toggleDrill(this)">▼ Details</button></div><div class="drill-expand"><p><strong>Setup:</strong> Partners 15 feet apart. One player tosses, one passes back to the tosser's hands.</p><p><strong>Drill:</strong> Tosser throws balls left, right, high, short — randomly. Passer must move feet first, establish position, then pass. Target: passer's ball returns within one step of the tosser's hands. Switch after 15 reps.</p><p><strong>Coaching Focus:</strong> Are feet moving before arms extend? Players who extend arms before moving feet should reset and start the movement sequence over.</p></div></div>
+    <div class="drill-card"><div class="drill-card-top"><div class="drill-color-bar" style="background:var(--gold)"></div><div class="drill-top-content"><div class="drill-cat">Angle Training</div><div class="drill-name">Mirror Angle Drill</div><div class="drill-meta"><span class="drill-meta-pill">Partners</span><span class="drill-meta-pill">6 min</span><span class="drill-meta-pill">No ball contact</span></div></div><button class="drill-toggle" onclick="toggleDrill(this)">▼ Details</button></div><div class="drill-expand"><p><strong>Setup:</strong> Partner A holds a volleyball at various positions around the passer's left, right, low, and high. A target spot is marked on the wall.</p><p><strong>Drill:</strong> Partner A holds the ball in a position. Partner B adjusts platform angle to show how they would redirect the ball to the target — without contacting. A evaluates: "Would that go to the target?" Switch after 10 positions.</p><p><strong>Coaching Focus:</strong> Players often over-tilt or under-tilt for angled balls. Freeze their platform and ask: "If I rolled the ball down your platform, where would it go?"</p></div></div>
+    <div class="drill-card"><div class="drill-card-top"><div class="drill-color-bar" style="background:var(--violet)"></div><div class="drill-top-content"><div class="drill-cat">Serve Receive</div><div class="drill-name">3-Zone Serve Receive</div><div class="drill-meta"><span class="drill-meta-pill">4–6 players</span><span class="drill-meta-pill">12 min</span><span class="drill-meta-pill">Full court</span></div></div><button class="drill-toggle" onclick="toggleDrill(this)">▼ Details</button></div><div class="drill-expand"><p><strong>Setup:</strong> Three passers in W-formation. Coach or player serving from the end line. Setter in Zone 3 position to receive passes.</p><p><strong>Drill:</strong> Server calls zone before serving. Passers call "mine" and pass to setter. Setter evaluates: "on the antenna," "perfect," or "back court." Track perfect passes as a team percentage. Goal: 60% perfect or better.</p><p><strong>Coaching Focus:</strong> Seam communication — who calls the seam balls? Debrief after every 5 serves on seam ownership.</p></div></div>
+    <div class="drill-card"><div class="drill-card-top"><div class="drill-color-bar" style="background:var(--orange)"></div><div class="drill-top-content"><div class="drill-cat">Pressure</div><div class="drill-name">Pass-to-Target Challenge</div><div class="drill-meta"><span class="drill-meta-pill">Full team</span><span class="drill-meta-pill">10 min</span><span class="drill-meta-pill">Full court</span></div></div><button class="drill-toggle" onclick="toggleDrill(this)">▼ Details</button></div><div class="drill-expand"><p><strong>Setup:</strong> Hula hoop or cone placed in Zone 3 as the target. Players serve from the end line, one passer at a time.</p><p><strong>Drill:</strong> Passer receives 10 serves and earns points: 3 pts = ball lands in the hoop, 1 pt = within 6 feet of the hoop, 0 pts = anywhere else in, -2 pts = service error or ball out of receive zone. Highest score wins.</p><p><strong>Coaching Focus:</strong> Accuracy, not just "getting it up." Players who score only 1-point passes are passing to the right area but not targeting precisely enough.</p></div></div>
+    <div class="drill-card"><div class="drill-card-top"><div class="drill-color-bar" style="background:var(--red)"></div><div class="drill-top-content"><div class="drill-cat">Serve Receive</div><div class="drill-name">Live Serve Receive Scrimmage</div><div class="drill-meta"><span class="drill-meta-pill">Full team</span><span class="drill-meta-pill">15 min</span><span class="drill-meta-pill">Full court</span></div></div><button class="drill-toggle" onclick="toggleDrill(this)">▼ Details</button></div><div class="drill-expand"><p><strong>Setup:</strong> 6v6 with rally scoring. Bonus points for in-system passes (setter in position to run any set = 1 bonus point per rally for receiving team).</p><p><strong>Drill:</strong> Normal game — but a coach tracks whether each pass is in-system or out-of-system. After the scrimmage, share the in-system percentage. Goal: above 55% as a team in early weeks, above 70% by end of season.</p><p><strong>Coaching Focus:</strong> This reveals who breaks down under live pressure. The players who pass well in drills but poorly in scrimmage need more pressure exposure — more competitive reps, fewer controlled reps.</p></div></div>
+    <div class="drill-card"><div class="drill-card-top"><div class="drill-color-bar" style="background:var(--lime)"></div><div class="drill-top-content"><div class="drill-cat">Advanced</div><div class="drill-name">Random Serve Pressure (Float Focus)</div><div class="drill-meta"><span class="drill-meta-pill">2–4 passers</span><span class="drill-meta-pill">10 min</span><span class="drill-meta-pill">Full court</span></div></div><button class="drill-toggle" onclick="toggleDrill(this)">▼ Details</button></div><div class="drill-expand"><p><strong>Setup:</strong> Coach or strong server hits float serves from various positions on the end line — short angle, deep cross, seam between passers.</p><p><strong>Drill:</strong> Passers receive 5 rounds of 5 serves. After each round, the server gives feedback: "That serve moved late — did you feel it?" Passers learn to identify float movement and adjust platform earlier.</p><p><strong>Coaching Focus:</strong> Teaching passers to absorb the ball rather than swinging at it. Float serves that move late require the passer to "give" with the platform — reduce swing, let the ball compress against a soft platform.</p></div></div>
+    <div class="drill-card"><div class="drill-card-top"><div class="drill-color-bar" style="background:var(--mint)"></div><div class="drill-top-content"><div class="drill-cat">Communication</div><div class="drill-name">Silent Serve Receive</div><div class="drill-meta"><span class="drill-meta-pill">Full team</span><span class="drill-meta-pill">8 min</span><span class="drill-meta-pill">Full court</span></div></div><button class="drill-toggle" onclick="toggleDrill(this)">▼ Details</button></div><div class="drill-expand"><p><strong>Setup:</strong> Standard 3-person or 5-person serve receive formation. Normal serving and passing.</p><p><strong>Drill:</strong> No verbal calling allowed during the ball flight — players must move to the correct position without calling "mine." Any verbal call = that ball is dead. After 10 serves, switch to normal (calling allowed) and compare pass quality.</p><p><strong>Coaching Focus:</strong> This reveals which players rely entirely on verbal calls rather than reading ball trajectory themselves. Players who can pass silently have learned to read — players who can't are reacting to their teammates, not the ball.</p></div></div>
+  </div>
+</div>
+
+<!-- MISTAKES -->
+<div class="pg" id="pg-mistakes">
+  <div class="s-eyebrow">Chapter 7</div>
+  <div class="s-title">Common <em>Mistakes</em></div>
+  <p class="s-desc">Most passing errors at the youth level come from the same small set of fixable problems. Here are the most common ones and how to address them directly in practice.</p>
+  <div class="mistake-stack">
+    <div class="mistake-card"><div class="mc-bar"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">Swinging Arms at the Ball</div><div class="mc-fix"><strong>The Fix:</strong> Arms swinging = player arrived late and is compensating. Run the wall tap drill to reinforce stationary platform. Then work on footwork so the player arrives early enough to present a stationary platform. Tell them: "If your arms need to swing, your feet weren't there in time." Make footwork the priority fix, not the arms themselves.</div></div></div>
+    <div class="mistake-card"><div class="mc-bar"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">Platform Too High — Contacting at Chest Level</div><div class="mc-fix"><strong>The Fix:</strong> Player is not getting under the ball before contact — knees aren't bent enough or they're waiting for the ball standing straight. Run low-ball-only drills: toss balls to knee height and below, forcing the player to drop into proper position. Reinforce: "Contact happens below your waist — get your hips lower than the ball."</div></div></div>
+    <div class="mistake-card"><div class="mc-bar gold"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">Not Calling the Ball</div><div class="mc-fix"><strong>The Fix:</strong> Communication habit, not a physical skill issue. Make calling mandatory in every drill — any ball passed without a verbal "mine" is worth zero points regardless of where it lands. Debrief seam balls every single practice. Players who don't call are either not tracking the ball early enough or lack confidence — address which one it is before prescribing a fix.</div></div></div>
+    <div class="mistake-card"><div class="mc-bar gold"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">Passing With a Crossed Platform</div><div class="mc-fix"><strong>The Fix:</strong> Thumbs crossing over each other instead of pointing parallel. Results in an angled contact surface and unpredictable ball direction. Have the player join hands in front of their face so they can see thumb position clearly. Drill the hand join 20 times before every practice until it becomes automatic muscle memory.</div></div></div>
+    <div class="mistake-card"><div class="mc-bar orange"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">Passing Without Facing the Target</div><div class="mc-fix"><strong>The Fix:</strong> After passing, the player's platform and shoulders should be facing the setter. Players who turn sideways or pass across their body consistently send balls sideways. Reinforce: finish every pass facing Zone 3, where the setter is. Have players freeze their finish and check: "Are your shoulders pointing at the setter?"</div></div></div>
+    <div class="mistake-card"><div class="mc-bar orange"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">Flat-Footed in Serve Receive</div><div class="mc-fix"><strong>The Fix:</strong> Player is standing flat-footed when the server contacts the ball, costing them 0.3–0.5 seconds of reaction time. Teach the "serve hop" — a small weight transfer to the balls of the feet (a mini hop or rock forward) timed to when the server contacts the ball. This primes movement readiness. Drill it explicitly: "When the server's hand hits the ball, you move."</div></div></div>
+  </div>
+</div>
+
+<!-- 4-WEEK PLAN -->
+<div class="pg" id="pg-plan">
+  <div class="s-eyebrow">Chapter 8 · Coach Only</div>
+  <div class="s-title">4-Week Passing<br><em>Development Plan</em></div>
+  <p class="s-desc">This plan builds passing from individual mechanics to full team serve receive in 4 weeks. Each week has one clear focus — resist the urge to jump ahead. Platform issues not fixed in Week 1 compound into Week 3 and become very hard to correct under pressure.</p>
+  <div class="week-grid">
+    <div class="week-card"><div class="week-num">Week 1</div><div class="week-focus" style="color:var(--accent)">Platform Mechanics</div><ul class="week-list"><li>Drill: Platform wall taps — 3 sets of 20 every practice</li><li>Drill: Partner toss-and-pass at 10 feet, straight on only</li><li>Focus: thumb position, contact point, no arm swing</li><li>No angled balls, no serve receive this week</li><li>Goal: Every player passes 15/20 wall taps without swing</li></ul></div>
+    <div class="week-card"><div class="week-num">Week 2</div><div class="week-focus" style="color:var(--gold)">Footwork + Angles</div><ul class="week-list"><li>Drill: Partner toss at angles — left, right, short, deep</li><li>Drill: Mirror angle drill (no ball contact) — 6 min</li><li>Focus: feet move first, body position at contact</li><li>Introduce the 3 footwork patterns explicitly</li><li>Goal: Shuffle and step-through patterns automatic</li></ul></div>
+    <div class="week-card"><div class="week-num">Week 3</div><div class="week-focus" style="color:var(--violet)">Serve Receive</div><ul class="week-list"><li>Drill: 3-Zone Serve Receive with called zones</li><li>Drill: Pass-to-Target Challenge with hoop</li><li>Introduce W-formation or 3-person depending on roster</li><li>Focus: calling seams, reading the server early</li><li>Goal: Team at 55% in-system passes in serve receive</li></ul></div>
+    <div class="week-card"><div class="week-num">Week 4</div><div class="week-focus" style="color:var(--orange)">Pressure + Match</div><ul class="week-list"><li>Drill: Live serve receive scrimmage with tracking</li><li>Drill: Random float serve pressure drill</li><li>Focus: maintaining mechanics under competition pressure</li><li>Debrief after every scrimmage: what % was in-system?</li><li>Goal: 65% in-system, every player has a calling habit</li></ul></div>
+  </div>
+  <div class="content-card accent full"><div class="cc-head"><span class="hi">Tracking Progress</span></div><div class="cc-body">Track two numbers weekly: (1) individual platform mechanics score (out of 10 on the wall tap drill) and (2) team in-system pass percentage during scrimmage. Post both numbers where the team can see them. Players improve faster when they can see their own data improving week over week.</div></div>
+</div>
+
+<script>
+function go(pgId,btnId){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.sn-btn').forEach(b=>b.classList.remove('on'));document.getElementById(pgId).classList.add('on');document.getElementById(btnId).classList.add('on');window.scrollTo({top:0,behavior:'smooth'});}
+function toggleDrill(btn){const expand=btn.closest('.drill-card').querySelector('.drill-expand');const open=expand.classList.toggle('open');btn.textContent=open?'▲ Close':'▼ Details';}
+</script>
+</body>
+</html>

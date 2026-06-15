@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teaching Volleyball Hitting & Attacking</title>
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--void:#09090b;--panel:#111115;--panel2:#18181d;--panel3:#1e1e25;--rim:#28282f;--rim2:#323240;--white:#f0eee8;--off:#b8b4a8;--muted:#606070;--accent:#f04060;--accent-dim:rgba(240,64,96,.08);--accent-glow:rgba(240,64,96,.18);--orange:#f08820;--orange-dim:rgba(240,136,32,.1);--sky:#40b0f0;--sky-dim:rgba(64,176,240,.1);--violet:#a060f0;--violet-dim:rgba(160,96,240,.1);--mint:#40d0a0;--mint-dim:rgba(64,208,160,.1);--gold:#e0b030;--gold-dim:rgba(224,176,48,.1);--lime:#b8e840;--lime-dim:rgba(184,232,64,.08);--head:'Teko',sans-serif;--body:'Inter',sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}body{background:var(--void);color:var(--white);font-family:var(--body);min-height:100vh;overflow-x:hidden;}
+.hero{background:var(--void);position:relative;overflow:hidden;border-bottom:1px solid var(--rim);}
+.hero-inner{max-width:1100px;margin:0 auto;padding:64px 36px 52px;position:relative;z-index:2;}
+.hero-bg-text{position:absolute;right:-40px;bottom:-30px;font-family:var(--head);font-size:220px;font-weight:700;color:rgba(240,64,96,.04);line-height:1;pointer-events:none;z-index:1;white-space:nowrap;}
+.hero-bg-glow{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(240,64,96,.06) 0%,transparent 70%);top:-100px;right:-100px;pointer-events:none;}
+.hero-label{font-family:var(--head);font-size:13px;letter-spacing:5px;color:var(--accent);text-transform:uppercase;margin-bottom:14px;font-weight:600;}
+.hero-h1{font-family:var(--head);font-size:clamp(60px,10vw,120px);font-weight:700;line-height:.88;letter-spacing:1px;margin-bottom:18px;}
+.hero-h1 .line1{display:block;color:var(--white)}.hero-h1 .line2{display:block;color:var(--accent)}.hero-h1 .line3{display:block;color:rgba(240,238,232,.25);font-size:.55em;letter-spacing:3px;margin-top:8px;}
+.hero-desc{font-size:15px;color:var(--off);line-height:1.75;max-width:560px;margin-bottom:28px;}
+.hero-pills{display:flex;gap:8px;flex-wrap:wrap;}.hero-pill{font-size:11px;font-weight:600;letter-spacing:1px;padding:6px 16px;border-radius:100px;border:1px solid var(--rim2);color:var(--muted);}.hero-pill.hi{border-color:rgba(240,64,96,.3);color:var(--accent);background:var(--accent-dim);}
+.snav{background:rgba(9,9,11,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--rim);position:sticky;top:0;z-index:200;display:flex;gap:0;overflow-x:auto;padding:0 24px;}.snav::-webkit-scrollbar{height:0;}
+.sn-btn{font-family:var(--head);font-size:15px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:16px 20px;background:none;border:none;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s;}.sn-btn:hover{color:var(--white);}.sn-btn.on{color:var(--accent);border-bottom-color:var(--accent);}
+.pg{display:none;max-width:1100px;margin:0 auto;padding:48px 36px 80px;}.pg.on{display:block;}
+.s-eyebrow{font-family:var(--head);font-size:12px;letter-spacing:5px;color:var(--accent);text-transform:uppercase;margin-bottom:8px;font-weight:600;}
+.s-title{font-family:var(--head);font-size:clamp(44px,7vw,80px);font-weight:700;line-height:.9;margin-bottom:8px;}.s-title em{color:var(--accent);font-style:normal;}
+.s-desc{font-size:15px;color:var(--off);line-height:1.75;max-width:700px;margin-bottom:40px;}
+.content-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:36px;}@media(max-width:720px){.content-grid{grid-template-columns:1fr;}}
+.content-card{background:var(--panel2);border:1px solid var(--rim);border-radius:14px;padding:24px;}.content-card.full{grid-column:1/-1;}.content-card.accent{border-color:rgba(240,64,96,.25);background:var(--accent-dim);}.content-card.warn{border-color:rgba(240,64,96,.25);background:var(--accent-dim);}.content-card.gold{border-color:rgba(224,176,48,.25);background:var(--gold-dim);}
+.cc-head{font-family:var(--head);font-size:22px;font-weight:600;letter-spacing:1px;margin-bottom:10px;color:var(--white);}.cc-head .hi{color:var(--accent);}.cc-head .gold{color:var(--gold);}
+.cc-body{font-size:14px;color:var(--off);line-height:1.75;}.cc-body strong{color:var(--white);}.cc-body ul{padding-left:18px;margin-top:8px;}.cc-body ul li{margin-bottom:6px;}.cc-body ol{padding-left:18px;margin-top:8px;}.cc-body ol li{margin-bottom:6px;}
+.pillar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:36px;}
+.pillar-card{background:var(--panel2);border:1px solid var(--rim);border-radius:14px;padding:20px 22px;border-left:4px solid var(--accent);}.pillar-card.orange{border-left-color:var(--orange);}.pillar-card.sky{border-left-color:var(--sky);}.pillar-card.violet{border-left-color:var(--violet);}.pillar-card.mint{border-left-color:var(--mint);}.pillar-card.gold{border-left-color:var(--gold);}
+.pillar-num{font-family:var(--head);font-size:11px;font-weight:600;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:4px;}
+.pillar-name{font-family:var(--head);font-size:22px;font-weight:600;letter-spacing:1px;margin-bottom:8px;}
+.pillar-body{font-size:13px;color:var(--off);line-height:1.65;}.pillar-body strong{color:var(--white);}
+.cue-box{background:var(--panel3);border:1px solid var(--rim2);border-radius:10px;padding:14px 16px;margin-top:12px;}
+.cue-label{font-size:10px;font-weight:700;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:6px;}
+.cue-list{display:flex;flex-direction:column;gap:4px;}.cue-item{font-size:13px;color:var(--off);}.cue-item::before{content:'→ ';color:var(--accent);}
+.mistake-stack{display:flex;flex-direction:column;gap:12px;margin-bottom:36px;}
+.mistake-card{background:var(--panel2);border:1px solid var(--rim);border-radius:12px;overflow:hidden;display:flex;}
+.mc-bar{width:6px;flex-shrink:0;background:var(--accent);}.mc-bar.gold{background:var(--gold);}.mc-bar.orange{background:var(--orange);}
+.mc-content{padding:16px 18px;flex:1;}.mc-top{margin-bottom:8px;}.mc-label{font-size:9px;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;}
+.mc-name{font-family:var(--head);font-size:20px;font-weight:600;letter-spacing:.5px;color:var(--white);}
+.mc-fix{font-size:13px;color:var(--off);line-height:1.6;}.mc-fix strong{color:var(--white);}
+.drill-stack{display:flex;flex-direction:column;gap:12px;margin-bottom:36px;}
+.drill-card{background:var(--panel2);border:1px solid var(--rim);border-radius:12px;overflow:hidden;}
+.drill-card-top{display:flex;align-items:stretch;}.drill-color-bar{width:6px;flex-shrink:0;}
+.drill-top-content{flex:1;padding:16px 18px;}.drill-cat{font-size:9px;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:4px;}
+.drill-name{font-family:var(--head);font-size:20px;font-weight:600;line-height:1.1;}
+.drill-meta{display:flex;gap:10px;margin-top:5px;flex-wrap:wrap;}.drill-meta-pill{font-size:10px;font-weight:600;padding:3px 10px;border-radius:100px;border:1px solid var(--rim2);color:var(--muted);}
+.drill-expand{display:none;padding:14px 18px 18px;border-top:1px solid var(--rim);}.drill-expand.open{display:block;}
+.drill-expand p{font-size:13px;color:var(--off);line-height:1.7;margin-bottom:8px;}.drill-expand p:last-child{margin-bottom:0;}.drill-expand strong{color:var(--white);}
+.drill-toggle{padding:10px 18px 12px;background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:1px;color:var(--muted);text-transform:uppercase;transition:color .15s;width:100%;text-align:left;}.drill-toggle:hover{color:var(--accent);}
+.week-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-bottom:36px;}
+.week-card{background:var(--panel2);border:1px solid var(--rim);border-radius:14px;padding:20px 22px;}
+.week-num{font-family:var(--head);font-size:13px;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:6px;}
+.week-focus{font-family:var(--head);font-size:24px;font-weight:600;letter-spacing:.5px;margin-bottom:12px;}
+.week-list{font-size:13px;color:var(--off);line-height:1.65;padding-left:16px;}.week-list li{margin-bottom:5px;}
+.pull-quote{background:var(--accent-dim);border:1px solid rgba(240,64,96,.2);border-radius:14px;padding:28px 32px;margin-bottom:36px;text-align:center;}
+.pq-stat{font-family:var(--head);font-size:72px;font-weight:700;color:var(--accent);line-height:1;}
+.pq-text{font-size:15px;color:var(--off);margin-top:8px;line-height:1.6;}.pq-text strong{color:var(--white);}
+@media(max-width:600px){.pg{padding:32px 18px 60px;}.hero-inner{padding:40px 20px 36px;}.snav{padding:0 12px;}}
+</style>
+</head>
+<body>
+<a href="dashboard.html" id="dash-home-link" title="Back to Dashboard" style="position:fixed;top:14px;left:14px;z-index:9999;display:flex;align-items:center;gap:7px;background:rgba(10,22,40,.92);color:#f04060;font-family:'Teko',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;padding:8px 14px;border-radius:100px;border:1px solid rgba(240,64,96,.3);text-decoration:none;backdrop-filter:blur(6px);box-shadow:0 2px 12px rgba(0,0,0,.25);transition:all .2s;" onmouseover="this.style.background='rgba(240,64,96,.18)'" onmouseout="this.style.background='rgba(10,22,40,.92)'"><span style="font-size:15px;">🐋</span> Dashboard</a>
+<style>@media print{#dash-home-link{display:none!important;}}</style>
+
+<div class="hero">
+  <div class="hero-bg-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-label">Complete Coaching Guide · 7th–9th Grade</div>
+    <div class="hero-h1"><span class="line1">TEACHING</span><span class="line2">HITTING</span><span class="line3">APPROACH · ARM SWING · READING THE BLOCK</span></div>
+    <p class="hero-desc">Hitting is the skill every player wants to learn first — and the one that requires the most complete athletic development. This guide covers the approach, arm swing, contact mechanics, reading the block, hitting angles, and how to build confident attackers who swing in system and out.</p>
+    <div class="hero-pills">
+      <span class="hero-pill hi">💥 4-Step Approach</span>
+      <span class="hero-pill hi">💪 Arm Swing Mechanics</span>
+      <span class="hero-pill hi">👁️ Reading the Block</span>
+      <span class="hero-pill">8 Hitting Drills</span>
+      <span class="hero-pill">Hitting Angles System</span>
+      <span class="hero-pill">Common Mistakes Fixed</span>
+      <span class="hero-pill">4-Week Plan</span>
+    </div>
+  </div>
+  <div class="hero-bg-text">HIT</div>
+</div>
+
+<div class="snav">
+  <button class="sn-btn on" id="t-why" onclick="go('pg-why','t-why')">Why Hitting</button>
+  <button class="sn-btn" id="t-approach" onclick="go('pg-approach','t-approach')">The Approach</button>
+  <button class="sn-btn" id="t-arm" onclick="go('pg-arm','t-arm')">Arm Swing</button>
+  <button class="sn-btn" id="t-contact" onclick="go('pg-contact','t-contact')">Contact &amp; Angles</button>
+  <button class="sn-btn" id="t-block" onclick="go('pg-block','t-block')">Reading the Block</button>
+  <button class="sn-btn" id="t-drills" onclick="go('pg-drills','t-drills')">Drills</button>
+  <button class="sn-btn" id="t-mistakes" onclick="go('pg-mistakes','t-mistakes')">Mistakes</button>
+  <button class="sn-btn" id="t-plan" onclick="go('pg-plan','t-plan')">4-Week Plan</button>
+</div>
+
+<!-- WHY HITTING -->
+<div class="pg on" id="pg-why">
+  <div class="s-eyebrow">Chapter 1</div>
+  <div class="s-title">Building <em>Attackers</em></div>
+  <p class="s-desc">Attacking is what players think about when they first fall in love with volleyball. Developing hitters who can swing confidently, read the defense, and convert in-system and out-of-system sets transforms a passive offense into a match-winning machine.</p>
+  <div class="pull-quote"><div class="pq-stat">3</div><div class="pq-text">Every offensive sequence in volleyball is designed to produce a <strong>3-contact attack: pass, set, hit.</strong> The attacker's job is to make sure that third contact is a weapon — not just a prayer over the net.</div></div>
+  <div class="content-grid">
+    <div class="content-card accent"><div class="cc-head"><span class="hi">Approach First, Arm Swing Second</span></div><div class="cc-body">Most coaches teach arm swing before the approach is consistent. This is backwards. <strong>A player with a perfect 4-step approach and a mediocre arm swing will outscore a player with a powerful arm swing and no approach</strong> — because the approach puts the hitter in the right place at the right time. Approach first, always.</div></div>
+    <div class="content-card"><div class="cc-head">The Attacker's Mindset</div><div class="cc-body">Young hitters are often afraid to swing hard because they're afraid to make errors. This mindset produces soft, easily dug attacks. Build an aggressive mindset: <strong>swing at every ball, aim for a spot, commit to the swing.</strong> A hitter who swings confidently and sometimes hits out has more upside than a hitter who pushes the ball over every time.</div></div>
+    <div class="content-card"><div class="cc-head">What This Guide Covers</div><div class="cc-body"><ul>
+      <li><strong>Approach:</strong> The 4-step footwork pattern, timing, and how the approach generates power</li>
+      <li><strong>Arm Swing:</strong> Loading, high elbow, snap-through, and follow-through</li>
+      <li><strong>Contact & Angles:</strong> Where to hit, how to angle the ball, tipping vs. swinging</li>
+      <li><strong>Reading the Block:</strong> Line vs. cross, tooling the block, and seam attacks</li>
+      <li><strong>Drills & Plan:</strong> 8 drills from shadow swing to live blocking</li>
+    </ul></div></div>
+    <div class="content-card accent"><div class="cc-head"><span class="hi">Safety Note — Young Hitters</span></div><div class="cc-body">Arm swing mechanics must be taught before adding full power. Young players (7th–9th grade) are still developing shoulder stability. <strong>Never ask players to swing at full power before the mechanics are established</strong> — a shoulder injury at 13 can affect a player for years. Build mechanics at 60-70% power, then add speed over weeks.</div></div>
+  </div>
+</div>
+
+<!-- APPROACH -->
+<div class="pg" id="pg-approach">
+  <div class="s-eyebrow">Chapter 2</div>
+  <div class="s-title">The 4-Step <em>Approach</em></div>
+  <p class="s-desc">The approach converts a stationary starting position into explosive upward momentum at the net. Every step matters — timing, angle, and the final plant all determine how high the hitter gets and where they contact the ball.</p>
+  <div class="pillar-grid">
+    <div class="pillar-card"><div class="pillar-num">Step 1</div><div class="pillar-name" style="color:var(--accent)">The First Step (Direction)</div><div class="pillar-body">Right-handed hitters: <strong>left foot first</strong> (small step, setting direction). This first step sets the angle of the entire approach. Start behind the setter, angled toward Zone 4 or the expected set location. The first step is calm — no rushing, just establishing direction.<div class="cue-box"><div class="cue-label">Cues</div><div class="cue-list"><div class="cue-item">"Step toward where you want to end up"</div><div class="cue-item">"First step is direction, not speed"</div></div></div></div></div>
+    <div class="pillar-card orange"><div class="pillar-num">Steps 2–3</div><div class="pillar-name" style="color:var(--orange)">Build Speed (Right-Left)</div><div class="pillar-body">Right-left strides accelerate the approach. <strong>Step 2 (right) is medium speed. Step 3 (left) plants hard</strong> — this is where the body begins to convert horizontal momentum to vertical. Arms begin to swing back on Step 3, loading for the jump.<div class="cue-box"><div class="cue-label" style="color:var(--orange)">Cues</div><div class="cue-list"><div class="cue-item">"Accelerate into the last two steps"</div><div class="cue-item">"Arms swing back on step 3"</div></div></div></div></div>
+    <div class="pillar-card sky"><div class="pillar-num">Step 4</div><div class="pillar-name" style="color:var(--sky)">The Plant (Right — Brake)</div><div class="pillar-body">The right foot plants hard in front of — and slightly to the right of — the left foot. <strong>Both feet end up side by side, parallel to the net.</strong> This "brake" step stops forward momentum and redirects it upward. Arms are fully loaded back behind the body at this point.<div class="cue-box"><div class="cue-label" style="color:var(--sky)">Cues</div><div class="cue-list"><div class="cue-item">"Stomp the right foot to brake and push up"</div><div class="cue-item">"Feet finish parallel to the net"</div><div class="cue-item">"Bend knees on the plant — load the jump"</div></div></div></div></div>
+    <div class="pillar-card violet"><div class="pillar-num">The Jump</div><div class="pillar-name" style="color:var(--violet)">Arm Swing to Vertical</div><div class="pillar-body">Both arms swing forward and up explosively from the loaded-back position. The upward arm swing drives the jump — <strong>a hitter who doesn't use their arms loses 30-40% of jump height.</strong> Leave the ground off both feet, reaching the ball at the peak of the jump.<div class="cue-box"><div class="cue-label" style="color:var(--violet)">Cues</div><div class="cue-list"><div class="cue-item">"Throw your arms at the ceiling to jump higher"</div><div class="cue-item">"Jump off both feet — not one"</div><div class="cue-item">"Reach the peak — don't swing early"</div></div></div></div></div>
+    <div class="pillar-card mint"><div class="pillar-num">Timing</div><div class="pillar-name" style="color:var(--mint)">Reading the Set</div><div class="pillar-body">The approach starts based on the set trajectory — <strong>not when the setter contacts the ball.</strong> A hitter who waits until the ball leaves the setter's hands is always late. Start the approach as the pass arrives to the setter, so the plant happens as the set reaches its peak.<div class="cue-box"><div class="cue-label" style="color:var(--mint)">Cues</div><div class="cue-list"><div class="cue-item">"Start moving when the pass goes to the setter"</div><div class="cue-item">"Arrive early — wait at the net is better than rushing"</div></div></div></div></div>
+    <div class="pillar-card gold"><div class="pillar-num">Angle</div><div class="pillar-name" style="color:var(--gold)">Approach Angle</div><div class="pillar-body">Outside hitters approach from outside the court at a 45-degree angle toward the set. <strong>Never approach straight toward the net</strong> — this eliminates the cross-court angle. The angled approach keeps both line and cross-court options open until the last second.<div class="cue-box"><div class="cue-label" style="color:var(--gold)">Cues</div><div class="cue-list"><div class="cue-item">"Approach from behind and outside — not straight"</div><div class="cue-item">"Your path curves to the net, not runs at it"</div></div></div></div></div>
+  </div>
+</div>
+
+<!-- ARM SWING -->
+<div class="pg" id="pg-arm">
+  <div class="s-eyebrow">Chapter 3</div>
+  <div class="s-title">Arm Swing <em>Mechanics</em></div>
+  <p class="s-desc">The arm swing is the engine of the attack. Power comes from the sequence — load, elbow, snap — not from muscling the ball. A proper arm swing at 70% effort generates more power than a wild swing at 100% effort.</p>
+  <div class="content-grid">
+    <div class="content-card accent"><div class="cc-head"><span class="hi">The Loading Phase</span></div><div class="cc-body">As the hitter jumps, the hitting arm swings back and up — elbow high, forearm dropping behind the head like a throwing motion. This "bow-and-arrow" loading position stores energy. <strong>The non-hitting arm also reaches up</strong> — this helps with balance and rotation. A player who doesn't load loses 40% of potential power.</div></div>
+    <div class="content-card"><div class="cc-head">High Elbow</div><div class="cc-body">The elbow of the hitting arm should be at ear height or above before the swing begins. <strong>Elbow high = power + angle control.</strong> Elbow low = arm push with no snap, ball goes flat and short. Watch every hitter from the side: if the elbow is below the shoulder at the start of the swing, that's the fix.</div></div>
+    <div class="content-card"><div class="cc-head">The Snap-Through</div><div class="cc-body">The swing accelerates from the loaded position through contact — elbow leads, forearm follows, wrist snaps at contact. <strong>The snap at the wrist generates the last 20-30% of power and controls the ball's direction.</strong> Wrist snap over the top = topspin (ball dives down). Wrist snap flat = straight drive. Players who push the ball instead of snapping have no wrist involvement.</div></div>
+    <div class="content-card"><div class="cc-head">Follow-Through</div><div class="cc-body">The arm continues across the body after contact — the hitting arm finishes near the opposite hip. <strong>A full follow-through indicates a complete swing.</strong> Players who stop their arm at contact are decelerating before contact — robbing themselves of power. The follow-through is a result of a complete swing, not something to think about separately.</div></div>
+    <div class="content-card full gold"><div class="cc-head"><span class="gold">Contact Point — Where and When</span></div><div class="cc-body">Contact should happen at <strong>full arm extension above the hitting shoulder</strong> — the highest point the arm can reach at the peak of the jump. Contact too far forward = hitting into the net. Contact too far behind = ball goes out of bounds. Contact at the right point with a wrist snap produces a ball that drives down into the court.<br><br>The contact surface is the <strong>heel of the palm</strong> — the hard base of the hand — not the fingers. Full-palm contact at full extension with a wrist snap is the single most important mechanical combination in attacking.</div></div>
+  </div>
+</div>
+
+<!-- CONTACT & ANGLES -->
+<div class="pg" id="pg-contact">
+  <div class="s-eyebrow">Chapter 4</div>
+  <div class="s-title">Contact &amp; <em>Hitting Angles</em></div>
+  <p class="s-desc">Where you aim matters as much as how hard you hit. A powerful swing at a defender is a free dig. A moderate swing at an open floor is a kill. Teach hitters to see the court — not just the ball.</p>
+  <div class="content-grid">
+    <div class="content-card accent full"><div class="cc-head"><span class="hi">The 3 Hitting Options</span></div><div class="cc-body">Every time a hitter contacts the ball, they have three choices:<br><br>
+      <strong>1. Line:</strong> Ball hit down the sideline on the same side as the hitter. Shorter distance over the net, must thread past the line blocker. Effective when the line blocker is cheating cross-court.<br><br>
+      <strong>2. Cross-Court (Angle):</strong> Ball hit diagonally across to the opposite corner. The most common and most reliable attack — longest distance over the net (hardest for defenders to cover) and widest court area to aim at.<br><br>
+      <strong>3. Cut / Sharp Angle:</strong> Ball hit sharply to the near corner — a very tight cross-court. Risky but unreadable. Only use when the cross-court defender is deep.
+    </div></div>
+    <div class="content-card"><div class="cc-head">Reading Open Floor</div><div class="cc-body">Before every approach, a hitter should take one glance at the defense to see where the open floor is. <strong>This takes 0.2 seconds and should become automatic.</strong> Where is the libero? Where is the right-back defender? A hitter who sees an uncovered corner before jumping can aim there deliberately instead of swinging blind.</div></div>
+    <div class="content-card"><div class="cc-head">Hitting Percentage vs. Power</div><div class="cc-body">At 7th–9th grade, a controlled swing aimed at open court almost always outperforms maximum-power hitting at a defender. <strong>A ball hit at 75% effort to the right spot is a better attack than a ball hit at 100% effort at the wrong spot.</strong> Teach hitters to choose a target, then swing at it — not to swing as hard as possible and hope.</div></div>
+    <div class="content-card"><div class="cc-head">Tipping</div><div class="cc-body">A tip (soft touch over or around the block) is a legitimate attack option — not a cop-out. <strong>The best time to tip:</strong> the block has two hands up and open floor exists behind it (Zone 2 or Zone 3), the set is tight to the net and a full swing risks a net touch, or the hitter is off-balance and needs to get the ball over safely.<br>Bad tips (pushed over the middle of the court to a waiting libero) are not strategy — they're panic. Only tip with a specific target.</div></div>
+  </div>
+</div>
+
+<!-- READING THE BLOCK -->
+<div class="pg" id="pg-block">
+  <div class="s-eyebrow">Chapter 5</div>
+  <div class="s-title">Reading <em>the Block</em></div>
+  <p class="s-desc">A hitter who can read the block and adjust in real time is almost impossible to stop consistently. Block-reading is an advanced skill — but introducing the concepts early gives players a framework to develop over the season.</p>
+  <div class="content-grid">
+    <div class="content-card accent"><div class="cc-head"><span class="hi">The Block Read</span></div><div class="cc-body">Teach hitters to look at the block — not away from it — at the peak of their jump. <strong>What to look for in 0.2 seconds:</strong> Are both hands up? Is there a seam? Is the outside hand angled line or cross? A single glance at the block arms tells the hitter what's open on the other side.</div></div>
+    <div class="content-card"><div class="cc-head">Hitting the Seam</div><div class="cc-body">A seam is a gap between the two blockers' hands. When the middle and outside blockers don't close completely, a hitter can drive the ball through the seam for a kill that neither blocker can reach. <strong>Seam attacks are the highest-percentage attack against a two-person block</strong> — harder to defend than a line or cross-court shot, and doesn't require the hitter to go around the block.</div></div>
+    <div class="content-card"><div class="cc-head">Tooling the Block</div><div class="cc-body">"Tooling" the block means deliberately hitting the ball into the blocker's hands so it deflects out of bounds. <strong>When to tool:</strong> the blockers have a solid wall with no seam and the set is outside enough to access the outside blocker's hand. Aim for the outside edge of the blocker's outside hand — the ball deflects off at an angle and goes out of bounds. This is a smart, intentional attack — not an error.</div></div>
+    <div class="content-card"><div class="cc-head">Roll Shot &amp; Wipe</div><div class="cc-body">A roll shot is a soft, arcing attack that drops behind the block — slower than a full swing but uses the same approach and arm motion. <strong>Use the roll shot</strong> when the back-row defense is deep (Z1, Z5, Z6 all deep) and the zone directly behind the block is open. The "wipe" is the same concept off the blocker's hands — hit the ball off the blocker's hands so it drops on your side for a re-play or deflects out.</div></div>
+    <div class="content-card full"><div class="cc-head">Building Read Habits</div><div class="cc-body">Run blocking-read drills where a coach or player holds a "shield" (two hands in the air) as the hitter approaches. As the hitter jumps, the coach moves the shield left or right — the hitter must hit away from the shield. This trains the eyes-up habit before live blocking pressure is added. Players who practice reading the shield become natural block-readers in match situations.</div></div>
+  </div>
+</div>
+
+<!-- DRILLS -->
+<div class="pg" id="pg-drills">
+  <div class="s-eyebrow">Chapter 6 · Coach Only</div>
+  <div class="s-title">Hitting <em>Drills</em></div>
+  <p class="s-desc">These drills progress from no-ball approach work to full live blocking. Do not rush to live attacking before the approach and arm swing are consistent — live blocking amplifies every mechanical flaw.</p>
+  <div class="drill-stack">
+    <div class="drill-card"><div class="drill-card-top"><div class="drill-color-bar" style="background:var(--accent)"></div><div class="drill-top-content"><div class="drill-cat">Solo · Approach</div><div class="drill-name">Shadow Approach — No Ball</div><div class="drill-meta"><span class="drill-meta-pill">1 player</span><span class="drill-meta-pill">5 min</span><span class="drill-meta-pill">No court needed</span></div></div><button class="drill-toggle" onclick="toggleDrill(this)">▼ Details</button></div><div class="drill-expand"><p><strong>Setup:</strong> Player in open space. No ball needed.</p><p><strong>Drill:</strong> Player runs the 4-step approach at full speed, focusing on the last two steps (the plant) and the jump. Arms swing back and up on the jump. At full extension, "freeze" the hitting position. Coach evaluates: elbow high? arm fully extended? contact point above shoulder? 3 sets of 8 approaches.</p><p><strong>Coaching Focus:</strong> The approach without a ball lets the player focus entirely on footwork and arm load. Most players reveal their footwork issues (wrong step sequence, approach angle) in the first few shadow reps.</p></div></div>
+    <div class="drill-card"><div class="drill-card-top"><div class="drill-color-bar" style="background:var(--orange)"></div><div class="drill-top-content"><div class="drill-cat">Solo · Arm Swing</div><div class="drill-name">Standing Arm Swing Against a Wall</div><div class="drill-meta"><span class="drill-meta-pill">1 player</span><span class="drill-meta-pill">8 min</span><span class="drill-meta-pill">Wall + ball</span></div></div><button class="drill-toggle" onclick="toggleDrill(this)">▼ Details</button></div><div class="drill-expand"><p><strong>Setup:</strong> Player stands 8–10 feet from a wall, self-tosses and hits into the wall.</p><p><strong>Drill:</strong> Self-toss the ball above the hitting shoulder. Swing with proper mechanics: load, high elbow, snap through, follow-through across the body. The ball should hit the wall with backspin — no backspin means no wrist snap. 3 sets of 10.</p><p><strong>Coaching Focus:</strong> Wrist snap at contact. Players who push the ball produce flat contact with no spin. Players with a proper snap produce a ball with forward spin that drives down against the wall. Use this as your wrist-snap diagnostic.</p></div></div>
+    <div class="drill-card"><div class="drill-card-top"><div class="drill-color-bar" style="background:var(--sky)"></div><div class="drill-top-content"><div class="drill-cat">Toss-and-Hit</div><div class="drill-name">Coach Toss Approach Hitting</div><div class="drill-meta"><span class="drill-meta-pill">2–4 players</span><span class="drill-meta-pill">12 min</span><span class="drill-meta-pill">Full court</span></div></div><button class="drill-toggle" onclick="toggleDrill(this)">▼ Details</button></div><div class="drill-expand"><p><strong>Setup:</strong> Coach stands at Zone 3 on the right side of the net, tossing balls to Zone 4. Hitters line up behind Zone 4.</p><p><strong>Drill:</strong> Coach tosses a high ball to Zone 4. Hitter approaches and hits cross-court only (no line) aiming for Zone 1. 15 reps per player. Then switch to line only (Zone 5). Then hitter's choice.</p><p><strong>Coaching Focus:</strong> Contact point. Players hitting into the net are contacting too far forward. Players sending the ball out are contacting too far behind or too flat. Adjust the toss height to find each player's ideal contact point.</p></div></div>
+    <div class="drill-card"><div class="drill-card-top"><div class="drill-color-bar" style="background:var(--violet)"></div><div class="drill-top-content"><div class="drill-cat">Targeting</div><div class="drill-name">3-Cone Hit-to-Target</div><div class="drill-meta"><span class="drill-meta-pill">2–6 players</span><span class="drill-meta-pill">10 min</span><span class="drill-meta-pill">Full court</span></div></div><button class="drill-toggle" onclick="toggleDrill(this)">▼ Details</button></div><div class="drill-expand"><p><strong>Setup:</strong> Three cones placed: Zone 1 (line), Zone 5 (cross-court deep), and Zone 6 (cross-court middle). Coach calls a zone as the hitter is approaching.</p><p><strong>Drill:</strong> Coach calls the zone during the hitter's 3rd step. Hitter must adjust their swing direction to aim for the called zone. Track hits within 3 feet of the cone. First to 10 cone-touches wins.</p><p><strong>Coaching Focus:</strong> Decision-making and body rotation. Hitters who aim line use a later wrist snap and a more square body position. Cross-court hitters rotate the hitting shoulder through earlier. Both adjustments should be visible.</p></div></div>
+    <div class="drill-card"><div class="drill-card-top"><div class="drill-color-bar" style="background:var(--mint)"></div><div class="drill-top-content"><div class="drill-cat">Block Reading</div><div class="drill-name">Shield Read Drill</div><div class="drill-meta"><span class="drill-meta-pill">3 players</span><span class="drill-meta-pill">10 min</span><span class="drill-meta-pill">Full court</span></div></div><button class="drill-toggle" onclick="toggleDrill(this)">▼ Details</button></div><div class="drill-expand"><p><strong>Setup:</strong> Coach or player stands at the net holding two flat hands (the "shield") between Zone 3 and Zone 4. Hitter approaches normally.</p><p><strong>Drill:</strong> As the hitter reaches the peak of the jump, the shield moves either to the line side or cross-court side. The hitter must hit AWAY from the shield. Toss feed, no live setter needed. 15 reps.</p><p><strong>Coaching Focus:</strong> Are the hitter's eyes up at the peak? Players who look down at the ball can't read the shield. Pause and remind them: "At the peak — look up for one second before you swing." This is the entire skill of block-reading compressed into one rep.</p></div></div>
+    <div class="drill-card"><div class="drill-card-top"><div class="drill-color-bar" style="background:var(--gold)"></div><div class="drill-top-content"><div class="drill-cat">Out of System</div><div class="drill-name">High Ball Attack Drill</div><div class="drill-meta"><span class="drill-meta-pill">2–4 players</span><span class="drill-meta-pill">8 min</span><span class="drill-meta-pill">Full court</span></div></div><button class="drill-toggle" onclick="toggleDrill(this)">▼ Details</button></div><div class="drill-expand"><p><strong>Setup:</strong> Coach tosses deliberately high, off-tempo, and slightly off-position balls to Zone 4 — simulating out-of-system sets.</p><p><strong>Drill:</strong> Hitter must adjust their approach timing and still produce a controlled attack. The goal is not a kill — the goal is to get the ball across the net with enough pace to force a dig. Track: did the hitter get it over? Was it hittable? Were they balanced?</p><p><strong>Coaching Focus:</strong> Out-of-system hitting requires patience — waiting for the ball to reach its peak rather than rushing the swing. Players who rush out-of-system swing early, hit the ball flat, and the ball goes into the net.</p></div></div>
+    <div class="drill-card"><div class="drill-card-top"><div class="drill-color-bar" style="background:var(--lime)"></div><div class="drill-top-content"><div class="drill-cat">Live Blocking</div><div class="drill-name">1-on-1 Blocker vs. Hitter</div><div class="drill-meta"><span class="drill-meta-pill">2 players</span><span class="drill-meta-pill">12 min</span><span class="drill-meta-pill">Full court</span></div></div><button class="drill-toggle" onclick="toggleDrill(this)">▼ Details</button></div><div class="drill-expand"><p><strong>Setup:</strong> One blocker at the net, one hitter approaching from Zone 4. Coach tosses to hitter.</p><p><strong>Drill:</strong> Hitter approaches and attacks against a real blocker. Blocker tries to block. Hitter tries to tool, find the seam, or swing around. After 5 attacks, switch. Track: kills vs. blocks vs. errors. Goal: more kills than errors regardless of blocks.</p><p><strong>Coaching Focus:</strong> This is where block-reading becomes real. After each rep, ask the hitter: "Where were the blocker's hands?" If they can't answer, they weren't looking. Debrief every 5 reps.</p></div></div>
+    <div class="drill-card"><div class="drill-card-top"><div class="drill-color-bar" style="background:var(--red)"></div><div class="drill-top-content"><div class="drill-cat">Tip Training</div><div class="drill-name">Tip Placement Drill</div><div class="drill-meta"><span class="drill-meta-pill">2–4 players</span><span class="drill-meta-pill">8 min</span><span class="drill-meta-pill">Full court</span></div></div><button class="drill-toggle" onclick="toggleDrill(this)">▼ Details</button></div><div class="drill-expand"><p><strong>Setup:</strong> Three target cones placed behind Zone 2, Zone 3, and Zone 4 on the opposite side (near the 10-foot line). Two blockers stand at the net.</p><p><strong>Drill:</strong> Coach calls a zone before the hitter's approach. Hitter must tip to that zone using the same approach as a full swing. The blockers jump normally — hitter tips over or around them. 15 reps, track tip accuracy.</p><p><strong>Coaching Focus:</strong> The approach and arm load should look identical to a full swing. A tip that "looks like a tip" will be read and dug by any competent libero. The deception comes from a full approach followed by a soft touch — not from a slow, lazy approach.</p></div></div>
+  </div>
+</div>
+
+<!-- MISTAKES -->
+<div class="pg" id="pg-mistakes">
+  <div class="s-eyebrow">Chapter 7</div>
+  <div class="s-title">Common <em>Mistakes</em></div>
+  <p class="s-desc">Hitting errors at the youth level almost always trace back to approach, arm swing, or contact point. Here are the most common ones and exactly how to fix them.</p>
+  <div class="mistake-stack">
+    <div class="mistake-card"><div class="mc-bar"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">Hitting Into the Net — Contact Too Far Forward</div><div class="mc-fix"><strong>The Fix:</strong> The ball is being contacted too far in front of the body — the arm is fully forward at the moment of contact, driving the ball down and into the net. Fix: have the player toss the ball slightly behind their hitting shoulder (not in front) and make contact directly above the hitting shoulder. The ball should arc UP slightly before coming down. Shadow approach drill: freeze at the top, check contact point position before adding the ball.</div></div></div>
+    <div class="mistake-card"><div class="mc-bar"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">Approaching Too Straight — No Angle Options</div><div class="mc-fix"><strong>The Fix:</strong> Player runs directly at the net instead of curving in from outside. This eliminates the cross-court angle because the hitter's body is already facing line. Run the shadow approach drill with a cone at Zone 4 — the hitter must approach from outside and behind the cone, curving in. The approach path should be a curve (outside-in), not a straight line.</div></div></div>
+    <div class="mistake-card"><div class="mc-bar gold"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">No Arm Load — Pushing the Ball Instead of Swinging</div><div class="mc-fix"><strong>The Fix:</strong> Player's hitting arm stays in front of the body and pushes the ball forward. There is no load (arm going back behind the head) and therefore no power. Run standing arm swing wall drill — make the player exaggerate the load phase: elbow goes back behind the ear before every swing. If they can't get the ball to hit the wall hard from 10 feet, they're not loading. Force the load in every drill until it becomes automatic.</div></div></div>
+    <div class="mistake-card"><div class="mc-bar gold"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">Late Timing — Swinging After the Peak</div><div class="mc-fix"><strong>The Fix:</strong> Player approaches too late and contacts the ball on the way down from the set peak — producing a flat, downward angle that goes out. Fix the approach timing: hitter should start moving as the pass goes to the setter, not after the setter contacts the ball. Run approach timing drills: coach holds the ball, hitter starts the approach, coach releases on Step 2 of the approach. Hitter adjusts timing from there.</div></div></div>
+    <div class="mistake-card"><div class="mc-bar orange"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">Always Hitting the Same Spot</div><div class="mc-fix"><strong>The Fix:</strong> Hitter only hits one direction — usually cross-court — making them completely predictable. Run the 3-cone targeting drill twice per practice until the player can deliberately aim all three zones. Make it competitive: a hitter who can only hit cross-court scores 0 for any cross-court hit in the targeting drill — they must demonstrate line and seam attacks before cross-court counts again.</div></div></div>
+    <div class="mistake-card"><div class="mc-bar orange"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">Eyes Down at the Peak — Can't Read the Block</div><div class="mc-fix"><strong>The Fix:</strong> At the peak of the jump, the player looks down at the ball instead of up at the block. Run the shield read drill — this is exactly what fixes this issue. The player cannot complete the drill correctly without looking up. Make the shield drill a weekly staple. After 3–4 weeks, ask players what the blocker's hands were doing after every live attack — if they can answer, they're developing the eyes-up habit.</div></div></div>
+  </div>
+</div>
+
+<!-- 4-WEEK PLAN -->
+<div class="pg" id="pg-plan">
+  <div class="s-eyebrow">Chapter 8 · Coach Only</div>
+  <div class="s-title">4-Week Hitting<br><em>Development Plan</em></div>
+  <p class="s-desc">Four weeks from shadow approach to live blocking. Don't rush to live hitting before approach and arm swing are locked in — poor mechanics hit at full speed just means the player gets faster at doing it wrong.</p>
+  <div class="week-grid">
+    <div class="week-card"><div class="week-num">Week 1</div><div class="week-focus" style="color:var(--accent)">Approach + Arm Swing</div><ul class="week-list"><li>Drill: Shadow approach (no ball) — 3 sets of 8 every practice</li><li>Drill: Standing arm swing vs. wall</li><li>Focus: 4-step footwork, arm load, high elbow</li><li>No live setting or full attacking this week</li><li>Goal: Correct 4-step sequence automatic, wrist snap visible on wall drill</li></ul></div>
+    <div class="week-card"><div class="week-num">Week 2</div><div class="week-focus" style="color:var(--orange)">Contact + Targeting</div><ul class="week-list"><li>Drill: Coach toss approach hitting (cross-court then line)</li><li>Drill: 3-cone targeting drill</li><li>Focus: contact point above shoulder, wrist snap, 2 directions</li><li>Set to a zone before every approach</li><li>Goal: Hitting 2 out of 3 zones on demand</li></ul></div>
+    <div class="week-card"><div class="week-num">Week 3</div><div class="week-focus" style="color:var(--violet)">Reading + Out of System</div><ul class="week-list"><li>Drill: Shield read drill — 15 reps</li><li>Drill: High ball out-of-system attack drill</li><li>Focus: eyes up at the peak, patience on poor sets</li><li>Introduce live 1v1 blocker vs. hitter</li><li>Goal: More kills than errors in 1v1 drill</li></ul></div>
+    <div class="week-card"><div class="week-num">Week 4</div><div class="week-focus" style="color:var(--gold)">Live Integration</div><ul class="week-list"><li>Drill: Full scrimmage — hitters call zone before approach</li><li>Drill: Tip placement drill with blockers</li><li>Track: kill%, hitting errors, block-outs</li><li>Debrief after every scrimmage: what did you see at the peak?</li><li>Goal: Every hitter has a primary and secondary attack option</li></ul></div>
+  </div>
+  <div class="content-card accent full"><div class="cc-head"><span class="hi">What to Track</span></div><div class="cc-body">Track per hitter weekly: kill percentage (kills ÷ total attacks), hitting errors, and "zone calls made" (did the hitter call their zone before the approach?). Post the results. Hitters who see their kill% improving stay motivated. Hitters who see a high error rate self-correct faster than hitters who never see the data.</div></div>
+</div>
+
+<script>
+function go(pgId,btnId){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.sn-btn').forEach(b=>b.classList.remove('on'));document.getElementById(pgId).classList.add('on');document.getElementById(btnId).classList.add('on');window.scrollTo({top:0,behavior:'smooth'});}
+function toggleDrill(btn){const expand=btn.closest('.drill-card').querySelector('.drill-expand');const open=expand.classList.toggle('open');btn.textContent=open?'▲ Close':'▼ Details';}
+</script>
+</body>
+</html>
