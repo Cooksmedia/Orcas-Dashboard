@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orcas Game Schedule — Summer 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0B1B2D;--navy2:#112240;--blue:#1E4FA3;--blue2:#2860CC;
+  --cyan:#00D4C8;--gold:#F0B429;--green:#38D97A;--red:#F04060;
+  --white:#fff;--off:#E8EEF8;--muted:#6B7689;
+  --panel:#fff;--border:#D6E0F5;
+  --head:'Barlow Condensed',sans-serif;--body:'Barlow',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:#F0F4FF;color:var(--navy);font-family:var(--body);min-height:100vh;}
+
+.topbar{background:var(--navy);color:#fff;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;border-bottom:3px solid var(--cyan);}
+.tb-brand{font-family:var(--head);font-size:18px;font-weight:800;letter-spacing:2px;color:#fff;display:flex;align-items:center;gap:10px;}
+.tb-brand span{color:var(--cyan);}
+.tb-links{display:flex;gap:10px;flex-wrap:wrap;}
+.tb-link{font-family:var(--head);font-size:12px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.6);text-decoration:none;padding:6px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.1);transition:all .2s;white-space:nowrap;}
+.tb-link:hover{color:#fff;border-color:var(--cyan);}
+.tb-link.live{background:var(--blue);border-color:var(--blue);color:#fff;}
+.tb-link.live:hover{background:var(--blue2);}
+
+.hero{background:linear-gradient(160deg,#0B1B2D 0%,#0D2444 50%,#1E4FA3 100%);padding:52px 20px 44px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:url('orcas-banner.png') center/cover no-repeat;opacity:.1;}
+.hero-inner{position:relative;z-index:2;}
+.hero-eyebrow{font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:4px;color:var(--cyan);text-transform:uppercase;margin-bottom:12px;}
+.hero-title{font-family:var(--head);font-size:clamp(44px,8vw,80px);font-weight:900;color:#fff;letter-spacing:1px;line-height:1;margin-bottom:8px;}
+.hero-title em{color:var(--cyan);font-style:normal;}
+.hero-sub{font-size:14px;color:rgba(255,255,255,.55);margin-bottom:28px;}
+.hero-stats{display:flex;justify-content:center;gap:36px;flex-wrap:wrap;}
+.hs{text-align:center;}
+.hs-num{font-family:var(--head);font-size:38px;font-weight:900;color:var(--cyan);line-height:1;}
+.hs-label{font-size:10px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.4);text-transform:uppercase;margin-top:2px;}
+
+.wrap{max-width:860px;margin:0 auto;padding:32px 16px 80px;}
+
+.record-card{background:var(--navy);border-radius:16px;padding:24px 28px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.record-label{font-family:var(--head);font-size:10px;font-weight:700;letter-spacing:3px;color:var(--cyan);text-transform:uppercase;margin-bottom:6px;}
+.record-num{font-family:var(--head);font-size:52px;font-weight:900;color:#fff;line-height:1;}
+.w{color:var(--green);}.sep{color:rgba(255,255,255,.3);margin:0 6px;}.l{color:var(--red);}
+.record-standing{font-size:13px;color:rgba(255,255,255,.4);margin-top:6px;}
+.qs-btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--head);font-size:14px;font-weight:700;letter-spacing:1px;background:var(--blue);color:#fff;padding:12px 22px;border-radius:10px;text-decoration:none;transition:all .2s;border:none;cursor:pointer;white-space:nowrap;}
+.qs-btn:hover{background:var(--blue2);transform:translateY(-1px);}
+.qs-btn.outline{background:transparent;border:2px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);}
+.qs-btn.outline:hover{border-color:var(--cyan);color:var(--cyan);}
+
+.section-label{font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:3px;color:var(--blue);text-transform:uppercase;margin-bottom:14px;}
+.game-stack{display:flex;flex-direction:column;gap:12px;margin-bottom:32px;}
+
+.game-card{background:var(--panel);border:1.5px solid var(--border);border-radius:16px;overflow:hidden;transition:all .2s;}
+.game-card:hover{box-shadow:0 6px 24px rgba(30,79,163,.1);}
+.game-card.next{border-color:var(--cyan);box-shadow:0 4px 20px rgba(0,212,200,.15);}
+.game-card.win{border-left:5px solid var(--green);}
+.game-card.loss{border-left:5px solid var(--red);}
+.game-card.upcoming{border-left:5px solid var(--blue);}
+.game-card.bye{border-left:5px solid rgba(107,118,137,.3);background:#fafbfd;}
+
+.gc-top{display:flex;align-items:stretch;}
+.gc-week{flex-shrink:0;width:60px;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 6px;}
+.gc-week-num{font-family:var(--head);font-size:9px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.35);text-transform:uppercase;}
+.gc-week-n{font-family:var(--head);font-size:28px;font-weight:900;color:#fff;line-height:1;}
+.gc-main{flex:1;padding:16px 20px;min-width:0;}
+.gc-meta{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
+.gc-date{font-family:var(--head);font-size:14px;font-weight:700;color:var(--navy);}
+.gc-time{font-family:var(--head);font-size:13px;color:var(--muted);}
+.gc-badge{font-family:var(--head);font-size:10px;font-weight:700;letter-spacing:2px;padding:3px 10px;border-radius:100px;text-transform:uppercase;}
+.badge-next{background:rgba(0,212,200,.12);color:#0D9488;border:1px solid rgba(0,212,200,.3);}
+.badge-bye{background:rgba(107,118,137,.1);color:var(--muted);}
+.badge-upcoming{background:rgba(30,79,163,.1);color:var(--blue);}
+.badge-win{background:rgba(56,217,122,.12);color:#1a7a40;}
+.badge-loss{background:rgba(240,64,96,.1);color:var(--red);}
+
+.gc-matchup{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
+.gc-team{flex:1;min-width:0;}
+.gc-team-name{font-family:var(--head);font-size:17px;font-weight:800;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.gc-team-name.orcas{color:var(--blue);}
+.gc-team-sub{font-size:11px;color:var(--muted);margin-top:1px;}
+.gc-vs{font-family:var(--head);font-size:13px;font-weight:700;color:rgba(107,118,137,.5);letter-spacing:1px;flex-shrink:0;}
+.gc-score{flex-shrink:0;display:flex;align-items:center;gap:4px;margin-left:8px;}
+.gc-score-num{font-family:var(--head);font-size:28px;font-weight:900;line-height:1;}
+.gc-score-num.orcas{color:var(--blue);}.gc-score-num.opp{color:var(--muted);}
+.gc-score-sep{font-family:var(--head);font-size:18px;color:rgba(107,118,137,.35);}
+.gc-score-tbd{font-family:var(--head);font-size:15px;color:rgba(107,118,137,.4);letter-spacing:2px;}
+.gc-location{font-size:13px;color:var(--muted);}
+.gc-location a{color:var(--blue);text-decoration:none;font-weight:600;}
+.gc-location a:hover{text-decoration:underline;}
+.gc-side{flex-shrink:0;width:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fafbfd;border-left:1px solid var(--border);}
+.gc-ha{font-family:var(--head);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;writing-mode:vertical-rl;text-orientation:mixed;}
+.gc-ha.home{color:var(--green);}.gc-ha.away{color:var(--muted);}
+
+.gc-bye-inner{padding:20px;display:flex;align-items:center;gap:16px;}
+.gc-bye-icon{font-size:26px;}
+.gc-bye-text{font-family:var(--head);font-size:16px;color:var(--muted);}
+
+.standings-card{background:var(--panel);border:1.5px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:28px;}
+.standings-head{background:var(--navy);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.standings-title{font-family:var(--head);font-size:18px;font-weight:800;letter-spacing:1px;color:#fff;}
+.standings-sub{font-size:12px;color:rgba(255,255,255,.4);}
+table{width:100%;border-collapse:collapse;}
+th{font-family:var(--head);font-size:10px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;padding:10px 16px;text-align:left;border-bottom:1px solid var(--border);background:#fafbfd;}
+td{padding:12px 16px;border-bottom:1px solid var(--border);font-size:14px;}
+tr:last-child td{border-bottom:none;}
+tr.orcas-row td{font-weight:700;color:var(--blue);background:rgba(30,79,163,.04);}
+td.rec{font-family:var(--head);font-size:16px;font-weight:700;}
+
+.locations-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:28px;}
+.loc-card{background:var(--panel);border:1.5px solid var(--border);border-radius:14px;padding:18px 20px;}
+.loc-name{font-family:var(--head);font-size:16px;font-weight:800;color:var(--navy);margin-bottom:4px;}
+.loc-weeks{font-size:12px;color:var(--muted);margin-bottom:10px;}
+.map-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--head);font-size:12px;font-weight:700;letter-spacing:1px;color:var(--blue);text-decoration:none;padding:7px 14px;border:1.5px solid rgba(30,79,163,.2);border-radius:8px;transition:all .2s;}
+.map-btn:hover{background:rgba(30,79,163,.07);border-color:var(--blue);}
+
+.qs-card{background:var(--panel);border:1.5px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:28px;}
+.qs-card-head{background:var(--navy);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.qs-card-title{font-family:var(--head);font-size:18px;font-weight:800;color:#fff;letter-spacing:1px;}
+.qs-card-body{padding:20px;}
+
+@media(max-width:600px){
+  .hero{padding:36px 14px 30px;}
+  .gc-side{display:none;}
+  .record-card{flex-direction:column;align-items:flex-start;}
+  .hero-stats{gap:18px;}
+  .gc-matchup{flex-direction:column;align-items:flex-start;gap:6px;}
+  .gc-score{margin-left:0;}
+}
+@media print{.topbar,.qs-card{display:none;}body{background:#fff;}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="tb-brand">🐋 <span>ORCAS</span> VOLLEYBALL</div>
+  <div class="tb-links">
+    <a href="https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=vosymca&LeagueID=1718550&TeamID=15142941" target="_blank" class="tb-link live">🔴 Live QuickScores</a>
+    <a href="dashboard.html" class="tb-link">← Dashboard</a>
+    <a href="player-portal.html" class="tb-link">🐋 Player Hub</a>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">East Valley Y's · Competitive 7th–9th Grade D3 · Valley of the Sun YMCA</div>
+    <div class="hero-title">Summer <em>2026</em><br>Schedule</div>
+    <div class="hero-sub">CGY: Patricia Melendez · Volleyball Competitive</div>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-num">5</div><div class="hs-label">Games</div></div>
+      <div class="hs"><div class="hs-num">6</div><div class="hs-label">Weeks</div></div>
+      <div class="hs"><div class="hs-num">3</div><div class="hs-label">Venues</div></div>
+      <div class="hs"><div class="hs-num">Aug 1</div><div class="hs-label">Final Game</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- RECORD -->
+  <div class="record-card">
+    <div>
+      <div class="record-label">Season Record</div>
+      <div class="record-num"><span class="w" id="wins">0</span><span class="sep">–</span><span class="l" id="losses">0</span></div>
+      <div class="record-standing">East Valley Y's · D3 · Summer 2026 — update after each game</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <a href="https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=vosymca&LeagueID=1718550&TeamID=15142941" target="_blank" class="qs-btn">🔴 Live Scores &amp; Results</a>
+      <a href="https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=vosymca&LeagueID=1718550" target="_blank" class="qs-btn outline">Full League Standings ↗</a>
+    </div>
+  </div>
+
+  <!-- SCHEDULE -->
+  <div class="section-label">📅 Game Schedule</div>
+  <div class="game-stack">
+
+    <!-- WEEK 1 — next game -->
+    <div class="game-card upcoming next">
+      <div class="gc-top">
+        <div class="gc-week"><div class="gc-week-num">Wk</div><div class="gc-week-n">1</div></div>
+        <div class="gc-main">
+          <div class="gc-meta">
+            <span class="gc-date">Sat, June 28, 2026</span>
+            <span class="gc-time">12:50 – 1:40 PM</span>
+            <span class="gc-badge badge-next">🔜 Next Game</span>
+          </div>
+          <div class="gc-matchup">
+            <div class="gc-team">
+              <div class="gc-team-name orcas">🐋 Orcas</div>
+              <div class="gc-team-sub">CGY: Patricia Melendez · Home</div>
+            </div>
+            <div class="gc-vs">VS</div>
+            <div class="gc-team" style="text-align:right;">
+              <div class="gc-team-name">Hannah Lemieux 2</div>
+              <div class="gc-team-sub">CGY · Away</div>
+            </div>
+            <div class="gc-score"><span class="gc-score-tbd">TBD</span></div>
+          </div>
+          <div class="gc-location">📍 <a href="https://maps.google.com/?q=Chandler+Gilbert+YMCA+Chandler+AZ" target="_blank">Chandler/Gilbert YMCA — Main Court</a></div>
+        </div>
+        <div class="gc-side"><div class="gc-ha home">HOME</div></div>
+      </div>
+    </div>
+
+    <!-- WEEK 2 — BYE -->
+    <div class="game-card bye">
+      <div class="gc-top">
+        <div class="gc-week"><div class="gc-week-num">Wk</div><div class="gc-week-n">2</div></div>
+        <div class="gc-bye-inner">
+          <div class="gc-bye-icon">🎆</div>
+          <div>
+            <div class="gc-date" style="margin-bottom:4px;">Sat, July 4, 2026</div>
+            <div class="gc-bye-text">No Games — Happy 4th of July!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 3 -->
+    <div class="game-card upcoming">
+      <div class="gc-top">
+        <div class="gc-week"><div class="gc-week-num">Wk</div><div class="gc-week-n">3</div></div>
+        <div class="gc-main">
+          <div class="gc-meta">
+            <span class="gc-date">Sat, July 11, 2026</span>
+            <span class="gc-time">8:00 – 8:50 AM</span>
+            <span class="gc-badge badge-upcoming">Upcoming</span>
+          </div>
+          <div class="gc-matchup">
+            <div class="gc-team">
+              <div class="gc-team-name orcas">🐋 Orcas</div>
+              <div class="gc-team-sub">CGY: Patricia Melendez · Home</div>
+            </div>
+            <div class="gc-vs">VS</div>
+            <div class="gc-team" style="text-align:right;">
+              <div class="gc-team-name">Kim Higginbotham</div>
+              <div class="gc-team-sub">TFY · Away</div>
+            </div>
+            <div class="gc-score"><span class="gc-score-tbd">TBD</span></div>
+          </div>
+          <div class="gc-location">📍 <a href="https://maps.google.com/?q=Aspire+Volleyball+Gym+Tempe+AZ" target="_blank">Aspire Volleyball Gym — Court 2</a></div>
+        </div>
+        <div class="gc-side"><div class="gc-ha home">HOME</div></div>
+      </div>
+    </div>
+
+    <!-- WEEK 4 -->
+    <div class="game-card upcoming">
+      <div class="gc-top">
+        <div class="gc-week"><div class="gc-week-num">Wk</div><div class="gc-week-n">4</div></div>
+        <div class="gc-main">
+          <div class="gc-meta">
+            <span class="gc-date">Sat, July 18, 2026</span>
+            <span class="gc-time">12:50 – 1:40 PM</span>
+            <span class="gc-badge badge-upcoming">Upcoming</span>
+          </div>
+          <div class="gc-matchup">
+            <div class="gc-team">
+              <div class="gc-team-name">Kailey Ball</div>
+              <div class="gc-team-sub">CGY · Home</div>
+            </div>
+            <div class="gc-vs">VS</div>
+            <div class="gc-team" style="text-align:right;">
+              <div class="gc-team-name orcas">🐋 Orcas</div>
+              <div class="gc-team-sub">CGY: Patricia Melendez · Away</div>
+            </div>
+            <div class="gc-score"><span class="gc-score-tbd">TBD</span></div>
+          </div>
+          <div class="gc-location">📍 <a href="https://maps.google.com/?q=Chandler+Gilbert+YMCA+Chandler+AZ" target="_blank">Chandler/Gilbert YMCA — Main Court</a></div>
+        </div>
+        <div class="gc-side"><div class="gc-ha away">AWAY</div></div>
+      </div>
+    </div>
+
+    <!-- WEEK 5 -->
+    <div class="game-card upcoming">
+      <div class="gc-top">
+        <div class="gc-week"><div class="gc-week-num">Wk</div><div class="gc-week-n">5</div></div>
+        <div class="gc-main">
+          <div class="gc-meta">
+            <span class="gc-date">Sat, July 25, 2026</span>
+            <span class="gc-time">12:50 – 1:40 PM</span>
+            <span class="gc-badge badge-upcoming">Upcoming</span>
+          </div>
+          <div class="gc-matchup">
+            <div class="gc-team">
+              <div class="gc-team-name orcas">🐋 Orcas</div>
+              <div class="gc-team-sub">CGY: Patricia Melendez · Home</div>
+            </div>
+            <div class="gc-vs">VS</div>
+            <div class="gc-team" style="text-align:right;">
+              <div class="gc-team-name">Marco Dominguez (Tsunami)</div>
+              <div class="gc-team-sub">RFEV · Away</div>
+            </div>
+            <div class="gc-score"><span class="gc-score-tbd">TBD</span></div>
+          </div>
+          <div class="gc-location">📍 <a href="https://maps.google.com/?q=East+Valley+YMCA+Mesa+AZ" target="_blank">East Valley YMCA — Main Court</a></div>
+        </div>
+        <div class="gc-side"><div class="gc-ha home">HOME</div></div>
+      </div>
+    </div>
+
+    <!-- WEEK 6 -->
+    <div class="game-card upcoming">
+      <div class="gc-top">
+        <div class="gc-week"><div class="gc-week-num">Wk</div><div class="gc-week-n">6</div></div>
+        <div class="gc-main">
+          <div class="gc-meta">
+            <span class="gc-date">Sat, August 1, 2026</span>
+            <span class="gc-time">1:00 – 1:50 PM</span>
+            <span class="gc-badge badge-upcoming">Upcoming</span>
+          </div>
+          <div class="gc-matchup">
+            <div class="gc-team">
+              <div class="gc-team-name">Chris Coleman (Gold)</div>
+              <div class="gc-team-sub">CGY · Home</div>
+            </div>
+            <div class="gc-vs">VS</div>
+            <div class="gc-team" style="text-align:right;">
+              <div class="gc-team-name orcas">🐋 Orcas</div>
+              <div class="gc-team-sub">CGY: Patricia Melendez · Away</div>
+            </div>
+            <div class="gc-score"><span class="gc-score-tbd">TBD</span></div>
+          </div>
+          <div class="gc-location">📍 <a href="https://maps.google.com/?q=Chandler+Gilbert+YMCA+Chandler+AZ" target="_blank">Chandler/Gilbert YMCA — Main Court</a></div>
+        </div>
+        <div class="gc-side"><div class="gc-ha away">AWAY</div></div>
+      </div>
+    </div>
+
+  </div><!-- end game-stack -->
+
+  <!-- STANDINGS -->
+  <div class="section-label">📊 League Standings</div>
+  <div class="standings-card">
+    <div class="standings-head">
+      <div>
+        <div class="standings-title">East Valley Y's — D3</div>
+        <div class="standings-sub">East Valley · Summer 2026 · Volleyball Competitive</div>
+      </div>
+      <a href="https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=vosymca&LeagueID=1718550" target="_blank" class="qs-btn" style="font-size:12px;padding:9px 16px;">Live Standings ↗</a>
+    </div>
+    <table>
+      <thead>
+        <tr><th>Team</th><th>W–L</th><th>Pct</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>AHW: Jeanell Schwab</td><td class="rec">0–0</td><td>.000</td></tr>
+        <tr><td>AHW: Nicholas Starck &amp; Paul Rodriguez</td><td class="rec">0–0</td><td>.000</td></tr>
+        <tr><td>CGY: Bobby Cade</td><td class="rec">0–0</td><td>.000</td></tr>
+        <tr><td>CGY: Coach Chris Coleman (Gold)</td><td class="rec">0–0</td><td>.000</td></tr>
+        <tr><td>CGY: Hannah Lemieux 2</td><td class="rec">0–0</td><td>.000</td></tr>
+        <tr><td>CGY: Kailey Ball</td><td class="rec">0–0</td><td>.000</td></tr>
+        <tr class="orcas-row"><td>🐋 CGY: Patricia Melendez <em style="font-size:11px;color:var(--cyan);font-style:normal;">(Orcas)</em></td><td class="rec">0–0</td><td>.000</td></tr>
+        <tr><td>RFEV: Clinton Graves</td><td class="rec">0–0</td><td>.000</td></tr>
+        <tr><td>RFEV: Marco Dominguez (Tsunami)</td><td class="rec">0–0</td><td>.000</td></tr>
+        <tr><td>TFY: Kim Higginbotham</td><td class="rec">0–0</td><td>.000</td></tr>
+      </tbody>
+    </table>
+    <div style="padding:12px 16px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);">⚡ Standings update live on QuickScores after each game is scored.</div>
+  </div>
+
+  <!-- VENUES -->
+  <div class="section-label">📍 Game Venues</div>
+  <div class="locations-grid">
+    <div class="loc-card">
+      <div class="loc-name">Chandler/Gilbert YMCA</div>
+      <div class="loc-weeks">Main Court · Weeks 1, 4, 6</div>
+      <a href="https://maps.google.com/?q=Chandler+Gilbert+YMCA+Chandler+AZ" target="_blank" class="map-btn">🗺 Get Directions</a>
+    </div>
+    <div class="loc-card">
+      <div class="loc-name">Aspire Volleyball Gym</div>
+      <div class="loc-weeks">Court 2 · Week 3</div>
+      <a href="https://maps.google.com/?q=Aspire+Volleyball+Gym+Tempe+AZ" target="_blank" class="map-btn">🗺 Get Directions</a>
+    </div>
+    <div class="loc-card">
+      <div class="loc-name">East Valley YMCA</div>
+      <div class="loc-weeks">Main Court · Week 5</div>
+      <a href="https://maps.google.com/?q=East+Valley+YMCA+Mesa+AZ" target="_blank" class="map-btn">🗺 Get Directions</a>
+    </div>
+  </div>
+
+  <!-- OFFICIAL QS LINK -->
+  <div class="qs-card">
+    <div class="qs-card-head">
+      <div class="qs-card-title">📋 Official QuickScores Page</div>
+      <a href="https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=vosymca&LeagueID=1718550&TeamID=15142941" target="_blank" class="qs-btn" style="font-size:12px;padding:9px 16px;">Open ↗</a>
+    </div>
+    <div class="qs-card-body">
+      <p style="font-size:14px;color:var(--muted);margin-bottom:16px;">Scores and standings on this page are updated manually after each game. For real-time results and official data, QuickScores is the source of truth.</p>
+      <a href="https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=vosymca&LeagueID=1718550&TeamID=15142941" target="_blank" class="qs-btn" style="width:100%;justify-content:center;font-size:16px;padding:16px;">
+        🔴 View Live Scores &amp; Official Results on QuickScores
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Count wins and losses from card classes
+const w = document.querySelectorAll('.game-card.win').length;
+const l = document.querySelectorAll('.game-card.loss').length;
+document.getElementById('wins').textContent = w;
+document.getElementById('losses').textContent = l;
+</script>
+</body>
+</html>
