@@ -90,6 +90,8 @@ body{background:#F0F4FF;color:var(--navy);font-family:var(--body);min-height:100
 .gc-location{font-size:13px;color:var(--muted);}
 .gc-location a{color:var(--blue);text-decoration:none;font-weight:600;}
 .gc-location a:hover{text-decoration:underline;}
+.gc-snack{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:13px;color:var(--muted);}
+.gc-snack-chip{font-family:var(--head);font-size:12px;font-weight:700;letter-spacing:1px;background:rgba(240,180,41,.12);color:#B8860B;border:1px solid rgba(240,180,41,.3);padding:3px 12px;border-radius:100px;}
 .gc-side{flex-shrink:0;width:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fafbfd;border-left:1px solid var(--border);}
 .gc-ha{font-family:var(--head);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;writing-mode:vertical-rl;text-orientation:mixed;}
 .gc-ha.home{color:var(--green);}.gc-ha.away{color:var(--muted);}
@@ -199,6 +201,7 @@ td.rec{font-family:var(--head);font-size:16px;font-weight:700;}
             <div class="gc-score"><span class="gc-score-tbd">TBD</span></div>
           </div>
           <div class="gc-location">📍 <a href="https://maps.google.com/?q=Chandler+Gilbert+YMCA+Chandler+AZ" target="_blank">Chandler/Gilbert YMCA — Main Court</a></div>
+          <div class="gc-snack">🍊 <span>Snack Duty:</span><span class="gc-snack-chip">Jewel</span></div>
         </div>
         <div class="gc-side"><div class="gc-ha home">HOME</div></div>
       </div>
@@ -241,6 +244,7 @@ td.rec{font-family:var(--head);font-size:16px;font-weight:700;}
             <div class="gc-score"><span class="gc-score-tbd">TBD</span></div>
           </div>
           <div class="gc-location">📍 <a href="https://maps.google.com/?q=Aspire+Volleyball+Gym+Tempe+AZ" target="_blank">Aspire Volleyball Gym — Court 2</a></div>
+          <div class="gc-snack">🍊 <span>Snack Duty:</span><span class="gc-snack-chip">Jessa</span></div>
         </div>
         <div class="gc-side"><div class="gc-ha home">HOME</div></div>
       </div>
@@ -269,6 +273,7 @@ td.rec{font-family:var(--head);font-size:16px;font-weight:700;}
             <div class="gc-score"><span class="gc-score-tbd">TBD</span></div>
           </div>
           <div class="gc-location">📍 <a href="https://maps.google.com/?q=Chandler+Gilbert+YMCA+Chandler+AZ" target="_blank">Chandler/Gilbert YMCA — Main Court</a></div>
+          <div class="gc-snack">🍊 <span>Snack Duty:</span><span class="gc-snack-chip">Audrianna</span></div>
         </div>
         <div class="gc-side"><div class="gc-ha away">AWAY</div></div>
       </div>
@@ -297,6 +302,7 @@ td.rec{font-family:var(--head);font-size:16px;font-weight:700;}
             <div class="gc-score"><span class="gc-score-tbd">TBD</span></div>
           </div>
           <div class="gc-location">📍 <a href="https://maps.google.com/?q=East+Valley+YMCA+Mesa+AZ" target="_blank">East Valley YMCA — Main Court</a></div>
+          <div class="gc-snack">🍊 <span>Snack Duty:</span><span class="gc-snack-chip">Lily</span></div>
         </div>
         <div class="gc-side"><div class="gc-ha home">HOME</div></div>
       </div>
@@ -325,12 +331,65 @@ td.rec{font-family:var(--head);font-size:16px;font-weight:700;}
             <div class="gc-score"><span class="gc-score-tbd">TBD</span></div>
           </div>
           <div class="gc-location">📍 <a href="https://maps.google.com/?q=Chandler+Gilbert+YMCA+Chandler+AZ" target="_blank">Chandler/Gilbert YMCA — Main Court</a></div>
+          <div class="gc-snack">🍊 <span>Snack Duty:</span><span class="gc-snack-chip">Ruby</span></div>
         </div>
         <div class="gc-side"><div class="gc-ha away">AWAY</div></div>
       </div>
     </div>
 
   </div><!-- end game-stack -->
+
+  <!-- PLAYOFFS -->
+  <div class="section-label">🏆 Playoffs — Snack Schedule</div>
+  <div class="game-stack">
+
+    <div class="game-card upcoming" style="border-left-color:var(--gold);">
+      <div class="gc-top">
+        <div class="gc-week" style="background:linear-gradient(160deg,#0B1B2D,#7A4F00);"><div class="gc-week-num">Play</div><div class="gc-week-n" style="font-size:20px;">offs</div></div>
+        <div class="gc-main">
+          <div class="gc-meta">
+            <span class="gc-badge" style="background:rgba(240,180,41,.15);color:#B8860B;border:1px solid rgba(240,180,41,.3);">🏆 Game 1</span>
+          </div>
+          <div class="gc-matchup">
+            <div class="gc-team">
+              <div class="gc-team-name orcas">🐋 Orcas</div>
+              <div class="gc-team-sub">Playoff Game 1 — TBD</div>
+            </div>
+            <div class="gc-vs">VS</div>
+            <div class="gc-team" style="text-align:right;">
+              <div class="gc-team-name">TBD</div>
+              <div class="gc-team-sub">Opponent &amp; date TBD</div>
+            </div>
+          </div>
+          <div class="gc-snack">🍊 <span>Snack Duty:</span><span class="gc-snack-chip">Itzy</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="game-card upcoming" style="border-left-color:var(--gold);">
+      <div class="gc-top">
+        <div class="gc-week" style="background:linear-gradient(160deg,#0B1B2D,#7A4F00);"><div class="gc-week-num">Play</div><div class="gc-week-n" style="font-size:20px;">offs</div></div>
+        <div class="gc-main">
+          <div class="gc-meta">
+            <span class="gc-badge" style="background:rgba(240,180,41,.15);color:#B8860B;border:1px solid rgba(240,180,41,.3);">🏆 Game 2</span>
+          </div>
+          <div class="gc-matchup">
+            <div class="gc-team">
+              <div class="gc-team-name orcas">🐋 Orcas</div>
+              <div class="gc-team-sub">Playoff Game 2 — TBD</div>
+            </div>
+            <div class="gc-vs">VS</div>
+            <div class="gc-team" style="text-align:right;">
+              <div class="gc-team-name">TBD</div>
+              <div class="gc-team-sub">Opponent &amp; date TBD</div>
+            </div>
+          </div>
+          <div class="gc-snack">🍊 <span>Snack Duty:</span><span class="gc-snack-chip">Aubriella</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end playoffs -->
 
   <!-- STANDINGS -->
   <div class="section-label">📊 League Standings</div>
