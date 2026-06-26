@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orcas Analytics Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0B1B2D;--navy2:#112240;--blue:#1E4FA3;--blue2:#2860CC;
+  --cyan:#00D4C8;--gold:#F0B429;--green:#38D97A;--red:#F04060;
+  --violet:#a060f0;--orange:#f08820;
+  --white:#fff;--muted:#6B7689;--border:#D6E0F5;
+  --head:'Barlow Condensed',sans-serif;--body:'Barlow',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#F0F4FF;color:var(--navy);font-family:var(--body);min-height:100vh;}
+
+/* TOPBAR */
+.topbar{background:var(--navy);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--cyan);}
+.tb-brand{font-family:var(--head);font-size:18px;font-weight:800;letter-spacing:2px;color:#fff;}
+.tb-brand span{color:var(--cyan);}
+.tb-back{font-family:var(--head);font-size:13px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.6);text-decoration:none;padding:7px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.15);transition:all .2s;}
+.tb-back:hover{color:#fff;border-color:var(--cyan);}
+
+/* HERO */
+.hero{background:linear-gradient(160deg,#0B1B2D 0%,#112240 60%,#1E4FA3 100%);padding:44px 20px 36px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:url('orcas-banner.png') center/cover no-repeat;opacity:.08;}
+.hero-inner{max-width:1000px;margin:0 auto;position:relative;z-index:2;}
+.hero-eyebrow{font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:4px;color:var(--cyan);text-transform:uppercase;margin-bottom:10px;}
+.hero-title{font-family:var(--head);font-size:clamp(36px,6vw,64px);font-weight:900;color:#fff;letter-spacing:1px;line-height:1;margin-bottom:8px;}
+.hero-title em{color:var(--cyan);font-style:normal;}
+.hero-sub{font-size:14px;color:rgba(255,255,255,.55);margin-bottom:24px;}
+.hero-id{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,200,.1);border:1px solid rgba(0,212,200,.25);border-radius:10px;padding:8px 16px;font-family:var(--head);font-size:14px;font-weight:700;letter-spacing:1px;color:var(--cyan);}
+
+/* WRAP */
+.wrap{max-width:1000px;margin:0 auto;padding:32px 16px 80px;}
+
+/* QUICK LAUNCH */
+.section-label{font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:3px;color:var(--blue);text-transform:uppercase;margin-bottom:14px;margin-top:28px;}
+
+.launch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:8px;}
+.launch-card{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:22px 24px;text-decoration:none;color:var(--navy);transition:all .2s;display:block;}
+.launch-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(30,79,163,.12);border-color:var(--cyan);}
+.lc-icon{font-size:32px;margin-bottom:12px;}
+.lc-title{font-family:var(--head);font-size:20px;font-weight:800;letter-spacing:.5px;margin-bottom:4px;}
+.lc-desc{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:14px;}
+.lc-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--head);font-size:13px;font-weight:700;letter-spacing:1px;padding:9px 18px;border-radius:9px;color:#fff;transition:all .2s;}
+.lc-btn.blue{background:var(--blue);}
+.lc-btn.blue:hover{background:var(--blue2);}
+.lc-btn.teal{background:#0D9488;}
+.lc-btn.teal:hover{background:#0f766e;}
+.lc-btn.violet{background:var(--violet);}
+.lc-btn.violet:hover{filter:brightness(1.1);}
+.lc-btn.gold{background:#B8860B;}
+.lc-btn.gold:hover{filter:brightness(1.1);}
+.lc-btn.green{background:#1a7a40;}
+.lc-btn.green:hover{filter:brightness(1.1);}
+
+/* WHAT IT MEANS CARDS */
+.guide-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:8px;}
+.guide-card{background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:18px 20px;}
+.guide-card-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.guide-icon{font-size:22px;}
+.guide-title{font-family:var(--head);font-size:16px;font-weight:800;color:var(--navy);}
+.guide-body{font-size:13px;color:var(--muted);line-height:1.6;}
+.guide-body strong{color:var(--navy);}
+.guide-tip{margin-top:8px;font-size:12px;font-weight:600;color:var(--blue);background:rgba(30,79,163,.06);padding:6px 10px;border-radius:7px;border-left:3px solid var(--blue);}
+
+/* PROPERTY INFO */
+.prop-card{background:var(--navy);border-radius:16px;padding:24px 28px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.prop-info{display:flex;flex-direction:column;gap:6px;}
+.prop-row{display:flex;align-items:center;gap:10px;}
+.prop-label{font-family:var(--head);font-size:10px;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,.35);text-transform:uppercase;min-width:80px;}
+.prop-val{font-family:var(--head);font-size:15px;font-weight:700;color:#fff;}
+.prop-val.cyan{color:var(--cyan);}
+.ga-btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--head);font-size:14px;font-weight:700;letter-spacing:1px;background:var(--blue);color:#fff;padding:12px 22px;border-radius:10px;text-decoration:none;transition:all .2s;border:none;cursor:pointer;}
+.ga-btn:hover{background:var(--blue2);}
+
+/* TIPS */
+.tips-card{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:24px 28px;}
+.tips-title{font-family:var(--head);font-size:20px;font-weight:800;color:var(--navy);margin-bottom:16px;}
+.tip-row{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.tip-row:last-child{border-bottom:none;padding-bottom:0;}
+.tip-num{font-family:var(--head);font-size:22px;font-weight:900;color:var(--cyan);min-width:28px;line-height:1;}
+.tip-text{font-size:14px;color:var(--muted);line-height:1.6;}
+.tip-text strong{color:var(--navy);}
+
+@media(max-width:600px){
+  .hero{padding:32px 14px 28px;}
+  .prop-card{flex-direction:column;}
+  .launch-grid{grid-template-columns:1fr;}
+  .guide-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="tb-brand">🐋 <span>ORCAS</span> — Analytics</div>
+  <a href="dashboard.html" class="tb-back">← Dashboard</a>
+</div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Coach Dashboard · Player Hub Analytics</div>
+    <div class="hero-title">Hub <em>Analytics</em></div>
+    <div class="hero-sub">Track who's visiting the Player Hub, which pages they're using, and how often.</div>
+    <div class="hero-id">📊 Property: Orcas Player Hub &nbsp;·&nbsp; G-KTGRMVG865</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- PROPERTY CARD -->
+  <div class="prop-card">
+    <div class="prop-info">
+      <div class="prop-row"><span class="prop-label">Account</span><span class="prop-val">Orcas Volleyball</span></div>
+      <div class="prop-row"><span class="prop-label">Property</span><span class="prop-val">Orcas Player Hub</span></div>
+      <div class="prop-row"><span class="prop-label">Measure ID</span><span class="prop-val cyan">G-KTGRMVG865</span></div>
+      <div class="prop-row"><span class="prop-label">Tracking</span><span class="prop-val cyan">✓ Active on 11 pages</span></div>
+    </div>
+    <a href="https://analytics.google.com/analytics/web/#/p543345667/reports/reportinghub" target="_blank" class="ga-btn">
+      📊 Open Google Analytics ↗
+    </a>
+  </div>
+
+  <!-- QUICK LAUNCH -->
+  <div class="section-label">⚡ Quick Launch — Jump To Your Reports</div>
+  <div class="launch-grid">
+
+    <div class="launch-card">
+      <div class="lc-icon">🔴</div>
+      <div class="lc-title">Realtime Overview</div>
+      <div class="lc-desc">See who is on the Player Hub <strong>right now</strong> — active users, which pages they're on, and where they're coming from.</div>
+      <a href="https://analytics.google.com/analytics/web/#/p543345667/realtime/overview" target="_blank" class="lc-btn blue">View Realtime ↗</a>
+    </div>
+
+    <div class="launch-card">
+      <div class="lc-icon">📄</div>
+      <div class="lc-title">Pages & Screens</div>
+      <div class="lc-desc">See which pages players visit most — are they using the skill guides? Watching game film? Checking the schedule?</div>
+      <a href="https://analytics.google.com/analytics/web/#/p543345667/reports/explorer?params=_u..nav%3Dmaui%26_r.explorerCard..startRow%3D0%26_r.explorerCard..rowsPerPage%3D10&r=all-pages-and-screens&ruid=all-pages-and-screens,life-cycle,engagement&collectionId=life-cycle" target="_blank" class="lc-btn teal">View Pages ↗</a>
+    </div>
+
+    <div class="launch-card">
+      <div class="lc-icon">👥</div>
+      <div class="lc-title">Users & Sessions</div>
+      <div class="lc-desc">Total visitors over time — see spikes after you share the hub link, and track whether usage grows week over week.</div>
+      <a href="https://analytics.google.com/analytics/web/#/p543345667/reports/explorer?params=_u..nav%3Dmaui&r=user-acquisition-v2&ruid=user-acquisition-v2,life-cycle,acquisition&collectionId=life-cycle" target="_blank" class="lc-btn violet">View Users ↗</a>
+    </div>
+
+    <div class="launch-card">
+      <div class="lc-icon">📱</div>
+      <div class="lc-title">Devices & Tech</div>
+      <div class="lc-desc">See what devices players use — phone vs desktop, iOS vs Android. Useful for making sure the hub looks right on the most common device.</div>
+      <a href="https://analytics.google.com/analytics/web/#/p543345667/reports/explorer?params=_u..nav%3Dmaui&r=tech-overview&ruid=tech-overview,life-cycle,engagement&collectionId=life-cycle" target="_blank" class="lc-btn gold">View Devices ↗</a>
+    </div>
+
+    <div class="launch-card">
+      <div class="lc-icon">📍</div>
+      <div class="lc-title">Location</div>
+      <div class="lc-desc">See where visitors are located — confirms Phoenix area families are using the hub and flags any unusual traffic.</div>
+      <a href="https://analytics.google.com/analytics/web/#/p543345667/reports/explorer?params=_u..nav%3Dmaui&r=demographic-overview&ruid=demographic-overview,life-cycle,audience&collectionId=life-cycle" target="_blank" class="lc-btn green">View Locations ↗</a>
+    </div>
+
+    <div class="launch-card">
+      <div class="lc-icon">📈</div>
+      <div class="lc-title">Reports Home</div>
+      <div class="lc-desc">Full Google Analytics home for the Orcas Player Hub property — all reports, all data, date range controls.</div>
+      <a href="https://analytics.google.com/analytics/web/#/p543345667/reports/reportinghub" target="_blank" class="lc-btn blue">Open Full GA ↗</a>
+    </div>
+
+  </div>
+
+  <!-- WHAT IT MEANS -->
+  <div class="section-label">📖 What The Numbers Mean — Coach's Guide</div>
+  <div class="guide-grid">
+
+    <div class="guide-card">
+      <div class="guide-card-head"><div class="guide-icon">👤</div><div class="guide-title">Active Users</div></div>
+      <div class="guide-body">People who visited the hub in the selected time period. <strong>Check this after sharing the hub link</strong> to see how many parents/players clicked it.</div>
+      <div class="guide-tip">Good benchmark: 20+ users in the 24hrs after you share the link</div>
+    </div>
+
+    <div class="guide-card">
+      <div class="guide-card-head"><div class="guide-icon">📄</div><div class="guide-title">Top Pages</div></div>
+      <div class="guide-body">Which pages get the most visits. If the <strong>Skill Guides</strong> are at the top, players are self-studying. If only the home page shows, they're not going deeper.</div>
+      <div class="guide-tip">Goal: see skill guide pages in the top 5</div>
+    </div>
+
+    <div class="guide-card">
+      <div class="guide-card-head"><div class="guide-icon">⏱️</div><div class="guide-title">Avg Engagement Time</div></div>
+      <div class="guide-body">How long people spend on each page. <strong>Under 10 seconds</strong> = they bounced. <strong>Over 60 seconds</strong> = they're actually reading and using it.</div>
+      <div class="guide-tip">Skill guides should show 1–3 min average</div>
+    </div>
+
+    <div class="guide-card">
+      <div class="guide-card-head"><div class="guide-icon">🔄</div><div class="guide-title">Sessions</div></div>
+      <div class="guide-body">One session = one visit. A player who visits Monday and again Wednesday counts as 2 sessions. More sessions = players coming back regularly.</div>
+      <div class="guide-tip">Returning users means the hub is valuable</div>
+    </div>
+
+    <div class="guide-card">
+      <div class="guide-card-head"><div class="guide-icon">📱</div><div class="guide-title">Device Type</div></div>
+      <div class="guide-body">Mobile vs desktop. Expect <strong>80%+ mobile</strong> — 7th–9th graders use phones. If mobile % is low, parents (on laptops) are the main users.</div>
+      <div class="guide-tip">High mobile = players are using it directly</div>
+    </div>
+
+    <div class="guide-card">
+      <div class="guide-card-head"><div class="guide-icon">📍</div><div class="guide-title">Location</div></div>
+      <div class="guide-body">Should show <strong>Phoenix / Chandler / Mesa / Gilbert</strong> area. If you see traffic from unexpected locations, someone shared the link publicly.</div>
+      <div class="guide-tip">All traffic should be East Valley AZ</div>
+    </div>
+
+  </div>
+
+  <!-- COACH TIPS -->
+  <div class="section-label">💡 How To Use Analytics As A Coach</div>
+  <div class="tips-card">
+    <div class="tips-title">5 Things to Check Weekly</div>
+    <div class="tip-row">
+      <div class="tip-num">1</div>
+      <div class="tip-text"><strong>After sharing the hub link</strong> — open Realtime Overview within 30 minutes. You'll see exactly how many people clicked your link and which page they landed on.</div>
+    </div>
+    <div class="tip-row">
+      <div class="tip-num">2</div>
+      <div class="tip-text"><strong>Check Pages & Screens weekly</strong> — if players are only visiting the home page and never going to Skill Guides or the Perimeter Defense page, you know you need to point them there directly at practice.</div>
+    </div>
+    <div class="tip-row">
+      <div class="tip-num">3</div>
+      <div class="tip-text"><strong>Spike after game day</strong> — check if traffic spikes after each Saturday game. Players who check the Game Schedule or Game Film right after a game are engaged. Players who don't visit at all after a game need a reminder.</div>
+    </div>
+    <div class="tip-row">
+      <div class="tip-num">4</div>
+      <div class="tip-text"><strong>Before tournament</strong> — open Pages & Screens and check if the Perimeter Defense page has visits in the 48 hours before game day. That tells you who is actually studying the system.</div>
+    </div>
+    <div class="tip-row">
+      <div class="tip-num">5</div>
+      <div class="tip-text"><strong>Month-over-month</strong> — set the date range to "Last 30 days" and compare to the previous month. Growing visit counts = the hub is becoming a habit. Flat or declining = time to re-promote it to the team.</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
