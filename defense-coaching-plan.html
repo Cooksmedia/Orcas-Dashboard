@@ -164,6 +164,74 @@ body{background:var(--void);color:var(--white);font-family:var(--body);min-heigh
   .snav{padding:0 10px;}
   .court{max-width:100%;}
 }
+
+
+/* ══ MOBILE COURT DIAGRAMS ══ */
+@media(max-width:520px){
+  /* Hide the complex absolute-position SVG courts on small phones */
+  .court{display:none!important;}
+  
+  /* Show the text court instead */
+  .court-mobile{display:block!important;}
+  
+  /* Make dot labels visible */
+  .legend{margin-top:0;}
+}
+
+/* Text-based court for mobile */
+.court-mobile{
+  display:none;
+  width:100%;
+  max-width:380px;
+  margin:0 auto;
+  background:var(--panel2);
+  border:1.5px solid var(--rim2);
+  border-radius:12px;
+  overflow:hidden;
+  font-family:var(--head);
+}
+.cm-net{
+  background:rgba(255,255,255,.08);
+  border-bottom:2px solid rgba(255,255,255,.2);
+  padding:6px 10px;
+  font-size:9px;letter-spacing:3px;color:rgba(255,255,255,.3);
+  text-align:center;text-transform:uppercase;
+}
+.cm-row{
+  display:flex;border-bottom:1px solid rgba(255,255,255,.05);
+}
+.cm-row:last-child{border-bottom:none;}
+.cm-cell{
+  flex:1;padding:10px 6px;text-align:center;
+  font-size:10px;font-weight:700;letter-spacing:.5px;
+  border-right:1px solid rgba(255,255,255,.05);
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+}
+.cm-cell:last-child{border-right:none;}
+.cm-badge{
+  font-size:9px;font-weight:800;letter-spacing:.5px;
+  padding:3px 7px;border-radius:6px;
+  display:block;white-space:nowrap;
+}
+.cm-pos{font-size:8px;color:var(--muted);}
+.cm-10ft{background:rgba(255,255,255,.03);border-bottom:1px dashed rgba(255,255,255,.1);}
+.cm-10ft-label{font-size:8px;letter-spacing:2px;color:rgba(255,255,255,.2);padding:3px 10px;text-align:center;}
+
+@media(max-width:500px){
+  .dot,.dot-sky,.dot-mint,.dot-gold,.dot-red,.dot-orange,.dot-violet{
+    width:28px!important;height:28px!important;font-size:9px!important;
+  }
+  .dot-label{font-size:7px!important;top:calc(100% + 2px)!important;}
+  .court,.court-diagram{
+    max-width:100%!important;
+    margin-left:auto;margin-right:auto;
+  }
+  .court-wrap{padding:0 4px;}
+  .court-section{overflow-x:auto;}
+  .zl{font-size:8px!important;}
+  .legend{gap:10px!important;}
+  .leg-item{font-size:9px!important;}
+}
 </style>
 </head>
 <body>
@@ -245,6 +313,27 @@ body{background:var(--void);color:var(--white);font-family:var(--body);min-heigh
         <div class="dot dot-gold" style="left:12%;top:90%"><span>Z5</span><span class="dot-label">Libero (LB)</span></div>
         <div class="dot dot-mint" style="left:50%;top:92%"><span>Z6</span><span class="dot-label">Middle Back</span></div>
         <div class="dot dot-mint" style="left:88%;top:83%"><span>Z1</span><span class="dot-label">Right Back</span></div>
+
+      <!-- Mobile court: BASE -->
+      <div class="court-mobile">
+        <div class="cm-net">← NET (opponent side) →</div>
+        <div class="cm-row">
+          <div class="cm-cell"><span class="cm-badge" style="background:rgba(64,176,240,.2);color:var(--sky)">OB</span><span class="cm-pos">Outside<br>Blocker</span></div>
+          <div class="cm-cell"><span class="cm-badge" style="background:rgba(64,176,240,.2);color:var(--sky)">MB</span><span class="cm-pos">Middle<br>Blocker</span></div>
+          <div class="cm-cell" style="opacity:.3"><span class="cm-badge" style="background:var(--rim2);color:var(--muted)">—</span><span class="cm-pos">Z2</span></div>
+        </div>
+        <div class="cm-10ft"><div class="cm-10ft-label">— 10-FOOT LINE —</div></div>
+        <div class="cm-row cm-10ft">
+          <div class="cm-cell"><span class="cm-badge" style="background:rgba(160,96,240,.15);color:var(--violet)">Z4</span><span class="cm-pos">Off-Block<br>(tip cover)</span></div>
+          <div class="cm-cell" style="opacity:.3"><span class="cm-badge" style="background:var(--rim2);color:var(--muted)">—</span></div>
+          <div class="cm-cell" style="opacity:.3"><span class="cm-badge" style="background:var(--rim2);color:var(--muted)">—</span></div>
+        </div>
+        <div class="cm-row">
+          <div class="cm-cell"><span class="cm-badge" style="background:rgba(224,176,48,.2);color:var(--gold)">Z5</span><span class="cm-pos">Libero<br>Deep Left</span></div>
+          <div class="cm-cell"><span class="cm-badge" style="background:rgba(64,208,160,.15);color:var(--mint)">Z6</span><span class="cm-pos">Middle<br>Back</span></div>
+          <div class="cm-cell"><span class="cm-badge" style="background:rgba(64,208,160,.15);color:var(--mint)">Z1</span><span class="cm-pos">Right<br>Back</span></div>
+        </div>
+      </div>
       </div>
       <div class="legend">
         <div class="leg-item"><div class="leg-dot" style="border-color:var(--sky);background:rgba(64,176,240,.15)"></div>Blockers</div>
@@ -369,6 +458,27 @@ body{background:var(--void);color:var(--white);font-family:var(--body);min-heigh
         <div class="dot dot-mint" style="left:45%;top:93%"><span>Z6</span><span class="dot-label">Middle Back</span></div>
         <!-- Z1 Right back — deep right LINE -->
         <div class="dot dot-mint" style="left:88%;top:80%"><span>Z1</span><span class="dot-label">LINE (deep right)</span></div>
+
+      <!-- Mobile court: OUTSIDE ATTACK Z4 -->
+      <div class="court-mobile">
+        <div class="cm-net">← ATTACK from Z4 (left side) ↙</div>
+        <div class="cm-row">
+          <div class="cm-cell"><span class="cm-badge" style="background:rgba(64,176,240,.2);color:var(--sky)">OB</span><span class="cm-pos">Outside<br>Blocker</span></div>
+          <div class="cm-cell"><span class="cm-badge" style="background:rgba(64,176,240,.2);color:var(--sky)">MB</span><span class="cm-pos">Middle<br>Blocker</span></div>
+          <div class="cm-cell" style="opacity:.3"><span class="cm-badge" style="background:var(--rim2);color:var(--muted)">—</span></div>
+        </div>
+        <div class="cm-10ft"><div class="cm-10ft-label">— 10-FOOT LINE —</div></div>
+        <div class="cm-row cm-10ft">
+          <div class="cm-cell" style="opacity:.3"><span class="cm-badge" style="background:var(--rim2);color:var(--muted)">—</span></div>
+          <div class="cm-cell" style="opacity:.3"><span class="cm-badge" style="background:var(--rim2);color:var(--muted)">—</span></div>
+          <div class="cm-cell"><span class="cm-badge" style="background:rgba(160,96,240,.15);color:var(--violet)">Z2</span><span class="cm-pos">Tip Cover<br>Right Front</span></div>
+        </div>
+        <div class="cm-row">
+          <div class="cm-cell"><span class="cm-badge" style="background:rgba(224,176,48,.2);color:var(--gold)">Z5</span><span class="cm-pos">Libero<br>CROSS-COURT</span></div>
+          <div class="cm-cell"><span class="cm-badge" style="background:rgba(64,208,160,.15);color:var(--mint)">Z6</span><span class="cm-pos">Deep<br>Center-Left</span></div>
+          <div class="cm-cell"><span class="cm-badge" style="background:rgba(64,208,160,.15);color:var(--mint)">Z1</span><span class="cm-pos">⬅️ LINE<br>Deep Right</span></div>
+        </div>
+      </div>
       </div>
       <div class="legend">
         <div class="leg-item"><div class="leg-dot" style="border-color:var(--sky);background:rgba(64,176,240,.15)"></div>Blockers</div>
@@ -475,6 +585,27 @@ body{background:var(--void);color:var(--white);font-family:var(--body);min-heigh
         <div class="dot dot-mint" style="left:55%;top:93%"><span>Z6</span><span class="dot-label">Middle Back</span></div>
         <!-- Z5 Libero — deep LEFT LINE -->
         <div class="dot dot-gold" style="left:12%;top:80%"><span>Z5</span><span class="dot-label">Libero (LINE)</span></div>
+
+      <!-- Mobile court: RIGHT-SIDE ATTACK Z2 -->
+      <div class="court-mobile">
+        <div class="cm-net">ATTACK from Z2 (right side) ↘ →</div>
+        <div class="cm-row">
+          <div class="cm-cell" style="opacity:.3"><span class="cm-badge" style="background:var(--rim2);color:var(--muted)">—</span></div>
+          <div class="cm-cell"><span class="cm-badge" style="background:rgba(64,176,240,.2);color:var(--sky)">MB</span><span class="cm-pos">Middle<br>Blocker</span></div>
+          <div class="cm-cell"><span class="cm-badge" style="background:rgba(64,176,240,.2);color:var(--sky)">RS</span><span class="cm-pos">Right-Side<br>Blocker</span></div>
+        </div>
+        <div class="cm-10ft"><div class="cm-10ft-label">— 10-FOOT LINE —</div></div>
+        <div class="cm-row cm-10ft">
+          <div class="cm-cell"><span class="cm-badge" style="background:rgba(160,96,240,.15);color:var(--violet)">Z4</span><span class="cm-pos">Tip Cover<br>Left Front</span></div>
+          <div class="cm-cell" style="opacity:.3"><span class="cm-badge" style="background:var(--rim2);color:var(--muted)">—</span></div>
+          <div class="cm-cell" style="opacity:.3"><span class="cm-badge" style="background:var(--rim2);color:var(--muted)">—</span></div>
+        </div>
+        <div class="cm-row">
+          <div class="cm-cell"><span class="cm-badge" style="background:rgba(224,176,48,.2);color:var(--gold)">Z5</span><span class="cm-pos">Libero<br>➡️ LINE Deep Left</span></div>
+          <div class="cm-cell"><span class="cm-badge" style="background:rgba(64,208,160,.15);color:var(--mint)">Z6</span><span class="cm-pos">Deep<br>Center-Right</span></div>
+          <div class="cm-cell"><span class="cm-badge" style="background:rgba(64,208,160,.15);color:var(--mint)">Z1</span><span class="cm-pos">CROSS<br>Deep Right</span></div>
+        </div>
+      </div>
       </div>
       <div class="legend">
         <div class="leg-item"><div class="leg-dot" style="border-color:var(--sky);background:rgba(64,176,240,.15)"></div>Blockers</div>
