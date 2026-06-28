@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orcas Defense Coaching Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#09090b;--panel:#111115;--panel2:#18181d;--panel3:#1e1e25;
+  --rim:#28282f;--rim2:#323240;--white:#f0eee8;--off:#b8b4a8;--muted:#606070;
+  --sky:#40b0f0;--sky-dim:rgba(64,176,240,.08);
+  --mint:#40d0a0;--mint-dim:rgba(64,208,160,.08);
+  --orange:#f08820;--orange-dim:rgba(240,136,32,.08);
+  --red:#f04060;--red-dim:rgba(240,64,96,.1);
+  --gold:#e0b030;--gold-dim:rgba(224,176,48,.08);
+  --violet:#a060f0;--violet-dim:rgba(160,96,240,.08);
+  --lime:#b8e840;--lime-dim:rgba(184,232,64,.08);
+  --head:'Teko',sans-serif;--body:'Inter',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--void);color:var(--white);font-family:var(--body);min-height:100vh;overflow-x:hidden;}
+
+/* NAV */
+.snav{background:rgba(9,9,11,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--rim);position:sticky;top:0;z-index:200;display:flex;gap:0;overflow-x:auto;padding:0 20px;}
+.snav::-webkit-scrollbar{height:0;}
+.sn-btn{font-family:var(--head);font-size:14px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:15px 18px;background:none;border:none;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s;}
+.sn-btn:hover{color:var(--white);}
+.sn-btn.base.on{color:var(--sky);border-bottom-color:var(--sky);}
+.sn-btn.outside.on{color:var(--mint);border-bottom-color:var(--mint);}
+.sn-btn.right.on{color:var(--orange);border-bottom-color:var(--orange);}
+.sn-btn.practice.on{color:var(--gold);border-bottom-color:var(--gold);}
+
+/* HERO */
+.hero{background:linear-gradient(160deg,#09090b 0%,#0d1520 60%,#0a2040 100%);padding:56px 36px 48px;position:relative;overflow:hidden;border-bottom:1px solid var(--rim);}
+.hero-bg{position:absolute;right:-80px;bottom:-40px;font-family:var(--head);font-size:240px;font-weight:700;color:rgba(64,176,240,.03);line-height:1;pointer-events:none;white-space:nowrap;}
+.hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(64,176,240,.05) 0%,transparent 70%);top:-200px;right:-150px;pointer-events:none;}
+.hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:2;}
+.hero-eyebrow{font-family:var(--head);font-size:11px;font-weight:600;letter-spacing:5px;color:var(--sky);text-transform:uppercase;margin-bottom:14px;}
+.hero-h1{font-family:var(--head);font-size:clamp(52px,9vw,110px);font-weight:700;line-height:.88;margin-bottom:16px;}
+.hero-h1 .l1{display:block;color:var(--white);}
+.hero-h1 .l2{display:block;color:var(--sky);}
+.hero-h1 .l3{display:block;color:rgba(240,238,232,.2);font-size:.45em;letter-spacing:4px;margin-top:10px;}
+.hero-desc{font-size:15px;color:var(--off);line-height:1.75;max-width:620px;margin-bottom:28px;}
+.hero-pills{display:flex;gap:8px;flex-wrap:wrap;}
+.hpill{font-size:11px;font-weight:600;letter-spacing:1px;padding:6px 16px;border-radius:100px;border:1px solid var(--rim2);color:var(--muted);}
+.hpill.sky{border-color:rgba(64,176,240,.3);color:var(--sky);background:var(--sky-dim);}
+.hpill.mint{border-color:rgba(64,208,160,.3);color:var(--mint);background:var(--mint-dim);}
+.hpill.orange{border-color:rgba(240,136,32,.3);color:var(--orange);background:var(--orange-dim);}
+
+/* PAGES */
+.pg{display:none;max-width:1100px;margin:0 auto;padding:48px 36px 80px;}
+.pg.on{display:block;}
+.eyebrow{font-family:var(--head);font-size:12px;letter-spacing:5px;text-transform:uppercase;margin-bottom:8px;font-weight:600;}
+.eyebrow.sky{color:var(--sky);}
+.eyebrow.mint{color:var(--mint);}
+.eyebrow.orange{color:var(--orange);}
+.eyebrow.gold{color:var(--gold);}
+.s-title{font-family:var(--head);font-size:clamp(40px,7vw,76px);font-weight:700;line-height:.9;margin-bottom:10px;}
+.s-title em{font-style:normal;}
+.s-title.sky em{color:var(--sky);}
+.s-title.mint em{color:var(--mint);}
+.s-title.orange em{color:var(--orange);}
+.s-title.gold em{color:var(--gold);}
+.s-desc{font-size:15px;color:var(--off);line-height:1.75;max-width:700px;margin-bottom:40px;}
+
+/* CARDS */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:32px;}
+@media(max-width:720px){.grid{grid-template-columns:1fr;}}
+.card{background:var(--panel2);border:1px solid var(--rim);border-radius:14px;padding:22px 24px;}
+.card.full{grid-column:1/-1;}
+.card.sky{border-color:rgba(64,176,240,.25);background:var(--sky-dim);}
+.card.mint{border-color:rgba(64,208,160,.25);background:var(--mint-dim);}
+.card.orange{border-color:rgba(240,136,32,.25);background:var(--orange-dim);}
+.card.gold{border-color:rgba(224,176,48,.25);background:var(--gold-dim);}
+.card.red{border-color:rgba(240,64,96,.25);background:var(--red-dim);}
+.card.violet{border-color:rgba(160,96,240,.25);background:var(--violet-dim);}
+.ch{font-family:var(--head);font-size:22px;font-weight:600;letter-spacing:.5px;margin-bottom:10px;color:var(--white);}
+.ch .sky{color:var(--sky);}
+.ch .mint{color:var(--mint);}
+.ch .orange{color:var(--orange);}
+.ch .gold{color:var(--gold);}
+.ch .red{color:var(--red);}
+.cb{font-size:14px;color:var(--off);line-height:1.75;}
+.cb strong{color:var(--white);}
+.cb ul{padding-left:18px;margin-top:8px;}
+.cb li{margin-bottom:6px;}
+.cb ol{padding-left:18px;margin-top:8px;}
+.cb ol li{margin-bottom:6px;}
+
+/* COURT SVG DIAGRAMS */
+.court-section{margin-bottom:36px;}
+.court-label-top{font-family:var(--head);font-size:11px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;text-align:center;margin-bottom:10px;}
+.court-wrap{display:flex;flex-direction:column;align-items:center;gap:16px;}
+.court{width:100%;max-width:420px;aspect-ratio:1/1.75;background:var(--panel2);border:1.5px solid var(--rim2);border-radius:12px;position:relative;overflow:hidden;}
+.court-net{position:absolute;top:50%;left:0;right:0;height:3px;background:rgba(255,255,255,.25);}
+.court-net-label{position:absolute;top:50%;left:8px;font-family:var(--head);font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.25);transform:translateY(-50%);}
+.court-10ft{position:absolute;top:66.6%;left:0;right:0;height:1px;border-top:1px dashed rgba(255,255,255,.1);}
+.zl{position:absolute;font-family:var(--head);font-size:10px;color:rgba(255,255,255,.1);letter-spacing:1px;}
+/* player dots */
+.dot{position:absolute;width:38px;height:38px;border-radius:50%;border:2px solid;display:flex;align-items:center;justify-content:center;font-family:var(--head);font-size:12px;font-weight:700;transform:translate(-50%,-50%);cursor:default;}
+.dot-sky{background:rgba(64,176,240,.15);border-color:var(--sky);color:var(--sky);}
+.dot-mint{background:rgba(64,208,160,.15);border-color:var(--mint);color:var(--mint);}
+.dot-gold{background:rgba(224,176,48,.2);border-color:var(--gold);color:var(--gold);}
+.dot-red{background:rgba(240,64,96,.15);border-color:var(--red);color:var(--red);}
+.dot-orange{background:rgba(240,136,32,.15);border-color:var(--orange);color:var(--orange);}
+.dot-label{position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);font-size:9px;color:var(--muted);white-space:nowrap;font-family:var(--head);letter-spacing:.5px;}
+.legend{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:6px;}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);}
+.leg-dot{width:10px;height:10px;border-radius:50%;border:1.5px solid;}
+.arrow-line{position:absolute;background:rgba(240,64,96,.5);border-radius:2px;transform-origin:top center;}
+
+/* ZONE ROLES */
+.zone-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:32px;}
+.zcard{background:var(--panel2);border:1px solid var(--rim);border-radius:13px;padding:16px 18px;}
+.zcard-num{font-family:var(--head);font-size:10px;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:3px;}
+.zcard-name{font-family:var(--head);font-size:20px;font-weight:700;margin-bottom:8px;}
+.zcard-body{font-size:13px;color:var(--off);line-height:1.6;}
+.zcard-body strong{color:var(--white);}
+.cue-box{background:var(--panel3);border:1px solid var(--rim2);border-radius:9px;padding:12px 14px;margin-top:10px;}
+.cue-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:5px;}
+.cue-item{font-size:12px;color:var(--off);padding-left:12px;position:relative;}
+.cue-item::before{content:'→ ';position:absolute;left:0;}
+
+/* PRACTICE DRILLS */
+.drill-stack{display:flex;flex-direction:column;gap:12px;margin-bottom:32px;}
+.drill-card{background:var(--panel2);border:1px solid var(--rim);border-radius:12px;overflow:hidden;}
+.drill-top{display:flex;align-items:stretch;}
+.drill-bar{width:5px;flex-shrink:0;}
+.drill-content{flex:1;padding:14px 18px;}
+.drill-cat{font-size:9px;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:3px;}
+.drill-name{font-family:var(--head);font-size:19px;font-weight:600;line-height:1.1;}
+.drill-meta{display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;}
+.dpill{font-size:10px;font-weight:600;padding:2px 9px;border-radius:100px;border:1px solid var(--rim2);color:var(--muted);}
+.drill-expand{display:none;padding:12px 18px 16px;border-top:1px solid var(--rim);}
+.drill-expand.open{display:block;}
+.drill-expand p{font-size:13px;color:var(--off);line-height:1.7;margin-bottom:7px;}
+.drill-expand p:last-child{margin-bottom:0;}
+.drill-expand strong{color:var(--white);}
+.drill-toggle{padding:9px 18px;background:none;border:none;cursor:pointer;font-size:11px;font-weight:600;letter-spacing:1px;color:var(--muted);text-transform:uppercase;width:100%;text-align:left;transition:color .15s;}
+.drill-toggle:hover{color:var(--gold);}
+
+/* WEEK PLAN */
+.week-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-bottom:32px;}
+.week-card{background:var(--panel2);border:1px solid var(--rim);border-radius:13px;padding:18px 20px;}
+.week-num{font-family:var(--head);font-size:12px;letter-spacing:4px;text-transform:uppercase;margin-bottom:5px;}
+.week-focus{font-family:var(--head);font-size:22px;font-weight:600;margin-bottom:10px;}
+.week-list{font-size:13px;color:var(--off);line-height:1.65;padding-left:15px;}
+.week-list li{margin-bottom:5px;}
+
+/* VIDEO LINK */
+.vid-link{display:flex;align-items:center;gap:14px;background:var(--panel2);border:1px solid var(--rim);border-radius:12px;padding:16px 20px;text-decoration:none;color:var(--white);transition:all .2s;margin-bottom:14px;}
+.vid-link:hover{border-color:var(--sky);box-shadow:0 4px 16px rgba(64,176,240,.1);}
+.vid-icon{width:44px;height:44px;background:#FF0000;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.vid-info{}
+.vid-title{font-family:var(--head);font-size:16px;font-weight:700;letter-spacing:.5px;}
+.vid-sub{font-size:12px;color:var(--muted);margin-top:2px;}
+.vid-arr{margin-left:auto;color:var(--muted);font-size:18px;flex-shrink:0;}
+
+@media(max-width:600px){
+  .hero{padding:40px 18px 36px;}
+  .pg{padding:32px 16px 60px;}
+  .snav{padding:0 10px;}
+  .court{max-width:100%;}
+}
+</style>
+</head>
+<body>
+
+<!-- DASHBOARD LINK -->
+<a href="dashboard.html" style="position:fixed;top:14px;left:14px;z-index:9999;display:flex;align-items:center;gap:7px;background:rgba(10,22,40,.92);color:#40b0f0;font-family:'Teko',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;padding:8px 14px;border-radius:100px;border:1px solid rgba(64,176,240,.3);text-decoration:none;backdrop-filter:blur(6px);box-shadow:0 2px 12px rgba(0,0,0,.25);transition:all .2s;" onmouseover="this.style.background='rgba(64,176,240,.18)'" onmouseout="this.style.background='rgba(10,22,40,.92)'">
+  <span style="font-size:15px;">🐋</span> Dashboard
+</a>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Orcas Defensive System · Complete Coaching Plan</div>
+    <div class="hero-h1">
+      <span class="l1">ORCAS</span>
+      <span class="l2">DEFENSE PLAN</span>
+      <span class="l3">BASE · OUTSIDE · RIGHT-SIDE · 4-WEEK BUILD</span>
+    </div>
+    <p class="hero-desc">A complete three-scenario defensive coaching plan built around the Orcas' perimeter (2-0-4) base system. Covers every starting position, zone-by-zone adjustments for outside and right-side attacks, reading cues, communication standards, and 12 drills across a 4-week practice plan.</p>
+    <div class="hero-pills">
+      <span class="hpill sky">🛡️ Base Defense</span>
+      <span class="hpill mint">⬅️ Outside Attack (Z4)</span>
+      <span class="hpill orange">➡️ Right-Side Attack (Z2)</span>
+      <span class="hpill">12 Drills</span>
+      <span class="hpill">4-Week Plan</span>
+      <span class="hpill">Court Diagrams</span>
+    </div>
+  </div>
+  <div class="hero-bg">DEFENSE</div>
+</div>
+
+<!-- NAV -->
+<div class="snav">
+  <button class="sn-btn base on"    id="t-base"     onclick="go('pg-base','t-base','base')">🛡️ Base Defense</button>
+  <button class="sn-btn outside"    id="t-outside"  onclick="go('pg-outside','t-outside','outside')">⬅️ Outside Attack</button>
+  <button class="sn-btn right"      id="t-right"    onclick="go('pg-right','t-right','right')">➡️ Right-Side Attack</button>
+  <button class="sn-btn practice"   id="t-practice" onclick="go('pg-practice','t-practice','practice')">📋 Practice Plan</button>
+</div>
+
+
+<!-- ══════════════════════════════════════════ -->
+<!--  PAGE 1 — BASE DEFENSE                    -->
+<!-- ══════════════════════════════════════════ -->
+<div class="pg on" id="pg-base">
+  <div class="eyebrow sky">Chapter 1 · Foundation</div>
+  <div class="s-title sky">Base <em>Defense</em></div>
+  <p class="s-desc">The Base Defense is where every player starts on every rally — before the set is made, before the attack direction is known. Getting every player to their correct base position consistently is the single most important defensive skill to train first.</p>
+
+  <!-- VIDEO REFERENCE -->
+  <a href="https://youtu.be/yXbJw9KevjI" target="_blank" class="vid-link">
+    <div class="vid-icon">▶</div>
+    <div class="vid-info">
+      <div class="vid-title">Base Defense — Film Reference</div>
+      <div class="vid-sub">Orcas coaching video · Base positions before the attack</div>
+    </div>
+    <div class="vid-arr">↗</div>
+  </a>
+
+  <!-- COURT DIAGRAM — BASE -->
+  <div class="court-section">
+    <div class="court-label-top">BASE POSITIONS — Before the Set (2-0-4 Perimeter)</div>
+    <div class="court-wrap">
+      <div class="court" style="max-width:400px;">
+        <div class="court-net"></div><div class="court-net-label">NET</div>
+        <div class="court-10ft"></div>
+        <!-- Zone labels -->
+        <div class="zl" style="top:54%;left:6%">Z4</div>
+        <div class="zl" style="top:54%;left:44%">Z3</div>
+        <div class="zl" style="top:54%;right:6%">Z2</div>
+        <div class="zl" style="top:80%;left:6%">Z5</div>
+        <div class="zl" style="top:80%;left:44%">Z6</div>
+        <div class="zl" style="top:80%;right:6%">Z1</div>
+        <!-- Blockers -->
+        <div class="dot dot-sky" style="left:22%;top:53%"><span>MB</span><span class="dot-label">Middle Blocker</span></div>
+        <div class="dot dot-sky" style="left:50%;top:53%"><span>OH</span><span class="dot-label">Off Blocker/Z3</span></div>
+        <!-- Back defenders -->
+        <div class="dot dot-mint" style="left:12%;top:72%"><span>Z4</span><span class="dot-label">Off-Block (tip)</span></div>
+        <div class="dot dot-gold" style="left:12%;top:90%"><span>Z5</span><span class="dot-label">Libero (LB)</span></div>
+        <div class="dot dot-mint" style="left:50%;top:92%"><span>Z6</span><span class="dot-label">Middle Back</span></div>
+        <div class="dot dot-mint" style="left:88%;top:83%"><span>Z1</span><span class="dot-label">Right Back</span></div>
+      </div>
+      <div class="legend">
+        <div class="leg-item"><div class="leg-dot" style="border-color:var(--sky);background:rgba(64,176,240,.15)"></div>Blockers</div>
+        <div class="leg-item"><div class="leg-dot" style="border-color:var(--gold);background:rgba(224,176,48,.2)"></div>Libero</div>
+        <div class="leg-item"><div class="leg-dot" style="border-color:var(--mint);background:rgba(64,208,160,.15)"></div>Defenders</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SYSTEM OVERVIEW -->
+  <div class="grid">
+    <div class="card sky full">
+      <div class="ch"><span class="sky">The 2-0-4 System</span></div>
+      <div class="cb"><strong>2</strong> blockers at the net. <strong>0</strong> players behind the block. <strong>4</strong> defenders spread along the deep perimeter. The perimeter is your base — defenders start near the sidelines and end line, facing inward, ready to move toward the ball. This covers hard-driven attacks first. The block takes away angles; back-row defenders cover what the block allows through.</div>
+    </div>
+    <div class="card">
+      <div class="ch">Three Defensive Phases</div>
+      <div class="cb"><ol>
+        <li><strong>Base Position:</strong> Where everyone starts before the opponent contacts the ball. Everyone holds base until the set direction is clear.</li>
+        <li><strong>Read Position:</strong> Defenders adjust based on where the set goes — left, right, or middle.</li>
+        <li><strong>React Phase:</strong> Freeze at hitter contact. Explode to the ball after contact.</li>
+      </ol></div>
+    </div>
+    <div class="card">
+      <div class="ch">The Freeze Rule</div>
+      <div class="cb">At the moment the hitter contacts the ball — <strong>every defender must be stopped.</strong> A player who is still moving at contact cannot change direction to reach a ball hit away from them. The sequence: read → adjust position → <strong>freeze in a low stance at contact</strong> → explode toward the ball. This is the most violated rule and the most important one.</div>
+    </div>
+    <div class="card red">
+      <div class="ch"><span class="red">The Tip Weakness</span></div>
+      <div class="cb">Perimeter defense leaves Zone 3 (middle front) open. <strong>The fix:</strong> the off-blocker (non-blocking front-row player) drops to the 10-foot line to cover tips. Zone 6 does NOT come forward — Zone 6 stays deep until a tip read is confirmed by a front-row player calling "TIP!"</div>
+    </div>
+  </div>
+
+  <!-- ZONE ROLES -->
+  <div class="eyebrow sky" style="margin-bottom:12px;">Base Position — Each Player's Job</div>
+  <div class="zone-grid">
+    <div class="zcard" style="border-left:4px solid var(--sky)">
+      <div class="zcard-num">Blockers</div>
+      <div class="zcard-name" style="color:var(--sky)">MB + OH at Net</div>
+      <div class="zcard-body">Two blockers start at the net in base. They are responsible for blocking, not covering floor until they land. After landing from a block attempt, both transition to their defensive assignments based on the attack scenario.</div>
+    </div>
+    <div class="zcard" style="border-left:4px solid var(--mint)">
+      <div class="zcard-num">Zone 1 · Right Back</div>
+      <div class="zcard-name" style="color:var(--mint)">Deep Right Corner</div>
+      <div class="zcard-body">8-10 feet from end line, near right sideline. Faces the hitter. In base, Z1 is the right-back anchor — deep enough to cover anything hit to the right corner. Does not cheat forward or toward center in base.
+        <div class="cue-box"><div class="cue-label sky" style="color:var(--sky)">Cue</div><div class="cue-item">"Deep right, facing the setter — not the net"</div></div>
+      </div>
+    </div>
+    <div class="zcard" style="border-left:4px solid var(--gold)">
+      <div class="zcard-num">Zone 5 · Left Back (Libero)</div>
+      <div class="zcard-name" style="color:var(--gold)">Deep Left Corner</div>
+      <div class="zcard-body">8-10 feet from end line, near left sideline. The Libero's base position. In base, Z5 is the left-back anchor. Does not start inside the blockers' reach — stays wide. Adjusts inward based on set direction.
+        <div class="cue-box"><div class="cue-label" style="color:var(--gold)">Cue</div><div class="cue-item">"Deep left — one foot near the line"</div></div>
+      </div>
+    </div>
+    <div class="zcard" style="border-left:4px solid var(--mint)">
+      <div class="zcard-num">Zone 6 · Middle Back</div>
+      <div class="zcard-name" style="color:var(--mint)">Deep Center</div>
+      <div class="zcard-body">At or near the end line, center of the court. Zone 6 is the safety valve — covers any ball that splits Z1 and Z5. Stays deep in base. Does NOT creep forward. <strong>If no one else calls it, Zone 6 takes it.</strong>
+        <div class="cue-box"><div class="cue-label" style="color:var(--mint)">Cue</div><div class="cue-item">"End line center — last line of defense"</div></div>
+      </div>
+    </div>
+    <div class="zcard" style="border-left:4px solid var(--violet)">
+      <div class="zcard-num">Off-Blocker · Front Row</div>
+      <div class="zcard-name" style="color:var(--violet)">Tip Coverage (10-ft line)</div>
+      <div class="zcard-body">The non-blocking front-row player drops to the 10-foot line in base — not deep, not at the net. Their job is tips and short balls. Reads the hitter's elbow — elbow drops = tip incoming. Calls "TIP!" loudly to alert teammates.
+        <div class="cue-box"><div class="cue-label" style="color:var(--violet)">Cue</div><div class="cue-item">"10-foot line — watch the elbow, not the ball"</div></div>
+      </div>
+    </div>
+    <div class="zcard" style="border-left:4px solid var(--red)">
+      <div class="zcard-num">Communication</div>
+      <div class="zcard-name" style="color:var(--red)">Call Everything</div>
+      <div class="zcard-body">Every touch needs a verbal "mine!" called before contact. Seam balls must be called. Off-blocker calls "TIP!" Zone 6 calls "Help!" when a ball is going to another zone. <strong>Silent defense = broken defense.</strong> No exceptions.
+        <div class="cue-box"><div class="cue-label" style="color:var(--red)">Cue</div><div class="cue-item">"If you don't call it, we don't count it"</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════ -->
+<!--  PAGE 2 — OUTSIDE ATTACK (Z4)             -->
+<!-- ══════════════════════════════════════════ -->
+<div class="pg" id="pg-outside">
+  <div class="eyebrow mint">Chapter 2 · Left-Side Attack</div>
+  <div class="s-title mint">Outside <em>Attack (Z4)</em></div>
+  <p class="s-desc">The left-side attack — a set to Zone 4 hit by the Outside Hitter — is the most common attack in youth volleyball. Every player must know their exact position and responsibility before the ball is hit. This is the scenario to drill most.</p>
+
+  <a href="https://youtu.be/pO7joL2NB8s" target="_blank" class="vid-link">
+    <div class="vid-icon">▶</div>
+    <div class="vid-info">
+      <div class="vid-title">Outside Attack Defense — Film Reference</div>
+      <div class="vid-sub">Orcas coaching video · Zone 4 left-side attack positioning</div>
+    </div>
+    <div class="vid-arr">↗</div>
+  </a>
+
+  <!-- COURT DIAGRAM — OUTSIDE ATTACK -->
+  <div class="court-section">
+    <div class="court-label-top">OUTSIDE ATTACK — Set Goes Left (Zone 4)</div>
+    <div class="court-wrap">
+      <div class="court" style="max-width:400px;">
+        <div class="court-net"></div><div class="court-net-label">NET</div>
+        <div class="court-10ft"></div>
+        <div class="zl" style="top:54%;left:6%">Z4</div>
+        <div class="zl" style="top:54%;left:44%">Z3</div>
+        <div class="zl" style="top:54%;right:6%">Z2</div>
+        <div class="zl" style="top:80%;left:6%">Z5</div>
+        <div class="zl" style="top:80%;left:44%">Z6</div>
+        <div class="zl" style="top:80%;right:6%">Z1</div>
+        <!-- Attack arrow from top-left (opponent side) -->
+        <div style="position:absolute;top:5%;left:10%;width:2px;height:25%;background:linear-gradient(to bottom,transparent,rgba(240,64,96,.7));border-radius:2px;transform:rotate(8deg);"></div>
+        <div style="position:absolute;top:3%;left:7%;font-family:'Teko',sans-serif;font-size:9px;color:rgba(240,64,96,.7);letter-spacing:1px;">ATTACK</div>
+        <!-- Blockers — shifted left to Zone 4 pin -->
+        <div class="dot dot-sky" style="left:15%;top:53%"><span>OB</span><span class="dot-label">Outside Blocker</span></div>
+        <div class="dot dot-sky" style="left:38%;top:53%"><span>MB</span><span class="dot-label">Middle Blocker</span></div>
+        <!-- Z2 off-blocker covers tips right front -->
+        <div class="dot dot-violet" style="left:82%;top:66%"><span>Z2</span><span class="dot-label">Tip (R-Front)</span></div>
+        <!-- Z5 Libero — cross court angle, inside the blocker hands -->
+        <div class="dot dot-gold" style="left:20%;top:88%"><span>Z5</span><span class="dot-label">Libero (CROSS)</span></div>
+        <!-- Z6 Middle back — slightly left of center -->
+        <div class="dot dot-mint" style="left:45%;top:93%"><span>Z6</span><span class="dot-label">Middle Back</span></div>
+        <!-- Z1 Right back — deep right LINE -->
+        <div class="dot dot-mint" style="left:88%;top:80%"><span>Z1</span><span class="dot-label">LINE (deep right)</span></div>
+      </div>
+      <div class="legend">
+        <div class="leg-item"><div class="leg-dot" style="border-color:var(--sky);background:rgba(64,176,240,.15)"></div>Blockers</div>
+        <div class="leg-item"><div class="leg-dot" style="border-color:var(--gold);background:rgba(224,176,48,.2)"></div>Libero</div>
+        <div class="leg-item"><div class="leg-dot" style="border-color:var(--mint);background:rgba(64,208,160,.15)"></div>Defenders</div>
+        <div class="leg-item"><div class="leg-dot" style="border-color:var(--violet);background:rgba(160,96,240,.15)"></div>Off-Blocker (tip)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card mint full">
+      <div class="ch"><span class="mint">The Golden Rule: Whoever Is on the Attack Side Owns the Line</span></div>
+      <div class="cb">When the set goes <strong>left (Zone 4)</strong>, Zone 1 (right back) is on the OPPOSITE side of the attack — so <strong>Zone 1 owns the LINE</strong> (the right sideline is where the line shot goes from a Z4 hitter). Zone 5 slides inside to cover the cross-court angle. This is the adjustment that teams get wrong most often — make it a daily verbal quiz until it's automatic.</div>
+    </div>
+    <div class="card">
+      <div class="ch">Zone 1 — Owns the Line</div>
+      <div class="cb">Drop deep to the right corner — 6-8 feet from the end line, 2-3 feet inside the right sideline. Face the outside hitter. The line shot from Zone 4 travels diagonally to this corner. <strong>Do not cheat toward center.</strong> The line is your ball. If the hitter's shoulder turns to the line — step toward it.
+        <div class="cue-box"><div class="cue-label" style="color:var(--mint)">Cues</div>
+          <div class="cue-item">"Set goes left — I own the line"</div>
+          <div class="cue-item">"Deep right corner — don't come in until I read a tip"</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch">Zone 5 / Libero — Cross-Court</div>
+      <div class="cb">Slide inside the outside blocker's outside hand — position yourself inside the blockers' reach so you cover the cross-court angle. The cross-court from Zone 4 is the highest-percentage attack — most hitters go angle. Face the hitter. Read the shoulder: square = cross, turned = line.
+        <div class="cue-box"><div class="cue-label" style="color:var(--gold)">Cues</div>
+          <div class="cue-item">"Set goes left — I slide inside for cross-court"</div>
+          <div class="cue-item">"Inside the blocker's hands, deep left"</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch">Zone 6 — Deep Center-Left</div>
+      <div class="cb">Zone 6 shifts slightly left of center for an outside attack. Stays at the end line. Covers: balls that split Z1 and Z5, balls that get through or over the block, and any seam ball between the two back-row defenders. <strong>Never comes forward unless Z5 calls "TIP!" and releases forward.</strong>
+        <div class="cue-box"><div class="cue-label" style="color:var(--mint)">Cue</div>
+          <div class="cue-item">"Shift slightly left — end line — safety valve"</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch">Off-Blocker (Z2) — Right-Front Tip</div>
+      <div class="cb">The non-blocking front-row player (typically Zone 2 / right front) drops off the net to the 10-foot line on the right side. Watches the hitter's elbow and arm speed. <strong>Elbow drops = tip.</strong> Calls "TIP!" loudly. Zone 6 does NOT move until this call is made.
+        <div class="cue-box"><div class="cue-label" style="color:var(--violet)">Cue</div>
+          <div class="cue-item">"10-foot line right side — read the elbow first"</div>
+          <div class="cue-item">"Call TIP loud enough for Z6 to hear"</div>
+        </div>
+      </div>
+    </div>
+    <div class="card mint">
+      <div class="ch"><span class="mint">Reading the Outside Hitter</span></div>
+      <div class="cb">Three pre-contact reads for defenders:<br><br>
+        <strong>1. Set height &amp; location:</strong> High outside set = full options. Tight set = tip/sharp angle likely. Ball outside the antenna = only cross-court available (angle becomes impossible).<br><br>
+        <strong>2. Approach angle:</strong> Straight approach = both line and cross open. Approach from deep outside = harder to hit line cleanly, expect cross.<br><br>
+        <strong>3. Hitting shoulder at peak:</strong> Square to net = cross-court. Turned toward line = line shot. Call it before contact: "LINE!" or "CROSS!" out loud.
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════ -->
+<!--  PAGE 3 — RIGHT-SIDE ATTACK (Z2)          -->
+<!-- ══════════════════════════════════════════ -->
+<div class="pg" id="pg-right">
+  <div class="eyebrow orange">Chapter 3 · Right-Side Attack</div>
+  <div class="s-title orange">Right-Side <em>Attack (Z2)</em></div>
+  <p class="s-desc">The right-side attack — a set to Zone 2 hit by the Opposite Hitter — mirrors the outside attack. Zone 1 and Zone 5 swap their responsibilities. This is where most teams make mistakes because they forget to flip.</p>
+
+  <a href="https://youtu.be/p8vqL63tTdg" target="_blank" class="vid-link">
+    <div class="vid-icon">▶</div>
+    <div class="vid-info">
+      <div class="vid-title">Right-Side Attack Defense — Film Reference</div>
+      <div class="vid-sub">Orcas coaching video · Zone 2 right-side attack positioning</div>
+    </div>
+    <div class="vid-arr">↗</div>
+  </div>
+
+  <!-- COURT DIAGRAM — RIGHT-SIDE ATTACK -->
+  <div class="court-section">
+    <div class="court-label-top">RIGHT-SIDE ATTACK — Set Goes Right (Zone 2)</div>
+    <div class="court-wrap">
+      <div class="court" style="max-width:400px;">
+        <div class="court-net"></div><div class="court-net-label">NET</div>
+        <div class="court-10ft"></div>
+        <div class="zl" style="top:54%;left:6%">Z4</div>
+        <div class="zl" style="top:54%;left:44%">Z3</div>
+        <div class="zl" style="top:54%;right:6%">Z2</div>
+        <div class="zl" style="top:80%;left:6%">Z5</div>
+        <div class="zl" style="top:80%;left:44%">Z6</div>
+        <div class="zl" style="top:80%;right:6%">Z1</div>
+        <!-- Attack arrow from top-right -->
+        <div style="position:absolute;top:5%;right:10%;width:2px;height:25%;background:linear-gradient(to bottom,transparent,rgba(240,136,32,.7));border-radius:2px;transform:rotate(-8deg);"></div>
+        <div style="position:absolute;top:3%;right:7%;font-family:'Teko',sans-serif;font-size:9px;color:rgba(240,136,32,.7);letter-spacing:1px;">ATTACK</div>
+        <!-- Blockers — shifted right to Zone 2 pin -->
+        <div class="dot dot-sky" style="left:85%;top:53%"><span>RS</span><span class="dot-label">Right-Side Blocker</span></div>
+        <div class="dot dot-sky" style="left:62%;top:53%"><span>MB</span><span class="dot-label">Middle Blocker</span></div>
+        <!-- Z4 off-blocker covers tips left front -->
+        <div class="dot dot-violet" style="left:18%;top:66%"><span>Z4</span><span class="dot-label">Tip (L-Front)</span></div>
+        <!-- Z1 Right back — CROSS COURT (now on opposite side of attack) -->
+        <div class="dot dot-mint" style="left:80%;top:88%"><span>Z1</span><span class="dot-label">CROSS (deep right)</span></div>
+        <!-- Z6 Middle back — slightly right of center -->
+        <div class="dot dot-mint" style="left:55%;top:93%"><span>Z6</span><span class="dot-label">Middle Back</span></div>
+        <!-- Z5 Libero — deep LEFT LINE -->
+        <div class="dot dot-gold" style="left:12%;top:80%"><span>Z5</span><span class="dot-label">Libero (LINE)</span></div>
+      </div>
+      <div class="legend">
+        <div class="leg-item"><div class="leg-dot" style="border-color:var(--sky);background:rgba(64,176,240,.15)"></div>Blockers</div>
+        <div class="leg-item"><div class="leg-dot" style="border-color:var(--gold);background:rgba(224,176,48,.2)"></div>Libero (LINE)</div>
+        <div class="leg-item"><div class="leg-dot" style="border-color:var(--mint);background:rgba(64,208,160,.15)"></div>Defenders</div>
+        <div class="leg-item"><div class="leg-dot" style="border-color:var(--violet);background:rgba(160,96,240,.15)"></div>Off-Blocker (tip)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card orange full">
+      <div class="ch"><span class="orange">The Flip — Z1 and Z5 Swap When the Set Goes Right</span></div>
+      <div class="cb">When the set goes <strong>right (Zone 2)</strong>, the roles of Z1 and Z5 completely reverse:<br><br>
+        <strong>Zone 5 (Libero) now owns the LINE</strong> — drops to the deep left sideline, covers the line shot from Zone 2.<br>
+        <strong>Zone 1 now covers CROSS-COURT</strong> — slides inside to cover the diagonal angle from Zone 2 to Zone 5 area.<br><br>
+        This flip is the most common mistake in perimeter defense. Make "whoever is on the attack side owns the line" the verbal cue that triggers the flip automatically.
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch">Zone 5 / Libero — Owns the Line</div>
+      <div class="cb">Drop deep to the left sideline — 6-8 feet from the end line, 2-3 feet inside the left sideline. Face the right-side hitter. The line shot from Zone 2 travels to the left back corner. <strong>This is now the Libero's line responsibility.</strong>
+        <div class="cue-box"><div class="cue-label" style="color:var(--orange)">Cues</div>
+          <div class="cue-item">"Set goes right — I own the left line"</div>
+          <div class="cue-item">"Deep left corner — don't drift center"</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch">Zone 1 — Cross-Court</div>
+      <div class="cb">Slide inside toward center — covers the cross-court angle from Zone 2. The cross-court from a right-side hitter goes toward Zone 5/6 area. Zone 1 must slide inside to intercept this angle. <strong>Zone 1 does NOT own the line when the set goes right.</strong>
+        <div class="cue-box"><div class="cue-label" style="color:var(--orange)">Cues</div>
+          <div class="cue-item">"Set goes right — I slide inside for cross"</div>
+          <div class="cue-item">"Move toward the seam, not the corner"</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch">Zone 6 — Deep Center-Right</div>
+      <div class="cb">Zone 6 shifts slightly right of center for a right-side attack. Stays at the end line. Same role as in the outside attack scenario — covers seam balls, balls through the block, and any ball no one else claims.
+        <div class="cue-box"><div class="cue-label" style="color:var(--orange)">Cue</div>
+          <div class="cue-item">"Shift slightly right — end line — safety valve"</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch">Off-Blocker (Z4) — Left-Front Tip</div>
+      <div class="cb">When the attack goes right, the Zone 4 player (left front) is the non-blocker. They drop to the 10-foot line on the LEFT side — covering tips that land near Zone 4. They read the right-side hitter's elbow and call "TIP!" to alert Z6.
+        <div class="cue-box"><div class="cue-label" style="color:var(--violet)">Cue</div>
+          <div class="cue-item">"Set goes right — I'm at the 10-foot line left"</div>
+        </div>
+      </div>
+    </div>
+    <div class="card orange">
+      <div class="ch"><span class="orange">Reading the Right-Side Hitter</span></div>
+      <div class="cb">Right-side hitters are often left-handed — or right-handers who favor the sharp cross-court cut to Zone 5. Key reads:<br><br>
+        <strong>Shoulder square:</strong> expect cross-court to Z5/Z6 area.<br>
+        <strong>Shoulder turned left:</strong> line shot down the left sideline — Z5 must hold deep.<br>
+        <strong>Tight set near the net:</strong> expect a tip over the block to Zone 4 — Z4 off-blocker must be ready.<br>
+        <strong>High set far from net:</strong> expect a hard cross-court or sharp angle — Z1 slides further inside.
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════ -->
+<!--  PAGE 4 — PRACTICE PLAN                   -->
+<!-- ══════════════════════════════════════════ -->
+<div class="pg" id="pg-practice">
+  <div class="eyebrow gold">Chapter 4 · Implementation</div>
+  <div class="s-title gold">4-Week <em>Practice Plan</em></div>
+  <p class="s-desc">12 drills across 4 weeks — progressing from no-ball formation walks to full live-ball defensive systems with scoring. Dedicate 12–15 minutes per practice to defensive system work. Do not skip weeks — the foundation built in Week 1 makes everything in Week 4 possible.</p>
+
+  <!-- WEEK PLAN -->
+  <div class="week-grid">
+    <div class="week-card">
+      <div class="week-num" style="color:var(--sky)">Week 1</div>
+      <div class="week-focus" style="color:var(--sky)">Base Positions</div>
+      <ul class="week-list">
+        <li>Ghost Defense Walk-Through — all 3 scenarios no ball</li>
+        <li>Set-and-Freeze drill — position before every "hit"</li>
+        <li>Quiz: Z1 and Z5 responsibilities by scenario (verbal)</li>
+        <li>No live attacking — positioning only</li>
+        <li><strong>Goal:</strong> Every player finds correct position in all 3 scenarios</li>
+      </ul>
+    </div>
+    <div class="week-card">
+      <div class="week-num" style="color:var(--mint)">Week 2</div>
+      <div class="week-focus" style="color:var(--mint)">Reading + Adjusting</div>
+      <ul class="week-list">
+        <li>Shoulder Read drill — no ball, call "line!" or "cross!"</li>
+        <li>Coach-Hit Perimeter — slow/medium pace, all 3 scenarios</li>
+        <li>Z1/Z5 Flip Drill — set goes left, set goes right (rapid fire)</li>
+        <li>Calling drill — no silent touches enforced</li>
+        <li><strong>Goal:</strong> 70%+ correct shoulder reads, zero silent touches</li>
+      </ul>
+    </div>
+    <div class="week-card">
+      <div class="week-num" style="color:var(--orange)">Week 3</div>
+      <div class="week-focus" style="color:var(--orange)">Tip Defense + Live Ball</div>
+      <ul class="week-list">
+        <li>Tip Alert Drill — off-blocker reads elbow, calls TIP</li>
+        <li>Full coach-hit at match pace — line, cross, tip, seam</li>
+        <li>5-on-6 scrimmage: attacking side runs Z4 and Z2 attacks</li>
+        <li>Add dig direction tracking — count digs reaching Zone 3</li>
+        <li><strong>Goal:</strong> Under 2 uncovered tips per 15 reps in scrimmage</li>
+      </ul>
+    </div>
+    <div class="week-card">
+      <div class="week-num" style="color:var(--gold)">Week 4</div>
+      <div class="week-focus" style="color:var(--gold)">Match Integration</div>
+      <ul class="week-list">
+        <li>Full rally scrimmage with freeze-check scoring</li>
+        <li>Consecutive dig challenge — team record</li>
+        <li>Watch film — identify correct vs incorrect positions</li>
+        <li>Hitter tendency tracking: what does #12 prefer?</li>
+        <li><strong>Goal:</strong> Correct position 80%+ of freeze checks</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DRILLS -->
+  <div class="eyebrow gold" style="margin-bottom:12px;">All 12 Drills</div>
+  <div class="drill-stack">
+
+    <div class="drill-card">
+      <div class="drill-top"><div class="drill-bar" style="background:var(--sky)"></div>
+      <div class="drill-content"><div class="drill-cat">Week 1 · No Ball</div><div class="drill-name">Ghost Defense Walk-Through</div><div class="drill-meta"><span class="dpill">Full team</span><span class="dpill">8 min</span><span class="dpill">Full court</span></div></div>
+      <button class="drill-toggle" onclick="tog(this)">▼ Details</button></div>
+      <div class="drill-expand"><p><strong>Setup:</strong> Full team on their side of the court, in their starting rotation positions. Coach calls scenarios.</p><p><strong>Drill:</strong> Coach calls "Zone 4 left!" / "Zone 2 right!" / "Middle!" Players walk to correct perimeter positions. Freeze and evaluate: Is Z1 deep right? Is Z5 inside for cross? Is Z6 at the end line? Is off-blocker at the 10-foot line? 3 rounds of each scenario, correct each position explicitly before moving on.</p><p><strong>Focus:</strong> This is the most important early-season drill. Players who can't find their position without a ball will not find it during a live rally. No shortcuts.</p></div>
+    </div>
+
+    <div class="drill-card">
+      <div class="drill-top"><div class="drill-bar" style="background:var(--sky)"></div>
+      <div class="drill-content"><div class="drill-cat">Week 1 · Positioning</div><div class="drill-name">Set-and-Freeze</div><div class="drill-meta"><span class="dpill">Full team</span><span class="dpill">10 min</span><span class="dpill">Full court</span></div></div>
+      <button class="drill-toggle" onclick="tog(this)">▼ Details</button></div>
+      <div class="drill-expand"><p><strong>Setup:</strong> Coach on the opposite side with a ball. Players in base positions.</p><p><strong>Drill:</strong> Coach tosses a high ball simulating a set — to Z4, Z2, or middle. Players must move to their adjusted positions AND FREEZE before the coach "hits" (catches the ball). Coach evaluates and corrects. 15 reps total, rotating through all three scenarios.</p><p><strong>Focus:</strong> Are players moving during the set flight or after? Reinforce: move with the set, freeze before the hit.</p></div>
+    </div>
+
+    <div class="drill-card">
+      <div class="drill-top"><div class="drill-bar" style="background:var(--mint)"></div>
+      <div class="drill-content"><div class="drill-cat">Week 2 · Read Training</div><div class="drill-name">Shoulder Read — No Ball</div><div class="drill-meta"><span class="dpill">Partners</span><span class="dpill">8 min</span><span class="dpill">Any space</span></div></div>
+      <button class="drill-toggle" onclick="tog(this)">▼ Details</button></div>
+      <div class="drill-expand"><p><strong>Setup:</strong> Partner A simulates a hitting approach and turns their shoulder — line or cross — at the peak. Z1 and Z5 defenders in position read and call it.</p><p><strong>Drill:</strong> Hitter swings without a ball. At the peak, turn shoulder to line or cross. Defenders call "LINE!" or "CROSS!" before the swing completes. Track: correct call % per player. Goal 75%+ by end of Week 2. Switch hitter every 10 reps.</p><p><strong>Focus:</strong> When is the call made? After the swing = reaction, not a read. The call must happen DURING the swing based on shoulder angle.</p></div>
+    </div>
+
+    <div class="drill-card">
+      <div class="drill-top"><div class="drill-bar" style="background:var(--mint)"></div>
+      <div class="drill-content"><div class="drill-cat">Week 2 · Position Drill</div><div class="drill-name">Z1/Z5 Flip Drill (Rapid Fire)</div><div class="drill-meta"><span class="dpill">3 defenders</span><span class="dpill">6 min</span><span class="dpill">Full court</span></div></div>
+      <button class="drill-toggle" onclick="tog(this)">▼ Details</button></div>
+      <div class="drill-expand"><p><strong>Setup:</strong> Z1, Z5, and Z6 in base position. Coach calls set locations rapidly.</p><p><strong>Drill:</strong> Coach calls "LEFT!" or "RIGHT!" every 3–4 seconds. Z1 and Z5 shuffle to their correct positions for that scenario and hold. Coach evaluates. Reset to base. Repeat 20 times in 6 minutes. No ball — pure positioning speed.</p><p><strong>Focus:</strong> Automaticity. Z1 and Z5 should flip instantly without thinking. If there's hesitation, the player is still thinking through it rather than reacting. More reps until it's a reflex.</p></div>
+    </div>
+
+    <div class="drill-card">
+      <div class="drill-top"><div class="drill-bar" style="background:var(--mint)"></div>
+      <div class="drill-content"><div class="drill-cat">Week 2 · Live Ball</div><div class="drill-name">Coach-Hit Perimeter Drill</div><div class="drill-meta"><span class="dpill">3–4 defenders</span><span class="dpill">12 min</span><span class="dpill">Full court</span></div></div>
+      <button class="drill-toggle" onclick="tog(this)">▼ Details</button></div>
+      <div class="drill-expand"><p><strong>Setup:</strong> Z1, Z5, Z6 in defensive positions. Coach on a box above the net hitting down at the back court. Target (hoop or cone) at Zone 3.</p><p><strong>Drill:</strong> Coach calls "Zone 4!" then hits line, cross, or seam — varying pace. Defenders dig to Zone 3 target. Track: (1) correct position before hit, (2) dig reaching Zone 3. 20 attacks per group.</p><p><strong>Focus:</strong> Both things simultaneously — correct position AND dig direction. A good dig from a wrong position means they got lucky. Correct position + controlled dig = the system working.</p></div>
+    </div>
+
+    <div class="drill-card">
+      <div class="drill-top"><div class="drill-bar" style="background:var(--mint)"></div>
+      <div class="drill-content"><div class="drill-cat">Week 2 · Communication</div><div class="drill-name">No Silent Touches</div><div class="drill-meta"><span class="dpill">Full team</span><span class="dpill">10 min</span><span class="dpill">Full court</span></div></div>
+      <button class="drill-toggle" onclick="tog(this)">▼ Details</button></div>
+      <div class="drill-expand"><p><strong>Setup:</strong> 6v6 scrimmage with one rule added: any ball touched without a verbal "mine!" call is dead — point to the opponent.</p><p><strong>Drill:</strong> Normal rally-score game. Every touch must be verbally called. Track uncalled touches per set. Goal: zero by end of Week 2. Run for two full sets.</p><p><strong>Focus:</strong> Building calling as a non-negotiable habit. Immediate, consistent consequence makes the rule stick faster than any amount of reminding.</p></div>
+    </div>
+
+    <div class="drill-card">
+      <div class="drill-top"><div class="drill-bar" style="background:var(--orange)"></div>
+      <div class="drill-content"><div class="drill-cat">Week 3 · Tip Defense</div><div class="drill-name">Tip Alert Drill</div><div class="drill-meta"><span class="dpill">4–6 players</span><span class="dpill">10 min</span><span class="dpill">Full court</span></div></div>
+      <button class="drill-toggle" onclick="tog(this)">▼ Details</button></div>
+      <div class="drill-expand"><p><strong>Setup:</strong> Coach at Zone 4 or Zone 2 (simulating a hitter). Two blockers at net. Three back-row defenders in perimeter. Off-blocker at 10-foot line.</p><p><strong>Drill:</strong> Coach randomly tips OR swings full — no telegraph. Off-blocker must read elbow and call "TIP!" before the ball lands. Back-row holds on a swing, Z6 stays deep. Track: tips covered vs landing untouched. Goal: under 2 uncovered per 15 reps.</p><p><strong>Focus:</strong> Off-blocker's elbow read. If they're watching the back-row instead of the hitter, they'll always be late. Drill the read, not the movement.</p></div>
+    </div>
+
+    <div class="drill-card">
+      <div class="drill-top"><div class="drill-bar" style="background:var(--orange)"></div>
+      <div class="drill-content"><div class="drill-cat">Week 3 · Scenario Drill</div><div class="drill-name">Left-Right Scenario Switch</div><div class="drill-meta"><span class="dpill">Full team</span><span class="dpill">12 min</span><span class="dpill">Full court</span></div></div>
+      <button class="drill-toggle" onclick="tog(this)">▼ Details</button></div>
+      <div class="drill-expand"><p><strong>Setup:</strong> Attacking side with a setter and two hitters — one at Zone 4 (OH), one at Zone 2 (RS). Defending side runs full perimeter.</p><p><strong>Drill:</strong> Setter alternates sets — outside then right-side in unpredictable order. Back-row defenders must flip their line/cross assignments based on where the set goes. Coach watches Z1 and Z5 exclusively — are they flipping correctly? 20 rallies, rotate hitters every 5.</p><p><strong>Focus:</strong> The flip under real set-flight timing. Players who nail it in the Z1/Z5 Flip Drill but fail here need more live reps with the actual set trajectory as the trigger.</p></div>
+    </div>
+
+    <div class="drill-card">
+      <div class="drill-top"><div class="drill-bar" style="background:var(--orange)"></div>
+      <div class="drill-content"><div class="drill-cat">Week 3 · Full System</div><div class="drill-name">5-on-6 Perimeter Scrimmage</div><div class="drill-meta"><span class="dpill">Full team</span><span class="dpill">15 min</span><span class="dpill">Full court</span></div></div>
+      <button class="drill-toggle" onclick="tog(this)">▼ Details</button></div>
+      <div class="drill-expand"><p><strong>Setup:</strong> Attacking side of 5 (coach feeds sets). Defending side 6 players running full perimeter system.</p><p><strong>Drill:</strong> Attacking side runs 3 attacks per rotation (Z4, Z2, middle) then rotates. Defensive point for each dig to Zone 3. Point lost for each ball that hits the floor in a covered zone. Track score, post it, compete. First team to 15 defensive points wins.</p><p><strong>Focus:</strong> Communication + position + dig direction simultaneously. Add a freeze check mid-drill — pause before a hit and check all positions.</p></div>
+    </div>
+
+    <div class="drill-card">
+      <div class="drill-top"><div class="drill-bar" style="background:var(--gold)"></div>
+      <div class="drill-content"><div class="drill-cat">Week 4 · Pressure</div><div class="drill-name">20-Ball Consecutive Defense</div><div class="drill-meta"><span class="dpill">Full team</span><span class="dpill">10 min</span><span class="dpill">Full court</span></div></div>
+      <button class="drill-toggle" onclick="tog(this)">▼ Details</button></div>
+      <div class="drill-expand"><p><strong>Setup:</strong> Coach with 20 balls, hitting continuously at varying zones and scenarios. Full defensive team.</p><p><strong>Drill:</strong> How many consecutive balls can the team dig before one hits the floor untouched? Any uncalled touch resets to zero. Track team record. Celebrate records. After a miss: "Who should have had that? What position would have gotten it?"</p><p><strong>Focus:</strong> Urgency and the "nothing hits the floor" mindset. Players who give up on difficult balls stop the streak — this drill makes it personal.</p></div>
+    </div>
+
+    <div class="drill-card">
+      <div class="drill-top"><div class="drill-bar" style="background:var(--gold)"></div>
+      <div class="drill-content"><div class="drill-cat">Week 4 · Integration</div><div class="drill-name">Full Rally with Freeze-Check Scoring</div><div class="drill-meta"><span class="dpill">Full team</span><span class="dpill">15 min</span><span class="dpill">Full court</span></div></div>
+      <button class="drill-toggle" onclick="tog(this)">▼ Details</button></div>
+      <div class="drill-expand"><p><strong>Setup:</strong> Full 6v6 rally scoring. Coach tracks defensive positions.</p><p><strong>Drill:</strong> Normal game, rally score. Before each attack, coach calls "FREEZE!" and evaluates all 4 defenders: +1 if all 4 are in correct perimeter positions for the current set scenario. 0 if anyone is out of place. Track both game score AND freeze-check score. Debrief after: which rotations had the best positioning?</p><p><strong>Focus:</strong> Identifying which rotations break down under real pressure. Players who are great in drills but lose position in scrimmage are distracted by other aspects of the rally — identify what's pulling their attention and address it.</p></div>
+    </div>
+
+    <div class="drill-card">
+      <div class="drill-top"><div class="drill-bar" style="background:var(--gold)"></div>
+      <div class="drill-content"><div class="drill-cat">Week 4 · Film Study</div><div class="drill-name">Post-Match Film Review</div><div class="drill-meta"><span class="dpill">Full team</span><span class="dpill">10 min</span><span class="dpill">Classroom/huddle</span></div></div>
+      <button class="drill-toggle" onclick="tog(this)">▼ Details</button></div>
+      <div class="drill-expand"><p><strong>Setup:</strong> Game film from the Orcas YouTube channel. Pause at moments of defensive play.</p><p><strong>Drill:</strong> Pause the film before each attack. Ask the team: "Is Z1 in the right position for this set? Is Z5 inside or outside? Is the off-blocker at the 10-foot line?" Then play through and see the result. 5–6 plays per session.</p><p><strong>Focus:</strong> Connecting the practice positioning system to real match footage. Players who see themselves or their teammates in the wrong position on film retain the correction much longer than verbal coaching alone. Keep it positive — celebrate right positions as much as correcting wrong ones.</p></div>
+    </div>
+
+  </div>
+
+  <!-- TRACKING -->
+  <div class="card gold full">
+    <div class="ch"><span class="gold">What to Track Weekly</span></div>
+    <div class="cb">Three numbers to post every week:<br><br>
+      <strong>1. Freeze-check score:</strong> What % of freeze checks had all 4 defenders in correct perimeter positions? Target 80%+ by Week 4.<br><br>
+      <strong>2. Dig-to-Zone-3 %:</strong> Of all digs, what % reached the setter area? Target 50%+ by Week 4.<br><br>
+      <strong>3. Uncovered tips per set:</strong> Tips that land without a defender touching them. Target 0–1 per set by Week 4.<br><br>
+      Post these on a whiteboard. Players who see their own data improve faster and hold each other accountable in ways coach correction alone cannot produce.
+    </div>
+  </div>
+</div>
+
+<script>
+function go(pgId, btnId, type){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.sn-btn').forEach(b=>b.classList.remove('on'));
+  document.getElementById(pgId).classList.add('on');
+  document.getElementById(btnId).classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function tog(btn){
+  const exp=btn.closest('.drill-card').querySelector('.drill-expand');
+  const o=exp.classList.toggle('open');
+  btn.textContent=o?'▲ Close':'▼ Details';
+}
+</script>
+</body>
+</html>
