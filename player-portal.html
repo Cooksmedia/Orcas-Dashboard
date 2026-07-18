@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover.0, viewport-fit=cover">
 <title>Orcas — Player & Parent Resource Hub</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -18,15 +18,15 @@
   --panel:#fff; --border:#D6E0F5;
   --head:'Barlow Condensed',sans-serif; --body:'Inter',sans-serif;
 }
-*{box-sizing:border-box;margin:0;padding:0;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-tap-highlight-color:transparent;}
 html{scroll-behavior:smooth;}
-body{background:#F0F4FF;color:var(--text);font-family:var(--body);min-height:100vh;line-height:1.6;}
+body{background:#F0F4FF;color:var(--text);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-family:var(--body);min-height:100vh;line-height:1.6;}
 
 /* ── TOPBAR ── */
 .topbar{
   background:var(--navy);color:#fff;border-bottom:3px solid var(--cyan);
   padding:14px 24px;display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:1000;
+  position:-webkit-sticky;position:sticky;top:0;z-index:1000;
   box-shadow:0 2px 12px rgba(0,0,0,.18);
 }
 .tb-brand{display:flex;align-items:center;gap:10px;}
@@ -55,7 +55,7 @@ body{background:#F0F4FF;color:var(--text);font-family:var(--body);min-height:100
   display:none;position:fixed;top:0;left:0;right:0;bottom:0;
   background:rgba(11,27,45,.97);z-index:999;
   flex-direction:column;align-items:center;justify-content:center;gap:8px;
-  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
 }
 .mob-nav.open{display:flex;}
 .mob-link{
@@ -403,7 +403,7 @@ body{background:#F0F4FF;color:var(--text);font-family:var(--body);min-height:100
   .iq-attack-grid{grid-template-columns:1fr 1fr!important;}
 
   /* Cat tabs */
-  .cat-tabs{gap:6px;justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px;}
+  .cat-tabs{gap:6px;justify-content:flex-start;overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;padding-bottom:4px;}
   .cat-tab{white-space:nowrap;font-size:12px;padding:7px 14px;}
 
   /* Inline hero styles override */

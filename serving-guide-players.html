@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover.0, viewport-fit=cover">
 <title>Volleyball Serving — Orcas Volleyball</title>
 <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -20,9 +20,9 @@
   --teal:#00d4c8; --teal-dim:rgba(0,212,200,.08);
   --head:'Teko',sans-serif; --body:'Inter',sans-serif;
 }
-*{box-sizing:border-box;margin:0;padding:0;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-tap-highlight-color:transparent;}
 html{scroll-behavior:smooth;}
-body{background:var(--void);color:var(--white);font-family:var(--body);min-height:100vh;overflow-x:hidden;}
+body{background:var(--void);color:var(--white);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-family:var(--body);min-height:100vh;overflow-x:hidden;}
 
 /* ── HERO ── */
 .hero{background:var(--void);padding:0;position:relative;overflow:hidden;border-bottom:1px solid var(--rim);}
@@ -40,7 +40,7 @@ body{background:var(--void);color:var(--white);font-family:var(--body);min-heigh
 .hero-pill.hi{border-color:rgba(0,212,200,.3);color:var(--teal);background:var(--teal-dim);}
 
 /* ── STICKY NAV ── */
-.snav{background:rgba(9,9,11,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--rim);position:sticky;top:0;z-index:200;display:flex;gap:0;overflow-x:auto;padding:0 24px;}
+.snav{background:rgba(9,9,11,.95);-webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);border-bottom:1px solid var(--rim);position:-webkit-sticky;position:sticky;top:0;z-index:200;display:flex;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:0 24px;}
 .snav::-webkit-scrollbar{height:0;}
 .sn-btn{font-family:var(--head);font-size:15px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:16px 20px;background:none;border:none;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s;}
 .sn-btn:hover{color:var(--white);}
@@ -200,7 +200,7 @@ body{background:var(--void);color:var(--white);font-family:var(--body);min-heigh
   font-size:13px;font-weight:700;letter-spacing:1px;
   padding:8px 14px;border-radius:100px;
   border:1px solid rgba(0,212,200,0.3);
-  text-decoration:none;backdrop-filter:blur(6px);
+  text-decoration:none;-webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
   box-shadow:0 2px 12px rgba(0,0,0,0.25);
   transition:all 0.2s;
 " onmouseover="this.style.background='rgba(0,212,200,0.18)';this.style.borderColor='rgba(0,212,200,0.6)'" onmouseout="this.style.background='rgba(10,22,40,0.92)';this.style.borderColor='rgba(0,212,200,0.3)'">
