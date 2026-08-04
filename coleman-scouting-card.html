@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Playoff Scouting Card — CGY: Chris Coleman (Gold)</title>
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#09090b;--panel:#111115;--panel2:#18181d;--panel3:#1e1e25;
+  --rim:#28282f;--rim2:#323240;--white:#f0eee8;--off:#b8b4a8;--muted:#606070;
+  --gold:#e0b030;--gold-dim:rgba(224,176,48,.08);
+  --red:#f04060;--red-dim:rgba(240,64,96,.1);
+  --green:#38d97a;--green-dim:rgba(56,217,122,.08);
+  --sky:#40b0f0;--sky-dim:rgba(64,176,240,.08);
+  --teal:#00d4c8;--teal-dim:rgba(0,212,200,.08);
+  --orange:#f08820;--orange-dim:rgba(240,136,32,.08);
+  --violet:#a060f0;
+  --head:'Teko',sans-serif;--body:'Inter',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{background:var(--void);color:var(--white);font-family:var(--body);min-height:100vh;-webkit-font-smoothing:antialiased;}
+
+/* TOPBAR */
+.topbar{background:var(--panel);border-bottom:1px solid var(--rim);padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;position:-webkit-sticky;position:sticky;top:0;z-index:100;}
+.tb-brand{font-family:var(--head);font-size:16px;font-weight:700;letter-spacing:1px;color:var(--gold);display:flex;align-items:center;gap:8px;}
+.tb-back{font-family:var(--head);font-size:13px;font-weight:600;letter-spacing:1px;color:var(--muted);text-decoration:none;padding:7px 14px;border-radius:8px;border:1px solid var(--rim2);transition:all .2s;}
+.tb-back:hover{color:var(--teal);border-color:var(--teal);}
+
+/* HERO */
+.hero{background:linear-gradient(160deg,#1a0a00 0%,#2d1800 50%,#1a0800 100%);padding:44px 20px 36px;position:relative;overflow:hidden;border-bottom:1px solid var(--rim);}
+.hero-glow{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(224,176,48,.06) 0%,transparent 70%);top:-150px;right:-100px;pointer-events:none;}
+.hero-inner{max-width:960px;margin:0 auto;position:relative;z-index:2;}
+.hero-eyebrow{font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;}
+.hero-h1{font-family:var(--head);font-size:clamp(40px,8vw,88px);font-weight:700;line-height:.88;margin-bottom:16px;color:var(--white);}
+.hero-h1 em{color:var(--gold);font-style:normal;}
+.hero-desc{font-size:14px;color:var(--off);line-height:1.75;max-width:580px;margin-bottom:24px;}
+.hero-pills{display:flex;gap:8px;flex-wrap:wrap;}
+.hpill{font-size:11px;font-weight:600;letter-spacing:1px;padding:5px 14px;border-radius:100px;border:1px solid var(--rim2);color:var(--muted);}
+.hpill.gold{border-color:rgba(224,176,48,.4);color:var(--gold);background:var(--gold-dim);}
+.hpill.green{border-color:rgba(56,217,122,.4);color:var(--green);background:var(--green-dim);}
+.hpill.red{border-color:rgba(240,64,96,.4);color:var(--red);background:var(--red-dim);}
+
+/* WRAP */
+.wrap{max-width:960px;margin:0 auto;padding:36px 20px 80px;}
+
+/* SECTION */
+.section{margin-bottom:40px;}
+.eyebrow{font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;margin-bottom:8px;}
+.eyebrow.gold{color:var(--gold);}
+.eyebrow.red{color:var(--red);}
+.eyebrow.green{color:var(--green);}
+.eyebrow.sky{color:var(--sky);}
+.eyebrow.teal{color:var(--teal);}
+.eyebrow.orange{color:var(--orange);}
+.s-title{font-family:var(--head);font-size:clamp(32px,5vw,56px);font-weight:700;line-height:.9;margin-bottom:20px;}
+.s-title em{font-style:normal;}
+.s-title.gold em{color:var(--gold);}
+.s-title.red em{color:var(--red);}
+.s-title.green em{color:var(--green);}
+.s-title.sky em{color:var(--sky);}
+.s-title.teal em{color:var(--teal);}
+
+/* CARDS */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+.grid.three{grid-template-columns:1fr 1fr 1fr;}
+@media(max-width:640px){.grid,.grid.three{grid-template-columns:1fr;}}
+.card{background:var(--panel2);border:1px solid var(--rim);border-radius:14px;padding:20px 22px;}
+.card.full{grid-column:1/-1;}
+.card.gold{border-color:rgba(224,176,48,.3);background:var(--gold-dim);}
+.card.red{border-color:rgba(240,64,96,.3);background:var(--red-dim);}
+.card.green{border-color:rgba(56,217,122,.3);background:var(--green-dim);}
+.card.sky{border-color:rgba(64,176,240,.3);background:var(--sky-dim);}
+.card.teal{border-color:rgba(0,212,200,.3);background:var(--teal-dim);}
+.card.orange{border-color:rgba(240,136,32,.3);background:var(--orange-dim);}
+.ch{font-family:var(--head);font-size:20px;font-weight:700;letter-spacing:.5px;margin-bottom:10px;}
+.ch .gold{color:var(--gold);}
+.ch .red{color:var(--red);}
+.ch .green{color:var(--green);}
+.ch .sky{color:var(--sky);}
+.ch .teal{color:var(--teal);}
+.cb{font-size:13px;color:var(--off);line-height:1.75;}
+.cb strong{color:var(--white);}
+.cb ul{padding-left:16px;margin-top:6px;}
+.cb li{margin-bottom:6px;}
+
+/* THREAT LEVEL */
+.threat-bar{margin-bottom:20px;}
+.threat-label{font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;}
+.threat-track{height:8px;background:var(--rim);border-radius:100px;overflow:hidden;}
+.threat-fill{height:100%;border-radius:100px;transition:width .3s;}
+
+/* INTEL CARDS */
+.intel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:20px;}
+.intel-card{background:var(--panel2);border:1px solid var(--rim);border-radius:14px;overflow:hidden;}
+.ic-top{padding:14px 18px 10px;border-bottom:1px solid var(--rim);}
+.ic-tag{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:2px 9px;border-radius:100px;margin-bottom:8px;display:inline-block;}
+.ic-name{font-family:var(--head);font-size:20px;font-weight:700;letter-spacing:.5px;}
+.ic-body{padding:12px 18px;font-size:13px;color:var(--off);line-height:1.7;}
+.ic-body strong{color:var(--white);}
+.ic-threat{padding:10px 18px;border-top:1px solid var(--rim);display:flex;align-items:center;gap:10px;}
+.ic-threat-label{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;min-width:60px;}
+
+/* GAME PLAN STEPS */
+.plan-stack{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;}
+.plan-step{display:flex;align-items:flex-start;gap:16px;background:var(--panel2);border:1px solid var(--rim);border-radius:14px;padding:16px 20px;}
+.plan-num{font-family:var(--head);font-size:36px;font-weight:700;line-height:1;min-width:40px;}
+.plan-body{}
+.plan-title{font-family:var(--head);font-size:18px;font-weight:700;letter-spacing:.5px;margin-bottom:4px;}
+.plan-desc{font-size:13px;color:var(--off);line-height:1.7;}
+.plan-desc strong{color:var(--white);}
+
+/* SCORE RECAP */
+.recap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
+.recap-card{background:var(--panel2);border:1px solid var(--rim);border-radius:14px;padding:16px;text-align:center;}
+.rc-set{font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:6px;}
+.rc-score{font-family:var(--head);font-size:32px;font-weight:700;line-height:1;margin-bottom:4px;}
+.rc-team{font-size:11px;color:var(--muted);}
+.rc-note{font-size:11px;font-weight:600;margin-top:6px;padding:3px 10px;border-radius:100px;display:inline-block;}
+
+/* HUDDLE CARD */
+.huddle-card{background:linear-gradient(135deg,#0a1a0a 0%,#0d2d0d 100%);border:1.5px solid rgba(56,217,122,.25);border-radius:18px;padding:28px;margin-bottom:20px;}
+.huddle-title{font-family:var(--head);font-size:32px;font-weight:700;color:var(--green);margin-bottom:16px;letter-spacing:.5px;}
+.huddle-line{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(56,217,122,.1);}
+.huddle-line:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.huddle-arrow{color:var(--green);font-size:16px;margin-top:2px;flex-shrink:0;}
+.huddle-text{font-size:14px;color:var(--off);line-height:1.65;}
+.huddle-text strong{color:var(--white);}
+
+/* MOMENTUM WATCH */
+.momentum-card{background:var(--panel2);border:1px solid rgba(240,64,96,.25);border-radius:14px;padding:20px 22px;margin-bottom:20px;}
+.mc-title{font-family:var(--head);font-size:20px;font-weight:700;color:var(--red);margin-bottom:14px;}
+.mc-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:13px;color:var(--off);line-height:1.65;}
+.mc-item:last-child{margin-bottom:0;}
+.mc-dot{width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:5px;}
+.mc-item strong{color:var(--white);}
+
+/* NEVAEH CARD */
+.nevaeh-card{background:linear-gradient(135deg,#0a0a2a 0%,#1a0a3a 100%);border:1.5px solid rgba(160,96,240,.3);border-radius:18px;padding:24px 28px;margin-bottom:20px;}
+.nc-head{display:flex;align-items:center;gap:14px;margin-bottom:16px;}
+.nc-badge{font-family:var(--head);font-size:28px;font-weight:700;color:var(--violet);width:52px;height:52px;border-radius:12px;background:rgba(160,96,240,.15);border:1.5px solid rgba(160,96,240,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.nc-title{font-family:var(--head);font-size:24px;font-weight:700;color:var(--white);}
+.nc-sub{font-size:12px;color:rgba(160,96,240,.8);margin-top:2px;}
+.nc-body{font-size:13px;color:var(--off);line-height:1.75;}
+.nc-body strong{color:var(--white);}
+
+@media(max-width:600px){
+  .hero{padding:32px 16px 28px;}
+  .wrap{padding:24px 14px 60px;}
+  .recap-grid{grid-template-columns:1fr;}
+  .plan-step{flex-direction:column;gap:8px;}
+  .plan-num{font-size:28px;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="tb-brand">🏐 Playoff Scouting — Coleman (Gold)</div>
+  <a href="dashboard.html" class="tb-back">← Dashboard</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">🐋 Orcas Playoffs · Opponent Intel</div>
+    <div class="hero-h1">CGY: Chris<br><em>Coleman (Gold)</em></div>
+    <p class="hero-desc">Complete playoff scouting card based on Week 6 match data. You already know their system, their best server, and exactly how to neutralize both of their weapons. This match is yours to take.</p>
+    <div class="hero-pills">
+      <span class="hpill gold">Regular Season: 4–1</span>
+      <span class="hpill gold">APDiff: –0.42</span>
+      <span class="hpill green">You Won Set 2 — 25–4</span>
+      <span class="hpill red">Rematch</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- WEEK 6 RECAP -->
+  <div class="section">
+    <div class="eyebrow gold">Week 6 Match Recap</div>
+    <div class="s-title gold">What Happened <em>Last Time</em></div>
+    <div class="recap-grid">
+      <div class="recap-card" style="border-color:rgba(240,64,96,.25);">
+        <div class="rc-set">Set 1</div>
+        <div class="rc-score" style="color:var(--red);">22–25</div>
+        <div class="rc-team">Coleman won</div>
+        <div class="rc-note" style="background:var(--red-dim);color:var(--red);">B Team played</div>
+      </div>
+      <div class="recap-card" style="border-color:rgba(56,217,122,.25);">
+        <div class="rc-set">Set 2</div>
+        <div class="rc-score" style="color:var(--green);">25–5</div>
+        <div class="rc-team">🐋 Orcas dominated</div>
+        <div class="rc-note" style="background:var(--green-dim);color:var(--green);">A Team · Season best</div>
+      </div>
+      <div class="recap-card" style="border-color:rgba(240,64,96,.25);">
+        <div class="rc-set">Set 3</div>
+        <div class="rc-score" style="color:var(--red);">11–15</div>
+        <div class="rc-team">Coleman won</div>
+        <div class="rc-note" style="background:var(--red-dim);color:var(--red);">B Team played</div>
+      </div>
+    </div>
+    <div class="card green full">
+      <div class="ch"><span class="green">The Real Story</span></div>
+      <div class="cb">Coleman won the match against your <strong>B team.</strong> Your <strong>A team put 25–4 on them</strong> — the biggest margin of your entire season against a 4–1 opponent. Coleman has <strong>no answer</strong> for your A team. They know it. You know it. This playoff rematch has a completely different starting lineup. <strong>A team starts Set 1 — everything changes.</strong></div>
+    </div>
+  </div>
+
+  <!-- THREAT ANALYSIS -->
+  <div class="section">
+    <div class="eyebrow red">Opponent Threat Analysis</div>
+    <div class="s-title red">Coleman's <em>Weapons</em></div>
+
+    <div class="intel-grid">
+
+      <!-- WESTLY -->
+      <div class="intel-card" style="border-color:rgba(240,64,96,.25);">
+        <div class="ic-top">
+          <span class="ic-tag" style="background:var(--red-dim);color:var(--red);">⚠️ Primary Threat</span>
+          <div class="ic-name">Westly — Server</div>
+        </div>
+        <div class="ic-body">
+          <strong>Serve type:</strong> Hard overhand float serve<br><br>
+          <strong>Target:</strong> Zone 5 (left back) — exploited B team's passer in Week 6<br><br>
+          <strong>History:</strong> Former Orcas player — knows your system from the inside, but that was <strong>over a year ago.</strong> Your team has evolved significantly since then.<br><br>
+          <strong>Weakness:</strong> Your A team's Zone 5 is Nevaeh — a lefty whose natural platform angle makes his serve the easiest ball she receives. He goes to Zone 5, it comes right back clean.
+        </div>
+        <div class="ic-threat">
+          <span class="ic-threat-label">Threat vs A:</span>
+          <div style="flex:1;height:6px;background:var(--rim);border-radius:100px;overflow:hidden;">
+            <div style="width:20%;height:100%;background:var(--green);border-radius:100px;"></div>
+          </div>
+          <span style="font-size:11px;color:var(--green);font-weight:700;">LOW</span>
+        </div>
+        <div class="ic-threat">
+          <span class="ic-threat-label">Threat vs B:</span>
+          <div style="flex:1;height:6px;background:var(--rim);border-radius:100px;overflow:hidden;">
+            <div style="width:80%;height:100%;background:var(--red);border-radius:100px;"></div>
+          </div>
+          <span style="font-size:11px;color:var(--red);font-weight:700;">HIGH</span>
+        </div>
+      </div>
+
+      <!-- MIDDLE DUMPS -->
+      <div class="intel-card" style="border-color:rgba(240,136,32,.3);">
+        <div class="ic-top">
+          <span class="ic-tag" style="background:var(--orange-dim);color:var(--orange);">⚠️ Secondary Threat</span>
+          <div class="ic-name">Short Dumps — Middle</div>
+        </div>
+        <div class="ic-body">
+          <strong>How they use it:</strong> Short tips and dumps to the middle (Zone 3/6 seam) — created communication breakdowns with B team who argued over whose ball it was<br><br>
+          <strong>Why it worked vs B team:</strong> No clear calling system under pressure — ball lands in the seam, nobody owns it<br><br>
+          <strong>Why it fails vs A team:</strong> You've drilled "mine!" calling all season. Your A team communicates before the ball lands. The seam that beat B team doesn't exist when A team is calling everything out loud.
+        </div>
+        <div class="ic-threat">
+          <span class="ic-threat-label">Threat vs A:</span>
+          <div style="flex:1;height:6px;background:var(--rim);border-radius:100px;overflow:hidden;">
+            <div style="width:15%;height:100%;background:var(--green);border-radius:100px;"></div>
+          </div>
+          <span style="font-size:11px;color:var(--green);font-weight:700;">VERY LOW</span>
+        </div>
+        <div class="ic-threat">
+          <span class="ic-threat-label">Threat vs B:</span>
+          <div style="flex:1;height:6px;background:var(--rim);border-radius:100px;overflow:hidden;">
+            <div style="width:85%;height:100%;background:var(--red);border-radius:100px;"></div>
+          </div>
+          <span style="font-size:11px;color:var(--red);font-weight:700;">HIGH</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="card full" style="border-color:rgba(56,217,122,.2);background:var(--green-dim);">
+      <div class="ch"><span class="green">Bottom Line on Coleman's Weapons</span></div>
+      <div class="cb">Coleman's entire game plan — <strong>Westly's Zone 5 serve</strong> and <strong>middle dumps causing miscommunication</strong> — was built around exploiting your B team's weaknesses. Your A team has spent the entire season training the exact fixes for both. <strong>Coleman is walking into a trap they helped you build.</strong></div>
+    </div>
+  </div>
+
+  <!-- NEVAEH ADVANTAGE -->
+  <div class="section">
+    <div class="eyebrow" style="color:var(--violet);">Secret Weapon</div>
+    <div class="s-title" style="color:var(--white);">The <em style="color:var(--violet);">Nevaeh</em> Factor</div>
+    <div class="nevaeh-card">
+      <div class="nc-head">
+        <div class="nc-badge">Z5</div>
+        <div>
+          <div class="nc-title">Nevaeh Cooks — Zone 5</div>
+          <div class="nc-sub">Left-handed · Deep Left Back · Serve Receive Anchor</div>
+        </div>
+      </div>
+      <div class="nc-body">
+        Westly's primary weapon is a hard float serve to Zone 5. Against most players, this is effective — the ball comes in fast and drops unpredictably at the last second.<br><br>
+        <strong>Against Nevaeh it's a gift.</strong><br><br>
+        As a lefty, Nevaeh's natural platform angle already faces cross-court — exactly where a Zone 5 pass needs to go. The hard float that breaks down right-handed passers comes right into her natural swing path. The serve he's been targeting all season is the serve she's best equipped to handle.<br><br>
+        <strong>Coach's training did the rest.</strong> You've been serving harder than Westly at your players all season specifically to build this moment. When he steps to the line and serves his hardest, Nevaeh has already seen harder — from you — hundreds of times. It's a routine pass.
+      </div>
+    </div>
+  </div>
+
+  <!-- GAME PLAN -->
+  <div class="section">
+    <div class="eyebrow green">Playoff Game Plan</div>
+    <div class="s-title green">How We <em>Win This</em></div>
+    <div class="plan-stack">
+
+      <div class="plan-step" style="border-color:rgba(224,176,48,.25);">
+        <div class="plan-num" style="color:var(--gold);">1</div>
+        <div class="plan-body">
+          <div class="plan-title">A Team Starts Set 1 — No Exceptions</div>
+          <div class="plan-desc">Coleman's entire playoff strategy is built around the team they beat in Sets 1 and 3 last Saturday. The moment they see your A team from point 1, their game plan falls apart. <strong>Do not give them an early lead, early confidence, or any momentum.</strong> Come out and establish dominance immediately — the same way you did in Set 2 when you went 25–4.</div>
+        </div>
+      </div>
+
+      <div class="plan-step" style="border-color:rgba(56,217,122,.25);">
+        <div class="plan-num" style="color:var(--green);">2</div>
+        <div class="plan-body">
+          <div class="plan-title">Nevaeh Owns Zone 5 — All Match</div>
+          <div class="plan-desc">Westly will go to Zone 5 immediately. Let him. <strong>Nevaeh neutralizes his best weapon from the first serve.</strong> When he sees clean passes coming back every time he goes to Zone 5, he has to change targets — and he has no proven weapon anywhere else against your A team.</div>
+        </div>
+      </div>
+
+      <div class="plan-step" style="border-color:rgba(64,176,240,.25);">
+        <div class="plan-num" style="color:var(--sky);">3</div>
+        <div class="plan-body">
+          <div class="plan-title">Call Everything — No Silent Touches</div>
+          <div class="plan-desc">Middle dumps only work when nobody owns the seam ball. <strong>The first time Coleman tries a middle dump, someone calls "MINE!" before it lands.</strong> Clean dig, clean set, clean kill. After they see it covered twice in a row, they stop going there. Their second weapon disappears.</div>
+        </div>
+      </div>
+
+      <div class="plan-step" style="border-color:rgba(240,136,32,.25);">
+        <div class="plan-num" style="color:var(--orange);">4</div>
+        <div class="plan-body">
+          <div class="plan-title">Build the Lead Early — Then Control</div>
+          <div class="plan-desc">Your substitution strategy: <strong>Start Strong (Points 1–15)</strong> — A team locks in a lead. <strong>Safe Zone (15–20)</strong> — if lead is 5+, controlled subs can come in. <strong>The Freeze (21–25)</strong> — A team closes it out. In a playoff match, be conservative with the Safe Zone trigger — a 7+ point lead before subbing is safer than 5.</div>
+        </div>
+      </div>
+
+      <div class="plan-step" style="border-color:rgba(160,96,240,.25);">
+        <div class="plan-num" style="color:var(--violet);">5</div>
+        <div class="plan-body">
+          <div class="plan-title">Win Set 1 — Make Set 2 Irrelevant</div>
+          <div class="plan-desc">If A team wins Set 1 convincingly, Coleman is already in their heads going into Set 2. <strong>A team that wins Set 1 by 8+ points has already won the psychological battle.</strong> Coleman knows they have no answer. Play Set 2 to win — if it stays close, keep A team on the floor.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PRE-MATCH HUDDLE -->
+  <div class="section">
+    <div class="eyebrow green">Pre-Match Huddle</div>
+    <div class="s-title green">What You Tell <em>The Team</em></div>
+    <div class="huddle-card">
+      <div class="huddle-title">📣 Talking Points — Before First Whistle</div>
+
+      <div class="huddle-line">
+        <div class="huddle-arrow">→</div>
+        <div class="huddle-text"><strong>"You already beat this team."</strong> Set 2 last Saturday — 25–4. That wasn't luck. That was you playing your game at full speed. That's what you're doing today from point 1.</div>
+      </div>
+
+      <div class="huddle-line">
+        <div class="huddle-arrow">→</div>
+        <div class="huddle-text"><strong>"Nevaeh — Zone 5 is yours all day."</strong> Their server is coming to you. You've passed harder serves than his in practice every single week. Let him come.</div>
+      </div>
+
+      <div class="huddle-line">
+        <div class="huddle-arrow">→</div>
+        <div class="huddle-text"><strong>"Call every ball. Especially the middle."</strong> They're going to try short dumps to the seam. The first player who sees it coming calls MINE loud enough for everyone to hear. We practiced this all season. No free balls.</div>
+      </div>
+
+      <div class="huddle-line">
+        <div class="huddle-arrow">→</div>
+        <div class="huddle-text"><strong>"They know the team from last Saturday. They don't know this team."</strong> You are not the same team they beat. Different lineup, different energy, different result.</div>
+      </div>
+
+      <div class="huddle-line">
+        <div class="huddle-arrow">→</div>
+        <div class="huddle-text"><strong>"Start fast. Build the lead. Don't let them breathe."</strong> The first 5 points tell them everything they need to know about today. Make it clear early.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOMENTUM WATCH -->
+  <div class="section">
+    <div class="eyebrow red">In-Match Adjustments</div>
+    <div class="s-title red">Watch For <em>These Signs</em></div>
+    <div class="momentum-card">
+      <div class="mc-title">⚠️ If Coleman Makes a Run — Check These First</div>
+      <div class="mc-item"><div class="mc-dot"></div><div><strong>Are middle dumps going uncalled?</strong> — Remind Zone 6 and the off-blocker: call the seam ball BEFORE it lands, not after.</div></div>
+      <div class="mc-item"><div class="mc-dot"></div><div><strong>Is Westly finding a different zone?</strong> — If he's moved off Zone 5, identify the new target immediately and shift your strongest passer there.</div></div>
+      <div class="mc-item"><div class="mc-dot"></div><div><strong>Is the block late?</strong> — If Coleman is getting clean swings, check whether blockers are reading the set early enough. Call "Zone 4!" or "Zone 2!" louder.</div></div>
+      <div class="mc-item"><div class="mc-dot"></div><div><strong>Is communication dropping off?</strong> — If the bench gets quiet, that's the first sign of mental drift. Call a timeout, reset, remind them of Set 2 — 25–4. That's who they are.</div></div>
+      <div class="mc-item"><div class="mc-dot"></div><div><strong>If they get within 3 points late</strong> — call timeout immediately. Reset. A team closes it. Trust the system.</div></div>
+    </div>
+  </div>
+
+  <!-- FINAL CARD -->
+  <div class="card full" style="background:linear-gradient(135deg,#0a1a0a,#0d2a0d);border-color:rgba(56,217,122,.3);padding:28px;">
+    <div class="ch" style="font-size:28px;margin-bottom:12px;"><span class="green">🐋 Final Word</span></div>
+    <div class="cb" style="font-size:14px;line-height:1.8;">
+      You've already beaten this team at full strength. Your A team's Zone 5 neutralizes their best server. Your communication system neutralizes their best play. You've spent the entire season training for exactly these two situations — <strong>hard float serve receive and seam ball communication.</strong><br><br>
+      Coleman is a 4–1 team. So are you. The difference is <strong>your A team has a gear they haven't seen.</strong> They saw 25–4 for one set last Saturday and couldn't do anything about it. Today they see it from point 1.<br><br>
+      <strong>Go get it. 🐋</strong>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
