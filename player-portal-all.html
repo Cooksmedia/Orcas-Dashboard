@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover.0, viewport-fit=cover">
+<title>Orcas — Player & Parent Resource Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0B1B2D; --navy2:#112240;
+  --blue:#1E4FA3; --blue2:#2860CC;
+  --cyan:#00D4C8; --cyan-light:rgba(0,212,200,.12);
+  --cream:#F0F4FF; --cream2:#E8EEF8;
+  --coral:#1E4FA3; --coral-d:#2860CC; --coral-light:rgba(30,79,163,.12);
+  --teal:#00D4C8; --teal-light:rgba(0,212,200,.12);
+  --gold:#F0B429; --gold-light:rgba(240,180,41,.12);
+  --text:#0B1B2D; --muted:#4A5568;
+  --panel:#fff; --border:#D6E0F5;
+  --head:'Barlow Condensed',sans-serif; --body:'Inter',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{background:#F0F4FF;color:var(--text);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-family:var(--body);min-height:100vh;line-height:1.6;}
+
+/* ── TOPBAR ── */
+.topbar{
+  background:var(--navy);color:#fff;border-bottom:3px solid var(--cyan);
+  padding:14px 24px;display:flex;align-items:center;justify-content:space-between;
+  position:-webkit-sticky;position:sticky;top:0;z-index:1000;
+  box-shadow:0 2px 12px rgba(0,0,0,.18);
+}
+.tb-brand{display:flex;align-items:center;gap:10px;}
+.tb-orca{font-size:28px;}
+.tb-title{font-family:var(--head);font-size:18px;font-weight:800;letter-spacing:.5px;}
+.tb-sub{font-size:10px;color:rgba(255,255,255,.5);letter-spacing:2px;text-transform:uppercase;margin-top:1px;}
+
+/* Desktop nav */
+.tb-nav{display:flex;gap:4px;flex-wrap:wrap;align-items:center;}
+.tb-link{
+  font-family:var(--head);font-size:13px;font-weight:600;color:rgba(255,255,255,.7);
+  text-decoration:none;padding:7px 14px;border-radius:8px;transition:all .2s;white-space:nowrap;
+}
+.tb-link:hover,.tb-link.active{background:rgba(255,255,255,.1);color:#fff;}
+
+/* Hamburger button — hidden on desktop */
+.ham-btn{
+  display:none;flex-direction:column;gap:5px;cursor:pointer;
+  background:none;border:none;padding:6px;border-radius:8px;transition:background .2s;
+}
+.ham-btn:hover{background:rgba(255,255,255,.1);}
+.ham-line{width:24px;height:2px;background:#fff;border-radius:2px;transition:all .3s;}
+
+/* Mobile drawer */
+.mob-nav{
+  display:none;position:fixed;top:0;left:0;right:0;bottom:0;
+  background:rgba(11,27,45,.97);z-index:999;
+  flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+}
+.mob-nav.open{display:flex;}
+.mob-link{
+  font-family:var(--head);font-size:28px;font-weight:800;letter-spacing:1px;
+  color:rgba(255,255,255,.7);text-decoration:none;padding:12px 32px;
+  border-radius:12px;transition:all .2s;text-align:center;width:100%;max-width:280px;
+}
+.mob-link:hover{background:rgba(255,255,255,.08);color:#fff;}
+.mob-close{
+  position:absolute;top:20px;right:20px;
+  background:none;border:none;color:rgba(255,255,255,.6);font-size:32px;
+  cursor:pointer;padding:8px;line-height:1;transition:color .2s;
+}
+.mob-close:hover{color:#fff;}
+.mob-brand{
+  font-family:var(--head);font-size:14px;font-weight:700;letter-spacing:3px;
+  color:var(--cyan);text-transform:uppercase;margin-bottom:16px;
+}
+
+/* ── HERO ── */
+.hero{
+  background:linear-gradient(135deg,var(--navy) 0%,#16203A 100%);
+  color:#fff;padding:48px 24px 56px;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;right:-100px;top:-100px;width:380px;height:380px;
+  border-radius:50%;background:radial-gradient(circle,rgba(255,107,74,.18) 0%,transparent 70%);
+}
+.hero::after{
+  content:'';position:absolute;left:-80px;bottom:-120px;width:300px;height:300px;
+  border-radius:50%;background:radial-gradient(circle,rgba(45,212,191,.12) 0%,transparent 70%);
+}
+.hero-inner{max-width:980px;margin:0 auto;position:relative;z-index:2;}
+.hero-eyebrow{
+  font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:4px;
+  color:var(--teal);text-transform:uppercase;margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;
+}
+.hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--coral);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-h1{font-family:var(--head);font-size:clamp(34px,6vw,58px);font-weight:900;line-height:1.05;margin-bottom:14px;}
+.hero-h1 em{color:var(--coral);font-style:normal;}
+.hero-desc{font-size:15px;color:rgba(255,255,255,.75);max-width:560px;line-height:1.75;margin-bottom:24px;}
+
+/* ── SKILL OF THE WEEK BANNER ── */
+.sotw{
+  background:linear-gradient(135deg,var(--coral) 0%,var(--coral-d) 100%);
+  border-radius:18px;padding:22px 26px;display:flex;align-items:center;gap:18px;
+  box-shadow:0 12px 40px rgba(255,107,74,.3);flex-wrap:wrap;
+}
+.sotw-icon{font-size:42px;flex-shrink:0;}
+.sotw-text{flex:1;min-width:200px;}
+.sotw-label{font-family:var(--head);font-size:10px;font-weight:800;letter-spacing:3px;color:rgba(255,255,255,.85);text-transform:uppercase;margin-bottom:4px;}
+.sotw-title{font-family:var(--head);font-size:22px;font-weight:800;color:#fff;margin-bottom:4px;}
+.sotw-desc{font-size:13px;color:rgba(255,255,255,.9);}
+.sotw-link{
+  font-family:var(--head);font-size:13px;font-weight:700;letter-spacing:1px;
+  background:#fff;color:var(--coral-d);padding:10px 20px;border-radius:10px;
+  text-decoration:none;white-space:nowrap;transition:all .2s;flex-shrink:0;
+}
+.sotw-link:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.15);}
+
+/* ── MAIN ── */
+.main{max-width:980px;margin:0 auto;padding:40px 20px 70px;}
+
+/* ── SECTION HEADERS ── */
+.sec{margin-bottom:48px;}
+.sec-head{margin-bottom:20px;}
+.sec-eyebrow{font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:3px;color:var(--blue);text-transform:uppercase;margin-bottom:6px;}
+.sec-title{font-family:var(--head);font-size:clamp(26px,4vw,36px);font-weight:900;color:var(--navy);letter-spacing:.5px;}
+.sec-desc{font-size:14px;color:var(--muted);margin-top:6px;max-width:620px;}
+
+/* ── CATEGORY TABS ── */
+.cat-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+.cat-tab{
+  font-family:var(--head);font-size:13px;font-weight:700;letter-spacing:.5px;
+  padding:9px 18px;border-radius:100px;border:2px solid var(--cream2);
+  background:#fff;color:var(--muted);cursor:pointer;transition:all .2s;
+}
+.cat-tab:hover{border-color:var(--coral-light);color:var(--coral-d);}
+.cat-tab.on{background:var(--blue);color:#fff;border-color:var(--blue);}
+
+/* ── VIDEO GRID ── */
+.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;}
+.video-card{
+  background:#fff;border-radius:16px;overflow:hidden;
+  box-shadow:0 2px 12px rgba(30,42,69,.06);transition:all .25s;
+  border:1px solid var(--cream2);
+}
+.video-card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(30,42,69,.12);}
+.video-thumb-link{position:relative;display:block;width:100%;padding-top:42%;background:var(--navy);overflow:hidden;cursor:pointer;}
+.video-thumb-link.playing{cursor:default;}
+.video-thumb-link iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+.video-thumb-link img.video-thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 38%;transition:transform .3s;}
+.video-thumb-link:hover .video-thumb{transform:scale(1.05);}
+.video-play-overlay{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:22px;color:#fff;background:rgba(30,42,69,.0);transition:background .25s;
+}
+.video-play-overlay::after{
+  content:'';position:absolute;width:60px;height:60px;border-radius:50%;
+  background:rgba(255,107,74,.92);z-index:-1;transition:transform .25s;
+}
+.video-thumb-link:hover .video-play-overlay{background:rgba(30,42,69,.25);}
+.video-thumb-link:hover .video-play-overlay::after{transform:scale(1.1);}
+.video-fallback{
+  display:inline-block;margin-top:6px;font-family:var(--head);font-size:10px;
+  font-weight:700;letter-spacing:.5px;color:var(--muted);text-decoration:none;
+}
+.video-fallback:hover{color:var(--coral-d);}
+.video-title{font-family:var(--head);font-size:15px;font-weight:700;color:var(--navy);line-height:1.35;margin-bottom:4px;}
+.video-body{padding:16px 18px;}
+.video-cat-badge{
+  display:inline-block;font-family:var(--head);font-size:9px;font-weight:800;letter-spacing:2px;
+  text-transform:uppercase;padding:3px 10px;border-radius:100px;margin-bottom:8px;
+}
+.vb-serving{background:var(--coral-light);color:var(--coral-d);}
+.vb-passing{background:var(--teal-light);color:#0D9488;}
+.vb-setting{background:#FDE9F3;color:#BE185D;}
+.vb-basics{background:#DBEAFE;color:#1D4ED8;}
+.vb-hitting{background:var(--gold-light);color:#B8860B;}
+.vb-footwork{background:#E0E7FF;color:#4F46E5;}
+.vb-defense{background:#FEF3C7;color:#A16207;}
+.video-title{font-family:var(--head);font-size:15px;font-weight:700;color:var(--navy);line-height:1.35;margin-bottom:4px;}
+.video-source{font-size:11px;color:var(--muted);}
+
+/* ── AT-HOME DRILLS ── */
+.drill-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+.drill-card{
+  background:#fff;border-radius:16px;padding:20px 22px;border:1px solid var(--cream2);
+  transition:all .2s;
+}
+.drill-card:hover{box-shadow:0 8px 24px rgba(0,212,200,.12);border-color:var(--cyan);}
+.drill-icon{font-size:28px;margin-bottom:10px;display:block;}
+.drill-title{font-family:var(--head);font-size:16px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.drill-meta{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+.drill-tag{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;border-radius:100px;background:var(--cream2);color:var(--muted);}
+.drill-desc{font-size:13px;color:var(--muted);line-height:1.6;}
+.drill-desc strong{color:var(--text);}
+
+/* ── ROTATION ACADEMY FEATURE CARD ── */
+.academy-feature{
+  display:flex;align-items:center;gap:24px;
+  background:linear-gradient(135deg,var(--navy) 0%,#16203A 100%);
+  border-radius:18px;padding:28px 30px;text-decoration:none;color:#fff;
+  position:relative;overflow:hidden;transition:all .25s;flex-wrap:wrap;
+}
+.academy-feature::before{
+  content:'';position:absolute;right:-60px;bottom:-60px;width:240px;height:240px;
+  border-radius:50%;background:radial-gradient(circle,rgba(45,212,191,.15) 0%,transparent 70%);
+}
+.academy-feature:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(30,42,69,.25);}
+.academy-icon{font-size:48px;flex-shrink:0;z-index:2;}
+.academy-text{flex:1;min-width:240px;z-index:2;}
+.academy-label{font-family:var(--head);font-size:10px;font-weight:800;letter-spacing:3px;color:var(--teal);text-transform:uppercase;margin-bottom:4px;}
+.academy-title{font-family:var(--head);font-size:24px;font-weight:800;margin-bottom:6px;}
+.academy-desc{font-size:13px;color:rgba(255,255,255,.7);line-height:1.65;max-width:480px;}
+.academy-cta{
+  font-family:var(--head);font-size:14px;font-weight:700;letter-spacing:1px;
+  background:var(--blue);color:#fff;padding:12px 24px;border-radius:10px;
+  white-space:nowrap;z-index:2;transition:all .2s;flex-shrink:0;
+}
+.academy-feature:hover .academy-cta{background:var(--blue2);}
+
+/* ── VOLLEYBALL IQ ── */
+.iq-pdf-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:24px;}
+.iq-pdf-card{
+  display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit;
+  background:#fff;border:1.5px solid var(--cream2);border-radius:14px;
+  padding:16px 20px;flex:1;min-width:220px;transition:all .2s;
+}
+.iq-pdf-card:hover{border-color:var(--cyan);box-shadow:0 8px 22px rgba(0,212,200,.12);transform:translateY(-2px);}
+.iq-pdf-icon{font-size:26px;width:48px;height:48px;border-radius:12px;background:var(--cyan-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.iq-pdf-text{flex:1;}
+.iq-pdf-title{font-family:var(--head);font-size:14px;font-weight:700;color:var(--navy);margin-bottom:2px;}
+.iq-pdf-sub{font-size:11px;color:var(--muted);}
+.iq-pdf-arrow{font-size:18px;color:var(--blue);flex-shrink:0;}
+
+.iq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;}
+.iq-card{
+  background:#fff;border-radius:14px;padding:18px 20px;border:1px solid var(--cream2);
+  border-left:4px solid var(--blue);transition:all .2s;
+}
+.iq-card:hover{box-shadow:0 8px 22px rgba(30,42,69,.08);transform:translateY(-2px);}
+.iq-name{font-family:var(--head);font-size:20px;font-weight:800;color:var(--navy);letter-spacing:.5px;margin-bottom:8px;}
+.iq-meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.iq-tag{
+  font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  padding:3px 10px;border-radius:100px;background:var(--cream2);color:var(--muted);
+}
+.iq-tag-fast{background:var(--cyan-light);color:#0D9488;}
+.iq-tag-mid{background:var(--gold-light);color:#B8860B;}
+.iq-tag-slow{background:var(--teal-light);color:#0D9488;}
+.iq-desc{font-size:13px;color:var(--muted);line-height:1.6;}
+.iq-desc strong{color:var(--text);}
+
+/* ── RULES OF VOLLEYBALL — FLIP CARDS ── */
+.rules-intro{margin:36px 0 18px;text-align:center;}
+.rules-intro-badge{
+  display:inline-block;font-family:var(--head);font-size:11px;font-weight:800;letter-spacing:2px;
+  text-transform:uppercase;background:var(--cyan-light);color:#0D9488;
+  padding:5px 14px;border-radius:100px;margin-bottom:10px;
+}
+.rules-intro-title{font-family:var(--head);font-size:22px;font-weight:800;color:var(--navy);margin-bottom:6px;}
+.rules-intro-desc{font-size:13px;color:var(--muted);max-width:480px;margin:0 auto;}
+
+.tf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:28px;}
+.tf-card{
+  position:relative;height:160px;cursor:pointer;perspective:1000px;
+}
+.tf-front, .tf-back{
+  position:absolute;inset:0;border-radius:14px;padding:18px 20px;
+  display:flex;flex-direction:column;justify-content:center;
+  backface-visibility:hidden;transition:transform .5s;
+  box-shadow:0 2px 10px rgba(30,42,69,.06);
+}
+.tf-front{
+  background:#fff;border:1.5px solid var(--cream2);
+}
+.tf-back{
+  transform:rotateY(180deg);color:#fff;
+}
+.tf-back.tf-true{background:linear-gradient(135deg,#10B981,#0D9488);}
+.tf-back.tf-false{background:linear-gradient(135deg,#F43F5E,#E11D48);}
+.tf-card.flipped .tf-front{transform:rotateY(180deg);}
+.tf-card.flipped .tf-back{transform:rotateY(0deg);}
+.tf-q{font-family:var(--head);font-size:15px;font-weight:700;color:var(--navy);line-height:1.4;margin-bottom:10px;}
+.tf-tap{font-size:11px;color:var(--blue);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:auto;}
+.tf-result{font-family:var(--head);font-size:20px;font-weight:900;letter-spacing:1px;margin-bottom:8px;}
+.tf-explain{font-size:13px;line-height:1.55;}
+
+/* ── RULES CHEAT SHEET ── */
+.rules-cheat-wrap{background:#fff;border:1px solid var(--cream2);border-radius:16px;padding:22px 24px;margin-bottom:8px;}
+.rules-cheat-head{font-family:var(--head);font-size:14px;font-weight:800;letter-spacing:1px;color:var(--navy);margin-bottom:16px;}
+.rules-cheat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;}
+.rc-item{display:flex;gap:12px;align-items:flex-start;}
+.rc-icon{font-size:22px;flex-shrink:0;line-height:1.3;}
+.rc-item strong{font-family:var(--head);font-size:13px;color:var(--navy);}
+.rc-item div{font-size:12px;color:var(--muted);line-height:1.6;}
+
+/* ── RESOURCE LINKS ── */
+.resource-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;}
+.resource-card{
+  background:#fff;border-radius:14px;padding:18px 20px;border:1px solid var(--cream2);
+  display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit;
+  transition:all .2s;
+}
+.resource-card:hover{border-color:var(--cyan);box-shadow:0 6px 24px rgba(0,212,200,.15);transform:translateY(-2px);}
+.resource-icon{
+  font-size:24px;width:48px;height:48px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  background:var(--coral-light);
+}
+.resource-text{flex:1;}
+.resource-title{font-family:var(--head);font-size:14px;font-weight:700;color:var(--navy);margin-bottom:2px;}
+.resource-sub{font-size:11px;color:var(--muted);}
+.resource-arrow{color:var(--blue);font-size:18px;flex-shrink:0;}
+
+/* ── POSITION GUIDE ── */
+.pos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;}
+.pos-card{
+  background:#fff;border-radius:14px;padding:18px 20px;border:1px solid var(--cream2);
+  border-left:4px solid var(--coral);
+}
+.pos-card.pos-mb{border-left-color:var(--cyan);}
+.pos-card.pos-s{border-left-color:var(--gold);}
+.pos-card.pos-l{border-left-color:#8B5CF6;}
+.pos-title{font-family:var(--head);font-size:15px;font-weight:800;color:var(--navy);margin-bottom:6px;}
+.pos-list{font-size:13px;color:var(--muted);padding-left:18px;}
+.pos-list li{margin-bottom:4px;}
+
+/* ── FOOTER ── */
+.footer{
+  background:var(--navy);color:rgba(255,255,255,.6);padding:28px 24px;
+  text-align:center;font-size:12px;line-height:1.8;
+}
+.footer strong{color:#fff;}
+.footer a{color:var(--cyan);text-decoration:none;}
+
+/* ── HIDE/SHOW BY CATEGORY ── */
+.video-card[data-cat]{display:block;}
+.video-card.hidden{display:none;}
+
+/* ══ HAMBURGER / MOBILE NAV ══ */
+@media(max-width:768px){
+  .tb-nav{display:none;}
+  .ham-btn{display:flex;}
+}
+@media(min-width:769px){
+  .mob-nav{display:none!important;}
+  .ham-btn{display:none!important;}
+}
+
+/* ══ MOBILE — phones ══ */
+@media(max-width:640px){
+  /* Topbar */
+  .topbar{padding:12px 16px;}
+  .tb-title{font-size:16px;}
+  .tb-sub{display:none;}
+
+  /* Hero */
+  .hero{padding:36px 16px 40px!important;}
+  .hero-inner{flex-direction:column!important;gap:20px!important;}
+  .hero-h1{font-size:clamp(30px,9vw,44px)!important;}
+  .hero-desc{font-size:14px!important;}
+
+  /* SOTW */
+  .sotw{flex-direction:column;text-align:center;padding:18px 16px;}
+  .sotw-link{width:100%;text-align:center;display:block;margin-top:8px;}
+
+  /* Sections */
+  .sec{padding:36px 14px;}
+  .sec-title{font-size:clamp(22px,7vw,30px)!important;}
+
+  /* All grids → 1 column */
+  .video-grid{grid-template-columns:1fr!important;}
+  .drill-grid{grid-template-columns:1fr!important;}
+  .pos-grid{grid-template-columns:1fr!important;}
+  .resource-grid{grid-template-columns:1fr!important;}
+  .iq-grid{grid-template-columns:1fr!important;}
+  .tf-grid{grid-template-columns:1fr 1fr!important;}
+  .rules-cheat-grid{grid-template-columns:1fr!important;}
+  .locations-grid{grid-template-columns:1fr!important;}
+
+  /* Video cards */
+  .video-card{min-height:180px;}
+  .vc-thumb{height:160px;}
+
+  /* Resource cards */
+  .resource-card{padding:14px 16px;gap:12px;}
+  .resource-icon{width:42px;height:42px;font-size:20px;flex-shrink:0;}
+  .resource-title{font-size:14px;}
+  .resource-sub{font-size:12px;}
+
+  /* Academy cards */
+  .academy-feature{flex-direction:column;padding:20px 16px;}
+  .academy-text{min-width:unset;}
+  .academy-icon{font-size:36px;}
+
+  /* Position cards */
+  .pos-card{padding:18px 16px;}
+
+  /* IQ */
+  .iq-pdf-row{flex-direction:column;}
+  .iq-attack-grid{grid-template-columns:1fr 1fr!important;}
+
+  /* Cat tabs */
+  .cat-tabs{gap:6px;justify-content:flex-start;overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;padding-bottom:4px;}
+  .cat-tab{white-space:nowrap;font-size:12px;padding:7px 14px;}
+
+  /* Inline hero styles override */
+  div[style*="gap:48px"]{gap:20px!important;}
+  div[style*="padding:60px 36px"]{padding:36px 16px!important;}
+}
+
+/* ══ SMALL PHONES ══ */
+@media(max-width:390px){
+  .tb-title{font-size:14px;}
+  .tb-orca{font-size:22px;}
+  .tf-grid{grid-template-columns:1fr!important;}
+  .hero-h1{font-size:28px!important;}
+  .iq-attack-grid{grid-template-columns:1fr!important;}
+  .resource-card{flex-direction:column;align-items:flex-start;}
+}
+
+/* ══ TABLET ══ */
+@media(min-width:641px) and (max-width:900px){
+  .video-grid{grid-template-columns:repeat(2,1fr)!important;}
+  .drill-grid{grid-template-columns:repeat(2,1fr)!important;}
+  .resource-grid{grid-template-columns:repeat(2,1fr)!important;}
+  .hero-inner{padding:48px 28px!important;}
+}
+</style>
+
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KTGRMVG865');
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KTGRMVG865"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KTGRMVG865');
+</script>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="tb-brand">
+    <span class="tb-orca">🐋</span>
+    <div>
+      <div class="tb-title">ORCAS</div>
+      <div class="tb-sub">Player &amp; Family Hub</div>
+    </div>
+  </div>
+
+  <!-- Desktop nav -->
+  <nav class="tb-nav">
+    <a href="#videos" class="tb-link active">Skill Videos</a>
+    <a href="#drills" class="tb-link">At-Home Drills</a>
+    <a href="#positions" class="tb-link">Position Guides</a>
+    <a href="#guides" class="tb-link">Skill Guides</a>
+    <a href="#systems" class="tb-link">Team Systems</a>
+    <a href="#iq" class="tb-link">Volleyball IQ</a>
+    <a href="#film" class="tb-link">Game Film</a>
+    <a href="#schedule" class="tb-link">Schedule</a>
+    <a href="#camps" class="tb-link">Camps</a>
+    <a href="#resources" class="tb-link">Resources</a>
+  </nav>
+
+  <!-- Hamburger button — mobile only -->
+  <button class="ham-btn" onclick="openMenu()" aria-label="Open menu">
+    <div class="ham-line"></div>
+    <div class="ham-line"></div>
+    <div class="ham-line"></div>
+  </button>
+</header>
+
+<!-- Mobile fullscreen nav drawer -->
+<div class="mob-nav" id="mob-nav">
+  <button class="mob-close" onclick="closeMenu()" aria-label="Close menu">✕</button>
+  <div class="mob-brand">🐋 ORCAS · PLAYER HUB</div>
+  <a href="#videos"    class="mob-link" onclick="closeMenu()">Skill Videos</a>
+  <a href="#drills"    class="mob-link" onclick="closeMenu()">At-Home Drills</a>
+  <a href="#positions" class="mob-link" onclick="closeMenu()">Position Guides</a>
+  <a href="#guides"    class="mob-link" onclick="closeMenu()">Skill Guides</a>
+  <a href="#systems"   class="mob-link" onclick="closeMenu()">Team Systems</a>
+  <a href="#iq"        class="mob-link" onclick="closeMenu()">Volleyball IQ</a>
+  <a href="#film"      class="mob-link" onclick="closeMenu()">Game Film</a>
+  <a href="#schedule"  class="mob-link" onclick="closeMenu()">Schedule</a>
+  <a href="#camps" class="mob-link" onclick="closeMenu()">Camps</a>
+  <a href="#resources" class="mob-link" onclick="closeMenu()">Resources</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" style="background:linear-gradient(160deg,#0B1B2D 0%,#0D2444 40%,#1E4FA3 100%);position:relative;overflow:hidden;min-height:420px;display:flex;align-items:center;">
+  <!-- Banner image as background -->
+  <div style="position:absolute;inset:0;background:url('orcas-banner.png') center/cover no-repeat;opacity:.18;"></div>
+  <!-- Blue glow effects -->
+  <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(0,212,200,.12) 0%,transparent 70%);top:-200px;right:-100px;pointer-events:none;"></div>
+  <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(30,79,163,.25) 0%,transparent 70%);bottom:-150px;left:-100px;pointer-events:none;"></div>
+
+  <div class="hero-inner" style="max-width:1100px;margin:0 auto;padding:60px 36px;position:relative;z-index:2;display:flex;align-items:center;gap:48px;width:100%;">
+
+    <!-- Text side -->
+    <div style="flex:1;min-width:0;">
+      <div style="font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:4px;color:var(--cyan);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--cyan);display:inline-block;animation:pulse 2s infinite;"></span>
+        ORCAS VOLLEYBALL · GRADES 7–9
+      </div>
+      <h1 style="font-family:var(--head);font-size:clamp(38px,6vw,68px);font-weight:900;line-height:1;color:#fff;margin-bottom:16px;letter-spacing:1px;">
+        Get Better<br><em style="color:var(--cyan);font-style:normal;">Between</em><br>Practices
+      </h1>
+      <p style="font-size:15px;color:rgba(255,255,255,.7);line-height:1.7;max-width:480px;margin-bottom:28px;">
+        A library of skill videos, at-home drills, and position guides — everything you need to keep improving on your own time. No equipment? No problem. Most drills only need a ball and a wall.
+      </p>
+      <!-- SOTW banner -->
+      <div style="background:linear-gradient(135deg,#1E4FA3 0%,#2860CC 100%);border-radius:14px;padding:16px 20px;display:flex;align-items:center;gap:16px;max-width:440px;border:1px solid rgba(0,212,200,.3);">
+        <div style="font-size:28px;">🏐</div>
+        <div style="flex:1;">
+          <div style="font-family:var(--head);font-size:10px;font-weight:800;letter-spacing:3px;color:rgba(255,255,255,.7);text-transform:uppercase;margin-bottom:4px;">Skill of the Week</div>
+          <div style="font-family:var(--head);font-size:20px;font-weight:800;color:#fff;margin-bottom:2px;">Standing Float Serve</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.6);">Freeze the wrist → create movement</div>
+        </div>
+        <a class="sotw-link" onclick="showSotwVideo(event)" href="#serving-video" style="font-family:var(--head);font-size:13px;font-weight:700;letter-spacing:1px;background:var(--cyan);color:var(--navy);padding:10px 18px;border-radius:10px;text-decoration:none;white-space:nowrap;cursor:pointer;">Watch Now →</a>
+      </div>
+    </div>
+
+
+  </div>
+</section>
+
+<!-- SKILL VIDEOS -->
+  <section class="sec" id="videos">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Watch &amp; Learn</div>
+      <h2 class="sec-title">Skill Tutorial Videos</h2>
+      <p class="sec-desc">Real coaching breakdowns from Gold Medal Squared and other trusted volleyball educators. Watch, then try it the next time you have a ball in your hands.</p>
+    </div>
+
+    <div class="cat-tabs">
+      <button class="cat-tab on" onclick="filterVideos('all',this)">All Skills</button>
+      <button class="cat-tab" onclick="filterVideos('serving',this)">🏐 Serving</button>
+      <button class="cat-tab" onclick="filterVideos('passing',this)">🙌 Passing</button>
+      <button class="cat-tab" onclick="filterVideos('setting',this)">🤲 Setting</button>
+      <button class="cat-tab" onclick="filterVideos('basics',this)">📖 Game Basics</button>
+      <button class="cat-tab" onclick="filterVideos('hitting',this)">💥 Hitting</button>
+      <button class="cat-tab" onclick="filterVideos('footwork',this)">👟 Footwork</button>
+      <button class="cat-tab" onclick="filterVideos('defense',this)">🛡️ Defense</button>
+    </div>
+
+    <div class="video-grid" id="video-grid">
+
+      <div class="video-card" data-cat="basics">
+        <div class="video-thumb-link" onclick="playVideo(this,'C-sH0rXl9vo')" role="button" tabindex="0">
+          <img src="https://img.youtube.com/vi/C-sH0rXl9vo/hqdefault.jpg" alt="" class="video-thumb" loading="lazy">
+          <div class="video-play-overlay">▶</div>
+        </div>
+        <div class="video-body">
+          <span class="video-cat-badge vb-basics">Game Basics</span>
+          <div class="video-title">Basic Volleyball Terms to Know</div>
+          <div class="video-source">The Art of Coaching Volleyball</div>
+          <br><a href="https://www.youtube.com/watch?v=C-sH0rXl9vo" target="_blank" class="video-fallback">Open on YouTube ↗</a>
+        </div>
+      </div>
+
+      <div class="video-card" data-cat="serving" id="serving-video">
+        <div class="video-thumb-link" onclick="playVideo(this,'4-4mlKF4Jzg')" role="button" tabindex="0">
+          <img src="https://img.youtube.com/vi/4-4mlKF4Jzg/hqdefault.jpg" alt="" class="video-thumb" loading="lazy">
+          <div class="video-play-overlay">▶</div>
+        </div>
+        <div class="video-body">
+          <span class="video-cat-badge vb-serving">Serving</span>
+          <div class="video-title">Volleyball How To: Standing Float Serve</div>
+          <div class="video-source">Top Flight Volleyball Club</div>
+          <br><a href="https://www.youtube.com/watch?v=4-4mlKF4Jzg" target="_blank" class="video-fallback">Open on YouTube ↗</a>
+        </div>
+      </div>
+
+      <div class="video-card" data-cat="serving">
+        <div class="video-thumb-link" onclick="playVideo(this,'E7_vBUkQ7xs')" role="button" tabindex="0">
+          <img src="https://img.youtube.com/vi/E7_vBUkQ7xs/hqdefault.jpg" alt="" class="video-thumb" loading="lazy">
+          <div class="video-play-overlay">▶</div>
+        </div>
+        <div class="video-body">
+          <span class="video-cat-badge vb-serving">Serving</span>
+          <div class="video-title">Learning the 1-Handed Jump Float Serve</div>
+          <div class="video-source">Gold Medal Squared · Next Step After Standing Serve</div>
+          <br><a href="https://www.youtube.com/watch?v=E7_vBUkQ7xs" target="_blank" class="video-fallback">Open on YouTube ↗</a>
+        </div>
+      </div>
+
+      <div class="video-card" data-cat="passing">
+        <div class="video-thumb-link" onclick="playVideo(this,'nwT_aryIP3Y')" role="button" tabindex="0">
+          <img src="https://img.youtube.com/vi/nwT_aryIP3Y/hqdefault.jpg" alt="" class="video-thumb" loading="lazy">
+          <div class="video-play-overlay">▶</div>
+        </div>
+        <div class="video-body">
+          <span class="video-cat-badge vb-passing">Passing</span>
+          <div class="video-title">Teaching the 6 Skills of Volleyball — Passing Part 1</div>
+          <div class="video-source">The Art of Coaching Volleyball</div>
+          <br><a href="https://www.youtube.com/watch?v=nwT_aryIP3Y" target="_blank" class="video-fallback">Open on YouTube ↗</a>
+        </div>
+      </div>
+
+      <div class="video-card" data-cat="passing">
+        <div class="video-thumb-link" onclick="playVideo(this,'UwFzueaKYj4')" role="button" tabindex="0">
+          <img src="https://img.youtube.com/vi/UwFzueaKYj4/hqdefault.jpg" alt="" class="video-thumb" loading="lazy">
+          <div class="video-play-overlay">▶</div>
+        </div>
+        <div class="video-body">
+          <span class="video-cat-badge vb-passing">Passing</span>
+          <div class="video-title">Teaching the 6 Skills of Volleyball — Passing Part 2</div>
+          <div class="video-source">The Art of Coaching Volleyball</div>
+          <br><a href="https://www.youtube.com/watch?v=UwFzueaKYj4" target="_blank" class="video-fallback">Open on YouTube ↗</a>
+        </div>
+      </div>
+
+      <div class="video-card" data-cat="passing">
+        <div class="video-thumb-link" onclick="playVideo(this,'yx4FHaNbGMc')" role="button" tabindex="0">
+          <img src="https://img.youtube.com/vi/yx4FHaNbGMc/hqdefault.jpg" alt="" class="video-thumb" loading="lazy">
+          <div class="video-play-overlay">▶</div>
+        </div>
+        <div class="video-body">
+          <span class="video-cat-badge vb-passing">Passing</span>
+          <div class="video-title">Volleyball Passing Keys</div>
+          <div class="video-source">Gold Medal Squared · Chris McGown</div>
+          <br><a href="https://www.youtube.com/watch?v=yx4FHaNbGMc" target="_blank" class="video-fallback">Open on YouTube ↗</a>
+        </div>
+      </div>
+
+      <div class="video-card" data-cat="passing">
+        <div class="video-thumb-link" onclick="playVideo(this,'EJHj3PQ6738')" role="button" tabindex="0">
+          <img src="https://img.youtube.com/vi/EJHj3PQ6738/hqdefault.jpg" alt="" class="video-thumb" loading="lazy">
+          <div class="video-play-overlay">▶</div>
+        </div>
+        <div class="video-body">
+          <span class="video-cat-badge vb-passing">Passing</span>
+          <div class="video-title">How to Angle Your Platform — Passing Key #3</div>
+          <div class="video-source">Gold Medal Squared · "Face the Ball, Angle the Platform"</div>
+          <br><a href="https://www.youtube.com/watch?v=EJHj3PQ6738" target="_blank" class="video-fallback">Open on YouTube ↗</a>
+        </div>
+      </div>
+
+      <div class="video-card" data-cat="passing">
+        <div class="video-thumb-link" onclick="playVideo(this,'lVusJUTFr3w')" role="button" tabindex="0">
+          <img src="https://img.youtube.com/vi/lVusJUTFr3w/hqdefault.jpg" alt="" class="video-thumb" loading="lazy">
+          <div class="video-play-overlay">▶</div>
+        </div>
+        <div class="video-body">
+          <span class="video-cat-badge vb-passing">Passing</span>
+          <div class="video-title">Passing Principles</div>
+          <div class="video-source">Gold Medal Squared</div>
+          <br><a href="https://www.youtube.com/watch?v=lVusJUTFr3w" target="_blank" class="video-fallback">Open on YouTube ↗</a>
+        </div>
+      </div>
+
+      <div class="video-card" data-cat="setting">
+        <div class="video-thumb-link" onclick="playVideo(this,'lEkr3qgIDlI')" role="button" tabindex="0">
+          <img src="https://img.youtube.com/vi/lEkr3qgIDlI/hqdefault.jpg" alt="" class="video-thumb" loading="lazy">
+          <div class="video-play-overlay">▶</div>
+        </div>
+        <div class="video-body">
+          <span class="video-cat-badge vb-setting">Setting</span>
+          <div class="video-title">How to Set a Volleyball — Hand Position, Stance, Footwork</div>
+          <div class="video-source">Volleyball Fundamentals 2.0</div>
+          <br><a href="https://www.youtube.com/watch?v=lEkr3qgIDlI" target="_blank" class="video-fallback">Open on YouTube ↗</a>
+        </div>
+      </div>
+
+      <div class="video-card" data-cat="setting">
+        <div class="video-thumb-link" onclick="playVideo(this,'AOwk2QN0PdM')" role="button" tabindex="0">
+          <img src="https://img.youtube.com/vi/AOwk2QN0PdM/hqdefault.jpg" alt="" class="video-thumb" loading="lazy">
+          <div class="video-play-overlay">▶</div>
+        </div>
+        <div class="video-body">
+          <span class="video-cat-badge vb-setting">Setting</span>
+          <div class="video-title">Timing &amp; Hand Sensitivity — How to Set (Part 2/5)</div>
+          <div class="video-source">Setting Tutorial Series</div>
+          <br><a href="https://www.youtube.com/watch?v=AOwk2QN0PdM" target="_blank" class="video-fallback">Open on YouTube ↗</a>
+        </div>
+      </div>
+
+      <div class="video-card" data-cat="hitting">
+        <div class="video-thumb-link" onclick="playVideo(this,'5UjM1d8UPxc')" role="button" tabindex="0">
+          <img src="https://img.youtube.com/vi/5UjM1d8UPxc/hqdefault.jpg" alt="" class="video-thumb" loading="lazy">
+          <div class="video-play-overlay">▶</div>
+        </div>
+        <div class="video-body">
+          <span class="video-cat-badge vb-hitting">Hitting</span>
+          <div class="video-title">The Keys to Spiking</div>
+          <div class="video-source">Jim McLaughlin · Approach &amp; Arm Swing</div>
+          <br><a href="https://www.youtube.com/watch?v=5UjM1d8UPxc" target="_blank" class="video-fallback">Open on YouTube ↗</a>
+        </div>
+      </div>
+
+      <div class="video-card" data-cat="footwork">
+        <div class="video-thumb-link" onclick="playVideo(this,'dJYJQ7EJVSU')" role="button" tabindex="0">
+          <img src="https://img.youtube.com/vi/dJYJQ7EJVSU/hqdefault.jpg" alt="" class="video-thumb" loading="lazy">
+          <div class="video-play-overlay">▶</div>
+        </div>
+        <div class="video-body">
+          <span class="video-cat-badge vb-footwork">Footwork</span>
+          <div class="video-title">Transition Footwork</div>
+          <div class="video-source">Gold Medal Squared Camps &amp; Clinics</div>
+          <br><a href="https://www.youtube.com/watch?v=dJYJQ7EJVSU" target="_blank" class="video-fallback">Open on YouTube ↗</a>
+        </div>
+      </div>
+
+      <div class="video-card" data-cat="footwork">
+        <div class="video-thumb-link" onclick="playVideo(this,'jJpKLyf3NfE')" role="button" tabindex="0">
+          <img src="https://img.youtube.com/vi/jJpKLyf3NfE/hqdefault.jpg" alt="" class="video-thumb" loading="lazy">
+          <div class="video-play-overlay">▶</div>
+        </div>
+        <div class="video-body">
+          <span class="video-cat-badge vb-footwork">Footwork</span>
+          <div class="video-title">Transition Footwork Explained</div>
+          <div class="video-source">Jim McLaughlin · 50% of volleyball is played in transition</div>
+          <br><a href="https://www.youtube.com/watch?v=jJpKLyf3NfE" target="_blank" class="video-fallback">Open on YouTube ↗</a>
+        </div>
+      </div>
+
+      <div class="video-card" data-cat="defense">
+        <div class="video-thumb-link" onclick="playVideo(this,'ytMe7ebqQoA')" role="button" tabindex="0">
+          <img src="https://img.youtube.com/vi/ytMe7ebqQoA/hqdefault.jpg" alt="" class="video-thumb" loading="lazy">
+          <div class="video-play-overlay">▶</div>
+        </div>
+        <div class="video-body">
+          <span class="video-cat-badge vb-defense">Defense</span>
+          <div class="video-title">Defense Positioning and Collapsed Digs</div>
+          <div class="video-source">The Art of Coaching Volleyball</div>
+          <br><a href="https://www.youtube.com/watch?v=ytMe7ebqQoA" target="_blank" class="video-fallback">Open on YouTube ↗</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  </div>
+  <div class="sec-wrap alt">
+  <!-- AT-HOME DRILLS -->
+  <section class="sec" id="drills">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Practice On Your Own</div>
+      <h2 class="sec-title">At-Home Drills</h2>
+      <p class="sec-desc">No gym, no team, no problem. These drills need a ball, a wall, and 10-15 minutes. Doing even 2-3 of these a few times a week adds up fast.</p>
+    </div>
+
+    <div class="drill-grid">
+
+      <div class="drill-card">
+        <span class="drill-icon">🧱</span>
+        <div class="drill-title">Wall Serve Practice</div>
+        <div class="drill-meta">
+          <span class="drill-tag">Serving</span>
+          <span class="drill-tag">5-10 min</span>
+        </div>
+        <div class="drill-desc">Stand <strong>15-20 feet</strong> from a wall. Practice your toss and contact motion — toss the ball, let it drop, then serve it into the wall using your serving motion. Focus on a <strong>consistent toss height</strong> every time before adding power.</div>
+      </div>
+
+      <div class="drill-card">
+        <span class="drill-icon">🙌</span>
+        <div class="drill-title">Platform Wall Taps</div>
+        <div class="drill-meta">
+          <span class="drill-tag">Passing</span>
+          <span class="drill-tag">10 min</span>
+        </div>
+        <div class="drill-desc">Stand facing a wall, arms in passing platform. Toss the ball softly off the wall to yourself and pass it back — <strong>focus on keeping your platform flat and angled</strong>, not swinging your arms. Try for 20 in a row without dropping.</div>
+      </div>
+
+      <div class="drill-card">
+        <span class="drill-icon">🎯</span>
+        <div class="drill-title">Toss &amp; Catch — Setting Hands</div>
+        <div class="drill-meta">
+          <span class="drill-tag">Setting</span>
+          <span class="drill-tag">10 min</span>
+        </div>
+        <div class="drill-desc">Toss the ball up above your forehead and catch it in <strong>setting hand shape</strong> (triangle with thumbs and pointer fingers). Catch it with bent elbows, absorb, then push it back up. Builds hand shape memory without a partner.</div>
+      </div>
+
+      <div class="drill-card">
+        <span class="drill-icon">🪜</span>
+        <div class="drill-title">Approach Footwork — No Ball</div>
+        <div class="drill-meta">
+          <span class="drill-tag">Footwork</span>
+          <span class="drill-tag">5-10 min</span>
+        </div>
+        <div class="drill-desc">Practice your <strong>3-step hitting approach</strong> (left-right-left for righties) in slow motion, then full speed, no ball needed. Use a hallway or driveway. Focus on the big last step and arm swing-back timing.</div>
+      </div>
+
+      <div class="drill-card">
+        <span class="drill-icon">⬆️</span>
+        <div class="drill-title">Jump Training — Box/Step Jumps</div>
+        <div class="drill-meta">
+          <span class="drill-tag">Vertical</span>
+          <span class="drill-tag">10-15 min</span>
+        </div>
+        <div class="drill-desc">Use a sturdy step or low box. <strong>3 sets of 8-10 jumps</strong> — explode up using both arms to drive overhead. Land soft with bent knees. This builds the explosive power used in attacking and blocking.</div>
+      </div>
+
+      <div class="drill-card">
+        <span class="drill-icon">🔁</span>
+        <div class="drill-title">Self-Toss Pancake/Dig Reps</div>
+        <div class="drill-meta">
+          <span class="drill-tag">Defense</span>
+          <span class="drill-tag">10 min</span>
+        </div>
+        <div class="drill-desc">Toss the ball a few feet to either side of you on a soft surface (grass, carpet, mat). Practice <strong>moving your feet first</strong>, getting low, and getting your platform under the ball before it drops.</div>
+      </div>
+
+      <div class="drill-card">
+        <span class="drill-icon">💪</span>
+        <div class="drill-title">Core &amp; Arm Conditioning</div>
+        <div class="drill-meta">
+          <span class="drill-tag">Strength</span>
+          <span class="drill-tag">10 min</span>
+        </div>
+        <div class="drill-desc">3 sets each: <strong>plank holds (30 sec)</strong>, push-ups (8-12), and superman holds (20 sec) for shoulder/back strength used in serving and hitting. Builds the foundation for a powerful arm swing.</div>
+      </div>
+
+      <div class="drill-card">
+        <span class="drill-icon">🎥</span>
+        <div class="drill-title">Mirror Form Check</div>
+        <div class="drill-meta">
+          <span class="drill-tag">Technique</span>
+          <span class="drill-tag">5 min</span>
+        </div>
+        <div class="drill-desc">In front of a mirror or by recording yourself on a phone, run through your <strong>serve motion, passing platform, and setting hand shape</strong> in slow motion. Compare to the videos above — small fixes add up.</div>
+      </div>
+
+    </div>
+  </section>
+
+  </div>
+  <div class="sec-wrap">
+  <!-- POSITION GUIDES -->
+  <section class="sec" id="positions">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Know Your Role</div>
+      <h2 class="sec-title">Position Focus Guides</h2>
+      <p class="sec-desc">Every position has different priorities. Here's what to focus on extra during your own practice time based on where you play.</p>
+    </div>
+
+    <div class="pos-grid">
+
+      <div class="pos-card">
+        <div class="pos-title">🏐 Outside Hitter (OH)</div>
+        <ul class="pos-list">
+          <li>Approach footwork &amp; timing</li>
+          <li>Serve receive passing</li>
+          <li>Arm swing power &amp; shoulder strength</li>
+          <li>Reading the block</li>
+        </ul>
+      </div>
+
+      <div class="pos-card pos-mb">
+        <div class="pos-title">🛡️ Middle Blocker (MB)</div>
+        <ul class="pos-list">
+          <li>Block footwork (step-close)</li>
+          <li>Quick approach timing</li>
+          <li>Vertical jump training</li>
+          <li>Reading the setter's hands</li>
+        </ul>
+      </div>
+
+      <div class="pos-card pos-s">
+        <div class="pos-title">🎯 Setter (S)</div>
+        <ul class="pos-list">
+          <li>Hand shape consistency</li>
+          <li>Footwork to the ball</li>
+          <li>Setting both directions equally</li>
+          <li>Quick decision-making reps</li>
+        </ul>
+      </div>
+
+      <div class="pos-card pos-l">
+        <div class="pos-title">🙌 Libero / Defensive Specialist</div>
+        <ul class="pos-list">
+          <li>Passing platform consistency</li>
+          <li>Low body positioning &amp; movement</li>
+          <li>Reading hitters early</li>
+          <li>Communication &amp; court awareness</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  </div>
+  <div class="sec-wrap alt">
+  <!-- SKILL GUIDES -->
+  <section class="sec" id="guides">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Go Deeper</div>
+      <h2 class="sec-title">Skill Guides</h2>
+      <p class="sec-desc">In-depth breakdowns of the most important skills on the court — covering technique, footwork, reading the game, and how to practice smarter.</p>
+    </div>
+
+    <div class="resource-grid">
+
+      <a href="blocking-guide-players.html" class="resource-card">
+        <div class="resource-icon" style="background:#E0E7FF;">🛡️</div>
+        <div class="resource-text">
+          <div class="resource-title">Understanding Blocking</div>
+          <div class="resource-sub">Technique, footwork, reading hitters & team blocking</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+
+      <a href="volleyball-transitions-players.html" class="resource-card">
+        <div class="resource-icon" style="background:#FEF3C7;">⚡</div>
+        <div class="resource-text">
+          <div class="resource-title">Volleyball Transitions</div>
+          <div class="resource-sub">What is transition, the 5 phases, footwork & common mistakes</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+
+      <a href="jump-training-players.html" class="resource-card">
+        <div class="resource-icon" style="background:#D1FAE5;">⬆️</div>
+        <div class="resource-text">
+          <div class="resource-title">Jump Higher Training</div>
+          <div class="resource-sub">Vertical jump program — exercises, progressions &amp; plyometrics</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+
+      <a href="serving-guide-players.html" class="resource-card">
+        <div class="resource-icon" style="background:#DBEAFE;">🏐</div>
+        <div class="resource-text">
+          <div class="resource-title">Volleyball Serving</div>
+          <div class="resource-sub">Float serve, jump serve, zone targeting &amp; common mistakes</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+
+      <a href="passing-guide-players.html" class="resource-card">
+        <div class="resource-icon" style="background:#D1FAE5;">🙌</div>
+        <div class="resource-text">
+          <div class="resource-title">Volleyball Passing</div>
+          <div class="resource-sub">Platform mechanics, footwork, angles &amp; serve receive</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+
+      <a href="setting-guide-players.html" class="resource-card">
+        <div class="resource-icon" style="background:#FEF9C3;">🤲</div>
+        <div class="resource-text">
+          <div class="resource-title">Volleyball Setting</div>
+          <div class="resource-sub">Hand shape, footwork, set types &amp; decision-making</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+
+      <a href="hitting-guide-players.html" class="resource-card">
+        <div class="resource-icon" style="background:#FFE4E6;">💥</div>
+        <div class="resource-text">
+          <div class="resource-title">Volleyball Hitting</div>
+          <div class="resource-sub">4-step approach, arm swing, angles &amp; reading the block</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+
+      <a href="defense-guide-players.html" class="resource-card">
+        <div class="resource-icon" style="background:#EDE9FE;">🛡️</div>
+        <div class="resource-text">
+          <div class="resource-title">Volleyball Defense</div>
+          <div class="resource-sub">Positioning, reading hitters, dig mechanics &amp; floor coverage</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+
+      <a href="perimeter-defense-players.html" class="resource-card">
+        <div class="resource-icon" style="background:#DBEAFE;">📐</div>
+        <div class="resource-text">
+          <div class="resource-title">Perimeter Defense</div>
+          <div class="resource-sub">Our base 2-0-4 system — your zone, your job, film included</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+
+    </div>
+  </section>
+
+  </div>
+  <div class="sec-wrap">
+  <!-- TEAM SYSTEMS -->
+  <section class="sec" id="systems">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Learn The System</div>
+      <h2 class="sec-title">Team Systems &amp; Rotations</h2>
+      <p class="sec-desc">Understanding where you're supposed to be on the court is just as important as your skills. These interactive games teach the rotation systems Orcas uses.</p>
+    </div>
+
+    <a href="62-rotation-academy.html" class="academy-feature">
+      <div class="academy-icon">🎮</div>
+      <div class="academy-text">
+        <div class="academy-label">Interactive Game</div>
+        <div class="academy-title">6-2 Rotation Academy</div>
+        <div class="academy-desc">6 lessons + 12 drag-and-drop quiz questions covering player positions, rotation order, and the 6-2 system Orcas runs. Test your knowledge and learn where you need to be every rotation.</div>
+      </div>
+      <div class="academy-cta">Play Now →</div>
+    </a>
+
+    <a href="42-rotation-academy.html" class="academy-feature" style="margin-top:14px;">
+      <div class="academy-icon">🎮</div>
+      <div class="academy-text">
+        <div class="academy-label">Interactive Game</div>
+        <div class="academy-title">4-2 Rotation Academy</div>
+        <div class="academy-desc">6 lessons + 12 drag-and-drop quiz questions covering the 4-2 system — 2 setters opposite each other, 4 dedicated attackers, and the front-row setter rule.</div>
+      </div>
+      <div class="academy-cta">Play Now →</div>
+    </a>
+
+    <a href="63-rotation-academy.html" class="academy-feature" style="margin-top:14px;">
+      <div class="academy-icon">🎮</div>
+      <div class="academy-text">
+        <div class="academy-label">Interactive Game</div>
+        <div class="academy-title">6-3 Rotation Academy</div>
+        <div class="academy-desc">6 lessons + 12 drag-and-drop quiz questions covering the 6-3 system — 3 Hybrid setter/attackers, no position switching, and how the setting duties hand off every 2 rotations.</div>
+      </div>
+      <div class="academy-cta">Play Now →</div>
+    </a>
+  </section>
+
+  </div>
+  <div class="sec-wrap alt">
+  <!-- VOLLEYBALL IQ -->
+  <section class="sec" id="iq">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Speak The Language</div>
+      <h2 class="sec-title">Volleyball IQ — Attack Call Glossary</h2>
+      <p class="sec-desc">Every attack has a name and a timing — coaches, setters, and hitters all need to know these calls to communicate before and during a rally. Different teams sometimes use different names, but these are the most common calls you'll hear.</p>
+    </div>
+
+    <div class="iq-pdf-row">
+      <a href="https://cdn.prod.website-files.com/673b03a9d9f374dfe3cd45ec/69e25fb4c7debdfa9f570e76_00_GMS_Attack-Calls.pdf" target="_blank" class="iq-pdf-card">
+        <div class="iq-pdf-icon">📄</div>
+        <div class="iq-pdf-text">
+          <div class="iq-pdf-title">Attack Names Reference Sheet</div>
+          <div class="iq-pdf-sub">Labeled diagram — print &amp; bring to practice</div>
+        </div>
+        <div class="iq-pdf-arrow">↓</div>
+      </a>
+      <a href="https://cdn.prod.website-files.com/673b03a9d9f374dfe3cd45ec/69e2600065d736df8a882d60_Attack%20Names%20Blank.jpg" target="_blank" class="iq-pdf-card">
+        <div class="iq-pdf-icon">📝</div>
+        <div class="iq-pdf-text">
+          <div class="iq-pdf-title">Blank Version</div>
+          <div class="iq-pdf-sub">Fill in your own team's calls</div>
+        </div>
+        <div class="iq-pdf-arrow">↓</div>
+      </a>
+    </div>
+
+    <div class="iq-grid">
+
+      <div class="iq-card">
+        <div class="iq-name">GO</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-fast">2nd-step · Fast</span><span class="iq-tag">Left Side (OH)</span></div>
+        <div class="iq-desc">A quick, in-system set to the outside hitter on the left. The hitter is already on the <strong>second step</strong> of her approach by the time the setter contacts the ball — one of the most common calls in the game.</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">HUT</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-slow">1st-step · High</span><span class="iq-tag">Left Side (OH)</span></div>
+        <div class="iq-desc">A higher, slower out-of-system set to the left-side hitter. The hitter is only on her <strong>first step</strong> (or hasn't started) when the ball is set — gives her time to adjust to an off-target pass.</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">RED</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-fast">2nd-step · Fast</span><span class="iq-tag">Right Side (Opp)</span></div>
+        <div class="iq-desc">The right-side mirror of a "Go" — a quick, in-system set to the opposite hitter. Same second-step timing, just on the other side of the court.</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">5</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-slow">1st-step · High</span><span class="iq-tag">Right Side (Opp)</span></div>
+        <div class="iq-desc">The right-side mirror of a "Hut" — a high, slower out-of-system set to the opposite hitter when the pass isn't perfect.</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">GAP / 31</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-mid">3rd-step</span><span class="iq-tag">Middle</span></div>
+        <div class="iq-desc">An in-system set to the middle attacker, landing between the left sideline and the middle of the court. The hitter is on her <strong>third step</strong> as the setter contacts the ball — a bit slower than a true quick.</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">1 / QUICK</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-fast">3rd–4th Step</span><span class="iq-tag">Middle</span></div>
+        <div class="iq-desc">The classic quick attack — set to the middle hitter directly in front of the setter. Some teams run it on the 3rd step (slower), others on the 4th (faster). Often just called "Quick."</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">BACK-1</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-fast">3rd–4th Step</span><span class="iq-tag">Middle (Behind Setter)</span></div>
+        <div class="iq-desc">Same quick timing as a "1," but set to the middle attacker running directly <strong>behind</strong> the setter instead of in front.</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">2</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-mid">2nd-step · Higher</span><span class="iq-tag">Middle</span></div>
+        <div class="iq-desc">A higher set to a middle-of-the-court attacker. Can go to the middle blocker, or to a pin hitter running a combination play with the middle.</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">SLIDE</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-mid">2nd–3rd Step</span><span class="iq-tag">Right Side (Middle)</span></div>
+        <div class="iq-desc">A back set to a middle attacker who takes off on <strong>one foot</strong> along the right side of the net. The exact timing shifts slightly depending on where the setter contacts the ball.</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">BIC</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-mid">2nd–3rd Step</span><span class="iq-tag">Back Row · Middle</span></div>
+        <div class="iq-desc">An in-system back-row attack through the middle of the court — gives teams another scoring option beyond the front row.</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">D</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-mid">1st–2nd Step</span><span class="iq-tag">Back Row · Right Side</span></div>
+        <div class="iq-desc">A back-row attack on the right side. An <strong>in-system D</strong> is set on the 2nd step (faster); an <strong>out-of-system D</strong> is set on the 1st step (slower, higher).</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">SETTER DUMP</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-fast">2nd Contact</span><span class="iq-tag">Setter Attack</span></div>
+        <div class="iq-desc">Instead of setting the ball to a hitter, the front-row setter attacks it herself with one hand on the second contact — catching the defense off guard.</div>
+      </div>
+
+      <div class="iq-card">
+        <div class="iq-name">SET-OVER</div>
+        <div class="iq-meta"><span class="iq-tag iq-tag-fast">2nd Contact</span><span class="iq-tag">Setter Attack</span></div>
+        <div class="iq-desc">The setter sends the 2nd contact straight over the net (instead of setting a hitter), aiming for an open spot on the opponent's court to score directly.</div>
+      </div>
+
+    </div>
+
+    <!-- RULES OF VOLLEYBALL — TRUE OR FALSE GAME -->
+    <div class="rules-intro">
+      <div class="rules-intro-badge">🎮 Quick Game</div>
+      <h3 class="rules-intro-title">True or False? Test Your Rules Knowledge</h3>
+      <p class="rules-intro-desc">Tap a card to flip it and see if you got it right. Some of these trip up even experienced players!</p>
+    </div>
+
+    <div class="tf-grid" id="tf-grid">
+
+      <div class="tf-card" onclick="flipCard(this)">
+        <div class="tf-front">
+          <div class="tf-q">A serve that touches the net and goes over is still in play.</div>
+          <div class="tf-tap">Tap to flip</div>
+        </div>
+        <div class="tf-back tf-true">
+          <div class="tf-result">✅ TRUE</div>
+          <div class="tf-explain">Unlike old-school rules, a serve that clips the net and lands in bounds is completely legal — keep playing!</div>
+        </div>
+      </div>
+
+      <div class="tf-card" onclick="flipCard(this)">
+        <div class="tf-front">
+          <div class="tf-q">A team gets 3 touches max before sending the ball back over the net.</div>
+          <div class="tf-tap">Tap to flip</div>
+        </div>
+        <div class="tf-back tf-true">
+          <div class="tf-result">✅ TRUE</div>
+          <div class="tf-explain">3 touches per side — usually pass, set, hit. A block doesn't count as one of your 3 touches!</div>
+        </div>
+      </div>
+
+      <div class="tf-card" onclick="flipCard(this)">
+        <div class="tf-front">
+          <div class="tf-q">The same player can hit the ball twice in a row (two separate touches).</div>
+          <div class="tf-tap">Tap to flip</div>
+        </div>
+        <div class="tf-back tf-false">
+          <div class="tf-result">❌ FALSE</div>
+          <div class="tf-explain">One player can't touch the ball twice in a row — except right after a block, which doesn't count as a touch for that player.</div>
+        </div>
+      </div>
+
+      <div class="tf-card" onclick="flipCard(this)">
+        <div class="tf-front">
+          <div class="tf-q">Back-row players are allowed to spike the ball from anywhere on the court.</div>
+          <div class="tf-tap">Tap to flip</div>
+        </div>
+        <div class="tf-back tf-false">
+          <div class="tf-result">❌ FALSE</div>
+          <div class="tf-explain">Back-row players can only attack from behind the 10-foot line (the attack line). Jump from in front of it and it's a fault!</div>
+        </div>
+      </div>
+
+      <div class="tf-card" onclick="flipCard(this)">
+        <div class="tf-front">
+          <div class="tf-q">Games are played to 25 points, win by 2.</div>
+          <div class="tf-tap">Tap to flip</div>
+        </div>
+        <div class="tf-back tf-true">
+          <div class="tf-result">✅ TRUE</div>
+          <div class="tf-explain">Sets go to 25, win by 2 (so 26-24, 27-25, etc.) — except a deciding 5th set, which only goes to 15.</div>
+        </div>
+      </div>
+
+      <div class="tf-card" onclick="flipCard(this)">
+        <div class="tf-front">
+          <div class="tf-q">You only score a point when your team is serving.</div>
+          <div class="tf-tap">Tap to flip</div>
+        </div>
+        <div class="tf-back tf-false">
+          <div class="tf-result">❌ FALSE</div>
+          <div class="tf-explain">Every rally is a point for someone — this is called "rally scoring." Win the rally, win the point, whether you served or not.</div>
+        </div>
+      </div>
+
+      <div class="tf-card" onclick="flipCard(this)">
+        <div class="tf-front">
+          <div class="tf-q">A ball that lands on the boundary line is OUT.</div>
+          <div class="tf-tap">Tap to flip</div>
+        </div>
+        <div class="tf-back tf-false">
+          <div class="tf-result">❌ FALSE</div>
+          <div class="tf-explain">If any part of the ball touches the line, it's IN. The line is part of the court — just like in tennis!</div>
+        </div>
+      </div>
+
+      <div class="tf-card" onclick="flipCard(this)">
+        <div class="tf-front">
+          <div class="tf-q">The Libero can serve.</div>
+          <div class="tf-tap">Tap to flip</div>
+        </div>
+        <div class="tf-back tf-true">
+          <div class="tf-result">✅ TRUE</div>
+          <div class="tf-explain">In most leagues, the Libero can serve — usually in one rotation spot. (Check your league's specific rule, since this varies!)</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- QUICK RULES CHEAT SHEET -->
+    <div class="rules-cheat-wrap">
+      <div class="rules-cheat-head">⚡ Quick Reference — Know This Before Game Day</div>
+      <div class="rules-cheat-grid">
+        <div class="rc-item"><span class="rc-icon">🏐</span><div><strong>Rotation</strong><br>Every time your team wins back the serve, everyone rotates one spot clockwise.</div></div>
+        <div class="rc-item"><span class="rc-icon">🙌</span><div><strong>3 Touches</strong><br>Pass, set, hit — that's your team's max before the ball must cross the net.</div></div>
+        <div class="rc-item"><span class="rc-icon">🚫</span><div><strong>No Catching</strong><br>The ball must be hit cleanly, not caught, lifted, or thrown.</div></div>
+        <div class="rc-item"><span class="rc-icon">📏</span><div><strong>Attack Line</strong><br>Back-row players must jump from behind this line to attack — or it's a fault.</div></div>
+        <div class="rc-item"><span class="rc-icon">🔁</span><div><strong>Side Out</strong><br>If the receiving team wins the rally, they get the point AND the serve.</div></div>
+        <div class="rc-item"><span class="rc-icon">🏆</span><div><strong>Match Format</strong><br>Best of 5 sets — first to 25 (15 for set 5), win by 2.</div></div>
+      </div>
+    </div>
+
+  </section>
+
+  </div>
+  <div class="sec-wrap">
+  <!-- GAME FILM -->
+  <section class="sec" id="film">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Watch &amp; Learn</div>
+      <h2 class="sec-title">Game Film</h2>
+      <p class="sec-desc">Watch our match footage on the Orcas YouTube channel. Reviewing game film is one of the fastest ways to improve — watch your positioning, your serve receive, and how you move on the court.</p>
+    </div>
+
+    <a href="https://www.youtube.com/channel/UCEvk_wTabiMaHY03cV7YnMg" target="_blank" rel="noopener"
+      style="display:flex;align-items:center;gap:24px;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);border:1.5px solid rgba(255,255,255,.1);border-radius:20px;padding:32px 36px;text-decoration:none;transition:all .2s;margin-bottom:24px;"
+      onmouseover="this.style.borderColor='rgba(255,0,0,.5)';this.style.transform='translateY(-2px)'"
+      onmouseout="this.style.borderColor='rgba(255,255,255,.1)';this.style.transform='translateY(0)'">
+      <div style="flex-shrink:0;width:72px;height:72px;background:#FF0000;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 4px 20px rgba(255,0,0,.4);">▶</div>
+      <div style="flex:1;">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,.45);text-transform:uppercase;margin-bottom:6px;">YouTube · Orcas Volleyball</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;color:#fff;letter-spacing:.5px;margin-bottom:6px;">Orcas Game Film Channel</div>
+        <div style="font-size:14px;color:rgba(255,255,255,.55);line-height:1.5;">Match footage, highlights, and game film. Watch on any device — phone, tablet, or computer.</div>
+      </div>
+      <div style="flex-shrink:0;font-size:28px;color:rgba(255,255,255,.25);">→</div>
+    </a>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;">
+      <div style="background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:20px 22px;">
+        <div style="font-size:24px;margin-bottom:8px;">👀</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--ink);margin-bottom:6px;">Watch Your Positioning</div>
+        <div style="font-size:13px;color:#6B7689;line-height:1.6;">Where are you standing on defense? Are you in serve receive position early? Film reveals what you can't see in the moment.</div>
+      </div>
+      <div style="background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:20px 22px;">
+        <div style="font-size:24px;margin-bottom:8px;">🏐</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--ink);margin-bottom:6px;">Watch Your Approach</div>
+        <div style="font-size:13px;color:#6B7689;line-height:1.6;">Is your 4-step approach consistent? Are you timing the set correctly? Your approach looks different on film than it feels.</div>
+      </div>
+      <div style="background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:20px 22px;">
+        <div style="font-size:24px;margin-bottom:8px;">📋</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--ink);margin-bottom:6px;">Study the Other Team</div>
+        <div style="font-size:13px;color:#6B7689;line-height:1.6;">What serves are they running? Where does their setter like to set? Film study before a rematch gives you a real edge.</div>
+      </div>
+    </div>
+  </section>
+
+  </div>
+  <div class="sec-wrap">
+  <!-- SCHEDULE -->
+  <section class="sec" id="schedule">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Summer 2026</div>
+      <h2 class="sec-title">Game Schedule</h2>
+      <p class="sec-desc">5 games, 6 weeks. Check the full schedule, get directions to each venue, and follow live scores on QuickScores.</p>
+    </div>
+
+    <a href="game-schedule.html"
+      style="display:flex;align-items:center;gap:20px;background:linear-gradient(135deg,#0B1B2D 0%,#1E4FA3 100%);border:1.5px solid rgba(0,212,200,.25);border-radius:20px;padding:24px 28px;text-decoration:none;transition:all .2s;margin-bottom:16px;"
+      onmouseover="this.style.borderColor='rgba(0,212,200,.6)';this.style.transform='translateY(-2px)'"
+      onmouseout="this.style.borderColor='rgba(0,212,200,.25)';this.style.transform='translateY(0)'">
+      <div style="flex-shrink:0;width:56px;height:56px;background:rgba(0,212,200,.15);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;border:1.5px solid rgba(0,212,200,.3);">📅</div>
+      <div style="flex:1;">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:5px;">East Valley Y's · D3 · Volleyball Competitive</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:800;color:#fff;letter-spacing:.5px;margin-bottom:4px;">2026 Summer Schedule &amp; Standings</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.5);">5 games · June 28 – August 1 · Chandler/Gilbert YMCA, Aspire VB Gym, East Valley YMCA</div>
+      </div>
+      <div style="font-size:24px;color:rgba(255,255,255,.25);flex-shrink:0;">→</div>
+    </a>
+
+    <a href="https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=vosymca&LeagueID=1718550&TeamID=15142941" target="_blank"
+      style="display:flex;align-items:center;gap:16px;background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:16px 20px;text-decoration:none;transition:all .2s;"
+      onmouseover="this.style.borderColor='var(--cyan)';this.style.boxShadow='0 4px 16px rgba(0,212,200,.1)'"
+      onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+      <div style="width:10px;height:10px;border-radius:50%;background:#f04060;animation:pulse 1.5s infinite;flex-shrink:0;"></div>
+      <div style="flex:1;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--ink);">Live Scores &amp; Official Results — QuickScores.com</div>
+      <div style="font-size:16px;color:var(--blue);">↗</div>
+    </a>
+  </section>
+  </div>
+
+  <div class="sec-wrap">
+  <!-- CAMPS -->
+  <section class="sec" id="camps">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Level Up This Summer</div>
+      <h2 class="sec-title">Upcoming Camps</h2>
+      <p class="sec-desc">Want to get better faster? These camps are coached by college staff and give you reps, feedback, and competition you can't get anywhere else.</p>
+    </div>
+
+    <!-- SUN DEVIL CAMP CARD -->
+    <div style="background:linear-gradient(135deg,#8C1D40 0%,#4a0020 100%);border-radius:20px;overflow:hidden;margin-bottom:16px;box-shadow:0 8px 32px rgba(140,29,64,.25);">
+      <!-- Header banner -->
+      <div style="padding:24px 28px 20px;position:relative;">
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap;">
+          <div style="flex-shrink:0;width:64px;height:64px;background:rgba(255,198,0,.15);border:2px solid rgba(255,198,0,.4);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:32px;">🏐</div>
+          <div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:4px;color:rgba(255,198,0,.8);text-transform:uppercase;margin-bottom:4px;">Arizona State University · Tempe, AZ</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;color:#fff;letter-spacing:.5px;line-height:1;">Sun Devil Volleyball Camps</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.6);margin-top:4px;">Coached by ASU staff &amp; current Sun Devil players</div>
+          </div>
+        </div>
+
+        <!-- Camp types grid -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:20px;">
+
+          <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:16px 18px;">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:rgba(255,198,0,.8);text-transform:uppercase;margin-bottom:6px;">🌟 Prospect Camp</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:#fff;margin-bottom:6px;">Rising 8th–12th Grade</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.6;">Individual skill instruction, game play, college scouting report, nutrition seminar, strength &amp; conditioning, and Q&amp;A with Sun Devil players. For athletes already competing at an advanced club level.</div>
+          </div>
+
+          <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:16px 18px;">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:rgba(255,198,0,.8);text-transform:uppercase;margin-bottom:6px;">🏅 Skills Camps</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:#fff;margin-bottom:6px;">All Skill Levels</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.6;">Multiple camp formats running May 31 – July 15, 2026. Open to any entrant limited only by number, age, and grade level. Taught by current ASU staff and student-athletes.</div>
+          </div>
+
+          <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:16px 18px;">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:rgba(255,198,0,.8);text-transform:uppercase;margin-bottom:6px;">📍 Location</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:#fff;margin-bottom:6px;">Desert Financial Arena</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.6;">Arizona State University, Tempe AZ. All registrations and check-ins held at Desert Financial Arena on the ASU campus.</div>
+          </div>
+
+        </div>
+
+        <!-- Why go callout -->
+        <div style="background:rgba(255,198,0,.1);border:1px solid rgba(255,198,0,.25);border-radius:12px;padding:14px 18px;margin-bottom:20px;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;color:rgba(255,198,0,.9);text-transform:uppercase;margin-bottom:6px;">⭐ Why This Camp?</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.8);line-height:1.7;">ASU went <strong style="color:#fff;">28-4</strong> in 2025, won back-to-back Big 12 Championships, and went undefeated at home two seasons in a row. Learning from a staff that coaches at that level — with All-American alumni also helping — is a rare opportunity for 7th–9th graders in the Phoenix area.</div>
+        </div>
+
+        <!-- CTA buttons -->
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="https://www.sundevilvolleyballcamps.com" target="_blank"
+            style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;letter-spacing:1px;background:#FFC600;color:#8C1D40;padding:13px 28px;border-radius:11px;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:8px;"
+            onmouseover="this.style.background='#FFD740'" onmouseout="this.style.background='#FFC600'">
+            🏐 Register at SunDevilVolleyballCamps.com ↗
+          </a>
+          <a href="https://thesundevils.com/news/2026/05/27/sun-devil-volleyball-summer-camps-start-this-week" target="_blank"
+            style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;background:rgba(255,255,255,.1);color:#fff;padding:13px 22px;border-radius:11px;text-decoration:none;border:1px solid rgba(255,255,255,.2);transition:all .2s;"
+            onmouseover="this.style.background='rgba(255,255,255,.18)'" onmouseout="this.style.background='rgba(255,255,255,.1)'">
+            📰 Read the Announcement ↗
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-size:12px;color:var(--muted);text-align:center;">This camp is not affiliated with or sponsored by ASU. Sun Devils® and the Pitchfork are registered trademarks of the Arizona Board of Regents.</p>
+  </section>
+  </div>
+
+  <div class="sec-wrap alt">
+  <!-- RESOURCES -->
+  <section class="sec" id="resources">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Helpful Links</div>
+      <h2 class="sec-title">More Resources</h2>
+      <p class="sec-desc">Additional places to learn more about the game and stay connected with the team.</p>
+    </div>
+
+    <div class="resource-grid">
+
+      <a href="62-rotation-academy.html" class="resource-card">
+        <div class="resource-icon">🎮</div>
+        <div class="resource-text">
+          <div class="resource-title">6-2 Rotation Academy</div>
+          <div class="resource-sub">Interactive game — learn our rotation system</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+
+      <a href="42-rotation-academy.html" class="resource-card">
+        <div class="resource-icon">🎮</div>
+        <div class="resource-text">
+          <div class="resource-title">4-2 Rotation Academy</div>
+          <div class="resource-sub">Interactive game — learn the 4-2 system</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+
+      <a href="63-rotation-academy.html" class="resource-card">
+        <div class="resource-icon">🎮</div>
+        <div class="resource-text">
+          <div class="resource-title">6-3 Rotation Academy</div>
+          <div class="resource-sub">Interactive game — learn the 6-3 system</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+
+      <a href="https://www.youtube.com/channel/UC322fyJfAdb0nandMjn_9Kw" target="_blank" class="resource-card">
+        <div class="resource-icon">▶️</div>
+        <div class="resource-text">
+          <div class="resource-title">GMS YouTube Channel</div>
+          <div class="resource-sub">Full library of coaching videos</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+
+      <a href="https://www.goldmedalsquared.com/post/how-to-serve-a-volleyball" target="_blank" class="resource-card">
+        <div class="resource-icon">📖</div>
+        <div class="resource-text">
+          <div class="resource-title">How to Serve — Full Guide</div>
+          <div class="resource-sub">Written breakdown of all serve types</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+
+      <a href="https://www.goldmedalsquared.com/post/importance-of-good-transition-footwork" target="_blank" class="resource-card">
+        <div class="resource-icon">📄</div>
+        <div class="resource-text">
+          <div class="resource-title">Transition Footwork Article</div>
+          <div class="resource-sub">Why footwork matters for hitters</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+
+      <a href="https://www.goldmedalsquared.com/post/swing-blocking-in-volleyball" target="_blank" class="resource-card">
+        <div class="resource-icon">🛡️</div>
+        <div class="resource-text">
+          <div class="resource-title">Swing Blocking Guide</div>
+          <div class="resource-sub">3-step crossover footwork breakdown</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+  </div>
+<footer class="footer">
+  🐋 <strong>Orcas Volleyball</strong> · Grades 7–9 · Player &amp; Family Resource Hub<br>
+  Questions about practice or this page? Talk to Coach Greg.<br>
+  All videos linked from their original sources on YouTube.
+</footer>
+
+<script>
+function playVideo(el, videoId){
+  if(el.classList.contains('playing')) return;
+  el.classList.add('playing');
+  el.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0"
+    title="Video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen loading="lazy"></iframe>`;
+}
+
+function showSotwVideo(e){
+  e.preventDefault();
+  // Reset filter to All so the card is visible
+  const allBtn = document.querySelector('.cat-tab');
+  if(allBtn) filterVideos('all', allBtn);
+  // Scroll to videos section then to the specific card
+  const card = document.getElementById('serving-video');
+  if(card){
+    card.scrollIntoView({behavior:'smooth', block:'center'});
+    // Highlight it briefly
+    card.style.outline = '3px solid var(--cyan)';
+    card.style.outlineOffset = '4px';
+    setTimeout(()=>{ card.style.outline=''; card.style.outlineOffset=''; }, 2000);
+  }
+}
+
+function flipCard(el){
+  el.classList.toggle('flipped');
+}
+
+function filterVideos(cat, btn){
+  document.querySelectorAll('.cat-tab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+
+  document.querySelectorAll('.video-card').forEach(card=>{
+    if(cat==='all' || card.dataset.cat===cat){
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+}
+
+// Active nav link highlighting on scroll
+const sections = document.querySelectorAll('.sec');
+const navLinks = document.querySelectorAll('.tb-link');
+window.addEventListener('scroll', ()=>{
+  let current = '';
+  sections.forEach(sec=>{
+    const rect = sec.getBoundingClientRect();
+    if(rect.top <= 120) current = sec.id;
+  });
+  navLinks.forEach(link=>{
+    link.classList.toggle('active', link.getAttribute('href') === '#'+current);
+  });
+});
+</script>
+
+<script>
+function openMenu(){
+  document.getElementById('mob-nav').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeMenu(){
+  document.getElementById('mob-nav').classList.remove('open');
+  document.body.style.overflow='';
+}
+// Close on escape key
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
+</script>
+</body>
+</html>
