@@ -428,6 +428,23 @@ body{background:#F0F4FF;color:var(--text);-webkit-font-smoothing:antialiased;-mo
   .resource-grid{grid-template-columns:repeat(2,1fr)!important;}
   .hero-inner{padding:48px 28px!important;}
 }
+
+/* ── GROUPED DROPDOWN NAV ── */
+.tb-nav{gap:8px;flex-wrap:nowrap;}
+.nav-group{position:relative;}
+.nav-trigger{font-family:var(--head);font-size:13px;font-weight:700;color:rgba(255,255,255,.78);background:transparent;border:0;padding:9px 13px;border-radius:8px;cursor:pointer;white-space:nowrap;}
+.nav-trigger:hover,.nav-group:focus-within .nav-trigger{background:rgba(255,255,255,.1);color:#fff;}
+.nav-menu{display:none;position:absolute;top:calc(100% + 8px);right:0;min-width:220px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:7px;box-shadow:0 14px 34px rgba(0,0,0,.2);}
+.nav-group:hover .nav-menu,.nav-group:focus-within .nav-menu{display:block;}
+.nav-menu a{display:block;color:var(--navy);text-decoration:none;font-size:13px;font-weight:600;padding:10px 12px;border-radius:8px;}
+.nav-menu a:hover{background:var(--cream);color:var(--blue);}
+.mob-group{width:100%;max-width:310px;border-bottom:1px solid rgba(255,255,255,.1);padding:5px 0;}
+.mob-group summary{font-family:var(--head);font-size:20px;font-weight:800;color:#fff;padding:10px 14px;cursor:pointer;list-style:none;}
+.mob-group summary::-webkit-details-marker{display:none}.mob-group summary:after{content:'⌄';float:right;color:var(--cyan)}
+.mob-group[open] summary:after{content:'⌃'}
+.mob-sub{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:0 8px 10px;}
+.mob-sub a{color:rgba(255,255,255,.72);text-decoration:none;font-size:13px;padding:8px;border-radius:7px;}
+.mob-sub a:hover{background:rgba(255,255,255,.08);color:#fff;}
 </style>
 
 <script>
@@ -449,50 +466,20 @@ body{background:#F0F4FF;color:var(--text);-webkit-font-smoothing:antialiased;-mo
 
 <!-- TOPBAR -->
 <header class="topbar">
-  <div class="tb-brand">
-    <span class="tb-orca">🐋</span>
-    <div>
-      <div class="tb-title">ORCAS</div>
-      <div class="tb-sub">Player &amp; Family Hub</div>
-    </div>
-  </div>
-
-  <!-- Desktop nav -->
-  <nav class="tb-nav">
-    <a href="#videos" class="tb-link active">Skill Videos</a>
-    <a href="#drills" class="tb-link">At-Home Drills</a>
-    <a href="#positions" class="tb-link">Position Guides</a>
-    <a href="#guides" class="tb-link">Skill Guides</a>
-    <a href="#systems" class="tb-link">Team Systems</a>
-    <a href="#iq" class="tb-link">Volleyball IQ</a>
-    <a href="#film" class="tb-link">Game Film</a>
-    <a href="#schedule" class="tb-link">Schedule</a>
-    <a href="#camps" class="tb-link">Camps</a>
-    <a href="#resources" class="tb-link">Resources</a>
+  <div class="tb-brand"><span class="tb-orca">🐋</span><div><div class="tb-title">ORCAS</div><div class="tb-sub">Player &amp; Family Hub</div></div></div>
+  <nav class="tb-nav" aria-label="Main navigation">
+    <div class="nav-group"><button class="nav-trigger">Train ▾</button><div class="nav-menu"><a href="#videos">Skill Videos</a><a href="#drills">At-Home Drills</a><a href="#guides">Skill Guides</a></div></div>
+    <div class="nav-group"><button class="nav-trigger">Learn ▾</button><div class="nav-menu"><a href="#positions">Position Guides</a><a href="#iq">Volleyball IQ</a><a href="#film">Game Film</a></div></div>
+    <div class="nav-group"><button class="nav-trigger">Team ▾</button><div class="nav-menu"><a href="#systems">Team Systems</a><a href="#schedule">Schedule</a></div></div>
+    <div class="nav-group"><button class="nav-trigger">Resources ▾</button><div class="nav-menu"><a href="#camps">Camps</a><a href="#resources">Resources</a></div></div>
   </nav>
-
-  <!-- Hamburger button — mobile only -->
-  <button class="ham-btn" onclick="openMenu()" aria-label="Open menu">
-    <div class="ham-line"></div>
-    <div class="ham-line"></div>
-    <div class="ham-line"></div>
-  </button>
+  <button class="ham-btn" onclick="openMenu()" aria-label="Open menu"><div class="ham-line"></div><div class="ham-line"></div><div class="ham-line"></div></button>
 </header>
-
-<!-- Mobile fullscreen nav drawer -->
-<div class="mob-nav" id="mob-nav">
-  <button class="mob-close" onclick="closeMenu()" aria-label="Close menu">✕</button>
-  <div class="mob-brand">🐋 ORCAS · PLAYER HUB</div>
-  <a href="#videos"    class="mob-link" onclick="closeMenu()">Skill Videos</a>
-  <a href="#drills"    class="mob-link" onclick="closeMenu()">At-Home Drills</a>
-  <a href="#positions" class="mob-link" onclick="closeMenu()">Position Guides</a>
-  <a href="#guides"    class="mob-link" onclick="closeMenu()">Skill Guides</a>
-  <a href="#systems"   class="mob-link" onclick="closeMenu()">Team Systems</a>
-  <a href="#iq"        class="mob-link" onclick="closeMenu()">Volleyball IQ</a>
-  <a href="#film"      class="mob-link" onclick="closeMenu()">Game Film</a>
-  <a href="#schedule"  class="mob-link" onclick="closeMenu()">Schedule</a>
-  <a href="#camps" class="mob-link" onclick="closeMenu()">Camps</a>
-  <a href="#resources" class="mob-link" onclick="closeMenu()">Resources</a>
+<div class="mob-nav" id="mob-nav"><button class="mob-close" onclick="closeMenu()" aria-label="Close menu">✕</button><div class="mob-brand">🐋 ORCAS · PLAYER HUB</div>
+<details class="mob-group"><summary>Train</summary><div class="mob-sub"><a href="#videos" onclick="closeMenu()">Skill Videos</a><a href="#drills" onclick="closeMenu()">At-Home Drills</a><a href="#guides" onclick="closeMenu()">Skill Guides</a></div></details>
+<details class="mob-group"><summary>Learn</summary><div class="mob-sub"><a href="#positions" onclick="closeMenu()">Position Guides</a><a href="#iq" onclick="closeMenu()">Volleyball IQ</a><a href="#film" onclick="closeMenu()">Game Film</a></div></details>
+<details class="mob-group"><summary>Team</summary><div class="mob-sub"><a href="#systems" onclick="closeMenu()">Team Systems</a><a href="#schedule" onclick="closeMenu()">Schedule</a></div></details>
+<details class="mob-group"><summary>Resources</summary><div class="mob-sub"><a href="#camps" onclick="closeMenu()">Camps</a><a href="#resources" onclick="closeMenu()">Resources</a></div></details>
 </div>
 
 <!-- HERO -->
