@@ -1,0 +1,580 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Orcas — Resources</title><style>
+:root{
+  --navy:#0B1B2D; --navy2:#112240;
+  --blue:#1E4FA3; --blue2:#2860CC;
+  --cyan:#00D4C8; --cyan-light:rgba(0,212,200,.12);
+  --cream:#F0F4FF; --cream2:#E8EEF8;
+  --coral:#1E4FA3; --coral-d:#2860CC; --coral-light:rgba(30,79,163,.12);
+  --teal:#00D4C8; --teal-light:rgba(0,212,200,.12);
+  --gold:#F0B429; --gold-light:rgba(240,180,41,.12);
+  --text:#0B1B2D; --muted:#4A5568;
+  --panel:#fff; --border:#D6E0F5;
+  --head:'Barlow Condensed',sans-serif; --body:'Inter',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{background:#F0F4FF;color:var(--text);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-family:var(--body);min-height:100vh;line-height:1.6;}
+
+/* ── TOPBAR ── */
+.topbar{
+  background:var(--navy);color:#fff;border-bottom:3px solid var(--cyan);
+  padding:14px 24px;display:flex;align-items:center;justify-content:space-between;
+  position:-webkit-sticky;position:sticky;top:0;z-index:1000;
+  box-shadow:0 2px 12px rgba(0,0,0,.18);
+}
+.tb-brand{display:flex;align-items:center;gap:10px;}
+.tb-orca{font-size:28px;}
+.tb-title{font-family:var(--head);font-size:18px;font-weight:800;letter-spacing:.5px;}
+.tb-sub{font-size:10px;color:rgba(255,255,255,.5);letter-spacing:2px;text-transform:uppercase;margin-top:1px;}
+
+/* Desktop nav */
+.tb-nav{display:flex;gap:4px;flex-wrap:wrap;align-items:center;}
+.tb-link{
+  font-family:var(--head);font-size:13px;font-weight:600;color:rgba(255,255,255,.7);
+  text-decoration:none;padding:7px 14px;border-radius:8px;transition:all .2s;white-space:nowrap;
+}
+.tb-link:hover,.tb-link.active{background:rgba(255,255,255,.1);color:#fff;}
+
+/* Hamburger button — hidden on desktop */
+.ham-btn{
+  display:none;flex-direction:column;gap:5px;cursor:pointer;
+  background:none;border:none;padding:6px;border-radius:8px;transition:background .2s;
+}
+.ham-btn:hover{background:rgba(255,255,255,.1);}
+.ham-line{width:24px;height:2px;background:#fff;border-radius:2px;transition:all .3s;}
+
+/* Mobile drawer */
+.mob-nav{
+  display:none;position:fixed;top:0;left:0;right:0;bottom:0;
+  background:rgba(11,27,45,.97);z-index:999;
+  flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+}
+.mob-nav.open{display:flex;}
+.mob-link{
+  font-family:var(--head);font-size:28px;font-weight:800;letter-spacing:1px;
+  color:rgba(255,255,255,.7);text-decoration:none;padding:12px 32px;
+  border-radius:12px;transition:all .2s;text-align:center;width:100%;max-width:280px;
+}
+.mob-link:hover{background:rgba(255,255,255,.08);color:#fff;}
+.mob-close{
+  position:absolute;top:20px;right:20px;
+  background:none;border:none;color:rgba(255,255,255,.6);font-size:32px;
+  cursor:pointer;padding:8px;line-height:1;transition:color .2s;
+}
+.mob-close:hover{color:#fff;}
+.mob-brand{
+  font-family:var(--head);font-size:14px;font-weight:700;letter-spacing:3px;
+  color:var(--cyan);text-transform:uppercase;margin-bottom:16px;
+}
+
+/* ── HERO ── */
+.hero{
+  background:linear-gradient(135deg,var(--navy) 0%,#16203A 100%);
+  color:#fff;padding:48px 24px 56px;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;right:-100px;top:-100px;width:380px;height:380px;
+  border-radius:50%;background:radial-gradient(circle,rgba(255,107,74,.18) 0%,transparent 70%);
+}
+.hero::after{
+  content:'';position:absolute;left:-80px;bottom:-120px;width:300px;height:300px;
+  border-radius:50%;background:radial-gradient(circle,rgba(45,212,191,.12) 0%,transparent 70%);
+}
+.hero-inner{max-width:980px;margin:0 auto;position:relative;z-index:2;}
+.hero-eyebrow{
+  font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:4px;
+  color:var(--teal);text-transform:uppercase;margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;
+}
+.hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--coral);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-h1{font-family:var(--head);font-size:clamp(34px,6vw,58px);font-weight:900;line-height:1.05;margin-bottom:14px;}
+.hero-h1 em{color:var(--coral);font-style:normal;}
+.hero-desc{font-size:15px;color:rgba(255,255,255,.75);max-width:560px;line-height:1.75;margin-bottom:24px;}
+
+/* ── SKILL OF THE WEEK BANNER ── */
+.sotw{
+  background:linear-gradient(135deg,var(--coral) 0%,var(--coral-d) 100%);
+  border-radius:18px;padding:22px 26px;display:flex;align-items:center;gap:18px;
+  box-shadow:0 12px 40px rgba(255,107,74,.3);flex-wrap:wrap;
+}
+.sotw-icon{font-size:42px;flex-shrink:0;}
+.sotw-text{flex:1;min-width:200px;}
+.sotw-label{font-family:var(--head);font-size:10px;font-weight:800;letter-spacing:3px;color:rgba(255,255,255,.85);text-transform:uppercase;margin-bottom:4px;}
+.sotw-title{font-family:var(--head);font-size:22px;font-weight:800;color:#fff;margin-bottom:4px;}
+.sotw-desc{font-size:13px;color:rgba(255,255,255,.9);}
+.sotw-link{
+  font-family:var(--head);font-size:13px;font-weight:700;letter-spacing:1px;
+  background:#fff;color:var(--coral-d);padding:10px 20px;border-radius:10px;
+  text-decoration:none;white-space:nowrap;transition:all .2s;flex-shrink:0;
+}
+.sotw-link:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.15);}
+
+/* ── MAIN ── */
+.main{max-width:980px;margin:0 auto;padding:40px 20px 70px;}
+
+/* ── SECTION HEADERS ── */
+.sec{margin-bottom:48px;}
+.sec-head{margin-bottom:20px;}
+.sec-eyebrow{font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:3px;color:var(--blue);text-transform:uppercase;margin-bottom:6px;}
+.sec-title{font-family:var(--head);font-size:clamp(26px,4vw,36px);font-weight:900;color:var(--navy);letter-spacing:.5px;}
+.sec-desc{font-size:14px;color:var(--muted);margin-top:6px;max-width:620px;}
+
+/* ── CATEGORY TABS ── */
+.cat-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+.cat-tab{
+  font-family:var(--head);font-size:13px;font-weight:700;letter-spacing:.5px;
+  padding:9px 18px;border-radius:100px;border:2px solid var(--cream2);
+  background:#fff;color:var(--muted);cursor:pointer;transition:all .2s;
+}
+.cat-tab:hover{border-color:var(--coral-light);color:var(--coral-d);}
+.cat-tab.on{background:var(--blue);color:#fff;border-color:var(--blue);}
+
+/* ── VIDEO GRID ── */
+.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;}
+.video-card{
+  background:#fff;border-radius:16px;overflow:hidden;
+  box-shadow:0 2px 12px rgba(30,42,69,.06);transition:all .25s;
+  border:1px solid var(--cream2);
+}
+.video-card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(30,42,69,.12);}
+.video-thumb-link{position:relative;display:block;width:100%;padding-top:42%;background:var(--navy);overflow:hidden;cursor:pointer;}
+.video-thumb-link.playing{cursor:default;}
+.video-thumb-link iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+.video-thumb-link img.video-thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 38%;transition:transform .3s;}
+.video-thumb-link:hover .video-thumb{transform:scale(1.05);}
+.video-play-overlay{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:22px;color:#fff;background:rgba(30,42,69,.0);transition:background .25s;
+}
+.video-play-overlay::after{
+  content:'';position:absolute;width:60px;height:60px;border-radius:50%;
+  background:rgba(255,107,74,.92);z-index:-1;transition:transform .25s;
+}
+.video-thumb-link:hover .video-play-overlay{background:rgba(30,42,69,.25);}
+.video-thumb-link:hover .video-play-overlay::after{transform:scale(1.1);}
+.video-fallback{
+  display:inline-block;margin-top:6px;font-family:var(--head);font-size:10px;
+  font-weight:700;letter-spacing:.5px;color:var(--muted);text-decoration:none;
+}
+.video-fallback:hover{color:var(--coral-d);}
+.video-title{font-family:var(--head);font-size:15px;font-weight:700;color:var(--navy);line-height:1.35;margin-bottom:4px;}
+.video-body{padding:16px 18px;}
+.video-cat-badge{
+  display:inline-block;font-family:var(--head);font-size:9px;font-weight:800;letter-spacing:2px;
+  text-transform:uppercase;padding:3px 10px;border-radius:100px;margin-bottom:8px;
+}
+.vb-serving{background:var(--coral-light);color:var(--coral-d);}
+.vb-passing{background:var(--teal-light);color:#0D9488;}
+.vb-setting{background:#FDE9F3;color:#BE185D;}
+.vb-basics{background:#DBEAFE;color:#1D4ED8;}
+.vb-hitting{background:var(--gold-light);color:#B8860B;}
+.vb-footwork{background:#E0E7FF;color:#4F46E5;}
+.vb-defense{background:#FEF3C7;color:#A16207;}
+.video-title{font-family:var(--head);font-size:15px;font-weight:700;color:var(--navy);line-height:1.35;margin-bottom:4px;}
+.video-source{font-size:11px;color:var(--muted);}
+
+/* ── AT-HOME DRILLS ── */
+.drill-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+.drill-card{
+  background:#fff;border-radius:16px;padding:20px 22px;border:1px solid var(--cream2);
+  transition:all .2s;
+}
+.drill-card:hover{box-shadow:0 8px 24px rgba(0,212,200,.12);border-color:var(--cyan);}
+.drill-icon{font-size:28px;margin-bottom:10px;display:block;}
+.drill-title{font-family:var(--head);font-size:16px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.drill-meta{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+.drill-tag{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;border-radius:100px;background:var(--cream2);color:var(--muted);}
+.drill-desc{font-size:13px;color:var(--muted);line-height:1.6;}
+.drill-desc strong{color:var(--text);}
+
+/* ── ROTATION ACADEMY FEATURE CARD ── */
+.academy-feature{
+  display:flex;align-items:center;gap:24px;
+  background:linear-gradient(135deg,var(--navy) 0%,#16203A 100%);
+  border-radius:18px;padding:28px 30px;text-decoration:none;color:#fff;
+  position:relative;overflow:hidden;transition:all .25s;flex-wrap:wrap;
+}
+.academy-feature::before{
+  content:'';position:absolute;right:-60px;bottom:-60px;width:240px;height:240px;
+  border-radius:50%;background:radial-gradient(circle,rgba(45,212,191,.15) 0%,transparent 70%);
+}
+.academy-feature:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(30,42,69,.25);}
+.academy-icon{font-size:48px;flex-shrink:0;z-index:2;}
+.academy-text{flex:1;min-width:240px;z-index:2;}
+.academy-label{font-family:var(--head);font-size:10px;font-weight:800;letter-spacing:3px;color:var(--teal);text-transform:uppercase;margin-bottom:4px;}
+.academy-title{font-family:var(--head);font-size:24px;font-weight:800;margin-bottom:6px;}
+.academy-desc{font-size:13px;color:rgba(255,255,255,.7);line-height:1.65;max-width:480px;}
+.academy-cta{
+  font-family:var(--head);font-size:14px;font-weight:700;letter-spacing:1px;
+  background:var(--blue);color:#fff;padding:12px 24px;border-radius:10px;
+  white-space:nowrap;z-index:2;transition:all .2s;flex-shrink:0;
+}
+.academy-feature:hover .academy-cta{background:var(--blue2);}
+
+/* ── VOLLEYBALL IQ ── */
+.iq-pdf-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:24px;}
+.iq-pdf-card{
+  display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit;
+  background:#fff;border:1.5px solid var(--cream2);border-radius:14px;
+  padding:16px 20px;flex:1;min-width:220px;transition:all .2s;
+}
+.iq-pdf-card:hover{border-color:var(--cyan);box-shadow:0 8px 22px rgba(0,212,200,.12);transform:translateY(-2px);}
+.iq-pdf-icon{font-size:26px;width:48px;height:48px;border-radius:12px;background:var(--cyan-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.iq-pdf-text{flex:1;}
+.iq-pdf-title{font-family:var(--head);font-size:14px;font-weight:700;color:var(--navy);margin-bottom:2px;}
+.iq-pdf-sub{font-size:11px;color:var(--muted);}
+.iq-pdf-arrow{font-size:18px;color:var(--blue);flex-shrink:0;}
+
+.iq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;}
+.iq-card{
+  background:#fff;border-radius:14px;padding:18px 20px;border:1px solid var(--cream2);
+  border-left:4px solid var(--blue);transition:all .2s;
+}
+.iq-card:hover{box-shadow:0 8px 22px rgba(30,42,69,.08);transform:translateY(-2px);}
+.iq-name{font-family:var(--head);font-size:20px;font-weight:800;color:var(--navy);letter-spacing:.5px;margin-bottom:8px;}
+.iq-meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.iq-tag{
+  font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  padding:3px 10px;border-radius:100px;background:var(--cream2);color:var(--muted);
+}
+.iq-tag-fast{background:var(--cyan-light);color:#0D9488;}
+.iq-tag-mid{background:var(--gold-light);color:#B8860B;}
+.iq-tag-slow{background:var(--teal-light);color:#0D9488;}
+.iq-desc{font-size:13px;color:var(--muted);line-height:1.6;}
+.iq-desc strong{color:var(--text);}
+
+/* ── RULES OF VOLLEYBALL — FLIP CARDS ── */
+.rules-intro{margin:36px 0 18px;text-align:center;}
+.rules-intro-badge{
+  display:inline-block;font-family:var(--head);font-size:11px;font-weight:800;letter-spacing:2px;
+  text-transform:uppercase;background:var(--cyan-light);color:#0D9488;
+  padding:5px 14px;border-radius:100px;margin-bottom:10px;
+}
+.rules-intro-title{font-family:var(--head);font-size:22px;font-weight:800;color:var(--navy);margin-bottom:6px;}
+.rules-intro-desc{font-size:13px;color:var(--muted);max-width:480px;margin:0 auto;}
+
+.tf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:28px;}
+.tf-card{
+  position:relative;height:160px;cursor:pointer;perspective:1000px;
+}
+.tf-front, .tf-back{
+  position:absolute;inset:0;border-radius:14px;padding:18px 20px;
+  display:flex;flex-direction:column;justify-content:center;
+  backface-visibility:hidden;transition:transform .5s;
+  box-shadow:0 2px 10px rgba(30,42,69,.06);
+}
+.tf-front{
+  background:#fff;border:1.5px solid var(--cream2);
+}
+.tf-back{
+  transform:rotateY(180deg);color:#fff;
+}
+.tf-back.tf-true{background:linear-gradient(135deg,#10B981,#0D9488);}
+.tf-back.tf-false{background:linear-gradient(135deg,#F43F5E,#E11D48);}
+.tf-card.flipped .tf-front{transform:rotateY(180deg);}
+.tf-card.flipped .tf-back{transform:rotateY(0deg);}
+.tf-q{font-family:var(--head);font-size:15px;font-weight:700;color:var(--navy);line-height:1.4;margin-bottom:10px;}
+.tf-tap{font-size:11px;color:var(--blue);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:auto;}
+.tf-result{font-family:var(--head);font-size:20px;font-weight:900;letter-spacing:1px;margin-bottom:8px;}
+.tf-explain{font-size:13px;line-height:1.55;}
+
+/* ── RULES CHEAT SHEET ── */
+.rules-cheat-wrap{background:#fff;border:1px solid var(--cream2);border-radius:16px;padding:22px 24px;margin-bottom:8px;}
+.rules-cheat-head{font-family:var(--head);font-size:14px;font-weight:800;letter-spacing:1px;color:var(--navy);margin-bottom:16px;}
+.rules-cheat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;}
+.rc-item{display:flex;gap:12px;align-items:flex-start;}
+.rc-icon{font-size:22px;flex-shrink:0;line-height:1.3;}
+.rc-item strong{font-family:var(--head);font-size:13px;color:var(--navy);}
+.rc-item div{font-size:12px;color:var(--muted);line-height:1.6;}
+
+/* ── RESOURCE LINKS ── */
+.resource-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;}
+.resource-card{
+  background:#fff;border-radius:14px;padding:18px 20px;border:1px solid var(--cream2);
+  display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit;
+  transition:all .2s;
+}
+.resource-card:hover{border-color:var(--cyan);box-shadow:0 6px 24px rgba(0,212,200,.15);transform:translateY(-2px);}
+.resource-icon{
+  font-size:24px;width:48px;height:48px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  background:var(--coral-light);
+}
+.resource-text{flex:1;}
+.resource-title{font-family:var(--head);font-size:14px;font-weight:700;color:var(--navy);margin-bottom:2px;}
+.resource-sub{font-size:11px;color:var(--muted);}
+.resource-arrow{color:var(--blue);font-size:18px;flex-shrink:0;}
+
+/* ── POSITION GUIDE ── */
+.pos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;}
+.pos-card{
+  background:#fff;border-radius:14px;padding:18px 20px;border:1px solid var(--cream2);
+  border-left:4px solid var(--coral);
+}
+.pos-card.pos-mb{border-left-color:var(--cyan);}
+.pos-card.pos-s{border-left-color:var(--gold);}
+.pos-card.pos-l{border-left-color:#8B5CF6;}
+.pos-title{font-family:var(--head);font-size:15px;font-weight:800;color:var(--navy);margin-bottom:6px;}
+.pos-list{font-size:13px;color:var(--muted);padding-left:18px;}
+.pos-list li{margin-bottom:4px;}
+
+/* ── FOOTER ── */
+.footer{
+  background:var(--navy);color:rgba(255,255,255,.6);padding:28px 24px;
+  text-align:center;font-size:12px;line-height:1.8;
+}
+.footer strong{color:#fff;}
+.footer a{color:var(--cyan);text-decoration:none;}
+
+/* ── HIDE/SHOW BY CATEGORY ── */
+.video-card[data-cat]{display:block;}
+.video-card.hidden{display:none;}
+
+/* ══ HAMBURGER / MOBILE NAV ══ */
+@media(max-width:768px){
+  .tb-nav{display:none;}
+  .ham-btn{display:flex;}
+}
+@media(min-width:769px){
+  .mob-nav{display:none!important;}
+  .ham-btn{display:none!important;}
+}
+
+/* ══ MOBILE — phones ══ */
+@media(max-width:640px){
+  /* Topbar */
+  .topbar{padding:12px 16px;}
+  .tb-title{font-size:16px;}
+  .tb-sub{display:none;}
+
+  /* Hero */
+  .hero{padding:36px 16px 40px!important;}
+  .hero-inner{flex-direction:column!important;gap:20px!important;}
+  .hero-h1{font-size:clamp(30px,9vw,44px)!important;}
+  .hero-desc{font-size:14px!important;}
+
+  /* SOTW */
+  .sotw{flex-direction:column;text-align:center;padding:18px 16px;}
+  .sotw-link{width:100%;text-align:center;display:block;margin-top:8px;}
+
+  /* Sections */
+  .sec{padding:36px 14px;}
+  .sec-title{font-size:clamp(22px,7vw,30px)!important;}
+
+  /* All grids → 1 column */
+  .video-grid{grid-template-columns:1fr!important;}
+  .drill-grid{grid-template-columns:1fr!important;}
+  .pos-grid{grid-template-columns:1fr!important;}
+  .resource-grid{grid-template-columns:1fr!important;}
+  .iq-grid{grid-template-columns:1fr!important;}
+  .tf-grid{grid-template-columns:1fr 1fr!important;}
+  .rules-cheat-grid{grid-template-columns:1fr!important;}
+  .locations-grid{grid-template-columns:1fr!important;}
+
+  /* Video cards */
+  .video-card{min-height:180px;}
+  .vc-thumb{height:160px;}
+
+  /* Resource cards */
+  .resource-card{padding:14px 16px;gap:12px;}
+  .resource-icon{width:42px;height:42px;font-size:20px;flex-shrink:0;}
+  .resource-title{font-size:14px;}
+  .resource-sub{font-size:12px;}
+
+  /* Academy cards */
+  .academy-feature{flex-direction:column;padding:20px 16px;}
+  .academy-text{min-width:unset;}
+  .academy-icon{font-size:36px;}
+
+  /* Position cards */
+  .pos-card{padding:18px 16px;}
+
+  /* IQ */
+  .iq-pdf-row{flex-direction:column;}
+  .iq-attack-grid{grid-template-columns:1fr 1fr!important;}
+
+  /* Cat tabs */
+  .cat-tabs{gap:6px;justify-content:flex-start;overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;padding-bottom:4px;}
+  .cat-tab{white-space:nowrap;font-size:12px;padding:7px 14px;}
+
+  /* Inline hero styles override */
+  div[style*="gap:48px"]{gap:20px!important;}
+  div[style*="padding:60px 36px"]{padding:36px 16px!important;}
+}
+
+/* ══ SMALL PHONES ══ */
+@media(max-width:390px){
+  .tb-title{font-size:14px;}
+  .tb-orca{font-size:22px;}
+  .tf-grid{grid-template-columns:1fr!important;}
+  .hero-h1{font-size:28px!important;}
+  .iq-attack-grid{grid-template-columns:1fr!important;}
+  .resource-card{flex-direction:column;align-items:flex-start;}
+}
+
+/* ══ TABLET ══ */
+@media(min-width:641px) and (max-width:900px){
+  .video-grid{grid-template-columns:repeat(2,1fr)!important;}
+  .drill-grid{grid-template-columns:repeat(2,1fr)!important;}
+  .resource-grid{grid-template-columns:repeat(2,1fr)!important;}
+  .hero-inner{padding:48px 28px!important;}
+}
+
+/* ── GROUPED DROPDOWN NAV ── */
+.tb-nav{gap:8px;flex-wrap:nowrap;}
+.nav-group{position:relative;}
+.nav-trigger{font-family:var(--head);font-size:13px;font-weight:700;color:rgba(255,255,255,.78);background:transparent;border:0;padding:9px 13px;border-radius:8px;cursor:pointer;white-space:nowrap;}
+.nav-trigger:hover,.nav-group:focus-within .nav-trigger{background:rgba(255,255,255,.1);color:#fff;}
+.nav-menu{display:none;position:absolute;top:calc(100% + 8px);right:0;min-width:220px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:7px;box-shadow:0 14px 34px rgba(0,0,0,.2);}
+.nav-group:hover .nav-menu,.nav-group:focus-within .nav-menu{display:block;}
+.nav-menu a{display:block;color:var(--navy);text-decoration:none;font-size:13px;font-weight:600;padding:10px 12px;border-radius:8px;}
+.nav-menu a:hover{background:var(--cream);color:var(--blue);}
+.mob-group{width:100%;max-width:310px;border-bottom:1px solid rgba(255,255,255,.1);padding:5px 0;}
+.mob-group summary{font-family:var(--head);font-size:20px;font-weight:800;color:#fff;padding:10px 14px;cursor:pointer;list-style:none;}
+.mob-group summary::-webkit-details-marker{display:none}.mob-group summary:after{content:'⌄';float:right;color:var(--cyan)}
+.mob-group[open] summary:after{content:'⌃'}
+.mob-sub{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:0 8px 10px;}
+.mob-sub a{color:rgba(255,255,255,.72);text-decoration:none;font-size:13px;padding:8px;border-radius:7px;}
+.mob-sub a:hover{background:rgba(255,255,255,.08);color:#fff;}
+</style></head><body><header class="topbar"><a href="player-portal.html" class="tb-brand" style="text-decoration:none;color:#fff"><span class="tb-orca">🐋</span><div><div class="tb-title">ORCAS</div><div class="tb-sub">Player &amp; Family Hub</div></div></a><nav class="tb-nav"><a class="tb-link" href="training.html">Train</a><a class="tb-link" href="learn.html">Learn</a><a class="tb-link" href="team.html">Team</a><a class="tb-link" href="family-resources.html">Resources</a></nav></header><section class="hero" style="min-height:280px;display:flex;align-items:center"><div class="hero-inner"><div class="hero-eyebrow"><span class="dot"></span>Player & Family Resources</div><h1 class="hero-h1">Resources</h1><p class="hero-desc">Camps and useful resources for Orcas families.</p></div></section><main class="main"><section class="sec" id="camps">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Level Up This Summer</div>
+      <h2 class="sec-title">Upcoming Camps</h2>
+      <p class="sec-desc">Want to get better faster? These camps are coached by college staff and give you reps, feedback, and competition you can't get anywhere else.</p>
+    </div>
+
+    <!-- SUN DEVIL CAMP CARD -->
+    <div style="background:linear-gradient(135deg,#8C1D40 0%,#4a0020 100%);border-radius:20px;overflow:hidden;margin-bottom:16px;box-shadow:0 8px 32px rgba(140,29,64,.25);">
+      <!-- Header banner -->
+      <div style="padding:24px 28px 20px;position:relative;">
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap;">
+          <div style="flex-shrink:0;width:64px;height:64px;background:rgba(255,198,0,.15);border:2px solid rgba(255,198,0,.4);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:32px;">🏐</div>
+          <div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:4px;color:rgba(255,198,0,.8);text-transform:uppercase;margin-bottom:4px;">Arizona State University · Tempe, AZ</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;color:#fff;letter-spacing:.5px;line-height:1;">Sun Devil Volleyball Camps</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.6);margin-top:4px;">Coached by ASU staff &amp; current Sun Devil players</div>
+          </div>
+        </div>
+
+        <!-- Camp types grid -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:20px;">
+
+          <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:16px 18px;">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:rgba(255,198,0,.8);text-transform:uppercase;margin-bottom:6px;">🌟 Prospect Camp</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:#fff;margin-bottom:6px;">Rising 8th–12th Grade</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.6;">Individual skill instruction, game play, college scouting report, nutrition seminar, strength &amp; conditioning, and Q&amp;A with Sun Devil players. For athletes already competing at an advanced club level.</div>
+          </div>
+
+          <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:16px 18px;">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:rgba(255,198,0,.8);text-transform:uppercase;margin-bottom:6px;">🏅 Skills Camps</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:#fff;margin-bottom:6px;">All Skill Levels</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.6;">Multiple camp formats running May 31 – July 15, 2026. Open to any entrant limited only by number, age, and grade level. Taught by current ASU staff and student-athletes.</div>
+          </div>
+
+          <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:16px 18px;">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:rgba(255,198,0,.8);text-transform:uppercase;margin-bottom:6px;">📍 Location</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:#fff;margin-bottom:6px;">Desert Financial Arena</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.6;">Arizona State University, Tempe AZ. All registrations and check-ins held at Desert Financial Arena on the ASU campus.</div>
+          </div>
+
+        </div>
+
+        <!-- Why go callout -->
+        <div style="background:rgba(255,198,0,.1);border:1px solid rgba(255,198,0,.25);border-radius:12px;padding:14px 18px;margin-bottom:20px;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;color:rgba(255,198,0,.9);text-transform:uppercase;margin-bottom:6px;">⭐ Why This Camp?</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.8);line-height:1.7;">ASU went <strong style="color:#fff;">28-4</strong> in 2025, won back-to-back Big 12 Championships, and went undefeated at home two seasons in a row. Learning from a staff that coaches at that level — with All-American alumni also helping — is a rare opportunity for 7th–9th graders in the Phoenix area.</div>
+        </div>
+
+        <!-- CTA buttons -->
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="https://www.sundevilvolleyballcamps.com" target="_blank"
+            style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;letter-spacing:1px;background:#FFC600;color:#8C1D40;padding:13px 28px;border-radius:11px;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:8px;"
+            onmouseover="this.style.background='#FFD740'" onmouseout="this.style.background='#FFC600'">
+            🏐 Register at SunDevilVolleyballCamps.com ↗
+          </a>
+          <a href="https://thesundevils.com/news/2026/05/27/sun-devil-volleyball-summer-camps-start-this-week" target="_blank"
+            style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;background:rgba(255,255,255,.1);color:#fff;padding:13px 22px;border-radius:11px;text-decoration:none;border:1px solid rgba(255,255,255,.2);transition:all .2s;"
+            onmouseover="this.style.background='rgba(255,255,255,.18)'" onmouseout="this.style.background='rgba(255,255,255,.1)'">
+            📰 Read the Announcement ↗
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-size:12px;color:var(--muted);text-align:center;">This camp is not affiliated with or sponsored by ASU. Sun Devils® and the Pitchfork are registered trademarks of the Arizona Board of Regents.</p>
+  </section><section class="sec" id="resources">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Helpful Links</div>
+      <h2 class="sec-title">More Resources</h2>
+      <p class="sec-desc">Additional places to learn more about the game and stay connected with the team.</p>
+    </div>
+
+    <div class="resource-grid">
+
+      <a href="62-rotation-academy.html" class="resource-card">
+        <div class="resource-icon">🎮</div>
+        <div class="resource-text">
+          <div class="resource-title">6-2 Rotation Academy</div>
+          <div class="resource-sub">Interactive game — learn our rotation system</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+
+      <a href="42-rotation-academy.html" class="resource-card">
+        <div class="resource-icon">🎮</div>
+        <div class="resource-text">
+          <div class="resource-title">4-2 Rotation Academy</div>
+          <div class="resource-sub">Interactive game — learn the 4-2 system</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+
+      <a href="63-rotation-academy.html" class="resource-card">
+        <div class="resource-icon">🎮</div>
+        <div class="resource-text">
+          <div class="resource-title">6-3 Rotation Academy</div>
+          <div class="resource-sub">Interactive game — learn the 6-3 system</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+
+      <a href="https://www.youtube.com/channel/UC322fyJfAdb0nandMjn_9Kw" target="_blank" class="resource-card">
+        <div class="resource-icon">▶️</div>
+        <div class="resource-text">
+          <div class="resource-title">GMS YouTube Channel</div>
+          <div class="resource-sub">Full library of coaching videos</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+
+      <a href="https://www.goldmedalsquared.com/post/how-to-serve-a-volleyball" target="_blank" class="resource-card">
+        <div class="resource-icon">📖</div>
+        <div class="resource-text">
+          <div class="resource-title">How to Serve — Full Guide</div>
+          <div class="resource-sub">Written breakdown of all serve types</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+
+      <a href="https://www.goldmedalsquared.com/post/importance-of-good-transition-footwork" target="_blank" class="resource-card">
+        <div class="resource-icon">📄</div>
+        <div class="resource-text">
+          <div class="resource-title">Transition Footwork Article</div>
+          <div class="resource-sub">Why footwork matters for hitters</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+
+      <a href="https://www.goldmedalsquared.com/post/swing-blocking-in-volleyball" target="_blank" class="resource-card">
+        <div class="resource-icon">🛡️</div>
+        <div class="resource-text">
+          <div class="resource-title">Swing Blocking Guide</div>
+          <div class="resource-sub">3-step crossover footwork breakdown</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+
+    </div>
+  </section></main><footer class="footer"><strong>ORCAS VOLLEYBALL</strong><br>Player &amp; Family Hub</footer></body></html>
