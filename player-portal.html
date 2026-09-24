@@ -480,6 +480,21 @@ body{background:#F0F4FF;color:var(--text);-webkit-font-smoothing:antialiased;-mo
   .hero .sotw-link{grid-column:1 / -1!important;grid-row:2!important;width:100%!important;max-width:100%!important;box-sizing:border-box!important;text-align:center!important;display:block!important;margin:0!important;padding:12px 14px!important;white-space:normal!important;}
 }
 </style>
+
+<style>
+/* Skill of the Week: tablet + mobile responsive layout */
+@media (max-width:900px){
+  .hero .hero-inner{padding-left:28px!important;padding-right:28px!important;}
+  .hero .hero-inner>div{width:100%!important;}
+  .hero .hero-inner>div>div:has(.sotw-link){display:grid!important;grid-template-columns:44px minmax(0,1fr)!important;gap:12px 14px!important;align-items:center!important;width:100%!important;max-width:440px!important;box-sizing:border-box!important;}
+  .hero .hero-inner>div>div:has(.sotw-link)>div:first-child{grid-column:1!important;grid-row:1!important;}
+  .hero .hero-inner>div>div:has(.sotw-link)>div:nth-child(2){grid-column:2!important;grid-row:1!important;min-width:0!important;}
+  .hero .sotw-link{grid-column:1 / -1!important;grid-row:2!important;display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important;margin:0!important;padding:12px 16px!important;text-align:center!important;white-space:normal!important;}
+}
+@media (max-width:600px){
+  .hero .hero-inner{padding-left:20px!important;padding-right:20px!important;}
+}
+</style>
 </head>
 <body>
 
