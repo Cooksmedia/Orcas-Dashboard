@@ -870,4 +870,17 @@ function closeMenu(){
 // Close on escape key
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
 </script>
-</body></html>
+<script id="training-filter-fix">
+function filterVideos(cat,btn){
+  document.querySelectorAll('.cat-tab').forEach(function(tab){tab.classList.remove('on');});
+  if(btn) btn.classList.add('on');
+  document.querySelectorAll('.video-card[data-cat]').forEach(function(card){
+    card.classList.toggle('hidden',cat!=='all' && card.dataset.cat!==cat);
+  });
+}
+function playVideo(el,id){
+  if(!el || el.classList.contains('playing')) return;
+  el.classList.add('playing');
+  el.innerHTML='<iframe src="https://www.youtube.com/embed/'+id+'?autoplay=1" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="Volleyball training video"></iframe>';
+}
+</script></body></html>
