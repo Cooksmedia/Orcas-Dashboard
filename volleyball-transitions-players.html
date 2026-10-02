@@ -615,11 +615,11 @@ body{font-family:var(--body);line-height:1.5}
 
 <!-- NAV -->
 <div class="chapter-nav">
-  <button class="cnav-btn on" id="tab-fundamentals" onclick="go('fundamentals','tab-fundamentals')">What Is Transition?</button>
-  <button class="cnav-btn" id="tab-phases" onclick="go('phases','tab-phases')">The 5 Phases</button>
-  <button class="cnav-btn" id="tab-footwork" onclick="go('footwork','tab-footwork')">Footwork & Positioning</button>
+  <button type="button" class="cnav-btn on" id="tab-fundamentals" data-page="fundamentals">What Is Transition?</button>
+  <button type="button" class="cnav-btn" id="tab-phases" data-page="phases">The 5 Phases</button>
+  <button type="button" class="cnav-btn" id="tab-footwork" data-page="footwork">Footwork & Positioning</button>
   
-  <button class="cnav-btn" id="tab-mistakes" onclick="go('mistakes','tab-mistakes')">Common Mistakes</button>
+  <button type="button" class="cnav-btn" id="tab-mistakes" data-page="mistakes">Common Mistakes</button>
   
 </div>
 
@@ -1131,14 +1131,36 @@ body{font-family:var(--body);line-height:1.5}
 </div>
 
 <script>
-// NAV
-function go(pageId, btnId) {
-  document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
-  document.querySelectorAll('.cnav-btn').forEach(b => b.classList.remove('on'));
-  document.getElementById('pg-' + pageId).classList.add('on');
-  document.getElementById(btnId).classList.add('on');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+// CHAPTER NAVIGATION
+function go(pageId) {
+  var page = document.getElementById('pg-' + pageId);
+  var tab = document.getElementById('tab-' + pageId);
+  if (!page || !tab) return;
+
+  document.querySelectorAll('.pg').forEach(function(p){ p.classList.remove('on'); });
+  document.querySelectorAll('.cnav-btn').forEach(function(b){ b.classList.remove('on'); });
+
+  page.classList.add('on');
+  tab.classList.add('on');
+
+  if (history.replaceState) history.replaceState(null, '', '#' + pageId);
+  var nav = document.querySelector('.chapter-nav');
+  if (nav) {
+    var y = nav.getBoundingClientRect().top + window.pageYOffset - 92;
+    window.scrollTo({ top: Math.max(0,y), behavior: 'smooth' });
+  }
 }
+
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('.cnav-btn[data-page]').forEach(function(btn){
+    btn.addEventListener('click', function(){ go(btn.dataset.page); });
+  });
+
+  var requested = (location.hash || '').replace('#','');
+  if (['fundamentals','phases','footwork','mistakes'].indexOf(requested) !== -1) {
+    go(requested);
+  }
+});
 
 // PHASE ACCORDION
 function togglePhase(id) {
