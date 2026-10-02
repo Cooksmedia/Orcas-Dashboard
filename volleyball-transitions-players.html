@@ -530,6 +530,59 @@ body{font-family:var(--body);line-height:1.5}
 @media(max-width:1280px){.content{padding-left:40px;padding-right:40px}}
 @media(max-width:760px){.topbar{min-height:72px;padding:15px 20px}.tb-nav{display:none}.ham-btn{display:flex}.chapter-nav{top:72px;padding:0 8px}.cnav-btn{height:50px;padding:0 14px;font-size:10px}.hero{padding:44px 20px}.hero h1{font-size:40px}.hero p{font-size:16px}.content{padding:40px 20px 64px}.ch-title{font-size:34px}.ch-desc{font-size:16px}.concept-grid,.mistake-grid,.checklist-grid{grid-template-columns:1fr}.phase-head-content{padding:14px}.phase-name{font-size:18px}.phase-num{font-size:24px;padding:16px;min-width:54px}}
 @media print{.topbar,.mob-nav,.chapter-nav{display:none!important}}
+</style><style id="transition-subpages-theme">
+/* Shared current-theme treatment for the three interior transition chapters */
+#pg-phases,#pg-footwork,#pg-mistakes{background:#fff}
+#pg-phases .content,#pg-footwork .content,#pg-mistakes .content{max-width:1232px;margin:0 auto}
+#pg-phases .ch-eyebrow,#pg-footwork .ch-eyebrow,#pg-mistakes .ch-eyebrow{color:#008EFC;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:700}
+#pg-phases .ch-title,#pg-footwork .ch-title,#pg-mistakes .ch-title{font-family:"Black Han Sans","Arial Black",sans-serif;font-weight:400;color:#121212;letter-spacing:0}
+#pg-phases .ch-title em,#pg-footwork .ch-title em,#pg-mistakes .ch-title em{color:#008EFC;font-style:normal}
+#pg-phases .ch-desc,#pg-footwork .ch-desc,#pg-mistakes .ch-desc{color:#5f6670;border-left-color:#008EFC;background:#f8fbfe;border-radius:0 8px 8px 0;padding:16px 18px}
+
+/* The 5 Phases */
+#pg-phases .phase-block{border:1px solid #e6e6e6;border-radius:10px;margin-bottom:16px;overflow:hidden;background:#fff}
+#pg-phases .phase-header{min-height:82px}
+#pg-phases .phase-num{background:#008EFC!important;color:#fff!important;font-family:"Black Han Sans","Arial Black",sans-serif;font-weight:400}
+#pg-phases .phase-name{font-size:20px;color:#121212}
+#pg-phases .phase-tagline{color:#69727c}
+#pg-phases .phase-label{color:#008EFC!important}
+#pg-phases .phase-toggle{color:#008EFC}
+#pg-phases .phase-body{background:#fff;border-top:1px solid #e6e6e6}
+#pg-phases .cue-box,#pg-phases .callout{background:#f4f9ff!important;border:1px solid #d8ebff!important;border-left:4px solid #008EFC!important}
+#pg-phases .court-svg{border:1px solid #e6e6e6;border-radius:8px;background:#f6f8fa;padding:8px}
+
+/* Footwork & Positioning */
+#pg-footwork .sec-divider{margin-top:46px}
+#pg-footwork .sd-num{color:#008EFC;font-weight:800}
+#pg-footwork .sd-title{color:#121212;font-weight:800}
+#pg-footwork .concept-card{border:1px solid #e6e6e6;border-radius:8px;padding:22px;background:#fff}
+#pg-footwork .concept-card::before{height:3px;background:#008EFC!important}
+#pg-footwork .concept-card .cc-title{color:#121212}
+#pg-footwork .callout{background:#f4f9ff!important;border:1px solid #d8ebff!important;border-left:4px solid #008EFC!important;border-radius:8px}
+#pg-footwork .step-list li{border-bottom:1px solid #eef1f4}
+#pg-footwork .sn{background:#008EFC!important}
+#pg-footwork [style*="border:1.5px solid var(--rule)"]{border:1px solid #e6e6e6!important;border-radius:8px!important}
+#pg-footwork [style*="background:var(--surface2)"]{background:#f6f8fa!important}
+
+/* Common Mistakes */
+#pg-mistakes .mistake-grid{gap:16px}
+#pg-mistakes .mistake-card{border:1px solid #e6e6e6;border-radius:8px;padding:20px;background:#fff}
+#pg-mistakes .mistake-card:hover{border-color:#b9dcff;box-shadow:0 8px 24px rgba(0,142,252,.08)}
+#pg-mistakes .mistake-title{font-size:15px;color:#121212}
+#pg-mistakes .mistake-wrong{background:#f7f7f7;color:#525a63;border-left:3px solid #aeb5bc}
+#pg-mistakes .mistake-fix{background:#eaf5ff;color:#24516f;border-left:3px solid #008EFC}
+#pg-mistakes .badge-wrong{background:#eceff1;color:#606870}
+#pg-mistakes .badge-fix{background:#008EFC;color:#fff}
+
+/* Mobile consistency */
+@media(max-width:760px){
+ #pg-phases .content,#pg-footwork .content,#pg-mistakes .content{padding:40px 20px 64px}
+ #pg-phases .phase-header{min-height:72px}
+ #pg-phases .phase-head-content{padding:14px 12px}
+ #pg-phases .phase-name{font-size:17px}
+ #pg-phases .phase-tagline{font-size:11px}
+ #pg-footwork [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important}
+}
 </style></head>
 <body>
 <header class="topbar">
@@ -1104,5 +1157,9 @@ function toggleCheck(box) {
 }
 
 
-function openMenu(){document.getElementById('mob-nav').classList.add('open');document.body.style.overflow='hidden';}\nfunction closeMenu(){document.getElementById('mob-nav').classList.remove('open');document.body.style.overflow='';}\ndocument.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});\n</script>\n</body>
+function openMenu(){document.getElementById('mob-nav').classList.add('open');document.body.style.overflow='hidden';}
+function closeMenu(){document.getElementById('mob-nav').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
+</script>
+</body>
 </html>
