@@ -15,6 +15,30 @@ html,body{background:#fff!important;color:#121212!important}body{font-family:"He
 .nav-group::after{content:"";position:absolute;left:0;right:0;top:100%;height:14px}
 .nav-group:hover .nav-menu,.nav-group:focus-within .nav-menu,.nav-menu:hover{display:block!important}
 }
+</style><style id="global-navigation-stability-fix">
+/* Prevent desktop flashes of the mobile drawer/hamburger and standardize nav behavior */
+.ham-btn{display:none!important}
+.mob-nav{
+  display:none!important;
+  position:fixed!important;
+  inset:0!important;
+  z-index:5000!important;
+  background:#121212!important;
+  padding:76px 20px 32px!important;
+  overflow-y:auto!important;
+  box-sizing:border-box!important;
+}
+@media(min-width:761px){
+  .tb-nav{display:flex!important}
+  .ham-btn{display:none!important}
+  .mob-nav,.mob-nav.open{display:none!important}
+}
+@media(max-width:760px){
+  .tb-nav{display:none!important}
+  .ham-btn{display:flex!important}
+  .mob-nav{display:none!important}
+  .mob-nav.open{display:block!important}
+}
 </style></head><body>
 <header class="topbar"><a href="player-portal.html" class="tb-brand home-brand" style="text-decoration:none"><span class="home-ball"><img src="orca-fin.png" alt="" class="nav-fin"></span><span class="home-wordmark">ORCAS</span></a><nav class="tb-nav" aria-label="Main navigation"><div class="nav-group"><a class="nav-trigger" href="training.html" style="text-decoration:none;display:inline-block">Train ▾</a><div class="nav-menu"><a href="skill-videos.html">Skill Videos</a><a href="at-home-training.html">At-Home Drills</a><a href="skill-guides.html">Skill Guides</a></div></div><div class="nav-group"><a class="nav-trigger" href="learn.html" style="text-decoration:none;display:inline-block">Learn ▾</a><div class="nav-menu"><a href="position-guides.html">Position Guides</a><a href="volleyball-iq.html">Volleyball IQ</a><a href="game-film.html">Game Film</a></div></div><div class="nav-group"><a class="nav-trigger" href="team-systems.html" style="text-decoration:none;display:inline-block">Team ▾</a><div class="nav-menu"><a href="team-systems.html">Team Systems</a><a href="schedule.html">Schedule</a></div></div><div class="nav-group"><a class="nav-trigger" href="family-resources.html" style="text-decoration:none;display:inline-block">Resources ▾</a><div class="nav-menu"><a href="camps.html">Camps</a><a href="resources.html">Resources</a></div></div></nav><button class="ham-btn" onclick="openMenu()" aria-label="Open menu"><div class="ham-line"></div><div class="ham-line"></div><div class="ham-line"></div></button></header>
 <div class="mob-nav" id="mob-nav"><button class="mob-close" onclick="closeMenu()">✕</button><div class="mob-brand">🐋 ORCAS · PLAYER HUB</div><details class="mob-group"><summary>Train</summary><div class="mob-sub"><a href="skill-videos.html">Skill Videos</a><a href="at-home-training.html">At-Home Drills</a><a href="skill-guides.html">Skill Guides</a></div></details><details class="mob-group"><summary>Learn</summary><div class="mob-sub"><a href="position-guides.html">Position Guides</a><a href="volleyball-iq.html">Volleyball IQ</a><a href="game-film.html">Game Film</a></div></details><details class="mob-group"><summary>Team</summary><div class="mob-sub"><a href="team-systems.html">Team Systems</a><a href="schedule.html">Schedule</a></div></details><details class="mob-group"><summary>Resources</summary><div class="mob-sub"><a href="camps.html">Camps</a><a href="resources.html">Resources</a></div></details></div><section class="hero"><div><h1>Schedule</h1><p>Team games, dates and important schedule information.</p></div></section><section class="fall-schedule"><div class="fall-kicker">Fall 2026 Season</div><h2 class="fall-title">Orcas Game Schedules</h2><p class="fall-intro">Choose your team to view the current official game schedule and results on QuickScores.</p><div class="team-schedule-grid"><article class="team-schedule-card team-blue"><span class="team-chip">BLUE TEAM · D1</span><h3>Team 1 — Blue</h3><p>Division 1 schedule, game times, opponents and results.</p><a class="schedule-link" href="https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=vosymca&amp;LeagueID=1759830&amp;TeamID=15459075" target="_blank" rel="noopener">View Blue Team Schedule <span>↗</span></a></article><article class="team-schedule-card team-white"><span class="team-chip">WHITE TEAM · D2</span><h3>Team 2 — White</h3><p>Division 2 schedule, game times, opponents and results.</p><a class="schedule-link" href="https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=vosymca&amp;LeagueID=1759831&amp;TeamID=15459094" target="_blank" rel="noopener">View White Team Schedule <span>↗</span></a></article></div></section><section class="previous-accordion"><button class="previous-toggle" type="button" aria-expanded="false" aria-controls="previous-season-content" onclick="togglePrevious(this)"><span>View Previous Season Schedule</span><span class="previous-chevron">›</span></button><div id="previous-season-content" class="previous-content" hidden><main id="mount" class="mount"><p>Loading…</p></main></div></section>
