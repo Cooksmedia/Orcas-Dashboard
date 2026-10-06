@@ -133,9 +133,7 @@ html,body{background:#fff!important;color:#121212!important}body{font-family:"He
       <span class="hero-pill hi">🛡️ Defensive Positioning</span>
       <span class="hero-pill hi">👁️ Reading the Hitter</span>
       <span class="hero-pill hi">💪 Digging Mechanics</span>
-      <span class="hero-pill">Floor Coverage Systems</span>
-      <span class="hero-pill">Common Mistakes Fixed</span>
-    </div>
+      <span class="hero-pill">Floor Coverage Systems</span></div>
   </div>
   <div class="hero-bg-text">DIG</div>
 </div>
@@ -145,9 +143,7 @@ html,body{background:#fff!important;color:#121212!important}body{font-family:"He
   <button class="sn-btn" id="t-position" onclick="go('pg-position','t-position')">Positioning</button>
   <button class="sn-btn" id="t-read" onclick="go('pg-read','t-read')">Reading the Hitter</button>
   <button class="sn-btn" id="t-mechanics" onclick="go('pg-mechanics','t-mechanics')">Dig Mechanics</button>
-  <button class="sn-btn" id="t-coverage" onclick="go('pg-coverage','t-coverage')">Floor Coverage</button>
-  <button class="sn-btn" id="t-mistakes" onclick="go('pg-mistakes','t-mistakes')">Mistakes</button>
-</div>
+  <button class="sn-btn" id="t-coverage" onclick="go('pg-coverage','t-coverage')">Floor Coverage</button></div>
 
 <!-- WHY DEFENSE -->
 <div class="pg on" id="pg-why">
@@ -230,20 +226,6 @@ html,body{background:#fff!important;color:#121212!important}body{font-family:"He
 </div>
 
 <!-- MISTAKES -->
-<div class="pg" id="pg-mistakes">
-  <div class="s-eyebrow">Chapter 7</div>
-  <div class="s-title">Common <em>Mistakes</em></div>
-  <p class="s-desc">Defensive errors at the youth level almost always fall into one of these categories. Each has a specific fix that can be drilled directly.</p>
-  <div class="mistake-stack">
-    <div class="mistake-card"><div class="mc-bar"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">Standing Up Between Plays</div><div class="mc-fix"><strong>The Fix:</strong> Defenders who stand straight between contacts lose half a step of reaction time when the next attack comes. Run "posture checks" during every drill: randomly call "freeze!" and check everyone's position. Any player standing up loses a point for their team. After 3–4 weeks of this, low-ready position becomes the default stance that players maintain automatically throughout rallies.</div></div></div>
-    <div class="mistake-card"><div class="mc-bar"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">Swinging at Hard-Driven Balls</div><div class="mc-fix"><strong>The Fix:</strong> On a hard-driven attack, the ball has enough power to redirect itself — the platform just needs to be in the right position. Players who swing at hard balls send them flying out of control. Run the platform stability wall drill: the player must absorb the wall-rebound with a still platform. Any movement = redo. Tell them: "Hard ball = freeze the platform and let it bounce."</div></div></div>
-    <div class="mistake-card"><div class="mc-bar gold"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">Wrong Starting Position — No Adjustment on Set Flight</div><div class="mc-fix"><strong>The Fix:</strong> Defenders start in their zone but don't adjust when the set goes to a different location. Run the 10-ball positioning drill: freeze before every hit and check positions. Defenders who aren't in the right spot get moved explicitly — "Zone 1, you're 3 feet too far left for this set. Move." After 3 weeks of explicit corrections, defenders start adjusting automatically during set flight.</div></div></div>
-    <div class="mistake-card"><div class="mc-bar gold"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">Not Calling Balls — Silent Defense</div><div class="mc-fix"><strong>The Fix:</strong> Run the calling drill: any uncalled touch = dead ball = opponent point. Enforce it for one full week in every drill. Players who go silent in defense are either not tracking the ball early enough or lack confidence. Identify which one: "Did you not see it coming?" (tracking issue) or "Did you see it but not call it?" (confidence issue). Different causes require different fixes.</div></div></div>
-    <div class="mistake-card"><div class="mc-bar orange"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">Digging Without Direction</div><div class="mc-fix"><strong>The Fix:</strong> Player digs the ball "up" but with no target — it goes sideways, too far back, or to the wrong zone. Run the coach-hit defense drill: track what percentage of digs reach Zone 3 (not just "are dug"). Post the number. Defenders who only have 20% directed digs need to focus on platform angle, not just getting the ball up. Remind them: "A dig that doesn't reach the setter is only half the job."</div></div></div>
-    <div class="mistake-card"><div class="mc-bar orange"></div><div class="mc-content"><div class="mc-top"><span class="mc-label">Mistake</span></div><div class="mc-name">Giving Up on Difficult Balls</div><div class="mc-fix"><strong>The Fix:</strong> Mental habit — the player decides the ball is undiggable before trying. Run the consecutive dig challenge and celebrate every ball that seems impossible but gets dug. Create team standards: "We go for everything until the whistle." Debrief balls that weren't tried after they hit the floor: "Could that have been gotten? Where would you have needed to be?" Often the answer is: yes, with one earlier step.</div></div></div>
-  </div>
-</div>
-
 <script>
 function go(pgId,btnId){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.sn-btn').forEach(b=>b.classList.remove('on'));document.getElementById(pgId).classList.add('on');document.getElementById(btnId).classList.add('on');window.scrollTo({top:0,behavior:'smooth'});}
 function toggleDrill(btn){const expand=btn.closest('.drill-card').querySelector('.drill-expand');const open=expand.classList.toggle('open');btn.textContent=open?'▲ Close':'▼ Details';}
