@@ -50,8 +50,6 @@ function setPositions(){current=starts[mode].map(a=>a.slice());const order=[0,1,
 const KEY=[0,.28,.49,.72,1];
 function contactPoints(){
  const side=seam==='left'?-1:1;
- const receiver=playerMeshes[side<0?3:5].userData.home;
- const setter=playerMeshes[1].userData.home;
  return [
   new THREE.Vector3(side*2.7,2.3,-8.2),
   new THREE.Vector3(side*2.4,1.05,5.8),
@@ -74,7 +72,7 @@ function makeTrail(){
  traj.computeLineDistances();scene.add(traj);
 }
 function smooth(a,b,t){const u=THREE.MathUtils.clamp((t-a)/(b-a),0,1);return u*u*(3-2*u)}
-function atContact(t,arrival,departure){return smooth(Math.max(0,arrival-.15),arrival,t)*(1-smooth(departure,Math.min(1,departure+.15),t))}
+function atContact(t,arrival,departure){return smooth(Math.max(0,arrival-.16),arrival,t)*(1-smooth(departure,Math.min(1,departure+.16),t))}
 function draw(t){
  progress=THREE.MathUtils.clamp(t,0,1);
  ball.position.copy(trajectory(progress));$('timeline').value=Math.round(progress*1000);
@@ -86,7 +84,7 @@ function draw(t){
   let x=h.x,z=h.z,y=0;
   if(i===receiver){const k=atContact(progress,.28,.34);x=THREE.MathUtils.lerp(h.x,side*2.4,k);z=THREE.MathUtils.lerp(h.z,5.8,k);}
   else if(i===1){const k=atContact(progress,.49,.55);x=THREE.MathUtils.lerp(h.x,0,k);z=THREE.MathUtils.lerp(h.z,2.5,k);}
-  else if(i===0){const k=atContact(progress,.72,.79);x=THREE.MathUtils.lerp(h.x,-3,k);z=THREE.MathUtils.lerp(h.z,.9,k);y=k*.72*Math.sin(Math.PI*smooth(.58,.78,progress));}
+  else if(i===0){const k=atContact(progress,.72,.79);x=THREE.MathUtils.lerp(h.x,-3,k);z=THREE.MathUtils.lerp(h.z,.9,k);y=.62*k*smooth(.60,.70,progress);}
   else if(i===4){z-=.65*smooth(.58,.73,progress)*(1-smooth(.89,1,progress));}
   g.position.set(THREE.MathUtils.clamp(x,-4.1,4.1),Math.max(0,y),THREE.MathUtils.clamp(z,.5,8.6));
  });
@@ -96,16 +94,16 @@ function draw(t){
   const k=smooth(.7,.9,progress);g.position.set(bx+([-.2,.2,.3,-.4,.2,.4][i])*k,0,bz+(i>2?.6*k:0));
  });
 }
-function updateUI(){document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));$('modeName').textContent={receive:'SERVE RECEIVE',offense:'OFFENSE',defense:'DEFENSE'}[mode];$('status').textContent=mode==='receive'?'Serve trajectory and passing lanes':mode==='offense'?'Set and attack trajectory':'Attack defense and coverage';}
-function configure(){mode=$('mode').value;rotation=Number($('rotation').value);system=$('system').value;serve=$('serve').value;seam=$('seam').value;makeTrail();setPositions();updateUI()}
-function setMode(m){mode=m;$('mode').value=m;playing=false;setPositions();updateUI();$('play').textContent='▶'}
+function updateUI(){document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));$('status').textContent=mode==='receive'?'Serve trajectory and passing lanes':mode==='offense'?'Set and attack trajectory':'Attack defense and coverage';}
+function configure(){mode=$('mode').value;rotation=Number($('rotation').value);system=$('system').value;serve=$('serve').value;seam=$('seam').value;playing=false;last=0;$('play').textContent='▶';setPositions();updateUI()}
+function setMode(m){mode=m;$('mode').value=m;playing=false;last=0;setPositions();updateUI();$('play').textContent='▶'}
 document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
 for(const id of ['system','rotation','serve','seam'])$(id).addEventListener('change',configure);
 $('arc').addEventListener('input',()=>{makeTrail();draw(progress)});
-$('reset').addEventListener('click',()=>{playing=false;progress=0;setPositions();$('play').textContent='▶'});
-$('play').addEventListener('click',()=>{if(progress>=1)draw(0);playing=!playing;$('play').textContent=playing?'Ⅱ':'▶'});
-$('restart').addEventListener('click',()=>{playing=false;draw(0);$('play').textContent='▶'});
-$('timeline').addEventListener('input',e=>{playing=false;$('play').textContent='▶';draw(Number(e.target.value)/1000)});
+$('reset').addEventListener('click',()=>{playing=false;last=0;progress=0;setPositions();$('play').textContent='▶'});
+$('play').addEventListener('click',()=>{if(progress>=1)draw(0);playing=!playing;last=0;$('play').textContent=playing?'Ⅱ':'▶'});
+$('restart').addEventListener('click',()=>{playing=false;last=0;draw(0);$('play').textContent='▶'});
+$('timeline').addEventListener('input',e=>{playing=false;last=0;$('play').textContent='▶';draw(Number(e.target.value)/1000)});
 $('speed').addEventListener('input',e=>$('speedVal').textContent=Number(e.target.value).toFixed(1)+'x');
 $('toggleEditor').addEventListener('click',()=>{const e=$('editor');e.hidden=!e.hidden;$('toggleEditor').setAttribute('aria-expanded',String(!e.hidden))});
 $('cam').addEventListener('click',()=>{camera.position.set(0,24,.01);orbit.target.set(0,0,0);orbit.update()});
@@ -120,6 +118,6 @@ canvas.addEventListener('pointerdown',e=>{pick(e);const hits=ray.intersectObject
 canvas.addEventListener('pointermove',e=>{if(!dragging)return;pick(e);if(ray.ray.intersectPlane(plane,hit)){playerMeshes[chosen].position.set(THREE.MathUtils.clamp(hit.x,-4.1,4.1),0,THREE.MathUtils.clamp(hit.z,.6,8.5));playerMeshes[chosen].userData.home={x:playerMeshes[chosen].position.x,z:playerMeshes[chosen].position.z}}});
 function endDrag(){dragging=false;orbit.enabled=true;canvas.style.cursor='grab'}canvas.addEventListener('pointerup',endDrag);canvas.addEventListener('pointercancel',endDrag);
 function resize(){const w=canvas.clientWidth,h=canvas.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}new ResizeObserver(resize).observe(canvas);resize();
-function animate(now){requestAnimationFrame(animate);if(playing){if(last)draw(progress+(now-last)/(10500/Number($('speed').value)));if(progress>=1){playing=false;$('play').textContent='▶'}}last=now;orbit.update();for(const o of [...playerMeshes,...opponents]){const cut=o.children.find(x=>x.userData.cutout);if(cut)cut.quaternion.copy(camera.quaternion)}renderer.render(scene,camera)}requestAnimationFrame(animate);
+function animate(now){requestAnimationFrame(animate);if(playing){if(last)draw(progress+(now-last)/(10500/Number($('speed').value)));if(progress>=1){playing=false;last=0;$('play').textContent='▶'}}last=now;orbit.update();for(const o of [...playerMeshes,...opponents]){const cut=o.children.find(x=>x.userData.cutout);if(cut)cut.quaternion.copy(camera.quaternion)}renderer.render(scene,camera)}requestAnimationFrame(animate);
 try{const u=new URL(location.href);if(['receive','offense','defense'].includes(u.searchParams.get('mode')))mode=u.searchParams.get('mode');if(u.searchParams.has('rotation'))rotation=Math.max(0,Math.min(5,Number(u.searchParams.get('rotation'))));}catch(e){}
 $('mode').value=mode;$('rotation').value=rotation;setPositions();updateUI();
