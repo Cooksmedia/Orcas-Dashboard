@@ -45,79 +45,55 @@ const starts={receive:[[-2.9,2.1],[0,2.7],[2.9,2.1],[-2.5,6.1],[0,6.6],[2.5,6.1]
 let current=starts.receive.map(a=>a.slice());
 function opponentsSet(){for(let i=0;i<6;i++){const x=[-2.6,0,2.6][i%3],z=i<3?-2:-6;opponents[i].visible=mode!=='receive'||i===0;opponents[i].position.set(mode==='receive'&&i===0?(seam==='left'?-2.7:2.7):x,0,mode==='receive'&&i===0?-8.2:z)}}
 function setPositions(){current=starts[mode].map(a=>a.slice());const order=[0,1,2,3,4,5];for(let i=0;i<rotation;i++)order.unshift(order.pop());playerMeshes.forEach((g,i)=>{let v=current[order[i]];g.position.set(v[0],0,v[1]);g.userData.home={x:v[0],z:v[1]}});opponentsSet();makeTrail();draw(0)}
-// Complete deterministic rally: serve -> pass -> set -> attack -> dig -> set -> return.
-// All positions come from the playback time, so seeking is identical to playing.
-const phaseNames=['SERVE','PASS','SET','ATTACK','DIG','TRANSITION','RETURN'];
-function rallyPoints(){
+// Simple synchronized volleyball play: serve -> pass -> set -> attack -> landing.
+// Each ball contact shares the same keyframe and exact floor position as its player.
+const KEY=[0,.28,.49,.72,1];
+function contactPoints(){
  const side=seam==='left'?-1:1;
- const first=new THREE.Vector3(side*2.4,1,5.8);
- const setter=new THREE.Vector3(0,2.0,2.5);
- const hitter=new THREE.Vector3(-3,2.7,1.0);
- const digger=new THREE.Vector3(2.5,.9,-6.2);
- const oppSetter=new THREE.Vector3(0,2.1,-2.9);
+ const receiver=playerMeshes[side<0?3:5].userData.home;
+ const setter=playerMeshes[1].userData.home;
  return [
- new THREE.Vector3(side*2.7,2.5,-8.2),
- first,setter,hitter,
- new THREE.Vector3(side*2.3,2.9,-5.7),
- digger,oppSetter,
- new THREE.Vector3(2.3,2.7,-1.3),
- new THREE.Vector3(-1.8,.7,6.8)
+  new THREE.Vector3(side*2.7,2.3,-8.2),
+  new THREE.Vector3(side*2.4,1.05,5.8),
+  new THREE.Vector3(0,2.1,2.5),
+  new THREE.Vector3(-3,2.9,.9),
+  new THREE.Vector3(2,.5,-7)
  ];
 }
-const durations=[.14,.13,.13,.15,.13,.13,.09,.10];
-function phaseAt(t){
- let total=0;
- for(let i=0;i<durations.length;i++){
-  const next=total+durations[i];
-  if(t<=next||i===durations.length-1)return {index:i,u:THREE.MathUtils.clamp((t-total)/durations[i],0,1)};
-  total=next;
- }
- return {index:0,u:0};
-}
+function phaseAt(t){let i=KEY.length-2;for(let j=0;j<KEY.length-1;j++){if(t<=KEY[j+1]){i=j;break;}}return {index:i,u:THREE.MathUtils.clamp((t-KEY[i])/(KEY[i+1]-KEY[i]),0,1)}}
 function trajectory(t){
- const pts=rallyPoints(),ph=phaseAt(t),i=ph.index,u=ph.u;
- const start=pts[i],end=pts[i+1];
- const h=Number($('arc').value);
- const peak=[h*.7,3.1,3.9,h*.8,3.8,3.1,3.6,4.1][i];
- const x=start.x+(end.x-start.x)*u,z=start.z+(end.z-start.z)*u;
- const y=start.y+(end.y-start.y)*u+4*u*(1-u)*Math.max(0,peak-Math.max(start.y,end.y));
- return new THREE.Vector3(x,y,z);
+ const p=contactPoints(),q=phaseAt(t),a=p[q.index],b=p[q.index+1],u=q.u;
+ const peaks=[Math.max(3.7,Number($('arc').value)*.7),3.6,3.8,Math.max(3.8,Number($('arc').value)*.75)];
+ const lift=4*u*(1-u)*Math.max(0,peaks[q.index]-Math.max(a.y,b.y));
+ return new THREE.Vector3(THREE.MathUtils.lerp(a.x,b.x,u),THREE.MathUtils.lerp(a.y,b.y,u)+lift,THREE.MathUtils.lerp(a.z,b.z,u));
 }
 function makeTrail(){
  if(traj){scene.remove(traj);traj.geometry.dispose();traj.material.dispose();}
- const pts=[];for(let i=0;i<=240;i++)pts.push(trajectory(i/240));
+ const pts=[];for(let i=0;i<=200;i++)pts.push(trajectory(i/200));
  traj=new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineDashedMaterial({color:0x60b8ff,dashSize:.21,gapSize:.12,transparent:true,opacity:.9}));
  traj.computeLineDistances();scene.add(traj);
 }
 function smooth(a,b,t){const u=THREE.MathUtils.clamp((t-a)/(b-a),0,1);return u*u*(3-2*u)}
+function atContact(t,arrival,departure){return smooth(Math.max(0,arrival-.15),arrival,t)*(1-smooth(departure,Math.min(1,departure+.15),t))}
 function draw(t){
  progress=THREE.MathUtils.clamp(t,0,1);
- ball.position.copy(trajectory(progress));
- $('timeline').value=Math.round(progress*1000);
- const ph=phaseAt(progress);
- const labels=['Serve','Pass','Set','Attack','Defensive dig','Transition set','Opponent attack','Rally complete'];
- $('status').textContent='RALLY '+(ph.index+1)+'/8 · '+labels[ph.index];
- const side=seam==='left'?-1:1;
+ ball.position.copy(trajectory(progress));$('timeline').value=Math.round(progress*1000);
+ const phase=phaseAt(progress);
+ $('status').textContent=['1/4 · Opponent serve → Orcas receiver','2/4 · Orcas pass → setter','3/4 · Setter → outside hitter','4/4 · Outside attack crosses the net'][phase.index];
+ const receiver=seam==='left'?3:5,side=seam==='left'?-1:1;
  playerMeshes.forEach((g,i)=>{
   const h=g.userData.home||{x:g.position.x,z:g.position.z};
-  const move=(a,b)=>smooth(a,b,progress);
   let x=h.x,z=h.z,y=0;
-  // Make each contact visually understandable: receiver -> setter -> hitter.
-  const receiver=seam==='left'?3:5;
-  if(i===receiver){const k=move(.015,.12)*(1-move(.19,.28));x+=( (seam==='left'?-2.4:2.4)-h.x)*k;z+=(5.8-h.z)*k;}
-  if(i===1){const k=move(.11,.23)*(1-move(.34,.46));x+=(0-h.x)*k;z+=(2.5-h.z)*k;}
-  if(i===0){const k=move(.25,.38)*(1-move(.55,.67));x+=(-3-h.x)*k;z+=(1-h.z)*k;y=.7*Math.sin(Math.PI*move(.35,.48))*k;}
-  // Back-row coverage follows the outgoing attack.
-  if(i===4){const k=move(.41,.55)*(1-move(.79,.95));z+=(-.9)*k;}
+  if(i===receiver){const k=atContact(progress,.28,.34);x=THREE.MathUtils.lerp(h.x,side*2.4,k);z=THREE.MathUtils.lerp(h.z,5.8,k);}
+  else if(i===1){const k=atContact(progress,.49,.55);x=THREE.MathUtils.lerp(h.x,0,k);z=THREE.MathUtils.lerp(h.z,2.5,k);}
+  else if(i===0){const k=atContact(progress,.72,.79);x=THREE.MathUtils.lerp(h.x,-3,k);z=THREE.MathUtils.lerp(h.z,.9,k);y=k*.72*Math.sin(Math.PI*smooth(.58,.78,progress));}
+  else if(i===4){z-=.65*smooth(.58,.73,progress)*(1-smooth(.89,1,progress));}
   g.position.set(THREE.MathUtils.clamp(x,-4.1,4.1),Math.max(0,y),THREE.MathUtils.clamp(z,.5,8.6));
  });
  opponents.forEach((g,i)=>{
-  if(mode==='receive')return;
+  if(mode==='receive'){if(i===0){g.position.set(side*2.7,0,-8.2);g.position.y=.12*Math.sin(Math.PI*smooth(0,.11,progress))*(1-smooth(.13,.2,progress));}return;}
   const bx=[-2.6,0,2.6][i%3],bz=i<3?-2:-6;
-  const shift=smooth(.45,.61,progress)*(1-smooth(.82,.96,progress));
-  g.position.x=bx+([-.3,.4,.25,-.6,.25,.65][i])*shift;
-  g.position.z=bz+([-.2,-.3,.2,.7,-.8,.5][i])*shift;
-  g.position.y=(i===0?Math.max(0,Math.sin(Math.PI*smooth(.78,.93,progress)))*.6:0);
+  const k=smooth(.7,.9,progress);g.position.set(bx+([-.2,.2,.3,-.4,.2,.4][i])*k,0,bz+(i>2?.6*k:0));
  });
 }
 function updateUI(){document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));$('modeName').textContent={receive:'SERVE RECEIVE',offense:'OFFENSE',defense:'DEFENSE'}[mode];$('status').textContent=mode==='receive'?'Serve trajectory and passing lanes':mode==='offense'?'Set and attack trajectory':'Attack defense and coverage';}
@@ -144,6 +120,6 @@ canvas.addEventListener('pointerdown',e=>{pick(e);const hits=ray.intersectObject
 canvas.addEventListener('pointermove',e=>{if(!dragging)return;pick(e);if(ray.ray.intersectPlane(plane,hit)){playerMeshes[chosen].position.set(THREE.MathUtils.clamp(hit.x,-4.1,4.1),0,THREE.MathUtils.clamp(hit.z,.6,8.5));playerMeshes[chosen].userData.home={x:playerMeshes[chosen].position.x,z:playerMeshes[chosen].position.z}}});
 function endDrag(){dragging=false;orbit.enabled=true;canvas.style.cursor='grab'}canvas.addEventListener('pointerup',endDrag);canvas.addEventListener('pointercancel',endDrag);
 function resize(){const w=canvas.clientWidth,h=canvas.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}new ResizeObserver(resize).observe(canvas);resize();
-function animate(now){requestAnimationFrame(animate);if(playing){if(last)draw(progress+(now-last)/(12500/Number($('speed').value)));if(progress>=1){playing=false;$('play').textContent='▶'}}last=now;orbit.update();for(const o of [...playerMeshes,...opponents]){const cut=o.children.find(x=>x.userData.cutout);if(cut)cut.quaternion.copy(camera.quaternion)}renderer.render(scene,camera)}requestAnimationFrame(animate);
+function animate(now){requestAnimationFrame(animate);if(playing){if(last)draw(progress+(now-last)/(10500/Number($('speed').value)));if(progress>=1){playing=false;$('play').textContent='▶'}}last=now;orbit.update();for(const o of [...playerMeshes,...opponents]){const cut=o.children.find(x=>x.userData.cutout);if(cut)cut.quaternion.copy(camera.quaternion)}renderer.render(scene,camera)}requestAnimationFrame(animate);
 try{const u=new URL(location.href);if(['receive','offense','defense'].includes(u.searchParams.get('mode')))mode=u.searchParams.get('mode');if(u.searchParams.has('rotation'))rotation=Math.max(0,Math.min(5,Number(u.searchParams.get('rotation'))));}catch(e){}
 $('mode').value=mode;$('rotation').value=rotation;setPositions();updateUI();
