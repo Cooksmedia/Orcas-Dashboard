@@ -1,78 +1,35 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Orcas Visualizer — Player & Family Hub</title>
+<title>Orcas 3D Play Visualizer | Player & Family Hub</title>
+<script type="importmap">{"imports":{"three":"https://esm.sh/three@0.169.0","three/addons/":"https://esm.sh/three@0.169.0/examples/jsm/"}}</script>
 <style>
-:root{--bg:#08090e;--blue:#4399f1;--line:#303444;--muted:#999eaf}
-*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:#f5f7fc;font:15px Inter,"Helvetica Neue",Arial,sans-serif}
-button,select{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid #9ed1ff;outline-offset:3px}
-.stage{height:100svh;min-height:550px;overflow:hidden;position:relative;background:#08090e}.stage svg{height:100%;width:100%;display:block;touch-action:none}
-.nav{z-index:8;position:absolute;left:50%;top:20px;transform:translateX(-50%);height:60px;border:1px solid #2b2f39;background:#0e1018e8;border-radius:35px;display:flex;gap:25px;align-items:center;padding:7px 12px 7px 20px;white-space:nowrap;box-shadow:0 15px 42px #0008}
-.brand{font-weight:900;font-size:15px;display:flex;align-items:center;gap:9px}.brand img{width:27px;height:27px;object-fit:contain}
-.nav a:not(.brand){font-size:14px;color:#aaaebb}.nav .selected{background:#242631;color:white;border-radius:25px;padding:12px 19px;font-size:14px}
-.avatar{background:#318ce7;border-radius:50%;width:36px;height:36px;display:grid;place-items:center;font-size:12px;font-weight:800}
-.modes{z-index:8;position:absolute;top:102px;left:50%;transform:translateX(-50%);display:flex;background:#10121aeb;border:1px solid #2d303f;border-radius:32px;padding:5px;gap:2px;white-space:nowrap}
-.mode{border:0;border-radius:24px;background:transparent;color:#868d9f;padding:11px 25px;font-size:14px}.mode.on{background:linear-gradient(110deg,#1168b9,#449cf2);color:#fff}
-.controls{position:absolute;z-index:8;bottom:24px;left:50%;transform:translateX(-50%);border:1px solid #333748;border-radius:34px;background:#1b1d2aee;display:flex;align-items:center;gap:13px;padding:8px 13px;box-shadow:0 10px 30px #0009;white-space:nowrap}
-.controls button{border:0;background:transparent;color:#afb7c9;font-size:18px}.controls .play{background:#499eff;color:#07162a;font-size:16px;border-radius:24px;width:50px;height:34px}.controls input[type=range]{accent-color:#489ef4;width:145px}.controls input.rate{width:105px}.divide{width:1px;height:23px;background:#45495b}.speed{font-size:12px;color:#a3a9b9}
-.expand{position:absolute;bottom:86px;left:50%;transform:translateX(-50%);z-index:9;border:1px solid #34394e;background:#1c2030;color:#85beff;padding:4px 16px;border-radius:20px}
-.panel{position:absolute;z-index:10;bottom:99px;left:50%;transform:translateX(-50%);width:min(560px,94vw);background:#161a27f5;border:1px solid #394154;border-radius:14px;padding:17px;box-shadow:0 15px 48px #0009}.panel[hidden]{display:none}
-.panel h3{margin:0 0 9px;font-size:15px}.panel p{color:#acb9cb;font-size:12px;line-height:1.5;margin:5px 0 12px}.panelrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.panel button,.panel select{border:1px solid #38465c;background:#222b3d;color:white;border-radius:8px;padding:9px 12px;font-size:12px}
-.guide{position:absolute;bottom:111px;left:50%;transform:translateX(-50%);z-index:3;color:#98a6bd;font-size:11px;white-space:nowrap;text-align:center}
-#traj{fill:none;stroke:#74c4fc;stroke-width:3;stroke-linecap:round}#ball{cursor:grab}#anchor{fill:#5faeeb;stroke:#acdfff;stroke-width:2;cursor:grab}
-#players .player{cursor:grab}#players text{pointer-events:none;text-anchor:middle;fill:#bcdcff;font-size:13px;font-weight:700}
-@media(max-width:680px){.nav{top:10px;height:48px;padding:5px 10px;gap:11px}.brand{font-size:12px}.brand img{width:20px;height:20px}.nav a:not(.brand),.nav .selected{font-size:11px}.nav .selected{padding:9px}.avatar{display:none}.modes{top:72px}.mode{padding:9px 12px;font-size:12px}.controls{bottom:15px;gap:8px;padding:7px}.controls input[type=range]{width:80px}.controls input.rate{width:53px}.expand{bottom:75px}.panel{bottom:86px}.guide{bottom:92px;font-size:10px}}
-</style></head><body><main class="stage">
-<nav class="nav" aria-label="Visualizer navigation"><a class="brand" href="player-portal.html"><img src="orca-fin.png" alt="">ORCAS</a><a href="skill-guides.html">Library</a><span class="selected">Visualizer</span><a href="team-systems.html">Team</a><span class="avatar">OV</span></nav>
-<div class="modes" aria-label="Play category"><button class="mode" data-mode="receive">Serve receive</button><button class="mode on" data-mode="offense">Offense</button><button class="mode" data-mode="defense">Defense</button></div>
-<svg id="scene" viewBox="0 0 1440 800" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Volleyball play visualizer with perspective court and editable ball trajectory">
-<rect width="1440" height="800" fill="#08090e"/>
-<path d="M0 724L450 312H990L1440 724" stroke="#202d49" stroke-width="1.5" fill="none"/>
-<path d="M395 735L565 341H875L1045 735Z" fill="#061024" stroke="#2a659e" stroke-width="2"/>
-<path d="M565 341H875 M497 502H943 M462 579H978" fill="none" stroke="#244a77" stroke-width="1.5"/>
-<path d="M395 735H1045" stroke="#3274b5" stroke-width="3"/>
-<path d="M565 341L720 341M875 341L720 341" stroke="#a8b3bf" stroke-width="4"/>
-<path d="M565 341L557 270 M875 341L883 270" stroke="#f3f3f3" stroke-width="4"/>
-<path d="M555 270L560 341 M885 270L880 341" stroke="#e94643" stroke-dasharray="13 13" stroke-width="4"/>
-<path d="M558 341H882" stroke="#d5dce5" stroke-width="3"/>
-<path d="M558 342L566 451 M882 342L874 451" stroke="#b6c8d6" stroke-width="3" opacity=".7"/>
-<path d="M565 340L595 450L846 450L875 340Z" fill="#98aabb" opacity=".12"/>
-<path d="M565 340H875L846 450H595Z" stroke="#527bb0" stroke-width="1.5" fill="none"/>
-<path id="traj" d="M600 328 Q704 110 805 352"/>
-<circle id="anchor" cx="702" cy="178" r="7"/>
-<path id="drop" d="M805 352V426" stroke="#75bfff" stroke-width="2" stroke-dasharray="6 6" opacity=".65"/>
-<g id="players"></g>
-<g id="ball" transform="translate(680 235)"><circle r="9" fill="#e4b52e" stroke="#94b4fd" stroke-width="2"/><path d="M-8 -3Q0 -9 7 -1 M-4 7Q1 -2 8 4" fill="none" stroke="#3452a0" stroke-width="2"/></g>
-</svg>
-<div class="guide">Drag players or the blue arc handle to explore the play</div>
-<button class="expand" id="expand" aria-label="Show editing panel" aria-expanded="false">⌃</button>
-<section class="panel" id="panel" hidden><h3>PLAY EDITOR</h3><p>Choose a volleyball scenario, drag player silhouettes or the arc handle, then play the ball path. Perspective animation is illustrative, not motion-captured 3D.</p><div class="panelrow">
-<select id="preset" aria-label="Choose a play"><option value="outside">Outside attack</option><option value="middle">Middle attack</option><option value="right">Right-side attack</option><option value="receive">Serve receive</option></select>
-<button id="reset">Reset formation</button><button id="perspective">Overhead view</button><a href="perimeter-defense-players.html" style="color:#77c2ff;font-size:12px">Defense guide ↗</a></div></section>
-<div class="controls"><button class="play" id="play" aria-label="Play animation">▶</button><button id="restart" aria-label="Restart animation">↻</button><input id="progress" type="range" min="0" max="1000" value="0" aria-label="Animation progress"><span class="divide"></span><input class="rate" id="rate" type="range" min="0.5" max="2" step=".25" value="1" aria-label="Playback speed"><span class="speed" id="speed">1.0x</span></div>
-</main>
-<script>
-(function(){
-const NS='http://www.w3.org/2000/svg',scene=document.getElementById('scene'),players=document.getElementById('players'),ball=document.getElementById('ball'),traj=document.getElementById('traj'),anchor=document.getElementById('anchor'),drop=document.getElementById('drop'),play=document.getElementById('play'),progress=document.getElementById('progress'),rate=document.getElementById('rate');
-const modes={offense:[[720,408]],defense:[[650,450],[780,525],[570,590],[850,590],[695,660],[775,660]],receive:[[620,470],[720,490],[820,470],[570,620],[720,645],[870,620]]};
-let mode='offense',centers=[],arc={x:702,y:178},time=0,last=0,active=false,frame=0,drag=null,flat=false;
-function ppoint(e){const p=scene.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(scene.getScreenCTM().inverse());}
-function paintPlayers(){players.replaceChildren();centers.forEach((p,i)=>{let g=document.createElementNS(NS,'g');g.setAttribute('class','player');g.dataset.i=i;g.setAttribute('transform','translate('+p.x+' '+p.y+')');let head=document.createElementNS(NS,'circle');head.setAttribute('cx','0');head.setAttribute('cy','-33');head.setAttribute('r','9');head.setAttribute('fill','#4a9fff');g.appendChild(head);let body=document.createElementNS(NS,'path');body.setAttribute('d','M-9 -23Q0 -29 9 -23L11 4 7 6 6 29 0 29 -2 9 -5 29 -11 29 -10 2Z');body.setAttribute('fill','#4a9fff');g.appendChild(body);let t=document.createElementNS(NS,'text');t.setAttribute('y','46');t.textContent=centers.length===1?'SETTER':'P'+(i+1);g.appendChild(t);players.appendChild(g);});}
-function position(t){const a={x:600,y:328},b={x:805,y:352};return{x:(1-t)*a.x+t*b.x,y:(1-t)*(1-t)*a.y+2*(1-t)*t*arc.y+t*t*b.y};}
-function paint(){traj.setAttribute('d','M600 328 Q'+arc.x+' '+arc.y+' 805 352');anchor.setAttribute('cx',arc.x);anchor.setAttribute('cy',arc.y);const v=position(time);ball.setAttribute('transform','translate('+v.x+' '+v.y+')');progress.value=Math.round(time*1000);}
-function stop(){active=false;cancelAnimationFrame(frame);play.textContent='▶';play.setAttribute('aria-label','Play animation');}
-function tick(now){if(!active)return;if(last){time+=((now-last)/3600)*Number(rate.value);}last=now;if(time>=1){time=1;stop();}paint();if(active)frame=requestAnimationFrame(tick);}
-function begin(){if(time>=1)time=0;active=true;last=0;play.textContent='Ⅱ';play.setAttribute('aria-label','Pause animation');frame=requestAnimationFrame(tick);}
-function setMode(m){stop();mode=m;centers=modes[m].map(p=>({x:p[0],y:p[1]}));time=0;arc={x:702,y:178};document.querySelectorAll('.mode').forEach(b=>b.classList.toggle('on',b.dataset.mode===m));paintPlayers();paint();}
-function changePreset(v){setMode(v==='receive'?'receive':v==='outside'?'defense':'offense');arc=v==='middle'?{x:730,y:130}:v==='right'?{x:785,y:185}:v==='receive'?{x:680,y:210}:{x:702,y:178};paint();}
-scene.addEventListener('pointerdown',e=>{if(e.target===anchor||e.target.closest('#ball'))drag={type:'arc'};else {const g=e.target.closest('.player');if(g)drag={type:'player',i:+g.dataset.i};}if(drag){stop();scene.setPointerCapture(e.pointerId);e.preventDefault();}});
-scene.addEventListener('pointermove',e=>{if(!drag)return;const p=ppoint(e);if(drag.type==='arc'){arc={x:Math.max(590,Math.min(840,p.x)),y:Math.max(88,Math.min(320,p.y))};}else{centers[drag.i]={x:Math.max(410,Math.min(1020,p.x)),y:Math.max(370,Math.min(710,p.y))};paintPlayers();}paint();});
-scene.addEventListener('pointerup',()=>drag=null);scene.addEventListener('pointercancel',()=>drag=null);
-document.querySelectorAll('.mode').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
-play.addEventListener('click',()=>active?stop():begin());document.getElementById('restart').addEventListener('click',()=>{stop();time=0;paint();});
-progress.addEventListener('input',()=>{stop();time=Number(progress.value)/1000;paint();});
-rate.addEventListener('input',()=>document.getElementById('speed').textContent=Number(rate.value).toFixed(1)+'x');
-document.getElementById('expand').addEventListener('click',()=>{const p=document.getElementById('panel');p.hidden=!p.hidden;document.getElementById('expand').setAttribute('aria-expanded',String(!p.hidden));document.getElementById('expand').textContent=p.hidden?'⌃':'⌄';});
-document.getElementById('preset').addEventListener('change',e=>changePreset(e.target.value));document.getElementById('reset').addEventListener('click',()=>changePreset(document.getElementById('preset').value));
-document.getElementById('perspective').addEventListener('click',()=>{flat=!flat;scene.style.transform=flat?'perspective(950px) rotateX(13deg)':'none';document.getElementById('perspective').textContent=flat?'Perspective view':'Overhead view';});
-setMode('offense');
-})();
-</script></body></html>
+:root{--blue:#4399f1;--bg:#08090e}*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:#f5f7fc;font:14px Inter,Arial,sans-serif}
+button,select,input{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #a4d7ff;outline-offset:2px}
+main{height:100svh;min-height:570px;position:relative;overflow:hidden}canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+.nav{position:absolute;z-index:5;left:50%;top:20px;transform:translateX(-50%);display:flex;align-items:center;gap:23px;border:1px solid #2c303c;border-radius:45px;background:#10121adc;padding:8px 14px 8px 20px;height:57px;white-space:nowrap}.brand{font-size:15px;font-weight:900;display:flex;align-items:center;gap:7px}.brand img{width:27px;height:27px;object-fit:contain}.nav a:not(.brand){color:#aab0bf}.nav .on{padding:11px 16px;background:#252833;border-radius:28px}.avatar{display:grid;place-items:center;border-radius:50%;background:#348fea;font-weight:800;width:35px;height:35px}
+.modes{position:absolute;z-index:5;top:101px;left:50%;transform:translateX(-50%);display:flex;padding:5px;border:1px solid #2b2e3b;background:#11131b;border-radius:28px;white-space:nowrap}.modes button{padding:11px 23px;border:0;background:none;border-radius:22px;color:#929aaa}.modes button.active{background:linear-gradient(110deg,#1165ba,#479fee);color:#fff}
+.editor-toggle{position:absolute;bottom:88px;left:50%;transform:translateX(-50%);border:1px solid #39445c;border-radius:22px;background:#202338;color:#8ec4ff;padding:5px 16px;z-index:7}
+.editor{position:absolute;bottom:117px;left:50%;transform:translateX(-50%);z-index:6;background:#191b2df5;width:min(570px,94vw);max-height:60vh;overflow:auto;border:1px solid #353951;border-radius:22px;padding:20px;box-shadow:0 15px 40px #0009}.editor[hidden]{display:none}.editor-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.editor h2{font-size:14px;margin:0 0 12px}.editor p{font-size:12px;color:#aab1c2;margin:8px 0 13px;line-height:1.5}.editor-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.editor label{display:block;font-size:10px;font-weight:700;color:#9ba4ba;text-transform:uppercase;letter-spacing:1px}.editor select,.editor input{display:block;width:100%;margin-top:7px;padding:10px;background:#25293b;border:1px solid #414760;border-radius:9px;color:#fff}.editor input{padding:5px}.tools{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}.tools button{border:1px solid #3a4257;border-radius:23px;background:#272a3d;color:#e9f3ff;padding:9px 13px;font-size:11px}.tools button:hover{background:#285fa0}
+.playback{position:absolute;z-index:5;left:50%;bottom:22px;transform:translateX(-50%);display:flex;align-items:center;gap:13px;background:#1c1d2bef;border:1px solid #353848;border-radius:35px;padding:8px 14px;box-shadow:0 10px 40px #0009}.playback button{border:0;background:none;color:#adb8cd;font-size:18px}.playback .play{width:50px;height:34px;border-radius:22px;background:#449df5;color:#07182c}.playback input[type=range]{width:150px;accent-color:#499cfa}.playback #speed{width:100px}.divider{width:1px;height:24px;background:#464a5c}.playback span{font-size:12px;color:#a7aebe;white-space:nowrap}
+.hint{position:absolute;left:50%;bottom:157px;transform:translateX(-50%);color:#a5afc3;font-size:11px;text-align:center;white-space:nowrap;pointer-events:none}.editor:not([hidden])~.hint{display:none}
+#status{position:absolute;bottom:24px;left:20px;color:#8290a9;font-size:11px;pointer-events:none}
+@media(max-width:650px){.nav{top:9px;height:50px;gap:10px;padding:5px 11px}.nav a:not(.brand){font-size:11px}.nav .on{padding:9px}.brand{font-size:12px}.brand img{width:20px;height:20px}.avatar{display:none}.modes{top:70px}.modes button{padding:9px 13px;font-size:11px}.playback{bottom:12px;gap:8px;padding:7px 10px}.playback input[type=range]{width:82px}.playback #speed{width:50px}.editor-toggle{bottom:76px}.editor{bottom:105px}.hint{bottom:120px}.editor-grid{gap:7px}#status{display:none}}
+</style></head><body>
+<main>
+<canvas id="scene" aria-label="Interactive three-dimensional volleyball court. Drag players or orbit the camera.">Your browser needs WebGL to use the visualizer.</canvas>
+<nav class="nav" aria-label="Visualizer navigation"><a href="player-portal.html" class="brand"><img src="orca-fin.png" alt="">ORCAS</a><a href="skill-guides.html">Library</a><span class="on">Visualizer</span><a href="team-systems.html">Team</a><span class="avatar">OV</span></nav>
+<div class="modes"><button data-mode="receive" class="active">Serve receive</button><button data-mode="offense">Offense</button><button data-mode="defense">Defense</button></div>
+<div class="hint">Drag blue players · Drag background to orbit · Scroll to zoom</div><div id="status" aria-live="polite">Loading 3D court…</div>
+<button id="toggleEditor" class="editor-toggle" aria-expanded="false" aria-controls="editor" title="Open play setup">⌃ SETUP</button>
+<section class="editor" id="editor" hidden><div class="editor-head"><h2>PLAY SETUP</h2><span style="color:#559eec;font-weight:800">ORCAS</span></div><p>Change the formation, animation and camera. Drag the player models to customize your court.</p>
+<div class="editor-grid">
+<label>Mode<select id="mode"><option value="receive">Serve receive</option><option value="offense">Offense</option><option value="defense">Defense</option></select></label>
+<label>System<select id="system"><option value="5-1">5–1</option><option value="6-2">6–2</option></select></label>
+<label>Rotation<select id="rotation"><option value="0">1</option><option value="1">2</option><option value="2">3</option><option value="3">4</option><option value="4">5</option><option value="5">6</option></select></label>
+<label>Serve<select id="serve"><option value="float">Float</option><option value="topspin">Topspin</option></select></label>
+<label>Seam<select id="seam"><option value="left">Left</option><option value="right">Right</option></select></label>
+<label>Ball arc<input type="range" min="2.6" max="9.5" step=".2" value="6.3" id="arc"></label>
+</div><div class="tools"><button id="reset">Reset</button><button id="cam">Overhead camera</button><button id="orbit">Perspective camera</button><button id="save">Save play</button><button id="load">Load saved</button><button id="share">Share link</button></div>
+<p style="margin-bottom:0">This is a teaching simulator. Player overlap, rotation responsibilities and action sequences should be checked with your coach.</p></section>
+<div class="playback"><button class="play" id="play" aria-label="Play animation">▶</button><button id="restart" aria-label="Restart animation">↻</button><input id="timeline" type="range" min="0" max="1000" value="0" aria-label="Animation timeline"><span class="divider"></span><input id="speed" type="range" min=".5" max="2" step=".25" value="1" aria-label="Playback speed"><span id="speedVal">1.0x</span></div>
+</main><script type="module" src="orcas-visualizer-3d.js?v=1"></script>
+</body></html>
