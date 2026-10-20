@@ -23,13 +23,17 @@ for(let i=0;i<13;i++){line([[-4.5,.42+i*.135,0],[4.5,.42+i*.135,0]],0x6b7b8d)}
 for(let i=0;i<=30;i++)line([[-4.5+i*.3,.4,0],[-4.5+i*.3,2.04,0]],0x41516b);
 const playerMeshes=[],hitMeshes=[];
 function capsulePerson(material){
-const g=new THREE.Group();
-const head=new THREE.Mesh(new THREE.SphereGeometry(.16,12,8),material);head.position.y=1.69;g.add(head);
-const torso=new THREE.Mesh(new THREE.CapsuleGeometry(.18,.65,4,8),material);torso.position.y=1.08;g.add(torso);
-function limb(x,y,angle,len,rad){const o=new THREE.Mesh(new THREE.CapsuleGeometry(rad,len,3,6),material);o.position.set(x,y,0);o.rotation.z=angle;g.add(o)}
-limb(-.25,1.07,-.32,.5,.065);limb(.25,1.07,.32,.5,.065);
-limb(-.15,.4,-.10,.61,.09);limb(.15,.4,.10,.61,.09);
-return g;
+ // A lightweight cutout, camera-facing silhouette rather than a complex rig.
+ const g=new THREE.Group(),cv=document.createElement('canvas');
+ cv.width=192;cv.height=384;
+ const ctx=cv.getContext('2d');ctx.fillStyle='#'+material.color.getHexString();
+ ctx.beginPath();ctx.arc(96,46,26,0,Math.PI*2);ctx.fill();
+ ctx.beginPath();ctx.moveTo(75,83);ctx.lineTo(117,83);ctx.lineTo(132,212);ctx.lineTo(105,219);ctx.lineTo(96,178);ctx.lineTo(87,219);ctx.lineTo(60,212);ctx.closePath();ctx.fill();
+ ctx.lineCap='round';ctx.lineWidth=25;
+ for(const v of [[74,103,42,190],[118,103,150,190],[79,207,64,326],[110,207,126,326]]){ctx.beginPath();ctx.moveTo(v[0],v[1]);ctx.lineTo(v[2],v[3]);ctx.stroke()}
+ const tx=new THREE.CanvasTexture(cv);
+ const m=new THREE.Mesh(new THREE.PlaneGeometry(.92,1.92),new THREE.MeshBasicMaterial({map:tx,transparent:true,side:THREE.DoubleSide,depthWrite:false,alphaTest:.15}));
+ m.position.y=.97;m.userData.cutout=true;g.add(m);return g;
 }
 function labelSprite(label){const c=document.createElement('canvas');c.width=160;c.height=64;const ctx=c.getContext('2d');ctx.fillStyle='#d9edff';ctx.textAlign='center';ctx.font='bold 30px Arial';ctx.fillText(label,80,42);const tex=new THREE.CanvasTexture(c);const s=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,depthTest:false,transparent:true}));s.scale.set(1.2,.48,1);s.position.y=2.14;return s}
 for(let i=0;i<6;i++){const g=capsulePerson(blue);g.add(labelSprite('P'+(i+1)));scene.add(g);playerMeshes.push(g);g.traverse(o=>{if(o.isMesh){o.userData.player=i;hitMeshes.push(o)}})}
@@ -95,27 +99,17 @@ function draw(t){
  $('status').textContent='RALLY '+(ph.index+1)+'/8 · '+labels[ph.index];
  const side=seam==='left'?-1:1;
  playerMeshes.forEach((g,i)=>{
-  const home=g.userData.home||{x:g.position.x,z:g.position.z};
-  // Each player performs their role over the sequence instead of teleporting.
-  const receive=smooth(.03,.15,progress)*(1-smooth(.17,.28,progress));
-  const set=smooth(.13,.27,progress)*(1-smooth(.34,.46,progress));
-  const attack=smooth(.24,.41,progress)*(1-smooth(.53,.64,progress));
-  const defend=smooth(.47,.64,progress)*(1-smooth(.78,.9,progress));
-  const transition=smooth(.67,.81,progress)*(1-smooth(.91,1,progress));
-  let x=home.x,z=home.z;
-  if(i===3||i===4||i===5){
-   if(i===(side<0?3:5)){x+=(side*1.0)*receive;z-=1.0*receive;}
-   x+=(i===4?-.35:i===3?-.3:.3)*defend;
-   z+=(i===4?-.9:.3)*defend;
-  }
-  if(i===1){x+=(-home.x)*set;z+=(2.4-home.z)*set;}
-  if(i===0){x+=(-3.4-home.x)*attack;z+=(1.2-home.z)*attack;}
-  if(i===2){x+=(3.1-home.x)*transition;z+=(1.4-home.z)*transition;}
-  g.position.x=THREE.MathUtils.clamp(x,-4.1,4.1);
-  g.position.z=THREE.MathUtils.clamp(z,.45,8.65);
-  const jump=(i===0?Math.sin(Math.PI*smooth(.35,.52,progress))*attack:0);
-  g.position.y=Math.max(0,jump)*.85;
-  g.rotation.y=(i===0?-.25*attack:i===1?.25*set:0);
+  const h=g.userData.home||{x:g.position.x,z:g.position.z};
+  const move=(a,b)=>smooth(a,b,progress);
+  let x=h.x,z=h.z,y=0;
+  // Make each contact visually understandable: receiver -> setter -> hitter.
+  const receiver=seam==='left'?3:5;
+  if(i===receiver){const k=move(.015,.12)*(1-move(.19,.28));x+=( (seam==='left'?-2.4:2.4)-h.x)*k;z+=(5.8-h.z)*k;}
+  if(i===1){const k=move(.11,.23)*(1-move(.34,.46));x+=(0-h.x)*k;z+=(2.5-h.z)*k;}
+  if(i===0){const k=move(.25,.38)*(1-move(.55,.67));x+=(-3-h.x)*k;z+=(1-h.z)*k;y=.7*Math.sin(Math.PI*move(.35,.48))*k;}
+  // Back-row coverage follows the outgoing attack.
+  if(i===4){const k=move(.41,.55)*(1-move(.79,.95));z+=(-.9)*k;}
+  g.position.set(THREE.MathUtils.clamp(x,-4.1,4.1),Math.max(0,y),THREE.MathUtils.clamp(z,.5,8.6));
  });
  opponents.forEach((g,i)=>{
   const bx=[-2.6,0,2.6][i%3],bz=i<3?-2:-6;
@@ -149,6 +143,6 @@ canvas.addEventListener('pointerdown',e=>{pick(e);const hits=ray.intersectObject
 canvas.addEventListener('pointermove',e=>{if(!dragging)return;pick(e);if(ray.ray.intersectPlane(plane,hit)){playerMeshes[chosen].position.set(THREE.MathUtils.clamp(hit.x,-4.1,4.1),0,THREE.MathUtils.clamp(hit.z,.6,8.5));playerMeshes[chosen].userData.home={x:playerMeshes[chosen].position.x,z:playerMeshes[chosen].position.z}}});
 function endDrag(){dragging=false;orbit.enabled=true;canvas.style.cursor='grab'}canvas.addEventListener('pointerup',endDrag);canvas.addEventListener('pointercancel',endDrag);
 function resize(){const w=canvas.clientWidth,h=canvas.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}new ResizeObserver(resize).observe(canvas);resize();
-function animate(now){requestAnimationFrame(animate);if(playing){if(last)draw(progress+(now-last)/(12500/Number($('speed').value)));if(progress>=1){playing=false;$('play').textContent='▶'}}last=now;orbit.update();renderer.render(scene,camera)}requestAnimationFrame(animate);
+function animate(now){requestAnimationFrame(animate);if(playing){if(last)draw(progress+(now-last)/(12500/Number($('speed').value)));if(progress>=1){playing=false;$('play').textContent='▶'}}last=now;orbit.update();for(const o of [...playerMeshes,...opponents]){const cut=o.children.find(x=>x.userData.cutout);if(cut)cut.quaternion.copy(camera.quaternion)}renderer.render(scene,camera)}requestAnimationFrame(animate);
 try{const u=new URL(location.href);if(['receive','offense','defense'].includes(u.searchParams.get('mode')))mode=u.searchParams.get('mode');if(u.searchParams.has('rotation'))rotation=Math.max(0,Math.min(5,Number(u.searchParams.get('rotation'))));}catch(e){}
 $('mode').value=mode;$('rotation').value=rotation;setPositions();updateUI();
