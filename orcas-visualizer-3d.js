@@ -47,7 +47,32 @@ const height=Number($('arc').value);
 const curve=new THREE.QuadraticBezierCurve3(from,new THREE.Vector3((from.x+to.x)/2,height,(from.z+to.z)/2),to);
 return curve.getPoint(t)}
 function makeTrail(){if(traj){scene.remove(traj);traj.geometry.dispose();traj.material.dispose()}const points=[];for(let i=0;i<=80;i++)points.push(trajectory(i/80));const g=new THREE.BufferGeometry().setFromPoints(points);traj=new THREE.Line(g,new THREE.LineDashedMaterial({color:mode==='receive'?0xff8380:0x60b8ff,dashSize:.22,gapSize:.11}));traj.computeLineDistances();scene.add(traj)}
-function draw(t){progress=Math.max(0,Math.min(1,t));ball.position.copy(trajectory(progress));$('timeline').value=Math.round(progress*1000)}
+function smooth(a,b,t){const u=THREE.MathUtils.clamp((t-a)/(b-a),0,1);return u*u*(3-2*u)}
+function draw(t){
+ progress=THREE.MathUtils.clamp(t,0,1);
+ ball.position.copy(trajectory(progress));
+ $('timeline').value=Math.round(progress*1000);
+ const approach=smooth(.08,.39,progress),recover=smooth(.58,.93,progress);
+ playerMeshes.forEach((g,i)=>{
+  const h=g.userData.home||{x:g.position.x,z:g.position.z};
+  let dx=0,dz=0;
+  if(mode==='receive'){
+   dx=(i===3?(seam==='left'?-1.1:.4):i===4?(seam==='left'?-0.5:.5):i===5?(seam==='right'?1.1:-.4):i===1?-.25:0);
+   dz=i>=3?-.9:i===1?.55:0;
+  }else if(mode==='defense'){
+   dx=[-.35,.2,.35,-.65,0,.65][i];
+   dz=[.4,-.2,.4,.65,-.7,.65][i];
+  }else{
+   dx=[-.4,0,.35,-.5,.55,.25][i];
+   dz=[-.8,-.25,-.75,.5,-1.45,-.1][i];
+  }
+  const factor=approach*(1-.8*recover);
+  g.position.x=THREE.MathUtils.clamp(h.x+dx*factor,-4.1,4.1);
+  g.position.z=THREE.MathUtils.clamp(h.z+dz*factor,.5,8.6);
+  g.position.y=mode==='offense'&&i===2?Math.max(0,Math.sin(Math.PI*smooth(.42,.76,progress))*.8)*approach:Math.abs(Math.sin(progress*19+i))*.025*factor;
+  g.rotation.y=Math.atan2(-dx||.001,-dz||-1)*factor;
+ });
+}
 function updateUI(){document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));$('modeName').textContent={receive:'SERVE RECEIVE',offense:'OFFENSE',defense:'DEFENSE'}[mode];$('status').textContent=mode==='receive'?'Serve trajectory and passing lanes':mode==='offense'?'Set and attack trajectory':'Attack defense and coverage';}
 function configure(){mode=$('mode').value;rotation=Number($('rotation').value);system=$('system').value;serve=$('serve').value;seam=$('seam').value;makeTrail();setPositions();updateUI()}
 function setMode(m){mode=m;$('mode').value=m;playing=false;setPositions();updateUI();$('play').textContent='▶'}
@@ -69,7 +94,7 @@ const ray=new THREE.Raycaster(),pointer=new THREE.Vector2(),plane=new THREE.Plan
 let dragging=false;
 function pick(e){const rect=canvas.getBoundingClientRect();pointer.set(((e.clientX-rect.left)/rect.width)*2-1,-((e.clientY-rect.top)/rect.height)*2+1);ray.setFromCamera(pointer,camera)}
 canvas.addEventListener('pointerdown',e=>{pick(e);const hits=ray.intersectObjects(hitMeshes);if(hits.length){chosen=hits[0].object.userData.player;dragging=true;orbit.enabled=false;canvas.setPointerCapture(e.pointerId);canvas.style.cursor='grabbing'}});
-canvas.addEventListener('pointermove',e=>{if(!dragging)return;pick(e);if(ray.ray.intersectPlane(plane,hit)){playerMeshes[chosen].position.set(THREE.MathUtils.clamp(hit.x,-4.1,4.1),0,THREE.MathUtils.clamp(hit.z,.6,8.5))}});
+canvas.addEventListener('pointermove',e=>{if(!dragging)return;pick(e);if(ray.ray.intersectPlane(plane,hit)){playerMeshes[chosen].position.set(THREE.MathUtils.clamp(hit.x,-4.1,4.1),0,THREE.MathUtils.clamp(hit.z,.6,8.5));playerMeshes[chosen].userData.home={x:playerMeshes[chosen].position.x,z:playerMeshes[chosen].position.z}}});
 function endDrag(){dragging=false;orbit.enabled=true;canvas.style.cursor='grab'}canvas.addEventListener('pointerup',endDrag);canvas.addEventListener('pointercancel',endDrag);
 function resize(){const w=canvas.clientWidth,h=canvas.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}new ResizeObserver(resize).observe(canvas);resize();
 function animate(now){requestAnimationFrame(animate);if(playing){if(last)draw(progress+(now-last)/(4200/Number($('speed').value)));if(progress>=1){playing=false;$('play').textContent='▶'}}last=now;orbit.update();renderer.render(scene,camera)}requestAnimationFrame(animate);
