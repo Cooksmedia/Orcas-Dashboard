@@ -43,7 +43,7 @@ let traj=null, mode='receive',rotation=0,system='5-1',serve='float',seam='left',
 const coords=[[ -2.8,6.5 ],[0,6.5],[2.8,6.5],[-2.8,2.5],[0,2.5],[2.8,2.5]];
 const starts={receive:[[-2.9,2.1],[0,2.7],[2.9,2.1],[-2.5,6.1],[0,6.6],[2.5,6.1]],offense:[[-2.8,1.5],[0,1.5],[2.8,1.5],[-2.8,5.8],[0,5.8],[2.8,5.8]],defense:[[-2.7,1.6],[0,1.5],[2.7,1.6],[-3.3,6.7],[0,7.5],[3.3,6.7]]};
 let current=starts.receive.map(a=>a.slice());
-function opponentsSet(){for(let i=0;i<6;i++){const x=[-2.6,0,2.6][i%3],z=i<3?-2:-6;opponents[i].position.set(x,0,z)}}
+function opponentsSet(){for(let i=0;i<6;i++){const x=[-2.6,0,2.6][i%3],z=i<3?-2:-6;opponents[i].visible=mode!=='receive'||i===0;opponents[i].position.set(mode==='receive'&&i===0?(seam==='left'?-2.7:2.7):x,0,mode==='receive'&&i===0?-8.2:z)}}
 function setPositions(){current=starts[mode].map(a=>a.slice());const order=[0,1,2,3,4,5];for(let i=0;i<rotation;i++)order.unshift(order.pop());playerMeshes.forEach((g,i)=>{let v=current[order[i]];g.position.set(v[0],0,v[1]);g.userData.home={x:v[0],z:v[1]}});opponentsSet();makeTrail();draw(0)}
 // Complete deterministic rally: serve -> pass -> set -> attack -> dig -> set -> return.
 // All positions come from the playback time, so seeking is identical to playing.
@@ -112,6 +112,7 @@ function draw(t){
   g.position.set(THREE.MathUtils.clamp(x,-4.1,4.1),Math.max(0,y),THREE.MathUtils.clamp(z,.5,8.6));
  });
  opponents.forEach((g,i)=>{
+  if(mode==='receive')return;
   const bx=[-2.6,0,2.6][i%3],bz=i<3?-2:-6;
   const shift=smooth(.45,.61,progress)*(1-smooth(.82,.96,progress));
   g.position.x=bx+([-.3,.4,.25,-.6,.25,.65][i])*shift;
