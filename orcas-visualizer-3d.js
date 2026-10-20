@@ -22,18 +22,43 @@ bar(-4.7,1.25,0,.065,2.5,.065,mat(0xd9e3f5));bar(4.7,1.25,0,.065,2.5,.065,mat(0x
 for(let i=0;i<13;i++){line([[-4.5,.42+i*.135,0],[4.5,.42+i*.135,0]],0x6b7b8d)}
 for(let i=0;i<=30;i++)line([[-4.5+i*.3,.4,0],[-4.5+i*.3,2.04,0]],0x41516b);
 const playerMeshes=[],hitMeshes=[];
+// Original, lightweight female cutout poses; all generated locally (no third-party assets).
+const poseCache=new Map();
+function poseTexture(hex,pose){
+ const key=hex+':'+pose;if(poseCache.has(key))return poseCache.get(key);
+ const cv=document.createElement('canvas');cv.width=192;cv.height=384;
+ const ctx=cv.getContext('2d');ctx.fillStyle='#'+hex.toString(16).padStart(6,'0');
+ function limb(x,y,x2,y2,width){ctx.lineCap='round';ctx.lineJoin='round';ctx.lineWidth=width;ctx.strokeStyle=ctx.fillStyle;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x2,y2);ctx.stroke()}
+ function chain(points,w){for(let i=1;i<points.length;i++)limb(...points[i-1],...points[i],w)}
+ // Feet, arms and ponytail are redrawn per pose rather than moving a static image.
+ const running=pose==='runA'||pose==='runB',a=pose==='runA'?1:-1;
+ let legs=[[[83,205],[75,272],[66,330]],[[109,205],[122,274],[128,331]]];
+ let arms=[[[78,111],[57,157],[53,196]],[[115,112],[137,158],[142,192]]];
+ if(running){
+  legs=a>0?[[[83,205],[57,262],[45,307]],[[109,205],[139,257],[161,291]]]:[[[83,205],[59,261],[84,309]],[[109,205],[135,262],[111,327]]];
+  arms=a>0?[[[78,112],[57,144],[84,165]],[[115,112],[139,146],[118,172]]]:[[[78,112],[58,148],[76,178]],[[115,112],[139,142],[162,133]]];
+ }else if(pose==='pass'){legs=[[[84,207],[65,256],[58,315]],[[109,207],[137,257],[149,315]]];arms=[[[77,125],[84,184],[103,208]],[[116,125],[114,182],[103,208]]]}
+ else if(pose==='set'){arms=[[[78,111],[61,75],[73,42]],[[114,111],[132,72],[120,42]]]}
+ else if(pose==='draw'){arms=[[[78,111],[61,133],[66,172]],[[115,111],[137,75],[157,45]]];legs=[[[83,207],[70,268],[72,325]],[[109,207],[124,272],[126,327]]]}
+ else if(pose==='hit'){arms=[[[78,112],[58,149],[65,182]],[[114,111],[136,66],[147,12]]];legs=[[[83,208],[65,254],[71,300]],[[109,208],[130,242],[142,289]]]}
+ else if(pose==='land'){legs=[[[82,207],[65,270],[66,323]],[[109,207],[134,267],[140,325]]];arms=[[[78,112],[55,155],[59,180]],[[115,112],[143,149],[145,183]]]}
+ for(const path of legs)chain(path,25);
+ ctx.beginPath();ctx.moveTo(77,87);ctx.lineTo(115,87);ctx.lineTo(127,188);ctx.lineTo(111,218);ctx.lineTo(80,218);ctx.lineTo(64,186);ctx.closePath();ctx.fill();
+ for(const path of arms)chain(path,22);
+ ctx.beginPath();ctx.arc(96,53,25,0,Math.PI*2);ctx.fill();
+ // Ponytail as a distinct silhouette shape.
+ ctx.beginPath();ctx.moveTo(115,43);ctx.quadraticCurveTo(147,36,146,73);ctx.quadraticCurveTo(148,97,133,107);ctx.quadraticCurveTo(137,77,117,68);ctx.closePath();ctx.fill();
+ const t=new THREE.CanvasTexture(cv);t.colorSpace=THREE.SRGBColorSpace;poseCache.set(key,t);return t;
+}
 function capsulePerson(material){
- // A lightweight cutout, camera-facing silhouette rather than a complex rig.
- const g=new THREE.Group(),cv=document.createElement('canvas');
- cv.width=192;cv.height=384;
- const ctx=cv.getContext('2d');ctx.fillStyle='#'+material.color.getHexString();
- ctx.beginPath();ctx.arc(96,46,26,0,Math.PI*2);ctx.fill();
- ctx.beginPath();ctx.moveTo(75,83);ctx.lineTo(117,83);ctx.lineTo(132,212);ctx.lineTo(105,219);ctx.lineTo(96,178);ctx.lineTo(87,219);ctx.lineTo(60,212);ctx.closePath();ctx.fill();
- ctx.lineCap='round';ctx.lineWidth=25;
- for(const v of [[74,103,42,190],[118,103,150,190],[79,207,64,326],[110,207,126,326]]){ctx.beginPath();ctx.moveTo(v[0],v[1]);ctx.lineTo(v[2],v[3]);ctx.stroke()}
- const tx=new THREE.CanvasTexture(cv);
- const m=new THREE.Mesh(new THREE.PlaneGeometry(.92,1.92),new THREE.MeshBasicMaterial({map:tx,transparent:true,side:THREE.DoubleSide,depthWrite:false,alphaTest:.15}));
- m.position.y=.97;m.userData.cutout=true;g.add(m);return g;
+ const g=new THREE.Group();const hex=material.color.getHex();
+ const mesh=new THREE.Mesh(new THREE.PlaneGeometry(.92,1.92),new THREE.MeshBasicMaterial({map:poseTexture(hex,'ready'),transparent:true,side:THREE.DoubleSide,depthWrite:false,alphaTest:.15}));
+ mesh.position.y=.97;mesh.userData.cutout=true;g.add(mesh);g.userData.pose='ready';g.userData.poseHex=hex;return g;
+}
+function setPose(g,pose){
+ if(g.userData.pose===pose)return;g.userData.pose=pose;
+ const cut=g.children.find(c=>c.userData.cutout);
+ if(cut)cut.material.map=poseTexture(g.userData.poseHex,pose);
 }
 function labelSprite(label){const c=document.createElement('canvas');c.width=160;c.height=64;const ctx=c.getContext('2d');ctx.fillStyle='#d9edff';ctx.textAlign='center';ctx.font='bold 30px Arial';ctx.fillText(label,80,42);const tex=new THREE.CanvasTexture(c);const s=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,depthTest:false,transparent:true}));s.scale.set(1.2,.48,1);s.position.y=2.14;return s}
 for(let i=0;i<6;i++){const g=capsulePerson(blue);g.add(labelSprite('P'+(i+1)));scene.add(g);playerMeshes.push(g);g.traverse(o=>{if(o.isMesh){o.userData.player=i;hitMeshes.push(o)}})}
@@ -87,9 +112,16 @@ function draw(t){
   else if(i===0){const k=atContact(progress,.72,.79);x=THREE.MathUtils.lerp(h.x,-3,k);z=THREE.MathUtils.lerp(h.z,.9,k);y=.62*k*smooth(.60,.70,progress);}
   else if(i===4){z-=.65*smooth(.58,.73,progress)*(1-smooth(.89,1,progress));}
   g.position.set(THREE.MathUtils.clamp(x,-4.1,4.1),Math.max(0,y),THREE.MathUtils.clamp(z,.5,8.6));
+  const travel=Math.hypot(x-h.x,z-h.z);
+  let pose='ready';
+  if(i===receiver&&progress>.24&&progress<.35)pose='pass';
+  else if(i===1&&progress>.43&&progress<.55)pose='set';
+  else if(i===0&&progress>.59&&progress<.80)pose=progress<.67?'draw':progress<.75?'hit':'land';
+  else if(travel>.18)pose=Math.floor(progress*95)%2?'runA':'runB';
+  setPose(g,pose);
  });
  opponents.forEach((g,i)=>{
-  if(mode==='receive'){if(i===0){g.position.set(side*2.7,0,-8.2);g.position.y=.12*Math.sin(Math.PI*smooth(0,.11,progress))*(1-smooth(.13,.2,progress));}return;}
+  if(mode==='receive'){if(i===0){setPose(g,progress<.10?'draw':progress<.18?'hit':'ready');g.position.set(side*2.7,0,-8.2);g.position.y=.12*Math.sin(Math.PI*smooth(0,.11,progress))*(1-smooth(.13,.2,progress));}return;}
   const bx=[-2.6,0,2.6][i%3],bz=i<3?-2:-6;
   const k=smooth(.7,.9,progress);g.position.set(bx+([-.2,.2,.3,-.4,.2,.4][i])*k,0,bz+(i>2?.6*k:0));
  });
